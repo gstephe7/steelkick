@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto:400,700');
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,700');
 @import 'variables';
 
 body {
@@ -7,4 +7,5 @@ body {
   overflow-x: hidden;
   color: $primary;
   font-family: 'Roboto', sans-serif;
+  font-weight: 300;
 }
