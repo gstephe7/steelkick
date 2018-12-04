@@ -21,6 +21,6 @@ export default {
   }
 
   .title-b {
-    color: $tertiary;
+    color: $accent;
   }
 </style>

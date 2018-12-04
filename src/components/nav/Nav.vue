@@ -98,7 +98,7 @@ export default {
     background-color: rgba(0,0,0,0);
     outline: none;
     border: none;
-    color: $tertiary;
+    color: $accent;
     font-size: 24px;
     width: 40px;
     margin-right: 10px;
@@ -130,9 +130,9 @@ export default {
   }
 
   a {
-    color: $tertiary;
+    color: $accent;
     text-decoration: none;
-    font-size: 20px;
+    font-size: 18px;
     transition: 250ms all;
   }
 

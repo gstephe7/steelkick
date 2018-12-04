@@ -26,8 +26,8 @@
           </div>
           <input type="text" placeholder="Zipcode">
         </div>
-        <button>Search</button>
       </div>
+      <button>Search</button>
     </div>
   </div>
 </template>
@@ -77,18 +77,22 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
   }
 
   h2 {
     color: $secondary;
+    font-size: 32px;
     text-align: center;
+    padding: 0 10px 0 10px;
     font-weight: 300;
     margin-top: 0;
   }
 
   .search {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
     align-items: center;
   }
 

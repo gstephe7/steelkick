@@ -46,7 +46,7 @@ export default {
   }
 
   a {
-    color: $tertiary;
+    color: $accent;
     text-decoration: none;
     font-size: 24px;
   }
