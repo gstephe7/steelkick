@@ -100,6 +100,7 @@ export default {
     border: none;
     color: $tertiary;
     font-size: 24px;
+    width: 40px;
     margin-right: 10px;
     cursor: pointer;
   }

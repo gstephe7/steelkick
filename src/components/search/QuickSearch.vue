@@ -4,25 +4,59 @@
       <h2>Search For Steel Near You</h2>
       <div class="search">
         <div class="search-section">
-          <select class="input">
-            <option disabled selected>Shape</option>
+          <select @change="pushDimensions" v-model="selectedShape">
+            <option disabled selected value="Shape">
+              Shape
+            </option>
+            <option v-for="shape in shapes" :value="shape">
+              {{ shape.toUpperCase() }}
+            </option>
           </select>
-          <select class="input">
+          <select>
             <option disabled selected>Dimension</option>
+            <option v-for="dimension in dimensions">{{ dimension }}</option>
           </select>
         </div>
         <div class="search-section">
-          <input class="input" type="text" placeholder="Length"/>
-          <input class="input" type="text" placeholder="Zipcode">
+          <div class="length">
+            <input class="feet-input" type="text" placeholder="10" maxlength="2">'
+            <input class="inches-input" type="text" placeholder="9" maxlength="2">"
+            <input class="numerator-input" type="text" maxlength="2"> /
+            <input class="denominator-input" type="text" maxlength="2">
+          </div>
+          <input type="text" placeholder="Zipcode">
         </div>
-        <button class="submit">Search</button>
+        <button>Search</button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import material from '@/assets/data/material.js'
+
 export default {
+  data () {
+    return {
+      shapes: [
+        'w',
+        'hss',
+        'c',
+        'l'
+      ],
+      selectedShape: 'Shape',
+      dimensions: []
+    }
+  },
+  methods: {
+    pushDimensions () {
+      const newDimensions = []
+      material[this.selectedShape].forEach(dimension => {
+        newDimensions.push(dimension.dimension)
+      })
+      this.dimensions = newDimensions
+    }
+  }
 }
 </script>
 
@@ -61,29 +95,8 @@ export default {
   .search-section {
     display: flex;
     justify-content: space-around;
-  }
-
-  .input {
-    width: 140px;
-    padding: 10px;
-    margin: 5px;
-    border-radius: 5px;
-    border: none;
-    font-size: 18px;
-    font-family: 'Roboto', sans-serif;
-    font-weight: 300;
-  }
-
-  .submit {
-    width: 200px;
-    margin: 10px;
-    padding: 5px;
-    background-color: $secondary;
-    border-radius: 10px;
-    border: none;
-    color: #fff;
-    font-family: 'Roboto', sans-serif;
-    font-size: 18px;
-    cursor: pointer;
+    align-items: center;
+    width: 300px;
+    height: 50px;
   }
 </style>
