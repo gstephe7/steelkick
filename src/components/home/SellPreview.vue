@@ -2,7 +2,7 @@
   <div id="sell-preview">
     <h2>Sell Your Excess Steel</h2>
     <fa-icon class="icon" icon="dollar-sign"></fa-icon>
-    <p>Have excess steel sitting around your shop or at the job site? Make more money by selling it directly to other fabricators in your area. Just list your material, set your price, decide if you want to offer additional paid services like delivery and cut-to-order, and start making money.</p>
+    <p>Have excess steel sitting around your shop or at the job site? Make more money by selling it directly to other fabricators in your area.</p>
     <button>List New Material</button>
     <button class="button-secondary">Manage My Inventory</button>
   </div>

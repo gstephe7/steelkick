@@ -2,7 +2,9 @@
   <div>
     <div id="nav">
 
-      <Logo class="logo"></Logo>
+      <router-link :to="{ name: '', params: {} }">
+        <Logo class="logo"></Logo>
+      </router-link>
 
       <div class="">
 

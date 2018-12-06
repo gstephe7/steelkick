@@ -5,7 +5,9 @@ import {
   faBars,
   faTimes,
   faDollarSign,
-  faExchangeAlt
+  faExchangeAlt,
+  faUser,
+  faShippingFast
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
@@ -13,7 +15,9 @@ library.add({
   faBars,
   faTimes,
   faDollarSign,
-  faExchangeAlt
+  faExchangeAlt,
+  faUser,
+  faShippingFast
 })
 
 Vue.component('fa-icon', FontAwesomeIcon)

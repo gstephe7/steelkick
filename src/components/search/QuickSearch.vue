@@ -28,6 +28,7 @@
         </div>
       </div>
       <button>Search</button>
+      <router-link :to="{ name: 'Home' }">Advanced Search</router-link>
     </div>
   </div>
 </template>
@@ -81,11 +82,10 @@ export default {
   }
 
   h2 {
-    color: $secondary;
+    color: $accent;
     font-size: 32px;
     text-align: center;
     padding: 0 10px 0 10px;
-    font-weight: 300;
     margin-top: 0;
   }
 
@@ -102,5 +102,9 @@ export default {
     align-items: center;
     width: 300px;
     height: 50px;
+  }
+
+  a {
+    color: $accent;
   }
 </style>
