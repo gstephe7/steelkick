@@ -3,7 +3,7 @@
     <h2>Buy Steel For Less</h2>
     <fa-icon class="icon" icon="shipping-fast"></fa-icon>
     <p>Need steel? You can find excess steel being sold by other fabricators in your area. You'll most likely get it fast since it's local, pay less per pound for it, and won't have to order a minimum length.</p>
-    <button>Advanced Search</button>
+    <button @click="$router.push('Search')">Advanced Search</button>
   </div>
 </template>
 

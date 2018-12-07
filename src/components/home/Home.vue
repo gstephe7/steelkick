@@ -14,15 +14,13 @@ import QuickSearch from '@/components/search/QuickSearch'
 import SellPreview from '@/components/home/SellPreview'
 import BuyPreview from '@/components/home/BuyPreview'
 import QuickRegister from '@/components/register/QuickRegister'
-import About from '@/components/home/About'
 
 export default {
   components: {
     QuickSearch,
     SellPreview,
     BuyPreview,
-    QuickRegister,
-    About
+    QuickRegister
   }
 }
 </script>

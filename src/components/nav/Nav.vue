@@ -2,11 +2,11 @@
   <div>
     <div id="nav">
 
-      <router-link :to="{ name: '', params: {} }">
+      <router-link :to="{ name: 'Home' }">
         <Logo class="logo"></Logo>
       </router-link>
 
-      <div class="">
+      <div>
 
         <!-- show if mobile screen -->
         <div class="mobile">
@@ -20,7 +20,7 @@
         <div class="desktop">
           <ul>
             <li>
-              <router-link :to="{ name: 'Home' }">Buy Steel</router-link>
+              <router-link :to="{ name: 'Search' }">Buy Steel</router-link>
             </li>
             <li>
               <router-link :to="{ name: 'Home' }">Sell Steel</router-link>

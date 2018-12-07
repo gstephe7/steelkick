@@ -28,7 +28,7 @@
         </div>
       </div>
       <button>Search</button>
-      <router-link :to="{ name: 'Home' }">Advanced Search</router-link>
+      <router-link :to="{ name: 'Search' }">Advanced Search</router-link>
     </div>
   </div>
 </template>

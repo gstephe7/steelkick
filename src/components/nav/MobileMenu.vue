@@ -2,7 +2,7 @@
   <div id="mobile-menu" @click="closeMenu">
     <ul>
       <li>
-        <router-link :to="{ name: 'Home' }">Buy Steel</router-link>
+        <router-link :to="{ name: 'Search' }">Buy Steel</router-link>
       </li>
       <li>
         <router-link :to="{ name: 'Home' }">Sell Steel</router-link>
