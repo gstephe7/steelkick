@@ -1,34 +1,42 @@
 <template>
   <div id="quick-search">
+
     <div class="layer">
+
       <h2>Search For Steel Near You</h2>
+
       <div class="search">
+
         <div class="search-section">
-          <select @change="pushDimensions" v-model="selectedShape">
+          <select @change="pushDimensions" v-model="shape">
             <option disabled selected value="Shape">
               Shape
             </option>
-            <option v-for="shape in shapes" :value="shape">
+            <option v-for="shape in shapes" :value="shape" :key="shape">
               {{ shape.toUpperCase() }}
             </option>
           </select>
-          <select>
+          <select v-model="dimension">
             <option disabled selected>Dimension</option>
-            <option v-for="dimension in dimensions">{{ dimension }}</option>
+            <option v-for="dimension in dimensions" :value="dimension" :key="dimension">{{ dimension }}</option>
           </select>
         </div>
+
         <div class="search-section">
           <div class="length">
-            <input class="feet-input" type="text" placeholder="10" maxlength="2">'
-            <input class="inches-input" type="text" placeholder="9" maxlength="2">"
-            <input class="numerator-input" type="text" maxlength="2"> /
-            <input class="denominator-input" type="text" maxlength="2">
+            <input class="feet-input" type="number" placeholder="10" maxlength="2" v-model="feet">'
+            <input class="inches-input" type="number" placeholder="9" maxlength="2" v-model="inches">"
+            <input class="numerator-input" type="number" maxlength="2" v-model="numerator"> /
+            <input class="denominator-input" type="number" maxlength="2" v-model="denominator">
           </div>
-          <input type="text" placeholder="Zipcode">
+          <input type="number" placeholder="Zipcode" v-model="zipcode">
         </div>
+
       </div>
-      <button>Search</button>
+
+      <button @click="search">Search</button>
       <router-link :to="{ name: 'Search' }">Advanced Search</router-link>
+
     </div>
   </div>
 </template>
@@ -45,17 +53,54 @@ export default {
         'c',
         'l'
       ],
-      selectedShape: 'Shape',
-      dimensions: []
+      shape: 'Shape',
+      dimensions: [],
+      dimension: 'Dimension',
+      feet: null,
+      inches: null,
+      numerator: null,
+      denominator: null,
+      zipcode: ''
+    }
+  },
+  computed: {
+    length () {
+      const feet = parseFloat(this.feet) * 12
+      const inches = parseFloat(this.inches)
+      const fraction = parseFloat(this.numerator) / parseFloat(this.denominator)
+
+      if (this.numerator && this.denominator && this.inches && this.feet) {
+        return feet + inches + fraction
+      } else if (this.inches && this.feet) {
+        return feet + inches
+      } else if (this.inches && !this.feet) {
+        return inches
+      } else if (this.feet) {
+        return feet
+      } else {
+        return 0
+      }
+
     }
   },
   methods: {
     pushDimensions () {
       const newDimensions = []
-      material[this.selectedShape].forEach(dimension => {
+      material[this.shape].forEach(dimension => {
         newDimensions.push(dimension.dimension)
       })
       this.dimensions = newDimensions
+    },
+    search () {
+      this.$router.push({
+        name: 'Listings',
+        query: {
+          shape: this.shape,
+          dimension: this.dimension,
+          length: this.length,
+          zipcode: this.zipcode
+        }
+      })
     }
   }
 }

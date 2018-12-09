@@ -2,9 +2,11 @@
   <div>
     <div id="nav">
 
-      <router-link :to="{ name: 'Home' }">
-        <Logo class="logo"></Logo>
-      </router-link>
+      <div @click="closeMobileMenu">
+        <router-link :to="{ name: 'Home' }">
+          <Logo class="logo"></Logo>
+        </router-link>
+      </div>
 
       <div>
 
@@ -57,6 +59,9 @@ export default {
   methods: {
     toggleMobileMenu () {
       this.showMenu = !this.showMenu
+    },
+    closeMobileMenu () {
+      this.showMenu = false
     }
   }
 }

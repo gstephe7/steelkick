@@ -8,40 +8,40 @@
       <div class="form">
 
         <div class="subform">
-          <select @change="pushDimensions" v-model="selectedShape">
+          <select @change="pushDimensions" v-model="shape">
             <option disabled selected value="Shape">
               Shape
             </option>
-            <option v-for="shape in shapes" :value="shape">
+            <option v-for="shape in shapes" :value="shape" :key="shape">
               {{ shape.toUpperCase() }}
             </option>
           </select>
-          <select>
-            <option disabled selected>Dimension</option>
-            <option v-for="dimension in dimensions">{{ dimension }}</option>
+          <select v-model="dimension">
+            <option disabled selected value="Dimension">Dimension</option>
+            <option v-for="dimension in dimensions" :value="dimension" :key="dimension">{{ dimension }}</option>
           </select>
         </div>
 
         <div class="subform">
           <div class="length">
-            <input class="feet-input" type="text" placeholder="10" maxlength="2">'
-            <input class="inches-input" type="text" placeholder="9" maxlength="2">"
-            <input class="numerator-input" type="text" maxlength="2"> /
-            <input class="denominator-input" type="text" maxlength="2">
+            <input class="feet-input" type="number" placeholder="10" maxlength="2" v-model="feet">'
+            <input class="inches-input" type="number" placeholder="9" maxlength="2" v-model="inches">"
+            <input class="numerator-input" type="number" maxlength="2" v-model="numerator"> /
+            <input class="denominator-input" type="number" maxlength="2" v-model="denominator">
           </div>
-          <select>
-            <option disabled selected>Steel Origin</option>
+          <select v-model="domestic">
+            <option disabled selected value="null">Steel Origin</option>
             <option value="true">Domestic Only</option>
             <option value="false">Any</option>
           </select>
         </div>
 
         <div class="subform">
-          <select>
+          <select v-model="painted">
             <option value="false">Not Painted</option>
             <option value="true">Painted</option>
           </select>
-          <select>
+          <select v-model="galvanized">
             <option value="false">Not Galvanized</option>
             <option value="true">Galvanized</option>
           </select>
@@ -52,32 +52,32 @@
       <div class="form">
 
         <div class="subform">
-          <select>
+          <select v-model="radius">
             <option value="10">Within 10 miles</option>
             <option value="25">Within 25 miles</option>
-            <option value="50">Within 50 miles</option>
+            <option value="50" selected>Within 50 miles</option>
             <option value="75">Within 75 miles</option>
             <option value="100">Within 100 miles</option>
             <option value="">Any</option>
           </select>
-          <input type="text" class="input" placeholder="Zipcode">
+          <input type="number" class="input" placeholder="Zipcode" v-model="zipcode">
         </div>
 
         <div class="subform">
-          <select>
-            <option disabled selected>Cut to Length?</option>
+          <select v-model="cut">
+            <option disabled selected value="null">Cut to Length?</option>
             <option value="true">Offers Cut to Length</option>
             <option value="false">Doesn't matter</option>
           </select>
-          <select>
-            <option disabled selected>Delivery?</option>
+          <select v-model="delivery">
+            <option disabled selected value="null">Delivery?</option>
             <option value="true">Offers Delivery</option>
             <option value="false">Doesn't matter</option>
           </select>
         </div>
 
         <div class="subform">
-          <button>Search</button>
+          <button @click="search">Search</button>
         </div>
 
       </div>
@@ -98,17 +98,66 @@ export default {
         'c',
         'l'
       ],
-      selectedShape: 'Shape',
-      dimensions: []
+      shape: 'Shape',
+      dimensions: [],
+      dimension: 'Dimension',
+      feet: null,
+      inches: null,
+      numerator: null,
+      denominator: null,
+      domestic: null,
+      painted: false,
+      galvanized: false,
+      radius: '50',
+      zipcode: '',
+      cut: null,
+      delivery: null
+    }
+  },
+  computed: {
+    length () {
+      const feet = parseFloat(this.feet) * 12
+      const inches = parseFloat(this.inches)
+      const fraction = parseFloat(this.numerator) / parseFloat(this.denominator)
+
+      if (this.numerator && this.denominator && this.inches && this.feet) {
+        return feet + inches + fraction
+      } else if (this.inches && this.feet) {
+        return feet + inches
+      } else if (this.inches && !this.feet) {
+        return inches
+      } else if (this.feet) {
+        return feet
+      } else {
+        return 0
+      }
+
     }
   },
   methods: {
     pushDimensions () {
       const newDimensions = []
-      material[this.selectedShape].forEach(dimension => {
+      material[this.shape].forEach(dimension => {
         newDimensions.push(dimension.dimension)
       })
       this.dimensions = newDimensions
+    },
+    search () {
+      this.$router.push({
+        name: 'Listings',
+        query: {
+          shape: this.shape,
+          dimension: this.dimension,
+          length: this.length,
+          domestic: this.domestic,
+          painted: this.painted,
+          galvanized: this.galvanized,
+          radius: this.radius,
+          zipcode: this.zipcode,
+          cut: this.cut,
+          delivery: this.delivery
+        }
+      })
     }
   }
 }
