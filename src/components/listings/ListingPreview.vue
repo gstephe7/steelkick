@@ -4,7 +4,7 @@
         <!-- Shape and Price -->
         <div class="container">
           <h4>{{ shape.toUpperCase() }} {{ dimension }}</h4>
-          <h4>${{ cwt }} cwt</h4>
+          <h4>${{ cwt }} Cwt</h4>
         </div>
 
         <!-- Length -->
