@@ -145,6 +145,9 @@
               <button class="remove-cut" @click="removeCut(index)">X</button>
             </div>
           </div>
+          <div v-if="totalLengthExceeded" class="length-exceeded">
+            <p>Length of cut cannot exceed order length</p>
+          </div>
 
         </div>
 
@@ -201,7 +204,9 @@
 
         <!-- place order -->
         <div class="place-order">
-          <button class="success">Add to Cart</button>
+          <button class="success" @click="$router.push({ name: 'Cart', query: order.id })">
+            Add to Cart
+          </button>
         </div>
 
       </div>
@@ -243,6 +248,7 @@ export default {
         deliveryMaxDistance: 25
       },
       order: {
+        id: 'gshaolw12',
         quantity: 1,
         delivery: false,
         distance: 23,
@@ -262,14 +268,16 @@ export default {
     },
     // adds a new cut to the order
     addCut () {
-      this.order.cuts.push({
-        quantity: 1,
-        feet: null,
-        inches: null,
-        numerator: null,
-        denominator: null,
-        lengthInches: null
-      })
+      if (!this.totalLengthExceeded) {
+        this.order.cuts.push({
+          quantity: 1,
+          feet: null,
+          inches: null,
+          numerator: null,
+          denominator: null,
+          lengthInches: null
+        })
+      }
     },
     // removes the selected cut from the order
     removeCut (index) {
@@ -293,6 +301,20 @@ export default {
     }
   },
   computed: {
+    // prevents total length of cut pieces from exceeding length of stock order
+    totalLengthExceeded () {
+      let length = 0
+
+      this.order.cuts.forEach(cut => {
+        length += cut.lengthInches + this.company.cutKerf
+      })
+
+      if (length > this.totalLengthInches) {
+        return true
+      } else {
+        return false
+      }
+    },
     // calculates total length in inches of stock material
     totalLengthInches () {
       const feet = parseFloat(this.listing.feet) * 12
@@ -447,6 +469,12 @@ export default {
     font-size: 14px;
     margin: 0;
     background-color: $alert;
+  }
+
+  .length-exceeded {
+    margin-top: 15px;
+    color: $alert;
+    text-align: center;
   }
 
   .price-div {

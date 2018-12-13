@@ -6,6 +6,7 @@ import Home from '@/components/home/Home'
 import AdvancedSearch from '@/components/search/AdvancedSearch'
 import Listings from '@/components/listings/Listings'
 import ListingPage from '@/components/listings/ListingPage'
+import Cart from '@/components/cart/Cart'
 
 Vue.use(Router)
 
@@ -30,6 +31,11 @@ const router = new Router({
       path: '/listing',
       name: 'Listing',
       component: ListingPage
+    },
+    {
+      path: '/cart',
+      name: 'Cart',
+      component: Cart
     }
   ],
   scrollBehavior () {
