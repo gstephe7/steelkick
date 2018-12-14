@@ -8,7 +8,9 @@
 
       <div v-for="item in seller.order" :key="item.id" @click="$router.push({ name: 'Listing', query: item.id })" class="cart-item">
 
-        <CartItem :item="item"></CartItem>
+        <CartItem :item="item">
+          <button class="remove-btn" @click="removeItem">Remove from Cart</button>
+        </CartItem>
 
       </div>
 
@@ -91,6 +93,9 @@ export default {
         }
       })
     },
+    removeItem () {
+      console.log('Item removed')
+    },
     checkout () {
       this.$router.push({
         name: 'Checkout',
@@ -160,6 +165,10 @@ export default {
 
   .checkout-btn {
     background-color: $success;
+  }
+
+  .remove-btn {
+    background-color: $alert;
   }
 
   h3 {

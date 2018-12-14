@@ -92,6 +92,11 @@
 
         </div>
 
+        <!-- Optional Remove Item from Cart Button -->
+        <div class="remove-btn">
+          <slot></slot>
+        </div>
+
       </div>
 </template>
 
@@ -183,16 +188,9 @@ export default {
     margin: 0;
   }
 
-  .click-message {
-    text-align: center;
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    margin: auto;
-    width: 90%;
-    padding: 10px;
-    color: $secondary;
-    text-decoration: underline;
+  .remove-btn {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
   }
 </style>

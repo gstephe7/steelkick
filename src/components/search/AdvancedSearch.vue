@@ -198,7 +198,7 @@ export default {
 
       this.shape = this.$route.query.shape
 
-      if (this.$route.query.shape) {
+      if (this.$route.query.shape != 'Shape') {
         this.pushDimensions()
       }
 
