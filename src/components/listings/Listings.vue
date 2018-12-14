@@ -1,48 +1,59 @@
 <template>
-  <div id="listings">
+  <div id="results">
 
-    <h2>Your Search Results</h2>
-
-    <!-- show if listings were found -->
-    <div v-if="listings.length > 0">
-
-      <div>
-        <select v-model="perPage">
-          <option selected value="25">show 25</option>
-          <option value="50">show 50</option>
-          <option value="75">show 75</option>
-          <option value="100">show 100</option>
-        </select>
-      </div>
-
-      <div class="results">
-        <ListingPreview v-for="listing in listings"
-                        :key="listing.id"
-                        :listing="listing">
-        </ListingPreview>
-      </div>
-
-      <div class="buttons">
-        <button>PREV</button>
-        <button>NEXT</button>
-      </div>
-
+    <div id="sidebar">
+      <h3>Refine Your Search</h3>
+      <AdvancedSearch buttonText="Update Search"></AdvancedSearch>
     </div>
 
-    <!-- show if no listings were found -->
-    <div v-else class="results">
-      <h3>We're sorry, we couldn't find the material you're looking for. You can try searching again with different settings.</h3>
-      <button @click="$router.push('Search')">Back to Search</button>
+    <div id="listings">
+
+      <h2>Your Search Results</h2>
+
+      <!-- show if listings were found -->
+      <div v-if="listings.length > 0">
+
+        <div>
+          <select v-model="perPage">
+            <option selected value="25">show 25</option>
+            <option value="50">show 50</option>
+            <option value="75">show 75</option>
+            <option value="100">show 100</option>
+          </select>
+        </div>
+
+        <div class="results">
+          <ListingPreview v-for="listing in listings"
+                          :key="listing.id"
+                          :listing="listing">
+          </ListingPreview>
+        </div>
+
+        <div class="buttons">
+          <button>PREV</button>
+          <button>NEXT</button>
+        </div>
+
+      </div>
+
+      <!-- show if no listings were found -->
+      <div v-else class="results">
+        <h3>We're sorry, we couldn't find the material you're looking for. You can try searching again with different settings.</h3>
+        <button @click="$router.push('Search')">Back to Search</button>
+      </div>
+
     </div>
 
   </div>
 </template>
 
 <script>
+import AdvancedSearch from '@/components/search/AdvancedSearch'
 import ListingPreview from '@/components/listings/ListingPreview'
 
 export default {
   components: {
+    AdvancedSearch,
     ListingPreview
   },
   data () {
@@ -205,10 +216,41 @@ export default {
 <style lang="scss" scoped>
   @import '@/assets/scss/variables.scss';
 
+  #results {
+    @media screen and (min-width: 1000px) {
+      display: flex;
+    }
+    @media screen and (max-width: 999px) {
+      display: block;
+    }
+  }
+
+  #sidebar {
+    @media screen and (min-width: 1000px) {
+      width: 320px;
+      display: block;
+      box-shadow: 2px 2px 2px 2px rgba(0,0,0,.1);
+      h3 {
+        margin-top: 50px;
+        text-align: center;
+      }
+    }
+    @media screen and (max-width: 999px) {
+      display: none;
+    }
+  }
+
   #listings {
     padding: 10px;
     max-width: 840px;
     margin: auto;
+    flex: 1;
+    h2 {
+      margin-left: 10px;
+    }
+    select {
+      margin-left: 10px;
+    }
   }
 
   .results {

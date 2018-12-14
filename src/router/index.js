@@ -3,7 +3,7 @@ import Router from 'vue-router'
 
 //import route components
 import Home from '@/components/home/Home'
-import AdvancedSearch from '@/components/search/AdvancedSearch'
+import SearchPage from '@/components/search/SearchPage'
 import Listings from '@/components/listings/Listings'
 import ListingPage from '@/components/listings/ListingPage'
 import Cart from '@/components/cart/Cart'
@@ -22,7 +22,7 @@ const router = new Router({
     {
       path: '/search',
       name: 'Search',
-      component: AdvancedSearch
+      component: SearchPage
     },
     {
       path: '/listings',

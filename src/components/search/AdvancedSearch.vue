@@ -1,8 +1,6 @@
 <template>
   <div id="advanced-search">
 
-    <h2>Search for Steel</h2>
-
     <div class="search">
 
       <div class="form">
@@ -90,7 +88,7 @@
       </div>
 
       <div class="subform">
-        <button @click="search">Search</button>
+        <button @click="search">{{ buttonText }}</button>
       </div>
 
     </div>
@@ -101,6 +99,7 @@
 import material from '@/assets/data/material.js'
 
 export default {
+  props: ['buttonText'],
   data () {
     return {
       shapes: [
@@ -173,9 +172,14 @@ export default {
       this.$router.push({
         name: 'Listings',
         query: {
+          search: true,
           shape: this.shape,
           dimension: this.dimension,
           length: this.length,
+          feet: this.feet,
+          inches: this.inches,
+          numerator: this.numerator,
+          denominator: this.denominator,
           domestic: this.domestic,
           painted: this.painted,
           galvanized: this.galvanized,
@@ -188,21 +192,37 @@ export default {
         }
       })
     }
+  },
+  created () {
+    if (this.$route.query.search) {
+
+      this.shape = this.$route.query.shape
+
+      if (this.$route.query.shape) {
+        this.pushDimensions()
+      }
+
+      this.dimension = this.$route.query.dimension
+      this.feet = this.$route.query.feet
+      this.inches = this.$route.query.inches
+      this.numerator = this.$route.query.numerator
+      this.denominator = this.$route.query.denominator
+      this.domestic = this.$route.query.domestic
+      this.painted = this.$route.query.painted
+      this.galvanized = this.$route.query.galvanized
+      this.radius = this.$route.query.radius
+      this.zipcode = this.$route.query.zipcode
+      this.cut = this.$route.query.cut
+      this.delivery = this.$route.query.delivery
+      this.state = this.$route.query.state
+      this.company = this.$route.query.company
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
   @import '@/assets/scss/variables.scss';
-
-  #advanced-search {
-    padding: 10px;
-    padding-bottom: 100px;
-  }
-
-  h2 {
-    text-align: center;
-  }
 
   .search {
     display: flex;
