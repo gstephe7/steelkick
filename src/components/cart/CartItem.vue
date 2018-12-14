@@ -1,5 +1,5 @@
 <template>
-      <div id="listing" @click="$router.push({ name: 'Listing', query: item.id })">
+      <div id="listing">
 
         <!-- Shape and Price -->
         <div class="container">
@@ -48,20 +48,6 @@
 
           </div>
 
-          <!-- Company Info -->
-          <div class="info-container">
-
-            <div class="box upper-box">
-              <div>
-                <h4>{{ item.company }}</h4>
-              </div>
-              <div>
-                <p>{{ item.city }}, {{ item.state }}</p>
-              </div>
-            </div>
-
-          </div>
-
         </div>
 
         <!-- Order info -->
@@ -78,7 +64,30 @@
           </div>
 
           <div class="subtotal-container">
-            <h4>Material Subtotal: ${{ item.materialPrice }}</h4>
+            <div class="subtotal-box">
+              <div class="item">
+                <p>Material: </p>
+              </div>
+              <div class="price">
+                <p>${{ item.materialPrice.toLocaleString() }}</p>
+              </div>
+            </div>
+            <div class="subtotal-box">
+              <div class="item">
+                <p>Cuts: </p>
+              </div>
+              <div class="price">
+                <p>${{ item.cutCost.toFixed(2) }}</p>
+              </div>
+            </div>
+            <div class="subtotal-box">
+              <div class="item">
+                <h4>Subtotal: </h4>
+              </div>
+              <div class="price">
+                <h4>${{ item.subtotal.toLocaleString() }}</h4>
+              </div>
+            </div>
           </div>
 
         </div>
@@ -96,13 +105,12 @@ export default {
   @import '@/assets/scss/variables.scss';
 
   #listing {
-    width: 95%;
+    width: 100%;
     max-width: 800px;
     position: relative;
     padding: 10px;
-    margin: 10px;
+    margin: 10px 5px 10px 5px;
     box-shadow: 2px 2px 2px 2px rgba(0,0,0,.1);
-    cursor: pointer;
     border-radius: 2px;
   }
 
@@ -144,6 +152,17 @@ export default {
   .box {
     flex: 1;
     min-width: 140px;
+  }
+
+  .subtotal-box {
+    display: flex;
+    justify-content: space-between;
+    width: 200px;
+  }
+
+  .item {
+    width: 100px;
+    text-align: right;
   }
 
   .cuts-box {

@@ -77,9 +77,20 @@
         </div>
 
         <div class="subform">
-          <button @click="search">Search</button>
+          <select v-model="state">
+            <option value="null" selected disabled>State</option>
+            <option v-for="state in states" :value="state" :key="state">{{ state }}</option>
+          </select>
+          <select v-model="company">
+            <option value="null" selected disabled>Company</option>
+            <option v-for="company in stateCompanies" :value="company" :key="company">{{ company }}</option>
+          </select>
         </div>
 
+      </div>
+
+      <div class="subform">
+        <button @click="search">Search</button>
       </div>
 
     </div>
@@ -111,7 +122,23 @@ export default {
       radius: '50',
       zipcode: '',
       cut: null,
-      delivery: null
+      delivery: null,
+      state: null,
+      company: null,
+      states: [
+        'GA',
+        'AL',
+        'SC',
+        'FL',
+        'TN',
+        'NC'
+      ],
+      stateCompanies: [
+        'Benco Welding Inc.',
+        'AMD Welding',
+        'King Steel',
+        'RAI'
+      ]
     }
   },
   computed: {
@@ -155,7 +182,9 @@ export default {
           radius: this.radius,
           zipcode: this.zipcode,
           cut: this.cut,
-          delivery: this.delivery
+          delivery: this.delivery,
+          state: this.state,
+          company: this.company
         }
       })
     }

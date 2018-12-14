@@ -18,25 +18,7 @@
       <div class="results">
         <ListingPreview v-for="listing in listings"
                         :key="listing.id"
-                        :id="listing.id"
-                        :shape="listing.shape"
-                        :dimension="listing.dimension"
-                        :feet="listing.feet"
-                        :inches="listing.inches"
-                        :numerator="listing.numerator"
-                        :denominator="listing.denominator"
-                        :cwt="listing.cwt"
-                        :grade="listing.grade"
-                        :heat="listing.heat"
-                        :quantity="listing.quantity"
-                        :domestic="listing.domestic"
-                        :painted="listing.painted"
-                        :galvanized="listing.galvanized"
-                        :company="listing.company"
-                        :city="listing.city"
-                        :state="listing.state"
-                        :cut="listing.cut"
-                        :delivery="listing.delivery">
+                        :listing="listing">
         </ListingPreview>
       </div>
 

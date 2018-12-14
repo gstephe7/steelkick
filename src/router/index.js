@@ -7,6 +7,8 @@ import AdvancedSearch from '@/components/search/AdvancedSearch'
 import Listings from '@/components/listings/Listings'
 import ListingPage from '@/components/listings/ListingPage'
 import Cart from '@/components/cart/Cart'
+import Checkout from '@/components/checkout/Checkout'
+import CheckoutConfirmation from '@/components/checkout/CheckoutConfirmation'
 
 Vue.use(Router)
 
@@ -36,6 +38,16 @@ const router = new Router({
       path: '/cart',
       name: 'Cart',
       component: Cart
+    },
+    {
+      path: '/checkout',
+      name: 'Checkout',
+      component: Checkout
+    },
+    {
+      path: '/checkout-confirmation',
+      name: 'CheckoutConfirmation',
+      component: CheckoutConfirmation
     }
   ],
   scrollBehavior () {

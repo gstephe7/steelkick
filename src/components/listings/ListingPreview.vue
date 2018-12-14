@@ -1,21 +1,21 @@
 <template>
-      <div id="listing" @click="$router.push({ name: 'Listing', query: id })">
+      <div id="listing" @click="$router.push({ name: 'Listing', query: listing.id })">
 
         <!-- Shape and Price -->
         <div class="container">
-          <h4>{{ shape.toUpperCase() }} {{ dimension }}</h4>
-          <h4>${{ cwt }} Cwt</h4>
+          <h4>{{ listing.shape.toUpperCase() }} {{ listing.dimension }}</h4>
+          <h4>${{ listing.cwt }} Cwt</h4>
         </div>
 
         <!-- Length -->
         <div class="container length-div">
           <div>
             <p>
-              {{ feet }}' {{ inches }}" <span v-if="numerator">{{ numerator }}/{{ denominator }}</span>
+              {{ listing.feet }}' {{ listing.inches }}" <span v-if="listing.numerator">{{ listing.numerator }}/{{ listing.denominator }}</span>
             </p>
           </div>
           <div class="quantity">
-            <p>{{ quantity }} available</p>
+            <p>{{ listing.quantity }} available</p>
           </div>
         </div>
 
@@ -26,23 +26,23 @@
 
             <div class="box upper-box">
               <div>
-                <p>{{ grade }}</p>
+                <p>{{ listing.grade }}</p>
               </div>
               <div>
-                <p v-if="domestic">Domestic</p>
+                <p v-if="listing.domestic">Domestic</p>
                 <p v-else>Foreign</p>
               </div>
             </div>
 
             <div class="box">
               <div>
-                <p v-if="heat"><span class="check">&#10004;</span>Heat #s included</p>
+                <p v-if="listing.heat"><span class="check">&#10004;</span>Heat #s included</p>
               </div>
               <div>
-                <p v-if="painted"><span class="check">&#10004;</span>Painted</p>
+                <p v-if="listing.painted"><span class="check">&#10004;</span>Painted</p>
               </div>
               <div>
-                <p v-if="galvanized"><span class="check">&#10004;</span>Galvanized</p>
+                <p v-if="listing.galvanized"><span class="check">&#10004;</span>Galvanized</p>
               </div>
             </div>
 
@@ -53,19 +53,19 @@
 
             <div class="box upper-box">
               <div>
-                <h4>{{ company }}</h4>
+                <h4>{{ listing.company }}</h4>
               </div>
               <div>
-                <p>{{ city }}, {{ state }}</p>
+                <p>{{ listing.city }}, {{ listing.state }}</p>
               </div>
             </div>
 
             <div class="box">
               <div>
-                <p v-if="cut"><span class="check">&#10004;</span>Offers cut to order</p>
+                <p v-if="listing.cut"><span class="check">&#10004;</span>Offers cut to order</p>
               </div>
               <div>
-                <p v-if="delivery"><span class="check">&#10004;</span>Offers delivery</p>
+                <p v-if="listing.delivery"><span class="check">&#10004;</span>Offers delivery</p>
               </div>
             </div>
 
@@ -83,7 +83,7 @@
 
 <script>
 export default {
-  props: [ 'id', 'shape', 'dimension', 'feet', 'inches', 'numerator', 'denominator', 'cwt', 'grade', 'heat', 'quantity', 'domestic', 'painted', 'galvanized', 'company', 'city', 'state', 'cut', 'delivery']
+  props: [ 'listing']
 }
 </script>
 
