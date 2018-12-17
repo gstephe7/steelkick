@@ -9,6 +9,12 @@ import ListingPage from '@/components/listings/ListingPage'
 import Cart from '@/components/cart/Cart'
 import Checkout from '@/components/checkout/Checkout'
 import CheckoutConfirmation from '@/components/checkout/CheckoutConfirmation'
+import NewListing from '@/components/material/NewListing'
+import NewMaterialConfirmation from '@/components/material/NewMaterialConfirmation'
+import Dashboard from '@/components/dashboard/Dashboard'
+import DashboardHome from '@/components/dashboard/DashboardHome'
+import AddMaterial from '@/components/dashboard/AddMaterial'
+import Inventory from '@/components/dashboard/Inventory'
 
 Vue.use(Router)
 
@@ -48,6 +54,38 @@ const router = new Router({
       path: '/checkout-confirmation',
       name: 'CheckoutConfirmation',
       component: CheckoutConfirmation
+    },
+    {
+      path: '/new-listing',
+      name: 'NewListing',
+      component: NewListing
+    },
+    {
+      path: '/new-material-confirmation',
+      name: 'NewMaterialConfirmation',
+      component: NewMaterialConfirmation
+    },
+    {
+      path: '/dashboard',
+      name: 'Dashboard',
+      component: Dashboard,
+      children: [
+        {
+          path: 'home',
+          name: 'DashboardHome',
+          component: DashboardHome
+        },
+        {
+          path: 'add-material',
+          name: 'AddMaterial',
+          component: AddMaterial
+        },
+        {
+          path: 'inventory',
+          name: 'Inventory',
+          component: Inventory
+        }
+      ]
     }
   ],
   scrollBehavior () {

@@ -224,13 +224,20 @@ export default {
 <style lang="scss" scoped>
   @import '@/assets/scss/variables.scss';
 
+  #advanced-search {
+    max-width: 650px;
+    padding: 10px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
   .search {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
     align-items: center;
-    max-width: 800px;
-    margin: auto;
   }
 
   .form {

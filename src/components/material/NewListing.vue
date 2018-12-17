@@ -1,19 +1,19 @@
 <template>
-  <div id="search-page">
+  <div id="new-listing">
 
-    <h2>Search for Steel</h2>
+    <h2>Create New Listing</h2>
 
-    <AdvancedSearch buttonText="Search"></AdvancedSearch>
+    <NewMaterial btnText="List New Material"></NewMaterial>
 
   </div>
 </template>
 
 <script>
-import AdvancedSearch from '@/components/search/AdvancedSearch'
+import NewMaterial from '@/components/material/NewMaterial'
 
 export default {
   components: {
-    AdvancedSearch
+    NewMaterial
   }
 }
 </script>
@@ -21,7 +21,7 @@ export default {
 <style lang="scss" scoped>
   @import '@/assets/scss/variables.scss';
 
-  #search-page {
+  #new-listing {
     padding: 10px;
     max-width: 670px;
     margin: auto;

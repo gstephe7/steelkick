@@ -5,10 +5,10 @@
         <router-link :to="{ name: 'Search' }">Buy Steel</router-link>
       </li>
       <li>
-        <router-link :to="{ name: 'Home' }">Sell Steel</router-link>
+        <router-link :to="{ name: 'NewListing' }">Sell Steel</router-link>
       </li>
       <li>
-        <router-link :to="{ name: 'Home' }">Dashboard</router-link>
+        <router-link :to="{ name: 'DashboardHome' }">Dashboard</router-link>
       </li>
       <li>
         <router-link :to="{ name: 'Home' }">Create Account</router-link>

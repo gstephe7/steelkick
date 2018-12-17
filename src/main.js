@@ -5,9 +5,16 @@ import {
   faBars,
   faTimes,
   faDollarSign,
-  faExchangeAlt,
-  faUser,
-  faShippingFast
+  faShippingFast,
+  faPlusCircle,
+  faList,
+  faShoppingCart,
+  faClock,
+  faHistory,
+  faChartLine,
+  faUsers,
+  faEdit,
+  faCheckCircle
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
@@ -15,9 +22,16 @@ library.add({
   faBars,
   faTimes,
   faDollarSign,
-  faExchangeAlt,
-  faUser,
-  faShippingFast
+  faShippingFast,
+  faPlusCircle,
+  faList,
+  faShoppingCart,
+  faClock,
+  faHistory,
+  faChartLine,
+  faUsers,
+  faEdit,
+  faCheckCircle
 })
 
 Vue.component('fa-icon', FontAwesomeIcon)

@@ -40,6 +40,16 @@ select {
   font-weight: 300;
 }
 
+textarea {
+  width: 270px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid $accent;
+  font-size: 18px;
+  font-family: 'Roboto', sans-serif;
+  height: 22px;
+}
+
 button {
   width: 200px;
   margin: 15px;
