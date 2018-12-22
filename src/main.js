@@ -14,7 +14,9 @@ import {
   faChartLine,
   faUsers,
   faEdit,
-  faCheckCircle
+  faCheckCircle,
+  faAngleUp,
+  faAngleDown
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
@@ -31,7 +33,9 @@ library.add({
   faChartLine,
   faUsers,
   faEdit,
-  faCheckCircle
+  faCheckCircle,
+  faAngleUp,
+  faAngleDown
 })
 
 Vue.component('fa-icon', FontAwesomeIcon)

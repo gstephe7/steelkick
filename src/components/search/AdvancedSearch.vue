@@ -47,7 +47,7 @@
 
       </div>
 
-      <div class="form">
+      <div class="form" v-if="!inventory">
 
         <div class="subform">
           <select v-model="radius">
@@ -87,11 +87,14 @@
 
       </div>
 
-      <div class="subform">
-        <button @click="search">{{ buttonText }}</button>
-      </div>
-
     </div>
+
+    <div class="subform">
+      <button v-if="searching" @click="search">Search</button>
+      <button v-if="buying" @click="search">Update Search</button>
+      <button v-if="inventory">Filter</button>
+    </div>
+
   </div>
 </template>
 
@@ -99,7 +102,7 @@
 import material from '@/assets/data/material.js'
 
 export default {
-  props: ['buttonText'],
+  props: ['inventory', 'buying', 'searching'],
   data () {
     return {
       shapes: [
@@ -172,7 +175,7 @@ export default {
       this.$router.push({
         name: 'Listings',
         query: {
-          search: true,
+          update: true,
           shape: this.shape,
           dimension: this.dimension,
           length: this.length,
@@ -194,7 +197,7 @@ export default {
     }
   },
   created () {
-    if (this.$route.query.search) {
+    if (this.$route.query.update) {
 
       this.shape = this.$route.query.shape
 
@@ -264,6 +267,8 @@ export default {
 
   .length {
     border: thin solid $accent;
+    height: 24px;
+    width: 128px;
   }
 
   .input {

@@ -5,16 +5,17 @@ import Router from 'vue-router'
 import Home from '@/components/home/Home'
 import SearchPage from '@/components/search/SearchPage'
 import Listings from '@/components/listings/Listings'
-import ListingPage from '@/components/listings/ListingPage'
+import MaterialDetails from '@/components/material/MaterialDetails'
 import Cart from '@/components/cart/Cart'
 import Checkout from '@/components/checkout/Checkout'
 import CheckoutConfirmation from '@/components/checkout/CheckoutConfirmation'
-import NewListing from '@/components/material/NewListing'
-import NewMaterialConfirmation from '@/components/material/NewMaterialConfirmation'
+import NewListing from '@/components/listings/NewListing'
+import MaterialConfirmation from '@/components/material/MaterialConfirmation'
 import Dashboard from '@/components/dashboard/Dashboard'
 import DashboardHome from '@/components/dashboard/DashboardHome'
 import AddMaterial from '@/components/dashboard/AddMaterial'
 import Inventory from '@/components/dashboard/Inventory'
+import MaterialEdit from '@/components/material/MaterialEdit'
 
 Vue.use(Router)
 
@@ -38,7 +39,12 @@ const router = new Router({
     {
       path: '/listing',
       name: 'Listing',
-      component: ListingPage
+      component: MaterialDetails
+    },
+    {
+      path: '/material',
+      name: 'MaterialDetails',
+      component: MaterialDetails
     },
     {
       path: '/cart',
@@ -61,9 +67,9 @@ const router = new Router({
       component: NewListing
     },
     {
-      path: '/new-material-confirmation',
-      name: 'NewMaterialConfirmation',
-      component: NewMaterialConfirmation
+      path: '/material-confirmation',
+      name: 'MaterialConfirmation',
+      component: MaterialConfirmation
     },
     {
       path: '/dashboard',
@@ -84,6 +90,11 @@ const router = new Router({
           path: 'inventory',
           name: 'Inventory',
           component: Inventory
+        },
+        {
+          path: 'edit-material',
+          name: 'MaterialEdit',
+          component: MaterialEdit
         }
       ]
     }

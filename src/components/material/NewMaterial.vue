@@ -6,7 +6,7 @@
       <div class="form">
 
         <div class="subform">
-          <select @change="pushDimensions" v-model="shape">
+          <select @change="pushDimensions" v-model="shape" :class="{ required : errors.shape }">
             <option disabled selected value="Shape">
               Shape
             </option>
@@ -14,20 +14,20 @@
               {{ shape.toUpperCase() }}
             </option>
           </select>
-          <select v-model="dimension">
+          <select v-model="dimension" :class="{ required : errors.dimension }">
             <option disabled selected value="Dimension">Dimension</option>
             <option v-for="dimension in dimensions" :value="dimension" :key="dimension">{{ dimension }}</option>
           </select>
         </div>
 
         <div class="subform">
-          <div class="length">
+          <div class="length" :class="{ required : errors.length }">
             <input class="feet-input" type="number" placeholder="10" maxlength="2" v-model="feet">'
             <input class="inches-input" type="number" placeholder="9" maxlength="2" v-model="inches">"
             <input class="numerator-input" type="number" maxlength="2" v-model="numerator"> /
             <input class="denominator-input" type="number" maxlength="2" v-model="denominator">
           </div>
-          <input type="number" class="input" placeholder="Quantity">
+          <input type="number" class="input" v-model="quantity" placeholder="Quantity">
         </div>
 
         <div class="subform">
@@ -42,7 +42,7 @@
         </div>
 
         <div class="subform">
-          <textarea placeholder="Location in shop (for internal use)"></textarea>
+          <textarea placeholder="Location in shop (for internal use)" v-model="location"></textarea>
         </div>
 
       </div>
@@ -50,13 +50,13 @@
       <div class="form">
 
         <div class="subform">
-          <select v-model="domestic">
+          <select v-model="domestic" :class="{ required : errors.domestic }">
             <option disabled selected value="null">Steel Origin</option>
             <option value="true">Domestic</option>
             <option value="false">Foreign</option>
           </select>
-          <select>
-            <option selected disabled value="fair">
+          <select v-model="condition">
+            <option selected disabled value="Fair">
               Condition
             </option>
             <option value="Excellent">Excellent</option>
@@ -67,56 +67,86 @@
         </div>
 
         <div class="subform">
-          <select>
+          <select v-model="grade">
             <option selected disabled value="null">
               Grade
             </option>
             <option value="A36">A36</option>
             <option value="A992">A992</option>
             <option value="A500">A500</option>
-          </select>
-          <input type="text" class="input" placeholder="Heat #">
+          </select v-model="heat">
+          <input type="text" class="input" placeholder="Heat #" v-model="heat">
         </div>
 
         <div class="subform">
-          <select>
+          <select v-model="forSale">
             <option selected disabled value="false">
               For Sale?
             </option>
             <option value="true">For Sale</option>
             <option value="false">Not For Sale</option>
           </select>
-          <input type="number" class="input" placeholder="$ Cwt (ex: 42)">
+          <input type="number" class="input" placeholder="$ Cwt (ex: 42)" v-model="cwt">
         </div>
 
         <div class="subform">
-          <textarea placeholder="Additional remarks"></textarea>
+          <textarea placeholder="Additional remarks" v-model="remarks"></textarea>
         </div>
 
       </div>
 
     </div>
 
-    <div>
-      <button @click="$router.push('/new-material-confirmation')">{{ btnText }}</button>
+    <div class="buttons">
+      <button @click="completeEntry">{{ btnText }}</button>
+      <button v-if="edit" class="delete" @click="deletePopup">Delete</button>
     </div>
+
+    <div>
+      <p v-if="errors.shape" class="err-msg">
+        Please enter material shape
+      </p>
+      <p v-if="errors.dimension" class="err-msg">
+        Please enter material dimension
+      </p>
+      <p v-if="errors.length" class="err-msg">
+        Please enter material length
+      </p>
+      <p v-if="errors.domestic" class="err-msg">
+        Please enter material origin
+      </p>
+    </div>
+
+    <ConfirmationPopup msg="Are you sure you want to delete this item?"
+                       btnText="Delete"
+                       class="popup"
+                       :class="{ show : showDeletePopup }"
+                       @cancel="deletePopup"
+                       @confirm="deleteItem">
+    </ConfirmationPopup>
 
   </div>
 </template>
 
 <script>
 import material from '@/assets/data/material.js'
+import ConfirmationPopup from '@/components/popups/ConfirmationPopup'
 
 export default {
-  props: ['btnText'],
+  props: ['btnText', 'edit', 'item'],
+  components: {
+    ConfirmationPopup
+  },
   data () {
     return {
+      showDeletePopup: false,
       shapes: [
         'w',
         'hss',
         'c',
         'l'
       ],
+      id: '',
       shape: 'Shape',
       dimensions: [],
       dimension: 'Dimension',
@@ -124,18 +154,133 @@ export default {
       inches: null,
       numerator: null,
       denominator: null,
+      quantity: null,
+      location: '',
       domestic: null,
       painted: false,
-      galvanized: false
+      galvanized: false,
+      condition: 'Fair',
+      grade: null,
+      heat: null,
+      forSale: false,
+      cwt: null,
+      remarks: '',
+      errors: {
+        shape: false,
+        dimension: false,
+        length: false,
+        domestic: false
+      },
+      verified: false
     }
   },
   methods: {
     pushDimensions () {
+      this.autoSetGrade()
       const newDimensions = []
       material[this.shape].forEach(dimension => {
         newDimensions.push(dimension.dimension)
       })
       this.dimensions = newDimensions
+    },
+    checkForm () {
+      // form error messages
+      if (this.shape === 'Shape') {
+        this.errors.shape = true
+      } else {
+        this.errors.shape = false
+      }
+
+      if (this.dimension === 'Dimension') {
+        this.errors.dimension = true
+      } else {
+        this.errors.dimension = false
+      }
+
+      if (!this.feet && !this.inches && !this.numerator) {
+        this.errors.length = true
+      } else {
+        this.errors.length = false
+      }
+
+      if (!this.domestic) {
+        this.errors.domestic = true
+      } else {
+        this.errors.domestic = false
+      }
+
+      // resort to default values
+      if (!this.quantity) {
+        this.quantity = 1
+      }
+
+      if (!this.errors.shape && !this.errors.dimension && !this.errors.length && !this.errors.domestic) {
+        this.verified = true
+      }
+    },
+    autoSetGrade () {
+      if (this.shape === 'w') {
+        this.grade = 'A992'
+      }
+      if (this.shape === 'hss') {
+        this.grade = 'A500'
+      }
+      if (this.shape === 'c') {
+        this.grade = 'A36'
+      }
+      if (this.shape === 'l') {
+        this.grade = 'A36'
+      }
+    },
+    completeEntry () {
+      this.checkForm()
+
+      if (this.verified) {
+        if (this.edit) {
+          this.$router.push({
+            path: '/material-confirmation',
+            query: {
+              edit: true
+            }
+          })
+        } else {
+          this.$router.push({
+            path: '/material-confirmation',
+            query: {
+              newEntry: true
+            }
+          })
+        }
+      }
+    },
+    deletePopup () {
+      this.showDeletePopup = !this.showDeletePopup
+    },
+    deleteItem () {
+      this.$router.push('inventory')
+    }
+  },
+  created () {
+    if (this.edit) {
+      this.id = this.item.id
+      this.shape = this.item.shape
+      this.pushDimensions()
+      this.dimension = this.item.dimension
+      this.feet = this.item.feet
+      this.inches = this.item.inches
+      this.numerator = this.item.numerator
+      this.denominator = this.item.denominator
+      this.domestic = this.item.domestic
+      this.painted = this.item.painted
+      this.galvanized = this.item.galvanized
+      this.quantity = this.item.quantity
+      this.location = this.item.location
+      this.condition = this.item.condition
+      this.grade = this.item.grade
+      this.heat = this.item.heat
+      this.forSale = this.item.forSale
+      this.cwt = this.item.cwt
+      this.remarks = this.item.remarks
     }
   }
 }
@@ -190,7 +335,39 @@ export default {
     border: 1px solid $accent;
   }
 
+  .buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
   button {
     background-color: $success;
+  }
+
+  .delete {
+    background-color: $alert;
+  }
+
+  .popup {
+    height: 0;
+    visibility: hidden;
+    opacity: 0;
+    transition: 250ms all;
+  }
+
+  .show {
+    height: 310px;
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .required {
+    outline: solid thin $alert;
+  }
+
+  .err-msg {
+    color: $alert;
+    text-align: center;
   }
 </style>

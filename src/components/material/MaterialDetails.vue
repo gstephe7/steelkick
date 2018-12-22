@@ -2,7 +2,12 @@
     <div id="listing">
 
       <p class="back" @click="$router.back()">
-        < Back to results
+        <span v-if="$route.query.buying">
+          < Back to results
+        </span>
+        <span v-if="$route.query.cart">
+          < Back to cart
+        </span>
       </p>
 
       <div class="listing-details">
@@ -204,8 +209,11 @@
 
         <!-- place order -->
         <div class="place-order">
-          <button class="success" @click="$router.push({ name: 'Cart', query: order.id })">
+          <button v-if="$route.query.buying" class="success" @click="$router.push({ name: 'Cart', query: order.id })">
             Add to Cart
+          </button>
+          <button v-if="$route.query.cart" class="success" @click="$router.push({ name: 'Cart', query: order.id })">
+            Update Order
           </button>
         </div>
 
@@ -217,35 +225,36 @@
 export default {
   data () {
     return {
+      item: this.$route.query.item,
       listing: {
-        id: 'gsh27dh7263',
-        shape: 'w',
-        dimension: '8x10',
-        weight: 10,
-        feet: 10,
-        inches: 7,
-        numerator: 7,
-        denominator: 8,
-        cwt: 42,
-        grade: 'A992',
-        heat: '593726718',
-        quantity: 5,
-        domestic: true,
-        painted: true,
-        galvanized: true
+        id: this.$route.query.item.id,
+        shape: this.$route.query.item.shape,
+        dimension: this.$route.query.item.dimension,
+        weight: this.$route.query.item.weight,
+        feet: this.$route.query.item.feet,
+        inches: this.$route.query.item.inches,
+        numerator: this.$route.query.item.numerator,
+        denominator: this.$route.query.item.denominator,
+        cwt: this.$route.query.item.cwt,
+        grade: this.$route.query.item.grade,
+        heat: this.$route.query.item.heat,
+        quantity: this.$route.query.item.quantity,
+        domestic: this.$route.query.item.domestic,
+        painted: this.$route.query.item.painted,
+        galvanized: this.$route.query.item.galvanized
       },
       company: {
-        company: 'Benco Welding Inc.',
-        city: 'Winder',
-        state: 'GA',
-        cut: true,
-        cutPrice: 5,
-        cutKerf: .125,
-        delivery: true,
-        deliveryMaxWeight: 2000,
-        deliveryMaxLength: 20,
-        deliveryPrice: 2,
-        deliveryMaxDistance: 25
+        company: this.$route.query.item.company,
+        city: this.$route.query.item.city,
+        state: this.$route.query.item.state,
+        cut: this.$route.query.item.cut,
+        cutPrice: this.$route.query.item.cutPrice,
+        cutKerf: this.$route.query.item.cutKerf,
+        delivery: this.$route.query.item.delivery,
+        deliveryMaxWeight: this.$route.query.item.deliveryMaxWeight,
+        deliveryMaxLength: this.$route.query.item.deliveryMaxLength,
+        deliveryPrice: this.$route.query.item.deliveryPrice,
+        deliveryMaxDistance: this.$route.query.item.deliveryMaxDistance
       },
       order: {
         id: 'gshaolw12',

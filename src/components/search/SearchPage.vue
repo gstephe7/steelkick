@@ -3,7 +3,9 @@
 
     <h2>Search for Steel</h2>
 
-    <AdvancedSearch buttonText="Search"></AdvancedSearch>
+    <AdvancedSearch buttonText="Search"
+                    :searching="true">
+    </AdvancedSearch>
 
   </div>
 </template>

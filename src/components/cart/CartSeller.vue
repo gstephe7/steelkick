@@ -6,7 +6,7 @@
     <!-- Items ordered from seller -->
     <div class="cart-items">
 
-      <div v-for="item in seller.order" :key="item.id" @click="$router.push({ name: 'Listing', query: item.id })" class="cart-item">
+      <div v-for="item in seller.order" :key="item.id" @click="$router.push({ path: '/listing', query: { cart: true, item: item } })" class="cart-item">
 
         <CartItem :item="item">
           <button class="remove-btn" @click="removeItem">Remove from Cart</button>

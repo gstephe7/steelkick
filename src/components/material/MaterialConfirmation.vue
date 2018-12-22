@@ -3,7 +3,8 @@
 
     <fa-icon icon="check-circle" class="icon"></fa-icon>
 
-    <p>You have successfully added new material!</p>
+    <p v-if="$route.query.newEntry">You have successfully added new material!</p>
+    <p v-if="$route.query.edit">You have successfully updated your material!</p>
 
     <router-link :to="{ name: 'Inventory' }">
       View your inventory
@@ -37,6 +38,10 @@ export default {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+  }
+
+  p {
+    text-align: center;
   }
 
   .icon {

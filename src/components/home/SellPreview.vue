@@ -4,7 +4,7 @@
     <fa-icon class="icon" icon="dollar-sign"></fa-icon>
     <p>Have excess steel sitting around your shop or at the job site? Make more money by selling it directly to other fabricators in your area.</p>
     <button @click="$router.push('/new-listing')">List New Material</button>
-    <button class="button-secondary">Manage My Inventory</button>
+    <button class="button-secondary" @click="$router.push('dashboard/inventory')">Manage My Inventory</button>
   </div>
 </template>
 
