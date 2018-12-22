@@ -19,7 +19,7 @@
           <fa-icon icon="shopping-cart" class="icon orange"></fa-icon>
           <h3>Checkout Cart</h3>
         </div>
-        <div class="card">
+        <div class="card" @click="$router.push('pending-orders')">
           <fa-icon icon="clock" class="icon red"></fa-icon>
           <h3>Pending Orders</h3>
         </div>

@@ -94,7 +94,7 @@ export default {
       })
     },
     removeItem () {
-      console.log('Item removed')
+      
     },
     checkout () {
       this.$router.push({

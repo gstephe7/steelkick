@@ -16,6 +16,8 @@ import DashboardHome from '@/components/dashboard/DashboardHome'
 import AddMaterial from '@/components/dashboard/AddMaterial'
 import Inventory from '@/components/dashboard/Inventory'
 import MaterialEdit from '@/components/material/MaterialEdit'
+import OrderPage from '@/components/orders/OrderPage'
+import OrderDetails from '@/components/orders/OrderDetails'
 
 Vue.use(Router)
 
@@ -95,6 +97,16 @@ const router = new Router({
           path: 'edit-material',
           name: 'MaterialEdit',
           component: MaterialEdit
+        },
+        {
+          path: 'pending-orders',
+          name: 'OrderPage',
+          component: OrderPage
+        },
+        {
+          path: 'order-details',
+          name: 'OrderDetails',
+          component: OrderDetails
         }
       ]
     }

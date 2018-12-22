@@ -14,7 +14,7 @@
         <router-link :to="{ name: 'Cart' }">Cart</router-link>
       </li>
       <li>
-        <router-link :to="{ name: 'DashboardHome' }">Pending Orders</router-link>
+        <router-link :to="{ name: 'OrderPage' }">Pending Orders</router-link>
       </li>
       <li>
         <router-link :to="{ name: 'DashboardHome' }">Transaction History</router-link>

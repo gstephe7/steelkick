@@ -74,7 +74,7 @@
             <option value="A36">A36</option>
             <option value="A992">A992</option>
             <option value="A500">A500</option>
-          </select v-model="heat">
+          </select>
           <input type="text" class="input" placeholder="Heat #" v-model="heat">
         </div>
 
