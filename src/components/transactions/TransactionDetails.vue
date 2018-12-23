@@ -1,28 +1,18 @@
 <template>
   <div id="checkout">
 
-    <h3 class="page-title">Pending Order</h3>
+    <h3 class="page-title">Transaction Details</h3>
 
-    <!-- Buyer Info -->
+    <!-- Company Info -->
     <div class="company-info">
-      <p class="title">Buyer</p>
-      <p>{{ order.buyer.company }}</p>
-      <p>{{ order.buyer.street }}</p>
-      <p>{{ order.buyer.city }}, {{ order.buyer.state }} {{ order.buyer.zipcode }}</p>
-      <p>{{ order.buyer.contactName }}</p>
-      <p>{{ order.buyer.phone }}</p>
-      <p>{{ order.buyer.email }}</p>
-    </div>
-
-    <!-- Seller Info -->
-    <div class="company-info">
-      <p class="title">Seller</p>
-      <p>{{ order.seller.company }}</p>
-      <p>{{ order.seller.street }}</p>
-      <p>{{ order.seller.city }}, {{ order.seller.state }} {{ order.seller.zipcode }}</p>
-      <p>{{ order.seller.contactName }}</p>
-      <p>{{ order.seller.phone }}</p>
-      <p>{{ order.seller.email }}</p>
+      <p>{{ order.company }}</p>
+      <p>{{ order.street }}</p>
+      <p>{{ order.city }}, {{ order.state }} {{ order.zipcode }}</p>
+      <p>{{ order.contactName }}</p>
+      <p>{{ order.phone }}</p>
+      <p>{{ order.email }}</p>
+      <br>
+      <p>Confirmation Date: {{ order.date }}</p>
     </div>
 
     <div class="order">
@@ -63,17 +53,6 @@
       </div>
     </div>
 
-    <!-- Confirm/Deny order for received order -->
-    <div v-if="received" class="buttons">
-      <button class="alert">Deny</button>
-      <button class="success">Confirm</button>
-    </div>
-
-    <!-- Cancel placed order -->
-    <div v-else class="buttons">
-      <button class="alert">Cancel Order</button>
-    </div>
-
   </div>
 </template>
 
@@ -86,22 +65,7 @@ export default {
   },
   data () {
     return {
-      order: this.$route.query.order,
-      received: this.$route.query.received
-    }
-  },
-  methods: {
-    placeOrder () {
-      this.$router.push({
-        name: 'CheckoutConfirmation',
-        params: {
-          seller: this.$route.params.seller,
-          order: this.$route.params.order,
-          materialPrice: this.$route.params.materialPrice,
-          deliveryPrice: this.$route.params.deliveryPrice,
-          totalPrice: this.$route.params.totalPrice
-        }
-      })
+      order: this.$route.query.order
     }
   }
 }

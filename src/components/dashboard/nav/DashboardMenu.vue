@@ -17,13 +17,13 @@
         <router-link :to="{ name: 'OrderPage' }">Pending Orders</router-link>
       </li>
       <li>
-        <router-link :to="{ name: 'DashboardHome' }">Transaction History</router-link>
+        <router-link :to="{ name: 'Transactions' }">Transaction History</router-link>
       </li>
       <li>
-        <router-link :to="{ name: 'DashboardHome' }">Set Prices</router-link>
+        <router-link :to="{ name: 'SetPrices' }">Set Prices</router-link>
       </li>
       <li>
-        <router-link :to="{ name: 'DashboardHome' }">Manage Company Users</router-link>
+        <router-link :to="{ name: 'ManageUsers' }">Manage Company Users</router-link>
       </li>
       <li>
         <router-link :to="{ name: 'DashboardHome' }">Edit Company Profile</router-link>

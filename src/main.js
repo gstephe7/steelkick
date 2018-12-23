@@ -13,7 +13,7 @@ import {
   faHistory,
   faChartLine,
   faUsers,
-  faEdit,
+  faCog,
   faCheckCircle,
   faAngleUp,
   faAngleDown
@@ -32,7 +32,7 @@ library.add({
   faHistory,
   faChartLine,
   faUsers,
-  faEdit,
+  faCog,
   faCheckCircle,
   faAngleUp,
   faAngleDown

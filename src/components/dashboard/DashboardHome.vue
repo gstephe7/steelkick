@@ -30,24 +30,24 @@
     <div class="div">
 
       <div class="container">
-        <div class="card">
+        <div class="card" @click="$router.push('transactions')">
           <fa-icon icon="history" class="icon gold"></fa-icon>
           <h3>Transaction History</h3>
         </div>
-        <div class="card">
+        <div class="card" @click="$router.push('set-prices')">
           <fa-icon icon="chart-line" class="icon blue-green"></fa-icon>
           <h3>Set Prices</h3>
         </div>
       </div>
 
       <div class="container">
-        <div class="card">
+        <div class="card" @click="$router.push('manage-users')">
           <fa-icon icon="users" class="icon purple"></fa-icon>
           <h3>Manage Company Users</h3>
         </div>
         <div class="card">
-          <fa-icon icon="edit" class="icon blue"></fa-icon>
-          <h3>Edit Company Profile</h3>
+          <fa-icon icon="cog" class="icon blue"></fa-icon>
+          <h3>Edit Profile</h3>
         </div>
       </div>
 

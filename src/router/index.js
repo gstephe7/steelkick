@@ -18,6 +18,13 @@ import Inventory from '@/components/dashboard/Inventory'
 import MaterialEdit from '@/components/material/MaterialEdit'
 import OrderPage from '@/components/orders/OrderPage'
 import OrderDetails from '@/components/orders/OrderDetails'
+import Transactions from '@/components/transactions/Transactions'
+import TransactionDetails from '@/components/transactions/TransactionDetails'
+import SetPrices from '@/components/dashboard/SetPrices'
+import ManageUsers from '@/components/dashboard/users/ManageUsers'
+import UserEdit from '@/components/dashboard/users/UserEdit'
+import NewUser from '@/components/dashboard/users/NewUser'
+import NewUserConfirmation from '@/components/dashboard/users/NewUserConfirmation'
 
 Vue.use(Router)
 
@@ -107,6 +114,41 @@ const router = new Router({
           path: 'order-details',
           name: 'OrderDetails',
           component: OrderDetails
+        },
+        {
+          path: 'transactions',
+          name: 'Transactions',
+          component: Transactions
+        },
+        {
+          path: 'transaction-details',
+          name: 'TransactionDetails',
+          component: TransactionDetails
+        },
+        {
+          path: 'set-prices',
+          name: 'SetPrices',
+          component: SetPrices
+        },
+        {
+          path: 'manage-users',
+          name: 'ManageUsers',
+          component: ManageUsers
+        },
+        {
+          path: 'edit-user',
+          name: 'EditUser',
+          component: UserEdit
+        },
+        {
+          path: 'new-user',
+          name: 'NewUser',
+          component: NewUser
+        },
+        {
+          path: 'new-user-confirmed',
+          name: 'NewUserConfirmation',
+          component: NewUserConfirmation
         }
       ]
     }
