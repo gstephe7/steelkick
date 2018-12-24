@@ -25,6 +25,11 @@ import ManageUsers from '@/components/dashboard/users/ManageUsers'
 import UserEdit from '@/components/dashboard/users/UserEdit'
 import NewUser from '@/components/dashboard/users/NewUser'
 import NewUserConfirmation from '@/components/dashboard/users/NewUserConfirmation'
+import EditProfile from '@/components/dashboard/EditProfile'
+import Login from '@/components/login/Login'
+import PasswordRecovery from '@/components/login/PasswordRecovery'
+import Register from '@/components/register/Register'
+import PasswordRecoveryConfirmation from '@/components/login/PasswordRecoveryConfirmation'
 
 Vue.use(Router)
 
@@ -79,6 +84,26 @@ const router = new Router({
       path: '/material-confirmation',
       name: 'MaterialConfirmation',
       component: MaterialConfirmation
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login
+    },
+    {
+      path: '/password-recovery',
+      name: 'PasswordRecovery',
+      component: PasswordRecovery
+    },
+    {
+      path: '/password-recovery-confirmation',
+      name: 'PasswordRecoveryConfirmation',
+      component: PasswordRecoveryConfirmation
+    },
+    {
+      path: '/register',
+      name: 'Register',
+      component: Register
     },
     {
       path: '/dashboard',
@@ -149,6 +174,11 @@ const router = new Router({
           path: 'new-user-confirmed',
           name: 'NewUserConfirmation',
           component: NewUserConfirmation
+        },
+        {
+          path: 'edit-profile',
+          name: 'EditProfile',
+          component: EditProfile
         }
       ]
     }

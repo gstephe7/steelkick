@@ -1,24 +1,27 @@
 <template>
-  <div id="register">
+  <div id="login">
 
-    <h2>Create Your Free Account</h2>
+    <h2>Sign In</h2>
 
     <div class="form">
 
-      <input v-model="company" placeholder="Company Name" :class="{ highlight : errors.company }">
-
       <input v-model="email" placeholder="Email" :class="{ highlight : errors.email }">
 
-      <input v-model="password" type="password" placeholder="Password" :class="{ highlight : errors.password }">
+      <input type="password" v-model="password" placeholder="Password" :class="{ highlight : errors.password }">
 
-      <button @click="submit">Create Account</button>
+      <button @click="submit">Sign In</button>
 
-    </div>
+      <div class="errors">
+        <p v-if="errors.email">Please enter your email</p>
+        <p v-if="errors.password">Please enter your password</p>
+      </div>
 
-    <div class="errors">
-      <p v-if="errors.company">Please enter your company's name.</p>
-      <p v-if="errors.email">Please enter a valid email address</p>
-      <p v-if="errors.password">Password must be longer than 7 characters</p>
+      <router-link :to="{ name: 'PasswordRecovery' }">
+        Forgot your password?
+      </router-link>
+
+      <router-link :to="{ name: 'Register' }">Create an account</router-link>
+
     </div>
 
   </div>
@@ -28,11 +31,9 @@
 export default {
   data () {
     return {
-      company: '',
       email: '',
       password: '',
       errors: {
-        company: false,
         email: false,
         password: false
       },
@@ -41,25 +42,19 @@ export default {
   },
   methods: {
     checkForm () {
-      if (!this.company) {
-        this.errors.company = true
-      } else {
-        this.errors.company = false
-      }
-
       if (this.email.includes('@') && this.email.includes('.')) {
         this.errors.email = false
       } else {
         this.errors.email = true
       }
 
-      if (this.password.length > 7) {
-        this.errors.password = false
-      } else {
+      if (!this.password) {
         this.errors.password = true
+      } else {
+        this.errors.password = false
       }
 
-      if (!this.errors.company && !this.errors.email && !this.errors.password) {
+      if (!this.errors.email && !this.errors.password) {
         this.verified = true
       }
     },
@@ -67,7 +62,7 @@ export default {
       this.checkForm()
 
       if (this.verified) {
-        this.$router.push('dashboard/edit-profile')
+        this.$router.push('dashboard/home')
       }
     }
   }
@@ -77,26 +72,25 @@ export default {
 <style lang="scss" scoped>
   @import '@/assets/scss/variables.scss';
 
-  #register {
-    height: 500px;
-    padding: 10px;
+  #login {
+    height: 400px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
   }
 
   .form {
-    height: 300px;
+    width: 300px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
   }
 
   input {
     border: 1px solid $accent;
-    margin: 10px;
     width: 250px;
+    margin: 10px;
   }
 
   .highlight {
@@ -106,5 +100,9 @@ export default {
   .errors {
     color: $alert;
     text-align: center;
+  }
+
+  a {
+    margin-bottom: 10px;
   }
 </style>

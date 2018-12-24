@@ -26,7 +26,7 @@
         <router-link :to="{ name: 'ManageUsers' }">Manage Company Users</router-link>
       </li>
       <li>
-        <router-link :to="{ name: 'DashboardHome' }">Edit Company Profile</router-link>
+        <router-link :to="{ name: 'EditProfile' }">Edit Profile</router-link>
       </li>
     </ul>
   </div>

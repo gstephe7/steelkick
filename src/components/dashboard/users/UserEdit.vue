@@ -77,7 +77,8 @@ export default {
   .buttons {
     display: flex;
     justify-content: space-around;
-    margin-top: 50px;
+    max-width: 300px;
+    margin: 50px auto 0px;
   }
 
   button {
@@ -96,6 +97,8 @@ export default {
 
   .delete-div {
     text-align: center;
+    max-width: 300px;
+    margin: auto;
   }
 
   .delete-buttons {
