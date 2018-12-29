@@ -25,7 +25,7 @@
           <input v-model="profile.password" type="password">
         </div>
         <div class="button-div">
-          <button @click="editProfile">Cancel</button>
+          <button @click="profile.editing = false">Cancel</button>
           <button @click="editProfile">Save</button>
         </div>
       </div>
@@ -36,7 +36,7 @@
         <p>Email: {{ profile.email }}</p>
         <p>Password: *******</p>
         <div class="button-div">
-          <button @click="editProfile">Edit Profile</button>
+          <button @click="profile.editing = true">Edit Profile</button>
         </div>
       </div>
 
@@ -148,17 +148,119 @@
         <div>
           <p>Hours</p>
           <div class="sub">
-            <div v-for="day in company.hours" :key="day.day" class="input">
+            <div class="input">
               <div class="day">
-                <p>{{ day.day }}</p>
+                <p>Monday</p>
               </div>
               <div class="hours">
                 <span>
-                  <select v-model="day.start">
+                  <select v-model="company.hours.monday.start">
                     <option :value="null">-</option>
                     <option v-for="hour in hours" :key="hour" :value="hour">{{ hour }}</option>
                   </select> -
-                  <select v-model="day.end">
+                  <select v-model="company.hours.monday.end">
+                    <option :value="null">-</option>
+                    <option v-for="hour in hours" :key="hour" :value="hour">{{ hour }}</option>
+                  </select>
+                </span>
+              </div>
+            </div>
+            <div class="input">
+              <div class="day">
+                <p>Tuesday</p>
+              </div>
+              <div class="hours">
+                <span>
+                  <select v-model="company.hours.tuesday.start">
+                    <option :value="null">-</option>
+                    <option v-for="hour in hours" :key="hour" :value="hour">{{ hour }}</option>
+                  </select> -
+                  <select v-model="company.hours.tuesday.end">
+                    <option :value="null">-</option>
+                    <option v-for="hour in hours" :key="hour" :value="hour">{{ hour }}</option>
+                  </select>
+                </span>
+              </div>
+            </div>
+            <div class="input">
+              <div class="day">
+                <p>Wednesday</p>
+              </div>
+              <div class="hours">
+                <span>
+                  <select v-model="company.hours.wednesday.start">
+                    <option :value="null">-</option>
+                    <option v-for="hour in hours" :key="hour" :value="hour">{{ hour }}</option>
+                  </select> -
+                  <select v-model="company.hours.wednesday.end">
+                    <option :value="null">-</option>
+                    <option v-for="hour in hours" :key="hour" :value="hour">{{ hour }}</option>
+                  </select>
+                </span>
+              </div>
+            </div>
+            <div class="input">
+              <div class="day">
+                <p>Thursday</p>
+              </div>
+              <div class="hours">
+                <span>
+                  <select v-model="company.hours.thursday.start">
+                    <option :value="null">-</option>
+                    <option v-for="hour in hours" :key="hour" :value="hour">{{ hour }}</option>
+                  </select> -
+                  <select v-model="company.hours.thursday.end">
+                    <option :value="null">-</option>
+                    <option v-for="hour in hours" :key="hour" :value="hour">{{ hour }}</option>
+                  </select>
+                </span>
+              </div>
+            </div>
+            <div class="input">
+              <div class="day">
+                <p>Friday</p>
+              </div>
+              <div class="hours">
+                <span>
+                  <select v-model="company.hours.friday.start">
+                    <option :value="null">-</option>
+                    <option v-for="hour in hours" :key="hour" :value="hour">{{ hour }}</option>
+                  </select> -
+                  <select v-model="company.hours.friday.end">
+                    <option :value="null">-</option>
+                    <option v-for="hour in hours" :key="hour" :value="hour">{{ hour }}</option>
+                  </select>
+                </span>
+              </div>
+            </div>
+            <div class="input">
+              <div class="day">
+                <p>Saturday</p>
+              </div>
+              <div class="hours">
+                <span>
+                  <select v-model="company.hours.saturday.start">
+                    <option :value="null">-</option>
+                    <option v-for="hour in hours" :key="hour" :value="hour">{{ hour }}</option>
+                  </select> -
+                  <select v-model="company.hours.saturday.end">
+                    <option :value="null">-</option>
+                    <option v-for="hour in hours" :key="hour" :value="hour">{{ hour }}</option>
+                  </select>
+                </span>
+              </div>
+            </div>
+            <div class="input">
+              <div class="day">
+                <p>Sunday</p>
+              </div>
+              <div class="hours">
+                <span>
+                  <select v-model="company.hours.sunday.start">
+                    <option :value="null">-</option>
+                    <option v-for="hour in hours" :key="hour" :value="hour">{{ hour }}</option>
+                  </select> -
+                  <select v-model="company.hours.sunday.end">
                     <option :value="null">-</option>
                     <option v-for="hour in hours" :key="hour" :value="hour">{{ hour }}</option>
                   </select>
@@ -174,7 +276,7 @@
           </div>
         </div>
         <div class="button-div">
-          <button @click="editCompany">Cancel</button>
+          <button @click="company.editing = false">Cancel</button>
           <button @click="editCompany">Save</button>
         </div>
       </div>
@@ -212,7 +314,7 @@
           <span v-if="company.cut.offered">Yes</span>
           <span v-else>No</span>
         </p>
-        <div class="sub">
+        <div class="sub" v-if="company.cut.offered">
           <p>
             Price per cut: ${{ company.cut.price }}
           </p>
@@ -220,12 +322,60 @@
         <div>
           <p>Hours</p>
           <div class="sub">
-            <div v-for="day in company.hours" :key="day.day" class="input">
+            <div class="input">
               <div>
-                <p>{{ day.day }}</p>
+                <p>Monday</p>
               </div>
               <div>
-                <p>{{ day.start }} - {{ day.end }}</p>
+                <p>{{ company.hours.monday.start }} - {{ company.hours.monday.end }}</p>
+              </div>
+            </div>
+            <div class="input">
+              <div>
+                <p>Tuesday</p>
+              </div>
+              <div>
+                <p>{{ company.hours.tuesday.start }} - {{ company.hours.tuesday.end }}</p>
+              </div>
+            </div>
+            <div class="input">
+              <div>
+                <p>Wednesday</p>
+              </div>
+              <div>
+                <p>{{ company.hours.wednesday.start }} - {{ company.hours.wednesday.end }}</p>
+              </div>
+            </div>
+            <div class="input">
+              <div>
+                <p>Thursday</p>
+              </div>
+              <div>
+                <p>{{ company.hours.thursday.start }} - {{ company.hours.thursday.end }}</p>
+              </div>
+            </div>
+            <div class="input">
+              <div>
+                <p>Friday</p>
+              </div>
+              <div>
+                <p>{{ company.hours.friday.start }} - {{ company.hours.friday.end }}</p>
+              </div>
+            </div>
+            <div class="input">
+              <div>
+                <p>Saturday</p>
+              </div>
+              <div>
+                <p>{{ company.hours.saturday.start }} - {{ company.hours.saturday.end }}</p>
+              </div>
+            </div>
+            <div class="input">
+              <div>
+                <p>Sunday</p>
+              </div>
+              <div>
+                <p>{{ company.hours.sunday.start }} - {{ company.hours.sunday.end }}</p>
               </div>
             </div>
           </div>
@@ -237,7 +387,7 @@
           </div>
         </div>
         <div class="button-div">
-          <button @click="editCompany">Edit Company</button>
+          <button @click="company.editing = true">Edit Company</button>
         </div>
       </div>
 
@@ -249,76 +399,70 @@
 <script>
 import states from '@/assets/data/states.js'
 import hours from '@/assets/data/hours.js'
+import api from '@/api/api'
 
 export default {
   data () {
     return {
       profile: {
-        firstName: 'Greg',
-        lastName: 'Stephens',
-        email: 'gstephe7@gmail.com',
-        password: 'Tonyhawk21!',
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
         editing: false
       },
       company: {
-        name: 'Benco Welding Inc.',
-        street: '1162 Winder Industrial Pkwy',
-        city: 'Winder',
-        state: 'GA',
-        zipcode: '30656',
-        contactName: 'Butch Davis',
-        contactPhone: '678-233-7110',
-        contactEmail: 'butch@bencowelding.com',
+        name: '',
+        street: '',
+        city: '',
+        state: '',
+        zipcode: '',
+        contactName: '',
+        contactPhone: '',
+        contactEmail: '',
         editing: false,
         delivery: {
-          offered: true,
-          price: 2.25,
-          maxDistance: 50,
-          maxLength: 22,
-          maxWeight: 3000
+          offered: null,
+          price: null,
+          maxDistance: null,
+          maxLength: null,
+          maxWeight: null
         },
         cut: {
-          offered: true,
-          price: 5
+          offered: null,
+          price: null
         },
-        hours: [
-          {
-            day: 'Monday',
-            start: '6:00am',
-            end: '4:30pm'
-          },
-          {
-            day: 'Tuesday',
-            start: '6:00am',
-            end: '4:30pm'
-          },
-          {
-            day: 'Wednesday',
-            start: '6:00am',
-            end: '4:30pm'
-          },
-          {
-            day: 'Thursday',
-            start: '6:00am',
-            end: '4:30pm'
-          },
-          {
-            day: 'Friday',
+        hours: {
+          monday: {
             start: '',
             end: ''
           },
-          {
-            day: 'Saturday',
+          tuesday: {
             start: '',
             end: ''
           },
-          {
-            day: 'Sunday',
+          wednesday: {
+            start: '',
+            end: ''
+          },
+          thursday: {
+            start: '',
+            end: ''
+          },
+          friday: {
+            start: '',
+            end: ''
+          },
+          saturday: {
+            start: '',
+            end: ''
+          },
+          sunday: {
             start: '',
             end: ''
           }
-        ],
-        remarks: 'Pickups and delivery between 7:00am and 2:30pm Monday-Thursday. Pickups must report to the office or ask to see Butch before picking up material.'
+        },
+        remarks: ''
       },
       states: states,
       hours: hours
@@ -327,10 +471,96 @@ export default {
   methods: {
     editProfile () {
       this.profile.editing = !this.profile.editing
+
+      api.axios.put(`${api.baseUrl}/users/edit-user`, {
+        email: this.profile.email,
+        firstName: this.profile.firstName,
+        lastName: this.profile.lastName,
+        password: this.profile.password
+      })
+      .then(res => {
+        console.log(res)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+
     },
     editCompany () {
       this.company.editing = !this.company.editing
+
+      api.axios.put(`${api.baseUrl}/users/edit-company`, {
+        name: this.company.name,
+        street: this.company.street,
+        city: this.company.city,
+        state: this.company.state,
+        zipcode: this.company.zipcode,
+        contactName: this.company.contactName,
+        phone: this.company.contactPhone,
+        email: this.company.contactEmail,
+        delivery: this.company.delivery,
+        cut: this.company.cut,
+        hours: this.company.hours,
+        remarks: this.company.remarks
+      })
+      .then((res) => {
+        console.log(res)
+        //location.reload()
+      })
+      .catch(err => {
+        console.log(err)
+      })
+
     }
+  },
+  created () {
+
+    // retrieve user profile
+    api.axios.get(`${api.baseUrl}/users/user`, {
+      params: {
+        email: this.$store.getters.userEmail
+      }
+    })
+    .then(res => {
+      this.profile.email = res.data.user.email
+      this.profile.firstName = res.data.user.firstName
+      this.profile.lastName = res.data.user.lastName
+    })
+    .catch(err => {
+      console.log(err)
+    })
+
+    // retrieve company profile
+    api.axios.get(`${api.baseUrl}/users/company`, {
+      params: {
+        name: this.$store.getters.companyName
+      }
+    })
+    .then(res => {
+      const co = res.data.company
+      this.company.name = co.name
+      this.company.street = co.street
+      this.company.city = co.city
+      this.company.state = co.state
+      this.company.zipcode = co.zipcode
+      this.company.contactName = co.contactName
+      this.company.contactPhone = co.phone
+      this.company.contactEmail = co.email
+      this.company.remarks = co.remarks
+      if (co.delivery) {
+        this.company.delivery = co.delivery
+      }
+      if (co.cut) {
+        this.company.cut = co.cut
+      }
+      if (co.hours) {
+        this.company.hours = co.hours
+      }
+    })
+    .catch(err => {
+      console.log(err)
+    })
+
   }
 }
 </script>

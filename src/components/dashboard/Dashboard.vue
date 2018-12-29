@@ -19,8 +19,11 @@ export default {
   },
   data () {
     return {
-      company: 'Benco Welding Inc.'
+      company: ''
     }
+  },
+  created () {
+    this.company = this.$store.getters.companyName
   }
 }
 </script>

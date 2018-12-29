@@ -87,8 +87,8 @@ export default {
               if (res.data.token) {
                 this.$store.dispatch('login', {
                   token: res.data.token,
-                  company: this.company,
                   user: {
+                    company: this.company,
                     email: this.email,
                     admin: true
                   }

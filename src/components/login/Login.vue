@@ -86,6 +86,7 @@ export default {
                   email: res.data.user.email
                 }
               })
+              this.$router.push(`${this.$route.query.redirect}`)
             }
           })
           .catch((err) => {

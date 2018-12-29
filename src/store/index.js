@@ -7,7 +7,7 @@ export default new Vuex.Store({
 
   state: {
     auth: false,
-    token: localStorage.getItem('token') || '',
+    token: null,
     user: {}
   },
 
@@ -16,7 +16,6 @@ export default new Vuex.Store({
       state.auth = true
       state.token = payload.token
       state.user = payload.user
-      console.log(state)
     },
     logout (state) {
       state.auth = false
@@ -26,27 +25,25 @@ export default new Vuex.Store({
   },
 
   actions: {
-    login ({commit}, {token, user}) {
-      localStorage.setItem('token', token)
-      commit('login', {
-        token,
-        user
-      })
+    login ({commit}, token) {
+      $cookies.set('token', token, '14d')
+      commit('login', token)
     },
     logout ({commit}) {
-      localStorage.removeItem('token')
+      $cookies.remove('token')
       commit('logout')
     }
   },
 
   getters: {
     loggedIn: (state) => {
-      return {
-        auth: state.auth,
-        token: state.token,
-        company: state.company,
-        user: state.user
-      }
+      return state.auth
+    },
+    companyName: (state) => {
+      return state.user.company
+    },
+    userEmail: (state) => {
+      return state.user.email
     }
   }
 

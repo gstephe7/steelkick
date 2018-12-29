@@ -14,6 +14,17 @@ export default {
   components: {
     Nav,
     Footer
+  },
+  beforeCreate () {
+    const token = this.$cookies.get('token')
+    if (token) {
+      this.$store.dispatch('login', {
+        user: token.user,
+        token: token.token
+      })
+    } else {
+      this.$store.dispatch('logout')
+    }
   }
 }
 </script>

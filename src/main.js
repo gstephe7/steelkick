@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
+import VueCookies from 'vue-cookies'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {
   faBars,
@@ -45,6 +46,9 @@ import router from './router'
 
 // vuex store
 import store from './store'
+
+// Vue cookies
+Vue.use(VueCookies)
 
 Vue.config.productionTip = false
 

@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import store from '@/store'
 
 //import route components
 import Home from '@/components/home/Home'
@@ -110,7 +111,7 @@ const router = new Router({
       name: 'Dashboard',
       component: Dashboard,
       meta: {
-        auth: true
+        requiresAuth: true
       },
       children: [
         {
@@ -192,14 +193,17 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.auth)) {
-    if (localStorage.getItem('token') == null) {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    const token = $cookies.get('token')
+    if (token) {
+      next()
+    } else {
       next({
         path: '/login',
-        params: { nextUrl: to.fullPath }
+        query: {
+          redirect: to.fullPath
+        }
       })
-    } else {
-      next()
     }
   } else {
     next()
