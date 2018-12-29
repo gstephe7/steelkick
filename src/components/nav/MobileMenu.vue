@@ -11,7 +11,7 @@
         <router-link :to="{ name: 'DashboardHome' }">Dashboard</router-link>
       </li>
       <li>
-        <router-link :to="{ name: 'Home' }">Create Account</router-link>
+        <router-link :to="{ name: 'Register' }">Create Account</router-link>
       </li>
     </ul>
   </div>

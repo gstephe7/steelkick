@@ -43,9 +43,13 @@ Vue.component('fa-icon', FontAwesomeIcon)
 //vue-router
 import router from './router'
 
+// vuex store
+import store from './store'
+
 Vue.config.productionTip = false
 
 new Vue({
   router,
+  store,
   render: h => h(App),
 }).$mount('#app')

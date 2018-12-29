@@ -19,12 +19,15 @@
       <p v-if="errors.company">Please enter your company's name.</p>
       <p v-if="errors.email">Please enter a valid email address</p>
       <p v-if="errors.password">Password must be longer than 7 characters</p>
+      <p v-if="errors.server">{{ errors.server }}</p>
     </div>
 
   </div>
 </template>
 
 <script>
+import api from '@/api/api'
+
 export default {
   data () {
     return {
@@ -34,7 +37,8 @@ export default {
       errors: {
         company: false,
         email: false,
-        password: false
+        password: false,
+        server: null
       },
       verified: false
     }
@@ -67,7 +71,35 @@ export default {
       this.checkForm()
 
       if (this.verified) {
-        this.$router.push('dashboard/edit-profile')
+        api.axios.post(`${api.baseUrl}/users/new-company`, {
+          name: this.company,
+          email: this.email,
+          password: this.password
+        })
+          .then((res) => {
+            if (res.status === 500) {
+              this.errors.server = res.data.message
+            } else if (res.status === 400) {
+              console.log('success, but no')
+              this.errors.server = res.data.message
+            } else if (res.status === 200) {
+              console.log(res)
+              if (res.data.token) {
+                this.$store.dispatch('login', {
+                  token: res.data.token,
+                  company: this.company,
+                  user: {
+                    email: this.email,
+                    admin: true
+                  }
+                })
+              }
+              this.$router.push('dashboard/edit-profile')
+            }
+          })
+          .catch((err) => {
+            this.errors.server = 'An account for this company has already been created!'
+          })
       }
     }
   }

@@ -109,6 +109,9 @@ const router = new Router({
       path: '/dashboard',
       name: 'Dashboard',
       component: Dashboard,
+      meta: {
+        auth: true
+      },
       children: [
         {
           path: 'home',
@@ -185,6 +188,21 @@ const router = new Router({
   ],
   scrollBehavior () {
     return { x: 0, y: 0 }
+  }
+})
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.auth)) {
+    if (localStorage.getItem('token') == null) {
+      next({
+        path: '/login',
+        params: { nextUrl: to.fullPath }
+      })
+    } else {
+      next()
+    }
+  } else {
+    next()
   }
 })
 

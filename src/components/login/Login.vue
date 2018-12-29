@@ -14,6 +14,7 @@
       <div class="errors">
         <p v-if="errors.email">Please enter your email</p>
         <p v-if="errors.password">Please enter your password</p>
+        <p v-if="errors.server">{{ errors.server }}</p>
       </div>
 
       <router-link :to="{ name: 'PasswordRecovery' }">
@@ -28,6 +29,8 @@
 </template>
 
 <script>
+import api from '@/api/api'
+
 export default {
   data () {
     return {
@@ -35,7 +38,8 @@ export default {
       password: '',
       errors: {
         email: false,
-        password: false
+        password: false,
+        server: null
       },
       verified: false
     }
@@ -62,7 +66,31 @@ export default {
       this.checkForm()
 
       if (this.verified) {
-        this.$router.push('dashboard/home')
+        api.axios.post(`${api.baseUrl}/users/login`, {
+          email: this.email,
+          password: this.password
+        })
+          .then((res) => {
+            if (res.status === 500) {
+              this.errors.server = res.data.message
+            } else if (res.status === 400) {
+              this.errors.server = res.data.message
+            } else if (res.status === 401) {
+              this.errors.server = res.data.message
+            } else if (res.status === 200) {
+              this.$store.dispatch('login', {
+                token: res.data.token,
+                user: {
+                  admin: res.data.user.admin,
+                  company: res.data.user.company,
+                  email: res.data.user.email
+                }
+              })
+            }
+          })
+          .catch((err) => {
+            this.errors.server = 'Please try again with different credentials.'
+          })
       }
     }
   }
