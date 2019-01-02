@@ -21,6 +21,7 @@
 </template>
 
 <script>
+import api from '@/api/api'
 import UserPreview from '@/components/dashboard/users/UserPreview'
 
 export default {
@@ -29,44 +30,7 @@ export default {
   },
   data () {
     return {
-      users: [
-        {
-          firstName: 'Greg',
-          lastName: 'Stephens',
-          email: 'gstephe7@gmail.com',
-          admin: true
-        },
-        {
-          firstName: 'Jose',
-          lastName: 'Valencia',
-          email: 'jvalencia@gmail.com',
-          admin: false
-        },
-        {
-          firstName: 'Tyler',
-          lastName: 'Keifer',
-          email: 'tkmoney@gmail.com',
-          admin: true
-        },
-        {
-          firstName: 'Butch',
-          lastName: 'Davis',
-          email: 'butch@bencowelding.com',
-          admin: true
-        },
-        {
-          firstName: 'Ken',
-          lastName: 'Bennett',
-          email: 'ken@bencowelding.com',
-          admin: true
-        },
-        {
-          firstName: 'Al',
-          lastName: 'Yargo',
-          email: 'ayargo@gmail.com',
-          admin: false
-        }
-      ]
+      users: []
     }
   },
   methods: {
@@ -78,6 +42,19 @@ export default {
         }
       })
     }
+  },
+  created () {
+    api.axios.get(`${api.baseUrl}/users/all-users`, {
+      params: {
+        company: this.$store.getters.companyName
+      }
+    })
+    .then(res => {
+      this.users = res.data.users
+    })
+    .catch(err => {
+      console.log(err)
+    })
   }
 }
 </script>

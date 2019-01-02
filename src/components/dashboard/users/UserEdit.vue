@@ -21,7 +21,7 @@
 
     <div class="buttons">
       <button @click="$router.push('manage-users')">Cancel</button>
-      <button class="success" @click="$router.push('manage-users')">Update User</button>
+      <button class="success" @click="updateUser">Update User</button>
     </div>
 
     <div class="buttons">
@@ -32,7 +32,7 @@
       <p>Are you sure you want to delete this user?</p>
       <div class="delete-buttons">
         <button @click="toggleDelete">No</button>
-        <button @click="$router.push('manage-users')">Yes</button>
+        <button @click="deleteUser">Yes</button>
       </div>
     </div>
 
@@ -40,6 +40,8 @@
 </template>
 
 <script>
+import api from '@/api/api'
+
 export default {
   data () {
     return {
@@ -51,6 +53,33 @@ export default {
   methods: {
     toggleDelete () {
       this.showDelete = !this.showDelete
+    },
+    updateUser () {
+      api.axios.put(`${api.baseUrl}/users/edit-user`, {
+        email: this.user.email,
+        firstName: this.user.firstName,
+        lastName: this.user.lastName,
+        admin: this.admin
+      })
+      .then(res => {
+        this.$router.push('manage-users')
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    },
+    deleteUser () {
+      api.axios.delete(`${api.baseUrl}/users/delete-user`, {
+        params: {
+          email: this.user.email
+        }
+      })
+      .then(res => {
+        this.$router.push('manage-users')
+      })
+      .catch(err => {
+        console.log(err)
+      })
     }
   }
 }

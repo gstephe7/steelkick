@@ -48,6 +48,8 @@
 </template>
 
 <script>
+import api from '@/api/api'
+
 export default {
   data () {
     return {
@@ -107,7 +109,20 @@ export default {
       this.checkForm()
 
       if (this.verified) {
-        this.$router.push('new-user-confirmed')
+        api.axios.post(`${api.baseUrl}/users/new-user`, {
+          firstName: this.firstName,
+          lastName: this.lastName,
+          email: this.email,
+          password: this.password,
+          admin: this.admin,
+          company: this.$store.getters.companyName
+        })
+        .then(res => {
+          this.$router.push('new-user-confirmed')
+        })
+        .catch(err => {
+          console.log(err)
+        })
       }
     },
     cancel () {
