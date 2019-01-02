@@ -89,6 +89,7 @@ export default {
                   token: res.data.token,
                   user: {
                     company: this.company,
+                    companyId: res.data.user.companyId,
                     email: this.email,
                     admin: true
                   }

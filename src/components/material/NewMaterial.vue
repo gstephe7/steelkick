@@ -129,6 +129,7 @@
 </template>
 
 <script>
+import api from '@/api/api'
 import material from '@/assets/data/material.js'
 import ConfirmationPopup from '@/components/popups/ConfirmationPopup'
 
@@ -172,6 +173,23 @@ export default {
         domestic: false
       },
       verified: false
+    }
+  },
+  computed: {
+    weightPerFoot () {
+
+      if (this.shape != 'Shape' && this.dimension != 'Dimension') {
+
+        let dimension = this.dimension
+
+        material[this.shape].forEach(item => {
+          if (item.dimension === dimension) {
+            return item.weight
+          }
+        })
+
+      }
+
     }
   },
   methods: {
@@ -244,11 +262,38 @@ export default {
             }
           })
         } else {
-          this.$router.push({
-            path: '/material-confirmation',
-            query: {
-              newEntry: true
-            }
+          api.axios.post(`${api.baseUrl}/material/new-material`, {
+            shape: this.shape,
+            dimension: this.dimension,
+            feet: this.feet,
+            inches: this.inches,
+            numerator: this.numerator,
+            denominator: this.denominator,
+            quantity: this.quantity,
+            location: this.location,
+            domestic: this.domestic,
+            painted: this.painted,
+            galvanized: this.galvanized,
+            condition: this.condition,
+            grade: this.grade,
+            heat: this.heat,
+            forSale: this.forSale,
+            cwt: this.cwt,
+            remarks: this.remarks,
+            weightPerFoot: this.weightPerFoot,
+            company: this.$store.getters.companyId
+          })
+          .then(res => {
+            console.log(res)
+            this.$router.push({
+              path: '/material-confirmation',
+              query: {
+                newEntry: true
+              }
+            })
+          })
+          .catch(err => {
+            console.log(err)
           })
         }
       }

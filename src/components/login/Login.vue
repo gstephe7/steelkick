@@ -83,6 +83,7 @@ export default {
                 user: {
                   admin: res.data.user.admin,
                   company: res.data.user.company,
+                  companyId: res.data.user.companyId,
                   email: res.data.user.email
                 }
               })

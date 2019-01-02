@@ -42,6 +42,9 @@ export default new Vuex.Store({
     companyName: (state) => {
       return state.user.company
     },
+    companyId: (state) => {
+      return state.user.companyId
+    },
     userEmail: (state) => {
       return state.user.email
     }
