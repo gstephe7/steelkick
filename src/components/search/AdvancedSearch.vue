@@ -24,7 +24,7 @@
           <div class="length">
             <input class="feet-input" type="number" placeholder="10" maxlength="2" v-model="feet">'
             <input class="inches-input" type="number" placeholder="9" maxlength="2" v-model="inches">"
-            <input class="numerator-input" type="number" maxlength="2" v-model="numerator"> /
+            <input class="numerator-input" type="number" maxlength="2" v-model="numerator">/
             <input class="denominator-input" type="number" maxlength="2" v-model="denominator">
           </div>
           <select v-model="domestic">
@@ -81,7 +81,7 @@
           </select>
           <select v-model="company">
             <option value="null" selected disabled>Company</option>
-            <option v-for="company in stateCompanies" :value="company" :key="company">{{ company }}</option>
+            <option v-for="company in companies" :value="company" :key="company">{{ company }}</option>
           </select>
         </div>
 
@@ -99,7 +99,9 @@
 </template>
 
 <script>
+import api from '@/api/api'
 import material from '@/assets/data/material.js'
+import states from '@/assets/data/states.js'
 
 export default {
   props: ['inventory', 'buying', 'searching'],
@@ -111,8 +113,8 @@ export default {
         'c',
         'l'
       ],
-      shape: 'Shape',
       dimensions: [],
+      shape: 'Shape',
       dimension: 'Dimension',
       feet: null,
       inches: null,
@@ -127,20 +129,8 @@ export default {
       delivery: null,
       state: null,
       company: null,
-      states: [
-        'GA',
-        'AL',
-        'SC',
-        'FL',
-        'TN',
-        'NC'
-      ],
-      stateCompanies: [
-        'Benco Welding Inc.',
-        'AMD Welding',
-        'King Steel',
-        'RAI'
-      ]
+      states: states,
+      companies: []
     }
   },
   computed: {
@@ -172,13 +162,17 @@ export default {
       this.dimensions = newDimensions
     },
     search () {
+      let buying = () => {
+        if (!this.inventory) return true
+        else return false
+      }
       this.$router.push({
         name: 'Listings',
         query: {
           update: true,
+          forSale: buying(),
           shape: this.shape,
           dimension: this.dimension,
-          length: this.length,
           feet: this.feet,
           inches: this.inches,
           numerator: this.numerator,

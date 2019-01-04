@@ -27,7 +27,18 @@
         <div class="heading">
           <div>
             <p>
-              {{ listing.feet }}' {{ listing.inches }}" <span v-if="listing.numerator">{{ listing.numerator }}/{{ listing.denominator }}</span>
+              <span v-if="listing.feet">
+                {{ listing.feet }}'
+              </span>
+              <span v-if="listing.inches">
+                {{ listing.inches }}"
+              </span>
+              <span v-else>
+                0"
+              </span>
+              <span v-if="listing.numerator">
+                {{ listing.numerator }}/{{ listing.denominator }}
+              </span>
             </p>
           </div>
           <div>
@@ -61,7 +72,7 @@
           <div class="info-container">
             <div>
               <h4>
-                {{ company.company }}
+                {{ company.name }}
               </h4>
             </div>
             <div>
@@ -70,16 +81,16 @@
               </p>
             </div>
             <div>
-              <p v-if="company.delivery">
-                Delivery: ${{ company.deliveryPrice }}/mile
+              <p v-if="company.delivery.offered">
+                Delivery: ${{ company.delivery.price }}/mile
               </p>
               <p v-else>
                 Delivery: N/A
               </p>
             </div>
             <div>
-              <p v-if="company.cut">
-                Cut to length: ${{ company.cutPrice }}/cut
+              <p v-if="company.cut.offered">
+                Cut to length: ${{ company.cut.price }}/cut
               </p>
               <p v-else>
                 Cut to length: N/A
@@ -108,9 +119,9 @@
               <label>Delivery?</label>
             </div>
             <div class="input">
-              <select v-if="company.delivery" v-model="order.delivery">
+              <select v-if="company.delivery.offered" v-model="order.delivery">
                 <option :value="false">Pickup</option>
-                <option :value="true">Delivery (${{ company.deliveryPrice }}/mile)</option>
+                <option :value="true">Delivery (${{ company.delivery.price }}/mile)</option>
               </select>
               <select v-else>
                 <option selected disabled>Pickup Only</option>
@@ -124,8 +135,8 @@
               <label>Cut to length?</label>
             </div>
             <div class="input">
-              <button v-if="company.cut" class="add-cut" @click="addCut">
-                Add Cut (${{ company.cutPrice }}/cut)
+              <button v-if="company.cut.offered" class="add-cut" @click="addCut">
+                Add Cut (${{ company.cut.price }}/cut)
               </button>
               <button v-else disabled class="add-cut">
                 Does not offer
@@ -230,7 +241,7 @@ export default {
         id: this.$route.query.item.id,
         shape: this.$route.query.item.shape,
         dimension: this.$route.query.item.dimension,
-        weight: this.$route.query.item.weight,
+        weightPerFoot: this.$route.query.item.weightPerFoot,
         feet: this.$route.query.item.feet,
         inches: this.$route.query.item.inches,
         numerator: this.$route.query.item.numerator,
@@ -244,17 +255,22 @@ export default {
         galvanized: this.$route.query.item.galvanized
       },
       company: {
-        company: this.$route.query.item.company,
-        city: this.$route.query.item.city,
-        state: this.$route.query.item.state,
-        cut: this.$route.query.item.cut,
-        cutPrice: this.$route.query.item.cutPrice,
-        cutKerf: this.$route.query.item.cutKerf,
-        delivery: this.$route.query.item.delivery,
-        deliveryMaxWeight: this.$route.query.item.deliveryMaxWeight,
-        deliveryMaxLength: this.$route.query.item.deliveryMaxLength,
-        deliveryPrice: this.$route.query.item.deliveryPrice,
-        deliveryMaxDistance: this.$route.query.item.deliveryMaxDistance
+        name: this.$route.query.item.company.name,
+        city: this.$route.query.item.company.city,
+        state: this.$route.query.item.company.state,
+        cut: {
+          offered: this.$route.query.item.company.cut.offered,
+          price: this.$route.query.item.company.cut.price,
+          kerf: this.$route.query.item.company.cut.kerf
+        },
+        delivery: {
+          offered: this.$route.query.item.company.delivery.offered,
+          price: this.$route.query.item.company.delivery.price,
+          maxDistance: this.$route.query.item.company.delivery.maxDistance,
+          maxLength: this.$route.query.item.company.delivery.maxLength,
+          maxWeight: this.$route.query.item.company.delivery.maxWeight,
+        },
+        remarks: this.$route.query.item.company.remarks
       },
       order: {
         id: 'gshaolw12',
@@ -270,6 +286,7 @@ export default {
     maxQuantity (e) {
       if (e.target.value > this.listing.quantity) {
         e.target.value = this.listing.quantity
+        this.order.quantity = this.listing.quantity
       }
       if (!e.target.value) {
         this.order.quantity = 1
@@ -315,7 +332,7 @@ export default {
       let length = 0
 
       this.order.cuts.forEach(cut => {
-        length += cut.lengthInches + this.company.cutKerf
+        length += cut.lengthInches + this.company.cut.kerf
       })
 
       if (length > this.totalLengthInches) {
@@ -356,7 +373,7 @@ export default {
     // calculates total weight of order
     totalWeight () {
       if (this.totalLengthFeet) {
-        return this.totalLengthFeet * this.listing.weight
+        return this.totalLengthFeet * this.listing.weightPerFoot
       }
     },
     // calculates cost of material alone
@@ -367,7 +384,7 @@ export default {
     // calculate cost of delivery
     totalDeliveryPrice () {
       if (this.order.delivery) {
-        return parseFloat(this.order.distance) * parseFloat(this.company.deliveryPrice)
+        return parseFloat(this.order.distance) * parseFloat(this.company.delivery.price)
       } else {
         return 0
       }
@@ -382,7 +399,7 @@ export default {
           cutQuantity += parseFloat(cut.quantity)
         })
 
-        return cutQuantity * parseFloat(this.company.cutPrice)
+        return cutQuantity * parseFloat(this.company.cut.price)
       } else {
         return 0
       }

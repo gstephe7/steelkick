@@ -29,6 +29,9 @@
           <span v-if="item.inches">
             {{ item.inches }}"
           </span>
+          <span v-else>
+            0"
+          </span>
           <span v-if="item.numerator">
             {{ item.numerator }}/{{ item.denominator }}
           </span>
@@ -77,12 +80,12 @@
         </div>
 
         <div v-if="buying" class="company-info">
-          <p class="company-name">{{ item.company }}</p>
-          <p>{{ item.city }}, {{ item.state }}</p>
-          <p v-if="item.delivery">
+          <p class="company-name">{{ item.company.name }}</p>
+          <p>{{ item.company.city }}, {{ item.company.state }}</p>
+          <p v-if="item.company.delivery.offered">
             <span class="check">&#10004;</span> Offers Delivery
           </p>
-          <p v-if="item.cut">
+          <p v-if="item.company.cut.offered">
             <span class="check">&#10004;</span> Offers Cut to Order
           </p>
         </div>

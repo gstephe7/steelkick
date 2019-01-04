@@ -61,11 +61,11 @@
 
       <!-- show if no listings were found -->
       <div v-else class="results">
-        <div v-if="buying">
+        <div v-if="buying" class="results">
           <h3>We're sorry, we couldn't find the material you're looking for. You can try searching again with different settings.</h3>
           <button @click="$router.push('Search')">Back to Search</button>
         </div>
-        <div v-if="inventory">
+        <div v-if="inventory" class="results">
           <h3>No material found</h3>
           <button @click="$router.push('/dashboard/home')">Back to Dashboard</button>
         </div>

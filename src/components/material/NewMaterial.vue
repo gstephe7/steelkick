@@ -56,7 +56,7 @@
             <option value="false">Foreign</option>
           </select>
           <select v-model="condition">
-            <option selected disabled value="Fair">
+            <option selected disabled :value="null">
               Condition
             </option>
             <option value="Excellent">Excellent</option>
@@ -147,7 +147,7 @@ export default {
         'c',
         'l'
       ],
-      id: '',
+      _id: null,
       shape: 'Shape',
       dimensions: [],
       dimension: 'Dimension',
@@ -160,7 +160,7 @@ export default {
       domestic: null,
       painted: false,
       galvanized: false,
-      condition: 'Fair',
+      condition: null,
       grade: null,
       heat: null,
       forSale: false,
@@ -180,13 +180,16 @@ export default {
 
       if (this.shape != 'Shape' && this.dimension != 'Dimension') {
 
+        let weight = null
         let dimension = this.dimension
 
         material[this.shape].forEach(item => {
-          if (item.dimension === dimension) {
-            return item.weight
+          if (item.dimension == dimension) {
+            weight = item.weight
           }
         })
+
+        return weight
 
       }
 
@@ -255,13 +258,41 @@ export default {
 
       if (this.verified) {
         if (this.edit) {
-          this.$router.push({
-            path: '/material-confirmation',
-            query: {
-              edit: true
-            }
+          api.axios.put(`${api.baseUrl}/material/edit-material`, {
+            _id: this._id,
+            shape: this.shape,
+            dimension: this.dimension,
+            feet: this.feet,
+            inches: this.inches,
+            numerator: this.numerator,
+            denominator: this.denominator,
+            quantity: this.quantity,
+            location: this.location,
+            domestic: this.domestic,
+            painted: this.painted,
+            galvanized: this.galvanized,
+            condition: this.condition,
+            grade: this.grade,
+            heat: this.heat,
+            forSale: this.forSale,
+            cwt: this.cwt,
+            remarks: this.remarks,
+            weightPerFoot: this.weightPerFoot
           })
+          .then(res => {
+            this.$router.push({
+              path: '/material-confirmation',
+              query: {
+                edit: true
+              }
+            })
+          })
+          .catch(err => {
+            console.log(err)
+          })
+
         } else {
+          console.log(this.$store)
           api.axios.post(`${api.baseUrl}/material/new-material`, {
             shape: this.shape,
             dimension: this.dimension,
@@ -302,12 +333,22 @@ export default {
       this.showDeletePopup = !this.showDeletePopup
     },
     deleteItem () {
-      this.$router.push('inventory')
+      api.axios.delete(`${api.baseUrl}/material/delete-material`, {
+        params: {
+          _id: this._id
+        }
+      })
+      .then(res => {
+        this.$router.push('inventory')
+      })
+      .catch(err => {
+        console.log(err)
+      })
     }
   },
   created () {
     if (this.edit) {
-      this.id = this.item.id
+      this._id = this.item._id
       this.shape = this.item.shape
       this.pushDimensions()
       this.dimension = this.item.dimension
