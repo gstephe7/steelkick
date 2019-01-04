@@ -66,11 +66,14 @@ export default {
       this.checkForm()
 
       if (this.verified) {
-        api.axios.post(`${api.baseUrl}/users/login`, {
-          email: this.email,
-          password: this.password
-        })
+        this.$store.dispatch('loading')
+        api.axios
+          .post(`${api.baseUrl}/users/login`, {
+            email: this.email,
+            password: this.password
+          })
           .then((res) => {
+            this.$store.dispatch('complete')
             if (res.status === 500) {
               this.errors.server = res.data.message
             } else if (res.status === 400) {
@@ -91,6 +94,7 @@ export default {
             }
           })
           .catch((err) => {
+            this.$store.dispatch('complete')
             this.errors.server = 'Please try again with different credentials.'
           })
       }

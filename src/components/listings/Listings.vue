@@ -23,8 +23,8 @@ export default {
     }
   },
   created () {
-    let query = this.$route.query
-
+    const query = this.$route.query
+    this.$store.dispatch('loading')
     api.axios.get(`${api.baseUrl}/material/search-material`, {
       params: {
         forSale: query.forSale,
@@ -46,11 +46,12 @@ export default {
       }
     })
     .then((res) => {
-      console.log(res)
+      this.$store.dispatch('complete')
       this.listings = res.data.material
     })
     .catch((err) => {
-      console.log(err)
+      this.$store.dispatch('complete')
+      this.listings = []
     })
   }
 }

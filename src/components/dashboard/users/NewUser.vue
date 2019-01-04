@@ -109,6 +109,7 @@ export default {
       this.checkForm()
 
       if (this.verified) {
+        this.$store.dispatch('loading')
         api.axios.post(`${api.baseUrl}/users/new-user`, {
           firstName: this.firstName,
           lastName: this.lastName,
@@ -118,10 +119,11 @@ export default {
           company: this.$store.getters.companyName
         })
         .then(res => {
+          this.$store.dispatch('complete')
           this.$router.push('new-user-confirmed')
         })
         .catch(err => {
-          console.log(err)
+          this.$store.dispatch('complete')
         })
       }
     },

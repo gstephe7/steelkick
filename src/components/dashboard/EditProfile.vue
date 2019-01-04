@@ -515,6 +515,7 @@ export default {
   },
   created () {
 
+    this.$store.dispatch('loading')
     // retrieve user profile
     api.axios.get(`${api.baseUrl}/users/user`, {
       params: {
@@ -522,12 +523,13 @@ export default {
       }
     })
     .then(res => {
+      this.$store.dispatch('complete')
       this.profile.email = res.data.user.email
       this.profile.firstName = res.data.user.firstName
       this.profile.lastName = res.data.user.lastName
     })
     .catch(err => {
-      console.log(err)
+      this.$store.dispatch('complete')
     })
 
     // retrieve company profile
@@ -537,6 +539,7 @@ export default {
       }
     })
     .then(res => {
+      this.$store.dispatch('complete')
       const co = res.data.company
       this.company.name = co.name
       this.company.street = co.street
@@ -558,7 +561,7 @@ export default {
       }
     })
     .catch(err => {
-      console.log(err)
+      this.$store.dispatch('complete')
     })
 
   }

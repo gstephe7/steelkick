@@ -25,13 +25,18 @@
               <router-link :to="{ name: 'Search' }">Buy Steel</router-link>
             </li>
             <li>
-              <router-link :to="{ name: 'NewListing' }">Sell Steel</router-link>
+              <router-link :to="{ name: 'AddMaterial' }">Sell Steel</router-link>
             </li>
             <li>
               <router-link :to="{ name: 'DashboardHome' }">Dashboard</router-link>
             </li>
             <li>
-              <router-link :to="{ name: 'Register' }">Create Account</router-link>
+              <router-link v-if="$store.getters.loggedIn" :to="{ name: 'Logout' }">
+                <span @click="$store.dispatch('logout')">Logout</span>
+              </router-link>
+              <router-link v-else :to="{ name: 'Register' }">
+                Create Account
+              </router-link>
             </li>
           </ul>
         </div>

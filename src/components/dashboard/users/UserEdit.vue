@@ -55,6 +55,7 @@ export default {
       this.showDelete = !this.showDelete
     },
     updateUser () {
+      this.$store.dispatch('loading')
       api.axios.put(`${api.baseUrl}/users/edit-user`, {
         email: this.user.email,
         firstName: this.user.firstName,
@@ -62,23 +63,26 @@ export default {
         admin: this.admin
       })
       .then(res => {
+        this.$store.dispatch('complete')
         this.$router.push('manage-users')
       })
       .catch(err => {
-        console.log(err)
+        this.$store.dispatch('complete')
       })
     },
     deleteUser () {
+      this.$store.dispatch('loading')
       api.axios.delete(`${api.baseUrl}/users/delete-user`, {
         params: {
           email: this.user.email
         }
       })
       .then(res => {
+        this.$store.dispatch('complete')
         this.$router.push('manage-users')
       })
       .catch(err => {
-        console.log(err)
+        this.$store.dispatch('complete')
       })
     }
   }

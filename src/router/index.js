@@ -28,6 +28,7 @@ import NewUser from '@/components/dashboard/users/NewUser'
 import NewUserConfirmation from '@/components/dashboard/users/NewUserConfirmation'
 import EditProfile from '@/components/dashboard/EditProfile'
 import Login from '@/components/login/Login'
+import LogoutConfirmation from '@/components/logout/LogoutConfirmation'
 import PasswordRecovery from '@/components/login/PasswordRecovery'
 import Register from '@/components/register/Register'
 import PasswordRecoveryConfirmation from '@/components/login/PasswordRecoveryConfirmation'
@@ -90,6 +91,11 @@ const router = new Router({
       path: '/login',
       name: 'Login',
       component: Login
+    },
+    {
+      path: '/logout',
+      name: 'Logout',
+      component: LogoutConfirmation
     },
     {
       path: '/password-recovery',

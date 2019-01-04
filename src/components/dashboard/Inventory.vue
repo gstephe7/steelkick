@@ -22,18 +22,28 @@ export default {
     }
   },
   created () {
-    api.axios.get(`${api.baseUrl}/material/inventory`, {
+    const query = this.$route.query
+    this.$store.dispatch('loading')
+    api.axios.get(`${api.baseUrl}/material/search-material`, {
       params: {
-        company: this.$store.getters.companyId
+        company: this.$store.getters.companyId,
+        shape: query.shape,
+        dimension: query.dimension,
+        feet: query.feet,
+        domestic: query.domestic,
+        painted: query.painted,
+        galvanized: query.galvanized
       }
     })
     .then(res => {
+      this.$store.dispatch('complete')
       res.data.material.forEach(item => {
         this.material.push(item)
       })
     })
     .catch(err => {
-      console.log(err)
+      this.$store.dispatch('complete')
+      this.material = []
     })
   }
 }

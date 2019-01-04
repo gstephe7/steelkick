@@ -44,16 +44,18 @@ export default {
     }
   },
   created () {
+    this.$store.dispatch('loading')
     api.axios.get(`${api.baseUrl}/users/all-users`, {
       params: {
         company: this.$store.getters.companyName
       }
     })
     .then(res => {
+      this.$store.dispatch('complete')
       this.users = res.data.users
     })
     .catch(err => {
-      console.log(err)
+      this.$store.dispatch('complete')
     })
   }
 }

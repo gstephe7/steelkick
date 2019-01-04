@@ -8,33 +8,37 @@
       <div class="search">
 
         <div class="search-section">
-          <select @change="pushDimensions" v-model="shape">
-            <option disabled selected value="Shape">
+          <select @change="pushDimensions" v-model="shape" class="autotab">
+            <option disabled selected :value="null">
               Shape
             </option>
             <option v-for="shape in shapes" :value="shape" :key="shape">
               {{ shape.toUpperCase() }}
             </option>
           </select>
-          <select v-model="dimension">
-            <option disabled selected>Dimension</option>
-            <option v-for="dimension in dimensions" :value="dimension" :key="dimension">{{ dimension }}</option>
+          <select v-model="dimension" class="autotab">
+            <option disabled selected :value="null">
+              Dimension
+            </option>
+            <option v-for="dimension in dimensions" :value="dimension" :key="dimension">
+              {{ dimension }}
+            </option>
           </select>
         </div>
 
         <div class="search-section">
           <div class="length">
-            <input class="feet-input" type="number" placeholder="10" maxlength="2" v-model="feet">'
-            <input class="inches-input" type="number" placeholder="9" maxlength="2" v-model="inches">"
-            <input class="numerator-input" type="number" maxlength="2" v-model="numerator"> /
-            <input class="denominator-input" type="number" maxlength="2" v-model="denominator">
+            <input class="feet-input autotab" type="number" placeholder="10" maxlength="2" v-model="feet">'
+            <input class="inches-input autotab" type="number" placeholder="9" maxlength="2" v-model="inches">"
+            <input class="numerator-input autotab" type="number" maxlength="2" v-model="numerator"> /
+            <input class="denominator-input autotab" type="number" maxlength="2" v-model="denominator">
           </div>
-          <input type="number" placeholder="Zipcode" v-model="zipcode">
+          <input type="number" placeholder="Zipcode" v-model="zipcode" class="autotab" maxlength="5">
         </div>
 
       </div>
 
-      <button @click="search">Search</button>
+      <button @click="search" class="autotab">Search</button>
       <router-link :to="{ name: 'Search' }">Advanced Search</router-link>
 
     </div>
@@ -53,9 +57,9 @@ export default {
         'c',
         'l'
       ],
-      shape: 'Shape',
       dimensions: [],
-      dimension: 'Dimension',
+      shape: null,
+      dimension: null,
       feet: null,
       inches: null,
       numerator: null,
@@ -63,28 +67,8 @@ export default {
       zipcode: ''
     }
   },
-  computed: {
-    length () {
-      const feet = parseFloat(this.feet) * 12
-      const inches = parseFloat(this.inches)
-      const fraction = parseFloat(this.numerator) / parseFloat(this.denominator)
-
-      if (this.numerator && this.denominator && this.inches && this.feet) {
-        return feet + inches + fraction
-      } else if (this.inches && this.feet) {
-        return feet + inches
-      } else if (this.inches && !this.feet) {
-        return inches
-      } else if (this.feet) {
-        return feet
-      } else {
-        return 0
-      }
-
-    }
-  },
   methods: {
-    pushDimensions () {
+    pushDimensions (e) {
       const newDimensions = []
       material[this.shape].forEach(dimension => {
         newDimensions.push(dimension.dimension)
@@ -95,10 +79,19 @@ export default {
       this.$router.push({
         name: 'Listings',
         query: {
+          update: true,
           shape: this.shape,
           dimension: this.dimension,
-          length: this.length,
-          zipcode: this.zipcode
+          feet: this.feet,
+          domestic: null,
+          painted: null,
+          galvanized: null,
+          radius: '50',
+          zipcode: this.zipcode,
+          cut: null,
+          delivery: null,
+          state: null,
+          company: null
         }
       })
     }

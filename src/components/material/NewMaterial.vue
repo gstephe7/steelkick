@@ -6,7 +6,7 @@
       <div class="form">
 
         <div class="subform">
-          <select @change="pushDimensions" v-model="shape" :class="{ required : errors.shape }">
+          <select @change="pushDimensions" class="autotab" v-model="shape" :class="{ required : errors.shape }">
             <option disabled selected value="Shape">
               Shape
             </option>
@@ -14,7 +14,7 @@
               {{ shape.toUpperCase() }}
             </option>
           </select>
-          <select v-model="dimension" :class="{ required : errors.dimension }">
+          <select v-model="dimension" class="autotab" :class="{ required : errors.dimension }">
             <option disabled selected value="Dimension">Dimension</option>
             <option v-for="dimension in dimensions" :value="dimension" :key="dimension">{{ dimension }}</option>
           </select>
@@ -22,20 +22,20 @@
 
         <div class="subform">
           <div class="length" :class="{ required : errors.length }">
-            <input class="feet-input" type="number" placeholder="10" maxlength="2" v-model="feet">'
-            <input class="inches-input" type="number" placeholder="9" maxlength="2" v-model="inches">"
-            <input class="numerator-input" type="number" maxlength="2" v-model="numerator"> /
-            <input class="denominator-input" type="number" maxlength="2" v-model="denominator">
+            <input class="feet-input autotab" type="number" placeholder="10" maxlength="2" v-model="feet">'
+            <input class="inches-input autotab" type="number" placeholder="9" maxlength="2" v-model="inches">"
+            <input class="numerator-input autotab" type="number" maxlength="2" v-model="numerator"> /
+            <input class="denominator-input autotab" type="number" maxlength="2" v-model="denominator">
           </div>
-          <input type="number" class="input" v-model="quantity" placeholder="Quantity">
+          <input type="number" class="input autotab" v-model="quantity" placeholder="Quantity" maxlength="4">
         </div>
 
         <div class="subform">
-          <select v-model="painted">
+          <select v-model="painted" class="autotab">
             <option value="false">Not Painted</option>
             <option value="true">Painted</option>
           </select>
-          <select v-model="galvanized">
+          <select v-model="galvanized" class="autotab">
             <option value="false">Not Galvanized</option>
             <option value="true">Galvanized</option>
           </select>
@@ -50,12 +50,12 @@
       <div class="form">
 
         <div class="subform">
-          <select v-model="domestic" :class="{ required : errors.domestic }">
+          <select v-model="domestic" class="autotab" :class="{ required : errors.domestic }">
             <option disabled selected value="null">Steel Origin</option>
             <option value="true">Domestic</option>
             <option value="false">Foreign</option>
           </select>
-          <select v-model="condition">
+          <select v-model="condition" class="autotab">
             <option selected disabled :value="null">
               Condition
             </option>
@@ -67,7 +67,7 @@
         </div>
 
         <div class="subform">
-          <select v-model="grade">
+          <select v-model="grade" class="autotab">
             <option selected disabled value="null">
               Grade
             </option>
@@ -79,18 +79,18 @@
         </div>
 
         <div class="subform">
-          <select v-model="forSale">
+          <select v-model="forSale" class="autotab">
             <option selected disabled value="false">
               For Sale?
             </option>
             <option value="true">For Sale</option>
             <option value="false">Not For Sale</option>
           </select>
-          <input type="number" class="input" placeholder="$ Cwt (ex: 42)" v-model="cwt">
+          <input type="number" class="input autotab" placeholder="$ Cwt (ex: 42)" v-model="cwt">
         </div>
 
         <div class="subform">
-          <textarea placeholder="Additional remarks" v-model="remarks"></textarea>
+          <textarea placeholder="Additional remarks" v-model="remarks" class="autotab"></textarea>
         </div>
 
       </div>
@@ -98,7 +98,7 @@
     </div>
 
     <div class="buttons">
-      <button @click="completeEntry">{{ btnText }}</button>
+      <button @click="completeEntry" class="autotab">{{ btnText }}</button>
       <button v-if="edit" class="delete" @click="deletePopup">Delete</button>
     </div>
 
@@ -258,6 +258,7 @@ export default {
 
       if (this.verified) {
         if (this.edit) {
+          this.$store.dispatch('loading')
           api.axios.put(`${api.baseUrl}/material/edit-material`, {
             _id: this._id,
             shape: this.shape,
@@ -280,6 +281,7 @@ export default {
             weightPerFoot: this.weightPerFoot
           })
           .then(res => {
+            this.$store.dispatch('complete')
             this.$router.push({
               path: '/material-confirmation',
               query: {
@@ -288,11 +290,11 @@ export default {
             })
           })
           .catch(err => {
-            console.log(err)
+            this.$store.dispatch('complete')
           })
 
         } else {
-          console.log(this.$store)
+          this.$store.dispatch('loading')
           api.axios.post(`${api.baseUrl}/material/new-material`, {
             shape: this.shape,
             dimension: this.dimension,
@@ -315,7 +317,7 @@ export default {
             company: this.$store.getters.companyId
           })
           .then(res => {
-            console.log(res)
+            this.$store.dispatch('complete')
             this.$router.push({
               path: '/material-confirmation',
               query: {
@@ -324,7 +326,7 @@ export default {
             })
           })
           .catch(err => {
-            console.log(err)
+            this.$store.dispatch('complete')
           })
         }
       }
@@ -333,16 +335,18 @@ export default {
       this.showDeletePopup = !this.showDeletePopup
     },
     deleteItem () {
+      this.$store.dispatch('loading')
       api.axios.delete(`${api.baseUrl}/material/delete-material`, {
         params: {
           _id: this._id
         }
       })
       .then(res => {
+        this.$store.dispatch('complete')
         this.$router.push('inventory')
       })
       .catch(err => {
-        console.log(err)
+        this.$store.dispatch('complete')
       })
     }
   },

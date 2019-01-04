@@ -6,6 +6,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
 
   state: {
+    loading: false,
     auth: false,
     token: null,
     user: {}
@@ -21,6 +22,12 @@ export default new Vuex.Store({
       state.auth = false
       state.token = ''
       state.user = {}
+    },
+    loading (state) {
+      state.loading = true
+    },
+    complete (state) {
+      state.loading = false
     }
   },
 
@@ -32,6 +39,12 @@ export default new Vuex.Store({
     logout ({commit}) {
       $cookies.remove('token')
       commit('logout')
+    },
+    loading ({commit}) {
+      commit('loading')
+    },
+    complete ({commit}) {
+      commit('complete')
     }
   },
 
@@ -47,6 +60,9 @@ export default new Vuex.Store({
     },
     userEmail: (state) => {
       return state.user.email
+    },
+    loading: (state) => {
+      return state.loading
     }
   }
 

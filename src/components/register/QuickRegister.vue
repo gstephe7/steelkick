@@ -71,19 +71,21 @@ export default {
       this.checkForm()
 
       if (this.verified) {
-        api.axios.post(`${api.baseUrl}/users/new-company`, {
-          name: this.company,
-          email: this.email,
-          password: this.password
-        })
+        this.$store.dispatch('loading')
+
+        api.axios
+          .post(`${api.baseUrl}/users/new-company`, {
+            name: this.company,
+            email: this.email,
+            password: this.password
+          })
           .then((res) => {
+            this.$store.dispatch('complete')
             if (res.status === 500) {
               this.errors.server = res.data.message
             } else if (res.status === 400) {
-              console.log('success, but no')
               this.errors.server = res.data.message
             } else if (res.status === 200) {
-              console.log(res)
               if (res.data.token) {
                 this.$store.dispatch('login', {
                   token: res.data.token,
@@ -99,6 +101,7 @@ export default {
             }
           })
           .catch((err) => {
+            this.$store.dispatch('complete')
             this.errors.server = 'An account for this company has already been created!'
           })
       }

@@ -6,42 +6,44 @@
       <div class="form">
 
         <div class="subform">
-          <select @change="pushDimensions" v-model="shape">
-            <option disabled selected value="Shape">
+          <select @change="pushDimensions" v-model="shape" class="autotab">
+            <option disabled selected :value="null">
               Shape
             </option>
             <option v-for="shape in shapes" :value="shape" :key="shape">
               {{ shape.toUpperCase() }}
             </option>
           </select>
-          <select v-model="dimension">
-            <option disabled selected value="Dimension">Dimension</option>
+          <select v-model="dimension" class="autotab">
+            <option disabled selected :value="null">Dimension</option>
             <option v-for="dimension in dimensions" :value="dimension" :key="dimension">{{ dimension }}</option>
           </select>
         </div>
 
         <div class="subform">
           <div class="length">
-            <input class="feet-input" type="number" placeholder="10" maxlength="2" v-model="feet">'
-            <input class="inches-input" type="number" placeholder="9" maxlength="2" v-model="inches">"
-            <input class="numerator-input" type="number" maxlength="2" v-model="numerator">/
-            <input class="denominator-input" type="number" maxlength="2" v-model="denominator">
+            <input class="feet-input autotab" type="number" placeholder="10" maxlength="2" v-model="feet">'
+            <input class="inches-input autotab" type="number" placeholder="9" maxlength="2" v-model="inches">"
+            <input class="numerator-input autotab" type="number" maxlength="2" v-model="numerator">/
+            <input class="denominator-input autotab" type="number" maxlength="2" v-model="denominator">
           </div>
-          <select v-model="domestic">
-            <option disabled selected value="null">Steel Origin</option>
-            <option value="true">Domestic Only</option>
-            <option value="false">Any</option>
+          <select v-model="domestic" class="autotab">
+            <option disabled selected :value="null">Steel Origin</option>
+            <option :value="true">Domestic Only</option>
+            <option :value="false">Any</option>
           </select>
         </div>
 
         <div class="subform">
-          <select v-model="painted">
-            <option value="false">Not Painted</option>
-            <option value="true">Painted</option>
+          <select v-model="painted" class="autotab">
+            <option :value="null">Painted?</option>
+            <option :value="false">Not Painted</option>
+            <option :value="true">Painted</option>
           </select>
-          <select v-model="galvanized">
-            <option value="false">Not Galvanized</option>
-            <option value="true">Galvanized</option>
+          <select v-model="galvanized" class="autotab">
+            <option :value="null">Galvanized?</option>
+            <option :value="false">Not Galvanized</option>
+            <option :value="true">Galvanized</option>
           </select>
         </div>
 
@@ -50,7 +52,7 @@
       <div class="form" v-if="!inventory">
 
         <div class="subform">
-          <select v-model="radius">
+          <select v-model="radius" class="autotab">
             <option value="10">Within 10 miles</option>
             <option value="25">Within 25 miles</option>
             <option value="50" selected>Within 50 miles</option>
@@ -58,29 +60,29 @@
             <option value="100">Within 100 miles</option>
             <option value="">Any</option>
           </select>
-          <input type="number" class="input" placeholder="Zipcode" v-model="zipcode">
+          <input type="number" class="input autotab" placeholder="Zipcode" maxlength="5" v-model="zipcode">
         </div>
 
         <div class="subform">
-          <select v-model="cut">
-            <option disabled selected value="null">Cut to Length?</option>
-            <option value="true">Offers Cut to Length</option>
-            <option value="false">Doesn't matter</option>
+          <select v-model="cut" class="autotab">
+            <option disabled selected :value="null">Cut to Length?</option>
+            <option :value="true">Offers Cut to Length</option>
+            <option :value="false">Doesn't matter</option>
           </select>
-          <select v-model="delivery">
-            <option disabled selected value="null">Delivery?</option>
-            <option value="true">Offers Delivery</option>
-            <option value="false">Doesn't matter</option>
+          <select v-model="delivery" class="autotab">
+            <option disabled selected :value="null">Delivery?</option>
+            <option :value="true">Offers Delivery</option>
+            <option :value="false">Doesn't matter</option>
           </select>
         </div>
 
         <div class="subform">
-          <select v-model="state">
-            <option value="null" selected disabled>State</option>
+          <select v-model="state" class="autotab">
+            <option :value="null" selected disabled>State</option>
             <option v-for="state in states" :value="state" :key="state">{{ state }}</option>
           </select>
-          <select v-model="company">
-            <option value="null" selected disabled>Company</option>
+          <select v-model="company" class="autotab">
+            <option :value="null" selected disabled>Company</option>
             <option v-for="company in companies" :value="company" :key="company">{{ company }}</option>
           </select>
         </div>
@@ -90,9 +92,15 @@
     </div>
 
     <div class="subform">
-      <button v-if="searching" @click="search">Search</button>
-      <button v-if="buying" @click="search">Update Search</button>
-      <button v-if="inventory">Filter</button>
+      <button v-if="searching" class="autotab" @click="search">
+        Search
+      </button>
+      <button v-if="buying" @click="search" class="autotab">
+        Update Search
+      </button>
+      <button v-if="inventory" @click="search" class="autotab">
+        Filter
+      </button>
     </div>
 
   </div>
@@ -114,43 +122,23 @@ export default {
         'l'
       ],
       dimensions: [],
-      shape: 'Shape',
-      dimension: 'Dimension',
+      shape: null,
+      dimension: null,
       feet: null,
       inches: null,
       numerator: null,
       denominator: null,
       domestic: null,
-      painted: false,
-      galvanized: false,
+      painted: null,
+      galvanized: null,
       radius: '50',
-      zipcode: '',
+      zipcode: null,
       cut: null,
       delivery: null,
       state: null,
       company: null,
       states: states,
       companies: []
-    }
-  },
-  computed: {
-    length () {
-      const feet = parseFloat(this.feet) * 12
-      const inches = parseFloat(this.inches)
-      const fraction = parseFloat(this.numerator) / parseFloat(this.denominator)
-
-      if (this.numerator && this.denominator && this.inches && this.feet) {
-        return feet + inches + fraction
-      } else if (this.inches && this.feet) {
-        return feet + inches
-      } else if (this.inches && !this.feet) {
-        return inches
-      } else if (this.feet) {
-        return feet
-      } else {
-        return 0
-      }
-
     }
   },
   methods: {
@@ -166,36 +154,86 @@ export default {
         if (!this.inventory) return true
         else return false
       }
-      this.$router.push({
-        name: 'Listings',
-        query: {
-          update: true,
-          forSale: buying(),
-          shape: this.shape,
-          dimension: this.dimension,
-          feet: this.feet,
-          inches: this.inches,
-          numerator: this.numerator,
-          denominator: this.denominator,
-          domestic: this.domestic,
-          painted: this.painted,
-          galvanized: this.galvanized,
-          radius: this.radius,
-          zipcode: this.zipcode,
-          cut: this.cut,
-          delivery: this.delivery,
-          state: this.state,
-          company: this.company
-        }
-      })
+
+      // push search query when updating search
+      if (this.$route.name === 'Listings') {
+        this.$router.push({
+          query: {
+            update: true,
+            forSale: buying(),
+            shape: this.shape,
+            dimension: this.dimension,
+            feet: this.feet,
+            inches: this.inches,
+            numerator: this.numerator,
+            denominator: this.denominator,
+            domestic: this.domestic,
+            painted: this.painted,
+            galvanized: this.galvanized,
+            radius: this.radius,
+            zipcode: this.zipcode,
+            cut: this.cut,
+            delivery: this.delivery,
+            state: this.state,
+            company: this.company
+          }
+        })
+        this.$router.go()
+      }
+
+      // push search query when filtering through inventory
+      else if (this.$route.name === 'Inventory') {
+        this.$router.push({
+          query: {
+            update: true,
+            shape: this.shape,
+            dimension: this.dimension,
+            feet: this.feet,
+            inches: this.inches,
+            numerator: this.numerator,
+            denominator: this.denominator,
+            domestic: this.domestic,
+            painted: this.painted,
+            galvanized: this.galvanized
+          }
+        })
+        this.$router.go()
+      }
+
+      // Push search query when searching for steel
+      else {
+        this.$router.push({
+          name: 'Listings',
+          query: {
+            update: true,
+            forSale: buying(),
+            shape: this.shape,
+            dimension: this.dimension,
+            feet: this.feet,
+            inches: this.inches,
+            numerator: this.numerator,
+            denominator: this.denominator,
+            domestic: this.domestic,
+            painted: this.painted,
+            galvanized: this.galvanized,
+            radius: this.radius,
+            zipcode: this.zipcode,
+            cut: this.cut,
+            delivery: this.delivery,
+            state: this.state,
+            company: this.company
+          }
+        })
+      }
     }
   },
   created () {
+    // fills in the search form to reflect the current search
     if (this.$route.query.update) {
 
       this.shape = this.$route.query.shape
 
-      if (this.$route.query.shape != 'Shape') {
+      if (this.$route.query.shape != null) {
         this.pushDimensions()
       }
 

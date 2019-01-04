@@ -17,7 +17,8 @@ import {
   faCog,
   faCheckCircle,
   faAngleUp,
-  faAngleDown
+  faAngleDown,
+  faSpinner
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
@@ -36,7 +37,8 @@ library.add({
   faCog,
   faCheckCircle,
   faAngleUp,
-  faAngleDown
+  faAngleDown,
+  faSpinner
 })
 
 Vue.component('fa-icon', FontAwesomeIcon)
