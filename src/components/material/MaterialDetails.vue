@@ -14,35 +14,35 @@
 
         <!-- Heading with shape, length, and cwt -->
         <div class="heading">
-          <div>
+          <div class="heading-div">
             <h2>
-              {{ listing.shape.toUpperCase() }} {{ listing.dimension }}
+              {{ item.shape.toUpperCase() }} {{ item.dimension }}
             </h2>
           </div>
           <div>
-            <h2>${{ listing.cwt }} Cwt</h2>
+            <h2>${{ item.cwt }} Cwt</h2>
           </div>
         </div>
 
         <div class="heading">
           <div>
             <p>
-              <span v-if="listing.feet">
-                {{ listing.feet }}'
+              <span v-if="item.feet">
+                {{ item.feet }}'
               </span>
-              <span v-if="listing.inches">
-                {{ listing.inches }}"
+              <span v-if="item.inches">
+                {{ item.inches }}"
               </span>
               <span v-else>
                 0"
               </span>
-              <span v-if="listing.numerator">
-                {{ listing.numerator }}/{{ listing.denominator }}
+              <span v-if="item.numerator">
+                {{ item.numerator }}/{{ item.denominator }}
               </span>
             </p>
           </div>
           <div>
-            <p>{{ listing.quantity }} available</p>
+            <p>{{ item.quantity }} available</p>
           </div>
         </div>
 
@@ -51,20 +51,23 @@
           <!-- Additional details on material -->
           <div class="info-container">
             <div>
-              <p>{{ listing.grade }}</p>
+              <p>{{ item.grade }}</p>
             </div>
             <div>
-              <p v-if="listing.domestic">Domestic</p>
+              <p v-if="item.domestic">Domestic</p>
               <p v-else>Foreign</p>
             </div>
             <div>
-              <p v-if="listing.heat"><span class="check">&#10004;</span>Heat #s included</p>
+              <p>{{ item.condition }} condition</p>
             </div>
             <div>
-              <p v-if="listing.painted"><span class="check">&#10004;</span>Painted</p>
+              <p v-if="item.heat"><span class="check">&#10004;</span>Heat #s included</p>
             </div>
             <div>
-              <p v-if="listing.galvanized"><span class="check">&#10004;</span>Galvanized</p>
+              <p v-if="item.painted"><span class="check">&#10004;</span>Painted</p>
+            </div>
+            <div>
+              <p v-if="item.galvanized"><span class="check">&#10004;</span>Galvanized</p>
             </div>
           </div>
 
@@ -237,41 +240,7 @@ export default {
   data () {
     return {
       item: this.$route.query.item,
-      listing: {
-        id: this.$route.query.item.id,
-        shape: this.$route.query.item.shape,
-        dimension: this.$route.query.item.dimension,
-        weightPerFoot: this.$route.query.item.weightPerFoot,
-        feet: this.$route.query.item.feet,
-        inches: this.$route.query.item.inches,
-        numerator: this.$route.query.item.numerator,
-        denominator: this.$route.query.item.denominator,
-        cwt: this.$route.query.item.cwt,
-        grade: this.$route.query.item.grade,
-        heat: this.$route.query.item.heat,
-        quantity: this.$route.query.item.quantity,
-        domestic: this.$route.query.item.domestic,
-        painted: this.$route.query.item.painted,
-        galvanized: this.$route.query.item.galvanized
-      },
-      company: {
-        name: this.$route.query.item.company.name,
-        city: this.$route.query.item.company.city,
-        state: this.$route.query.item.company.state,
-        cut: {
-          offered: this.$route.query.item.company.cut.offered,
-          price: this.$route.query.item.company.cut.price,
-          kerf: this.$route.query.item.company.cut.kerf
-        },
-        delivery: {
-          offered: this.$route.query.item.company.delivery.offered,
-          price: this.$route.query.item.company.delivery.price,
-          maxDistance: this.$route.query.item.company.delivery.maxDistance,
-          maxLength: this.$route.query.item.company.delivery.maxLength,
-          maxWeight: this.$route.query.item.company.delivery.maxWeight,
-        },
-        remarks: this.$route.query.item.company.remarks
-      },
+      company: this.$route.query.item.company,
       order: {
         id: 'gshaolw12',
         quantity: 1,
@@ -284,9 +253,9 @@ export default {
   methods: {
     // prevents users from ordering more than available
     maxQuantity (e) {
-      if (e.target.value > this.listing.quantity) {
-        e.target.value = this.listing.quantity
-        this.order.quantity = this.listing.quantity
+      if (e.target.value > this.item.quantity) {
+        e.target.value = this.item.quantity
+        this.order.quantity = this.item.quantity
       }
       if (!e.target.value) {
         this.order.quantity = 1
@@ -343,9 +312,9 @@ export default {
     },
     // calculates total length in inches of stock material
     totalLengthInches () {
-      const feet = parseFloat(this.listing.feet) * 12
-      const inches = parseFloat(this.listing.inches)
-      const fraction = parseFloat(this.listing.numerator) / parseFloat(this.listing.denominator)
+      const feet = parseFloat(this.item.feet) * 12
+      const inches = parseFloat(this.item.inches)
+      const fraction = parseFloat(this.item.numerator) / parseFloat(this.item.denominator)
       let quantity = 1
 
       if (!this.order.quantity) {
@@ -373,12 +342,12 @@ export default {
     // calculates total weight of order
     totalWeight () {
       if (this.totalLengthFeet) {
-        return this.totalLengthFeet * this.listing.weightPerFoot
+        return this.totalLengthFeet * this.item.weightPerFoot
       }
     },
     // calculates cost of material alone
     totalMaterialPrice () {
-      const poundWeight = this.listing.cwt / 100
+      const poundWeight = this.item.cwt / 100
       return (this.totalWeight * poundWeight)
     },
     // calculate cost of delivery
@@ -430,6 +399,10 @@ export default {
   .heading {
     display: flex;
     justify-content: space-between;
+  }
+
+  .heading-div {
+    max-width: 55%;
   }
 
   .info-div {

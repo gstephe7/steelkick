@@ -7,7 +7,7 @@
 
         <div class="subform">
           <select @change="pushDimensions" class="autotab" v-model="shape" :class="{ required : errors.shape }">
-            <option disabled selected value="Shape">
+            <option disabled selected :value="null">
               Shape
             </option>
             <option v-for="shape in shapes" :value="shape" :key="shape">
@@ -15,7 +15,7 @@
             </option>
           </select>
           <select v-model="dimension" class="autotab" :class="{ required : errors.dimension }">
-            <option disabled selected value="Dimension">Dimension</option>
+            <option disabled selected :value="null">Dimension</option>
             <option v-for="dimension in dimensions" :value="dimension" :key="dimension">{{ dimension }}</option>
           </select>
         </div>
@@ -32,12 +32,12 @@
 
         <div class="subform">
           <select v-model="painted" class="autotab">
-            <option value="false">Not Painted</option>
-            <option value="true">Painted</option>
+            <option :value="false">Not Painted</option>
+            <option :value="true">Painted</option>
           </select>
           <select v-model="galvanized" class="autotab">
-            <option value="false">Not Galvanized</option>
-            <option value="true">Galvanized</option>
+            <option :value="false">Not Galvanized</option>
+            <option :value="true">Galvanized</option>
           </select>
         </div>
 
@@ -51,9 +51,9 @@
 
         <div class="subform">
           <select v-model="domestic" class="autotab" :class="{ required : errors.domestic }">
-            <option disabled selected value="null">Steel Origin</option>
-            <option value="true">Domestic</option>
-            <option value="false">Foreign</option>
+            <option disabled selected :value="null">Steel Origin</option>
+            <option :value="true">Domestic</option>
+            <option :value="false">Foreign</option>
           </select>
           <select v-model="condition" class="autotab">
             <option selected disabled :value="null">
@@ -68,7 +68,7 @@
 
         <div class="subform">
           <select v-model="grade" class="autotab">
-            <option selected disabled value="null">
+            <option selected disabled :value="null">
               Grade
             </option>
             <option value="A36">A36</option>
@@ -80,11 +80,11 @@
 
         <div class="subform">
           <select v-model="forSale" class="autotab">
-            <option selected disabled value="false">
+            <option selected disabled :value="null">
               For Sale?
             </option>
-            <option value="true">For Sale</option>
-            <option value="false">Not For Sale</option>
+            <option :value="true">For Sale</option>
+            <option :value="false">Not For Sale</option>
           </select>
           <input type="number" class="input autotab" placeholder="$ Cwt (ex: 42)" v-model="cwt">
         </div>
@@ -148,24 +148,24 @@ export default {
         'l'
       ],
       _id: null,
-      shape: 'Shape',
+      shape: null,
       dimensions: [],
-      dimension: 'Dimension',
+      dimension: null,
       feet: null,
       inches: null,
       numerator: null,
       denominator: null,
       quantity: null,
-      location: '',
+      location: null,
       domestic: null,
       painted: false,
       galvanized: false,
       condition: null,
       grade: null,
       heat: null,
-      forSale: false,
+      forSale: null,
       cwt: null,
-      remarks: '',
+      remarks: null,
       errors: {
         shape: false,
         dimension: false,
@@ -283,7 +283,7 @@ export default {
           .then(res => {
             this.$store.dispatch('complete')
             this.$router.push({
-              path: '/material-confirmation',
+              path: 'material-confirmation',
               query: {
                 edit: true
               }
@@ -319,7 +319,7 @@ export default {
           .then(res => {
             this.$store.dispatch('complete')
             this.$router.push({
-              path: '/material-confirmation',
+              path: 'material-confirmation',
               query: {
                 newEntry: true
               }

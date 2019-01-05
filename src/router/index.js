@@ -10,7 +10,6 @@ import MaterialDetails from '@/components/material/MaterialDetails'
 import Cart from '@/components/cart/Cart'
 import Checkout from '@/components/checkout/Checkout'
 import CheckoutConfirmation from '@/components/checkout/CheckoutConfirmation'
-import NewListing from '@/components/listings/NewListing'
 import MaterialConfirmation from '@/components/material/MaterialConfirmation'
 import Dashboard from '@/components/dashboard/Dashboard'
 import DashboardHome from '@/components/dashboard/DashboardHome'
@@ -63,31 +62,6 @@ const router = new Router({
       component: MaterialDetails
     },
     {
-      path: '/cart',
-      name: 'Cart',
-      component: Cart
-    },
-    {
-      path: '/checkout',
-      name: 'Checkout',
-      component: Checkout
-    },
-    {
-      path: '/checkout-confirmation',
-      name: 'CheckoutConfirmation',
-      component: CheckoutConfirmation
-    },
-    {
-      path: '/new-listing',
-      name: 'NewListing',
-      component: NewListing
-    },
-    {
-      path: '/material-confirmation',
-      name: 'MaterialConfirmation',
-      component: MaterialConfirmation
-    },
-    {
       path: '/login',
       name: 'Login',
       component: Login
@@ -129,6 +103,11 @@ const router = new Router({
           path: 'add-material',
           name: 'AddMaterial',
           component: AddMaterial
+        },
+        {
+          path: 'material-confirmation',
+          name: 'MaterialConfirmation',
+          component: MaterialConfirmation
         },
         {
           path: 'inventory',
@@ -189,7 +168,22 @@ const router = new Router({
           path: 'edit-profile',
           name: 'EditProfile',
           component: EditProfile
-        }
+        },
+        {
+          path: 'cart',
+          name: 'Cart',
+          component: Cart
+        },
+        {
+          path: 'checkout',
+          name: 'Checkout',
+          component: Checkout
+        },
+        {
+          path: 'checkout-confirmation',
+          name: 'CheckoutConfirmation',
+          component: CheckoutConfirmation
+        },
       ]
     }
   ],

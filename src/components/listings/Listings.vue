@@ -47,6 +47,7 @@ export default {
     })
     .then((res) => {
       this.$store.dispatch('complete')
+      console.log(res)
       this.listings = res.data.material
     })
     .catch((err) => {

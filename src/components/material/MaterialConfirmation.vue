@@ -6,16 +6,16 @@
     <p v-if="$route.query.newEntry">You have successfully added new material!</p>
     <p v-if="$route.query.edit">You have successfully updated your material!</p>
 
+    <router-link v-if="$route.query.newEntry" :to="{ name: 'AddMaterial' }">
+      Add another entry
+    </router-link>
+
     <router-link :to="{ name: 'Inventory' }">
       View your inventory
     </router-link>
 
     <router-link :to="{ name: 'DashboardHome' }">
       Return to the dashboard
-    </router-link>
-
-    <router-link :to="{ name: 'Home' }">
-      Return to the homepage
     </router-link>
 
   </div>
@@ -32,7 +32,7 @@ export default {
   #material-confirmation {
     padding: 10px;
     max-width: 800px;
-    height: 400px;
+    height: 300px;
     margin: auto;
     display: flex;
     flex-direction: column;

@@ -15,7 +15,7 @@
       </div>
 
       <div class="container">
-        <div class="card" @click="$router.push('/cart')">
+        <div class="card" @click="$router.push('cart')">
           <fa-icon icon="shopping-cart" class="icon orange"></fa-icon>
           <h3>Checkout Cart</h3>
         </div>
