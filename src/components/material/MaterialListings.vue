@@ -102,7 +102,7 @@ export default {
           path: 'edit-material',
           query: {
             edit: true,
-            item: item
+            id: item._id
           }
         })
       } else if (this.buying) {
@@ -110,7 +110,7 @@ export default {
           path: '/listing',
           query: {
             buying: true,
-            item: item
+            id: item._id
           }
         })
       }

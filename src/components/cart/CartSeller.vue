@@ -1,12 +1,12 @@
 <template>
   <div id="cart-seller">
 
-    <h3>Order From {{ seller.seller }}</h3>
+    <h3>Order From {{ order.seller }}</h3>
 
     <!-- Items ordered from seller -->
     <div class="cart-items">
 
-      <div v-for="item in seller.order" :key="item.id" @click="$router.push({ path: '/listing', query: { cart: true, item: item } })" class="cart-item">
+      <div v-for="item in order.order" :key="item.id" @click="$router.push({ path: '/listing', query: { cart: true, item: item } })" class="cart-item">
 
         <CartItem :item="item">
           <button class="remove-btn" @click="removeItem">Remove from Cart</button>
@@ -20,6 +20,22 @@
     <div class="add-material">
       <p>Add more material for this shipment</p>
       <button @click="addMaterial">Add Material</button>
+    </div>
+
+    <!-- Delivery -->
+    <div class="form-section">
+      <div class="label">
+        <label>Delivery?</label>
+      </div>
+      <div class="input">
+        <select v-if="order.deliveryOffered" v-model="order.delivery">
+          <option :value="false">Pickup</option>
+          <option :value="true">Delivery (${{ order.deliveryPrice }}/mile)</option>
+        </select>
+        <select v-else>
+          <option selected disabled>Pickup Only</option>
+        </select>
+      </div>
     </div>
 
     <!-- Price Breakdown -->
@@ -37,7 +53,7 @@
           <p>Delivery: </p>
         </div>
         <div class="price">
-          <p>${{ seller.deliveryPrice.toFixed(2) }}</p>
+          <p>${{ totalDeliveryPrice.toFixed(2) }}</p>
         </div>
       </div>
       <div class="price-box">
@@ -65,20 +81,28 @@ export default {
   components: {
     CartItem
   },
-  props: ['seller'],
+  props: ['order'],
   computed: {
     materialPrice () {
       let totalMaterialPrice = 0
 
-      this.seller.order.forEach(order => {
+      this.order.order.forEach(order => {
         totalMaterialPrice += parseFloat(order.subtotal)
       })
 
       return totalMaterialPrice
     },
+    // calculate cost of delivery
+    totalDeliveryPrice () {
+      if (this.order.delivery) {
+        return parseFloat(this.order.distance) * parseFloat(this.order.deliveryPrice)
+      } else {
+        return 0
+      }
+    },
     totalPrice () {
-      if (this.seller.delivery) {
-        return parseFloat(this.seller.deliveryPrice) + this.materialPrice
+      if (this.order.delivery) {
+        return parseFloat(this.order.deliveryPrice) + this.materialPrice
       } else {
         return this.materialPrice
       }
@@ -89,21 +113,21 @@ export default {
       this.$router.push({
         name: 'Listings',
         query: {
-          company: this.seller.seller
+          company: this.order.seller
         }
       })
     },
     removeItem () {
-      
+
     },
     checkout () {
       this.$router.push({
         name: 'Checkout',
         params: {
-          seller: this.seller.seller,
-          order: this.seller.order,
+          seller: this.order.seller,
+          order: this.order.order,
           materialPrice: this.materialPrice,
-          deliveryPrice: this.seller.deliveryPrice,
+          deliveryPrice: this.order.deliveryPrice,
           totalPrice: this.totalPrice
         }
       })
@@ -139,11 +163,25 @@ export default {
     margin-top: 50px;
   }
 
+  .form-section {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: 50px;
+    select {
+      border: 1px solid $accent;
+    }
+  }
+
+  .input {
+    margin-left: 20px;
+  }
+
   .price-div {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    margin: 50px 5px 0 0;
+    margin: 10px 5px 0 0;
   }
 
   .price-box {

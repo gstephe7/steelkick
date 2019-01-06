@@ -3,9 +3,9 @@
 
     <h2>Your Cart</h2>
 
-    <CartSeller v-for="seller in cart"
-                :key="seller.seller"
-                :seller="seller">
+    <CartSeller v-for="order in cart"
+                :key="order.seller"
+                :order="order">
     </CartSeller>
 
   </div>
@@ -24,8 +24,10 @@ export default {
       cart: [
         {
           seller: 'Benco Welding Inc.',
-          delivery: true,
-          deliveryPrice: 42,
+          deliveryOffered: true,
+          delivery: false,
+          deliveryPrice: 3.32,
+          distance: 23,
           order: [
             {
               id: 'gsh27dh7263',

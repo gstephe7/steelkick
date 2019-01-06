@@ -10,7 +10,7 @@
         </span>
       </p>
 
-      <div class="listing-details">
+      <div class="listing-details" v-if="item">
 
         <!-- Heading with shape, length, and cwt -->
         <div class="heading">
@@ -112,23 +112,7 @@
               <label>Order Quantity: </label>
             </div>
             <div class="input">
-              <input type="number" @change="maxQuantity" v-model="order.quantity" class="quantity-input">
-            </div>
-          </div>
-
-          <!-- Delivery -->
-          <div class="form-section">
-            <div class="label">
-              <label>Delivery?</label>
-            </div>
-            <div class="input">
-              <select v-if="company.delivery.offered" v-model="order.delivery">
-                <option :value="false">Pickup</option>
-                <option :value="true">Delivery (${{ company.delivery.price }}/mile)</option>
-              </select>
-              <select v-else>
-                <option selected disabled>Pickup Only</option>
-              </select>
+              <input type="number" @change="maxQuantity" v-model="quantity" class="quantity-input">
             </div>
           </div>
 
@@ -148,7 +132,7 @@
           </div>
 
           <!-- Details for cuts requested -->
-          <div class="cut-div" v-for="(cut, index) in order.cuts">
+          <div class="cut-div" v-for="(cut, index) in cuts">
             <div>
               <input class="cut-quantity" type="number" v-model="cut.quantity">
             </div>
@@ -183,18 +167,6 @@
             </div>
           </div>
 
-          <!-- total for delivery -->
-          <div class="price-container">
-            <div class="expense-box">
-              <p>Delivery Expense:</p>
-            </div>
-            <div class="price-box">
-              <p>
-                ${{ totalDeliveryPrice.toFixed(2) }}
-              </p>
-            </div>
-          </div>
-
           <!-- total for cut expenses -->
           <div class="price-container">
             <div class="expense-box">
@@ -223,10 +195,10 @@
 
         <!-- place order -->
         <div class="place-order">
-          <button v-if="$route.query.buying" class="success" @click="$router.push({ name: 'Cart', query: order.id })">
+          <button v-if="$route.query.buying" class="success" @click="submit">
             Add to Cart
           </button>
-          <button v-if="$route.query.cart" class="success" @click="$router.push({ name: 'Cart', query: order.id })">
+          <button v-if="$route.query.cart" class="success" @click="submit">
             Update Order
           </button>
         </div>
@@ -236,35 +208,48 @@
 </template>
 
 <script>
+import api from '@/api/api'
+
 export default {
   data () {
     return {
-      item: this.$route.query.item,
-      company: this.$route.query.item.company,
-      order: {
-        id: 'gshaolw12',
-        quantity: 1,
-        delivery: false,
-        distance: 23,
-        cuts: []
-      }
+      item: '',
+      company: '',
+      quantity: 1,
+      cuts: []
     }
+  },
+  beforeCreate () {
+    this.$store.dispatch('loading')
+    api.axios.get(`${api.baseUrl}/material/item`, {
+      params: {
+        id: this.$route.query.id
+      }
+    })
+    .then(res => {
+      this.$store.dispatch('complete')
+      this.item = res.data.material
+      this.company = res.data.material.company
+    })
+    .catch(err => {
+      this.$store.dispatch('complete')
+    })
   },
   methods: {
     // prevents users from ordering more than available
     maxQuantity (e) {
       if (e.target.value > this.item.quantity) {
         e.target.value = this.item.quantity
-        this.order.quantity = this.item.quantity
+        this.quantity = this.item.quantity
       }
       if (!e.target.value) {
-        this.order.quantity = 1
+        this.quantity = 1
       }
     },
     // adds a new cut to the order
     addCut () {
       if (!this.totalLengthExceeded) {
-        this.order.cuts.push({
+        this.cuts.push({
           quantity: 1,
           feet: null,
           inches: null,
@@ -276,7 +261,7 @@ export default {
     },
     // removes the selected cut from the order
     removeCut (index) {
-      this.order.cuts.splice(index, 1)
+      this.cuts.splice(index, 1)
     },
     // converts the cut length to inches
     calculateCutLengthInches (cut) {
@@ -293,6 +278,27 @@ export default {
       } else if (inches) {
         cut.lengthInches = inches
       }
+    },
+    submit () {
+      this.$store.dispatch('loading')
+      api.axios.post(`${api.baseUrl}/cart/`, {
+        buyer: this.$store.getters.companyId,
+        seller: this.company._id,
+        order: {
+          material: this.item._id,
+          quantity: this.quantity,
+          cuts: this.cuts,
+          cutPrice: this.totalCutPrice,
+          subtotalPrice: this.totalPrice
+        }
+      })
+      .then(res => {
+        this.$store.dispatch('complete')
+        this.$router.push({ name: 'Cart' })
+      })
+      .catch(err => {
+        this.$store.dispatch('complete')
+      })
     }
   },
   computed: {
@@ -300,7 +306,7 @@ export default {
     totalLengthExceeded () {
       let length = 0
 
-      this.order.cuts.forEach(cut => {
+      this.cuts.forEach(cut => {
         length += cut.lengthInches + this.company.cut.kerf
       })
 
@@ -317,10 +323,10 @@ export default {
       const fraction = parseFloat(this.item.numerator) / parseFloat(this.item.denominator)
       let quantity = 1
 
-      if (!this.order.quantity) {
+      if (!this.quantity) {
         quantity = 1
       } else {
-        quantity = parseFloat(this.order.quantity)
+        quantity = parseFloat(this.quantity)
       }
 
       if (feet && inches && fraction) {
@@ -350,21 +356,13 @@ export default {
       const poundWeight = this.item.cwt / 100
       return (this.totalWeight * poundWeight)
     },
-    // calculate cost of delivery
-    totalDeliveryPrice () {
-      if (this.order.delivery) {
-        return parseFloat(this.order.distance) * parseFloat(this.company.delivery.price)
-      } else {
-        return 0
-      }
-    },
     // calculates total price of all cuts
     totalCutPrice () {
-      if (this.order.cuts.length > 0) {
+      if (this.cuts.length > 0) {
 
         let cutQuantity = 0
 
-        this.order.cuts.forEach(cut => {
+        this.cuts.forEach(cut => {
           cutQuantity += parseFloat(cut.quantity)
         })
 
@@ -375,7 +373,7 @@ export default {
     },
     // calculates total price
     totalPrice () {
-      return parseFloat(this.totalMaterialPrice) + parseFloat(this.totalDeliveryPrice) + parseFloat(this.totalCutPrice)
+      return parseFloat(this.totalMaterialPrice) + parseFloat(this.totalCutPrice)
     }
   }
 }
