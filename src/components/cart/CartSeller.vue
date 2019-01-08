@@ -1,12 +1,12 @@
 <template>
   <div id="cart-seller">
 
-    <h3>Order From {{ order.seller }}</h3>
+    <h3>Order From {{ order.seller.name }}</h3>
 
     <!-- Items ordered from seller -->
     <div class="cart-items">
 
-      <div v-for="item in order.order" :key="item.id" @click="$router.push({ path: '/listing', query: { cart: true, item: item } })" class="cart-item">
+      <div v-for="item in order.order" :key="item._id" @click="$router.push({ path: '/listing', query: { cart: true, item: item } })" class="cart-item">
 
         <CartItem :item="item">
           <button class="remove-btn" @click="removeItem">Remove from Cart</button>
@@ -28,9 +28,9 @@
         <label>Delivery?</label>
       </div>
       <div class="input">
-        <select v-if="order.deliveryOffered" v-model="order.delivery">
+        <select v-if="order.seller.delivery.offered" v-model="order.delivery">
           <option :value="false">Pickup</option>
-          <option :value="true">Delivery (${{ order.deliveryPrice }}/mile)</option>
+          <option :value="true">Delivery (${{ order.seller.delivery.price }}/mile)</option>
         </select>
         <select v-else>
           <option selected disabled>Pickup Only</option>
@@ -45,7 +45,7 @@
           <p>Material: </p>
         </div>
         <div class="price">
-          <p>${{ materialPrice.toLocaleString() }}</p>
+          <p>{{ materialPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}</p>
         </div>
       </div>
       <div class="price-box">
@@ -53,7 +53,7 @@
           <p>Delivery: </p>
         </div>
         <div class="price">
-          <p>${{ totalDeliveryPrice.toFixed(2) }}</p>
+          <p>{{ totalDeliveryPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}</p>
         </div>
       </div>
       <div class="price-box">
@@ -61,7 +61,7 @@
           <h3>Total: </h3>
         </div>
         <div class="price">
-          <h3>${{ totalPrice.toLocaleString() }}</h3>
+          <h3>{{ totalPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}</h3>
         </div>
       </div>
     </div>
@@ -82,19 +82,24 @@ export default {
     CartItem
   },
   props: ['order'],
+  data () {
+    return {
+      delivery: false
+    }
+  },
   computed: {
     materialPrice () {
       let totalMaterialPrice = 0
 
       this.order.order.forEach(order => {
-        totalMaterialPrice += parseFloat(order.subtotal)
+        totalMaterialPrice += parseFloat(order.subtotalPrice)
       })
 
       return totalMaterialPrice
     },
     // calculate cost of delivery
     totalDeliveryPrice () {
-      if (this.order.delivery) {
+      if (this.delivery) {
         return parseFloat(this.order.distance) * parseFloat(this.order.deliveryPrice)
       } else {
         return 0
