@@ -3,15 +3,15 @@
 
         <!-- Shape and Price -->
         <div class="container">
-          <h4>{{ item.shape.toUpperCase() }} {{ item.dimension }}</h4>
-          <h4>${{ item.cwt }} Cwt</h4>
+          <h4>{{ material.shape.toUpperCase() }} {{ material.dimension }}</h4>
+          <h4>${{ material.cwt }} Cwt</h4>
         </div>
 
         <!-- Length -->
         <div class="container length-div">
           <div>
             <p>
-              {{ item.feet }}' {{ item.inches }}" <span v-if="item.numerator">{{ item.numerator }}/{{ item.denominator }}</span>
+              {{ material.feet }}' {{ material.inches }}" <span v-if="material.numerator">{{ material.numerator }}/{{ material.denominator }}</span>
             </p>
           </div>
           <div class="quantity">
@@ -26,23 +26,23 @@
 
             <div class="box upper-box">
               <div>
-                <p>{{ item.grade }}</p>
+                <p>{{ material.grade }}</p>
               </div>
               <div>
-                <p v-if="item.domestic">Domestic</p>
+                <p v-if="material.domestic">Domestic</p>
                 <p v-else>Foreign</p>
               </div>
             </div>
 
             <div class="box">
               <div>
-                <p v-if="item.heat"><span class="check">&#10004;</span>Heat #s included</p>
+                <p v-if="material.heat"><span class="check">&#10004;</span>Heat #s included</p>
               </div>
               <div>
-                <p v-if="item.painted"><span class="check">&#10004;</span>Painted</p>
+                <p v-if="material.painted"><span class="check">&#10004;</span>Painted</p>
               </div>
               <div>
-                <p v-if="item.galvanized"><span class="check">&#10004;</span>Galvanized</p>
+                <p v-if="material.galvanized"><span class="check">&#10004;</span>Galvanized</p>
               </div>
             </div>
 
@@ -55,10 +55,21 @@
 
           <div class="order-container">
               <div v-if="item.cuts">
-                <p>Cut Total: ${{ item.cutCost }}</p>
-                <p>{{ item.cuts.length }} cuts</p>
+                <p>Cut Total</p>
+                <p>{{ item.cuts.length }}</p>
                 <div class="cuts-box" v-for="cut in item.cuts">
-                  <p>{{ cut.quantity }} @ {{ cut.feet }}' {{ cut.inches }}" {{ cut.numerator }}/{{ cut.denominator }}</p>
+                  <p>
+                    {{ cut.quantity }} @
+                    <span v-if="cut.feet">
+                      {{ cut.feet }}'
+                    </span>
+                    <span v-if="cut.inches">
+                      {{ cut.inches }}"
+                    </span>
+                    <span v-if="cut.numerator">
+                      {{ cut.numerator }}/{{ cut.denominator }}
+                    </span>
+                  </p>
                 </div>
               </div>
           </div>
@@ -69,7 +80,7 @@
                 <p>Material: </p>
               </div>
               <div class="price">
-                <p>${{ item.materialPrice.toLocaleString() }}</p>
+                <p>{{ item.subtotalPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}</p>
               </div>
             </div>
             <div class="subtotal-box">
@@ -77,7 +88,7 @@
                 <p>Cuts: </p>
               </div>
               <div class="price">
-                <p>${{ item.cutCost.toFixed(2) }}</p>
+                <p>{{ item.cutPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}</p>
               </div>
             </div>
             <div class="subtotal-box">
@@ -85,7 +96,7 @@
                 <h4>Subtotal: </h4>
               </div>
               <div class="price">
-                <h4>${{ item.subtotal.toLocaleString() }}</h4>
+                <h4>{{ item.subtotalPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}</h4>
               </div>
             </div>
           </div>
@@ -102,7 +113,12 @@
 
 <script>
 export default {
-  props: [ 'item']
+  props: [ 'item'],
+  data () {
+    return {
+      material: this.item.material
+    }
+  }
 }
 </script>
 
@@ -192,5 +208,9 @@ export default {
     display: flex;
     justify-content: center;
     margin-top: 20px;
+  }
+
+  slot {
+    z-index: 999;
   }
 </style>

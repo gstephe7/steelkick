@@ -1,15 +1,17 @@
 <template>
   <div id="cart-seller">
 
+    <hr>
+
     <h3>Order From {{ order.seller.name }}</h3>
 
     <!-- Items ordered from seller -->
     <div class="cart-items">
 
-      <div v-for="item in order.order" :key="item._id" @click="$router.push({ path: '/listing', query: { cart: true, item: item } })" class="cart-item">
+      <div v-for="item in order.order" :key="item._id" @click="editItem(item)" class="cart-item">
 
         <CartItem :item="item">
-          <button class="remove-btn" @click="removeItem">Remove from Cart</button>
+          <button class="remove-btn" @click="removeItem(item)">Remove from Cart</button>
         </CartItem>
 
       </div>
@@ -28,7 +30,7 @@
         <label>Delivery?</label>
       </div>
       <div class="input">
-        <select v-if="order.seller.delivery.offered" v-model="order.delivery">
+        <select v-if="order.seller.delivery.offered" v-model="delivery">
           <option :value="false">Pickup</option>
           <option :value="true">Delivery (${{ order.seller.delivery.price }}/mile)</option>
         </select>
@@ -68,13 +70,14 @@
 
     <!-- Checkout Button -->
     <div class="checkout">
-      <button class="checkout-btn" @click="checkout">Checkout</button>
+      <button class="checkout-btn" @click="checkout">Checkout with {{ order.seller.name }}</button>
     </div>
 
   </div>
 </template>
 
 <script>
+import api from '@/api/api'
 import CartItem from '@/components/cart/CartItem'
 
 export default {
@@ -118,12 +121,33 @@ export default {
       this.$router.push({
         name: 'Listings',
         query: {
-          company: this.order.seller
+          company: this.order.seller._id
         }
       })
     },
-    removeItem () {
-
+    editItem (item) {
+      this.$router.push({
+        path: '/listing',
+        query: {
+          cart: true,
+          id: item.material._id,
+          seller: this.order.seller._id,
+          orderId: item._id
+        }
+      })
+    },
+    removeItem (item) {
+      api.axios.put(`${api.baseUrl}/cart/remove-item`, {
+        item: item._id,
+        order: this.order._id
+      })
+      .then(res => {
+        console.log(res)
+        location.reload()
+      })
+      .catch(err => {
+        console.log(err)
+      })
     },
     checkout () {
       this.$router.push({
@@ -145,7 +169,7 @@ export default {
   @import '@/assets/scss/variables.scss';
 
   #cart-seller {
-    margin-top: 50px;
+    margin-top: 75px;
   }
 
   .cart-items {

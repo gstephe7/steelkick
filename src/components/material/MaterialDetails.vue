@@ -219,21 +219,53 @@ export default {
       cuts: []
     }
   },
-  beforeCreate () {
-    this.$store.dispatch('loading')
-    api.axios.get(`${api.baseUrl}/material/item`, {
-      params: {
-        id: this.$route.query.id
-      }
-    })
-    .then(res => {
-      this.$store.dispatch('complete')
-      this.item = res.data.material
-      this.company = res.data.material.company
-    })
-    .catch(err => {
-      this.$store.dispatch('complete')
-    })
+  created () {
+    if (this.$route.query.cart) {
+
+      this.$store.dispatch('loading')
+      api.axios.get(`${api.baseUrl}/cart/item`, {
+        params: {
+          buyer: this.$store.getters.companyId,
+          seller: this.$route.query.seller,
+          id: this.$route.query.orderId
+        }
+      })
+      .then(res => {
+        console.log(res)
+        this.$store.dispatch('complete')
+        this.item = res.data.item.material
+        this.company = res.data.seller
+        this.quantity = res.data.item.quantity
+        this.cuts = res.data.item.cuts
+      })
+      .catch(err => {
+        console.log(err)
+        this.$store.dispatch('complete')
+      })
+
+    } else {
+
+      this.$store.dispatch('loading')
+      api.axios.get(`${api.baseUrl}/material/item`, {
+        params: {
+          id: this.$route.query.id
+        }
+      })
+      .then(res => {
+        console.log(res)
+        this.$store.dispatch('complete')
+        this.item = res.data.material
+        this.company = res.data.material.company
+        if (this.$route.query.cart) {
+
+        }
+      })
+      .catch(err => {
+        console.log(err)
+        this.$store.dispatch('complete')
+      })
+
+    }
   },
   methods: {
     // prevents users from ordering more than available
@@ -280,25 +312,55 @@ export default {
       }
     },
     submit () {
-      this.$store.dispatch('loading')
-      api.axios.post(`${api.baseUrl}/cart/`, {
-        buyer: this.$store.getters.companyId,
-        seller: this.company._id,
-        order: {
-          material: this.item._id,
-          quantity: this.quantity,
-          cuts: this.cuts,
-          cutPrice: this.totalCutPrice,
-          subtotalPrice: this.totalPrice
-        }
-      })
-      .then(res => {
-        this.$store.dispatch('complete')
-        this.$router.push({ name: 'Cart' })
-      })
-      .catch(err => {
-        this.$store.dispatch('complete')
-      })
+
+      // if editing a cart item
+      if (this.$route.query.cart) {
+        this.$store.dispatch('loading')
+        api.axios.put(`${api.baseUrl}/cart/edit-cart`, {
+          buyer: this.$store.getters.companyId,
+          seller: this.company._id,
+          orderId: this.$route.query.orderId,
+          order: {
+            material: this.item._id,
+            quantity: this.quantity,
+            cuts: this.cuts,
+            cutPrice: this.totalCutPrice,
+            subtotalPrice: this.totalPrice
+          }
+        })
+        .then(res => {
+          console.log(res)
+          this.$store.dispatch('complete')
+          this.$router.push({ name: 'Cart' })
+        })
+        .catch(err => {
+          this.$store.dispatch('complete')
+        })
+      }
+
+      // if placing a new item in the cart
+      else {
+        this.$store.dispatch('loading')
+        api.axios.post(`${api.baseUrl}/cart/`, {
+          buyer: this.$store.getters.companyId,
+          seller: this.company._id,
+          order: {
+            material: this.item._id,
+            quantity: this.quantity,
+            cuts: this.cuts,
+            cutPrice: this.totalCutPrice,
+            subtotalPrice: this.totalPrice
+          }
+        })
+        .then(res => {
+          this.$store.dispatch('complete')
+          this.$router.push({ name: 'Cart' })
+        })
+        .catch(err => {
+          this.$store.dispatch('complete')
+        })
+      }
+
     }
   },
   computed: {
