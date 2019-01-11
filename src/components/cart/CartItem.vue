@@ -103,9 +103,9 @@
 
         </div>
 
-        <!-- Optional Remove Item from Cart Button -->
-        <div class="remove-btn">
-          <slot></slot>
+        <!-- Click message -->
+        <div class="click-message">
+          <p>Click to edit this item/remove item from cart</p>
         </div>
 
       </div>
@@ -204,13 +204,11 @@ export default {
     margin: 0;
   }
 
-  .remove-btn {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-  }
-
-  slot {
-    z-index: 999;
+  .click-message {
+    text-align: center;
+    margin-top: 25px;
+    color: $secondary;
+    text-decoration: underline;
+    font-style: italic;
   }
 </style>

@@ -11,6 +11,12 @@
 
     <div id="listings">
 
+      <div v-if="$route.query.cart" class="back">
+        <span @click="$router.push({ name: 'Cart' })">
+          < Back to cart
+        </span>
+      </div>
+
       <h2 v-if="buying">Your Search Results</h2>
       <h3 v-if="inventory">Company Inventory</h3>
 
@@ -168,6 +174,14 @@ export default {
     height: inherit;
     visibility: visible;
     opacity: 1;
+  }
+
+  .back {
+    color: royalblue;
+    margin-left: 10px;
+    span {
+      cursor: pointer;
+    }
   }
 
   #listings {

@@ -11,7 +11,6 @@
       <div v-for="item in order.order" :key="item._id" @click="editItem(item)" class="cart-item">
 
         <CartItem :item="item">
-          <button class="remove-btn" @click="removeItem(item)">Remove from Cart</button>
         </CartItem>
 
       </div>
@@ -121,6 +120,7 @@ export default {
       this.$router.push({
         name: 'Listings',
         query: {
+          cart: true,
           company: this.order.seller._id
         }
       })
@@ -132,21 +132,9 @@ export default {
           cart: true,
           id: item.material._id,
           seller: this.order.seller._id,
-          orderId: item._id
+          orderId: item._id,
+          cartId: this.order._id
         }
-      })
-    },
-    removeItem (item) {
-      api.axios.put(`${api.baseUrl}/cart/remove-item`, {
-        item: item._id,
-        order: this.order._id
-      })
-      .then(res => {
-        console.log(res)
-        location.reload()
-      })
-      .catch(err => {
-        console.log(err)
       })
     },
     checkout () {

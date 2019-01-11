@@ -203,6 +203,16 @@
           </button>
         </div>
 
+        <!-- item already in cart alert -->
+        <div class="alert-message" v-if="itemRepeat">
+          <p>This item has already been added to your cart!</p>
+        </div>
+
+        <!-- if cart item, remove item from cart button -->
+        <div class="remove-item" v-if="$route.query.cart">
+          <button class="alert" @click="removeItem">Remove from cart</button>
+        </div>
+
       </div>
     </div>
 </template>
@@ -216,7 +226,8 @@ export default {
       item: '',
       company: '',
       quantity: 1,
-      cuts: []
+      cuts: [],
+      itemRepeat: false
     }
   },
   created () {
@@ -334,6 +345,7 @@ export default {
           this.$router.push({ name: 'Cart' })
         })
         .catch(err => {
+          console.log(err)
           this.$store.dispatch('complete')
         })
       }
@@ -358,9 +370,27 @@ export default {
         })
         .catch(err => {
           this.$store.dispatch('complete')
+          this.itemRepeat = true
         })
       }
 
+    },
+    removeItem () {
+      this.$store.dispatch('loading')
+      api.axios.put(`${api.baseUrl}/cart/remove-item`, {
+        cart: this.$route.query.cartId,
+        order: this.$route.query.orderId
+      })
+      .then(res => {
+        console.log(res)
+        this.$store.dispatch('complete')
+        this.$router.push({ name: 'Cart' })
+      })
+      .catch(err => {
+        console.log(err)
+        this.$store.dispatch('complete')
+        this.$router.push({ name: 'Cart' })
+      })
     }
   },
   computed: {
@@ -570,6 +600,20 @@ export default {
 
   .success {
     background-color: $success;
+  }
+
+  .remove-item {
+    display: flex;
+    justify-content: center;
+  }
+
+  .alert {
+    background-color: $alert;
+  }
+
+  .alert-message {
+    color: $alert;
+    text-align: center;
   }
 
   select {

@@ -3,10 +3,17 @@
 
     <h2>Your Cart</h2>
 
-    <CartSeller v-for="order in cart"
-                :key="order._id"
-                :order="order">
-    </CartSeller>
+    <div v-if="cart.length > 0">
+      <CartSeller v-if="cart.length > 0"
+                  v-for="order in cart"
+                  :key="order._id"
+                  :order="order">
+      </CartSeller>
+    </div>
+
+    <div v-else class="empty-cart">
+      <p>Your cart is empty</p>
+    </div>
 
   </div>
 </template>
@@ -71,5 +78,9 @@ export default {
 
   h3 {
     font-weight: bold;
+  }
+
+  .empty-cart {
+    text-align: center;
   }
 </style>

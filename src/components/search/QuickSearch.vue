@@ -104,7 +104,7 @@ export default {
 
   #quick-search {
     height: 400px;
-    background-image: url('../../assets/img/background.jpg');
+    background-image: url('../../assets/img/background-min.jpg');
     background-position: center;
     background-size: cover;
   }
