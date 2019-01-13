@@ -84,6 +84,14 @@
               </p>
             </div>
             <div>
+              <p v-if="distance">
+                {{ distance.toFixed(2) }} miles away
+              </p>
+              <p v-else>
+                calculating distance...
+              </p>
+            </div>
+            <div>
               <p v-if="company.delivery.offered">
                 Delivery: ${{ company.delivery.price }}/mile
               </p>
@@ -227,7 +235,8 @@ export default {
       company: '',
       quantity: 1,
       cuts: [],
-      itemRepeat: false
+      itemRepeat: false,
+      distance: null
     }
   },
   created () {
@@ -267,9 +276,20 @@ export default {
         this.$store.dispatch('complete')
         this.item = res.data.material
         this.company = res.data.material.company
-        if (this.$route.query.cart) {
 
-        }
+        // make call for distance between companies
+        api.axios.post(`${api.baseUrl}/distance/`, {
+          companyA: this.$store.getters.companyName,
+          companyB: this.company.name
+        })
+        .then(res => {
+          console.log(res)
+          this.distance = res.data.distance
+        })
+        .catch(err => {
+          console.log(err)
+        })
+
       })
       .catch(err => {
         console.log(err)

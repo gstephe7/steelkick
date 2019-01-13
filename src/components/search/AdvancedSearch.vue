@@ -91,7 +91,7 @@
 
     </div>
 
-    <div class="subform">
+    <div class="buttons">
       <button v-if="searching" class="autotab" @click="search">
         Search
       </button>
@@ -265,7 +265,7 @@ export default {
     margin: auto;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: space-around;
   }
 
   .search {
@@ -291,6 +291,12 @@ export default {
     max-width: 400px;
     min-width: 300px;
     height: 60px;
+  }
+
+  .buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   select {
