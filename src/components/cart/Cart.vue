@@ -41,11 +41,9 @@ export default {
     .then(res => {
       this.$store.dispatch('complete')
       this.cart = res.data.cart
-      console.log(res)
     })
     .catch(err => {
       this.$store.dispatch('complete')
-      console.log(err)
     })
   }
 }

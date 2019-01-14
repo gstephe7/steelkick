@@ -29,13 +29,30 @@
         <label>Delivery?</label>
       </div>
       <div class="input">
-        <select v-if="order.seller.delivery.offered" v-model="delivery">
+        <select v-if="order.seller.delivery.offered && this.deliveryWeightExceeded === false" v-model="delivery">
           <option :value="false">Pickup</option>
           <option :value="true">Delivery (${{ order.seller.delivery.price }}/mile)</option>
         </select>
         <select v-else>
           <option selected disabled>Pickup Only</option>
         </select>
+      </div>
+    </div>
+
+    <!-- Max Delivery Weight Exceeded Alert -->
+    <div v-if="deliveryWeightExceeded" class="alert">
+      <p>This order exceeds the seller's maximum delivery weight of {{ order.seller.delivery.maxWeight }} lbs</p>
+    </div>
+
+    <!-- Distance Away -->
+    <div class="price-div">
+      <div class="price-box">
+        <div class="item">
+          <p>Distance</p>
+        </div>
+        <div class="price">
+          <p>{{ order.delivery.distance.toFixed(2) }} miles</p>
+        </div>
       </div>
     </div>
 
@@ -102,14 +119,43 @@ export default {
     // calculate cost of delivery
     totalDeliveryPrice () {
       if (this.delivery) {
-        return parseFloat(this.order.distance) * parseFloat(this.order.deliveryPrice)
+        return parseFloat(this.order.delivery.distance) * parseFloat(this.order.seller.delivery.price)
       } else {
         return 0
       }
     },
+    deliveryWeightExceeded () {
+      let totalWeight = 0
+      this.order.order.forEach(item => {
+        let weight = parseFloat(item.material.weightPerFoot)
+        let feet = parseFloat(item.material.feet) || 0
+        let inches = parseFloat(item.material.inches) || 0
+        let numerator = parseFloat(item.material.numerator) || 0
+        let denominator = parseFloat(item.material.denominator) || 0
+
+        let fraction = (numerator > 0) ? (( numerator / denominator ) / 12) : 0
+        let inchesToFeet = (inches > 0) ? inches / 12 : 0
+        let length = feet + inchesToFeet + fraction
+
+        let quantity = parseFloat(item.quantity)
+        let orderWeight = weight * length * quantity
+
+        totalWeight = totalWeight + orderWeight
+      })
+
+      if (this.order.seller.delivery.offered) {
+        if (totalWeight <= this.order.seller.delivery.maxWeight) {
+          return false
+        } else {
+          return true
+        }
+      } else {
+        return false
+      }
+    },
     totalPrice () {
-      if (this.order.delivery) {
-        return parseFloat(this.order.deliveryPrice) + this.materialPrice
+      if (this.delivery) {
+        return parseFloat(this.totalDeliveryPrice) + parseFloat(this.materialPrice)
       } else {
         return this.materialPrice
       }
@@ -224,6 +270,11 @@ export default {
 
   .remove-btn {
     background-color: $alert;
+  }
+
+  .alert {
+    color: $alert;
+    text-align: right;
   }
 
   h3 {

@@ -83,12 +83,17 @@
                 {{ company.city }}, {{ company.state }}
               </p>
             </div>
-            <div>
+            <div v-if="$store.getters.loggedIn">
               <p v-if="distance">
                 {{ distance.toFixed(2) }} miles away
               </p>
               <p v-else>
                 calculating distance...
+              </p>
+            </div>
+            <div v-else>
+              <p>
+                Login to see distance
               </p>
             </div>
             <div>
@@ -251,7 +256,6 @@ export default {
         }
       })
       .then(res => {
-        console.log(res)
         this.$store.dispatch('complete')
         this.item = res.data.item.material
         this.company = res.data.seller
@@ -259,7 +263,6 @@ export default {
         this.cuts = res.data.item.cuts
       })
       .catch(err => {
-        console.log(err)
         this.$store.dispatch('complete')
       })
 
@@ -272,27 +275,26 @@ export default {
         }
       })
       .then(res => {
-        console.log(res)
         this.$store.dispatch('complete')
         this.item = res.data.material
         this.company = res.data.material.company
 
-        // make call for distance between companies
-        api.axios.post(`${api.baseUrl}/distance/`, {
-          companyA: this.$store.getters.companyName,
-          companyB: this.company.name
-        })
-        .then(res => {
-          console.log(res)
-          this.distance = res.data.distance
-        })
-        .catch(err => {
-          console.log(err)
-        })
+        if (this.$store.getters.loggedIn) {
+          // make call for distance between companies
+          api.axios.post(`${api.baseUrl}/distance/`, {
+            companyA: this.$store.getters.companyName,
+            companyB: this.company.name
+          })
+          .then(res => {
+            this.distance = res.data.distance
+          })
+          .catch(err => {
+
+          })
+        }
 
       })
       .catch(err => {
-        console.log(err)
         this.$store.dispatch('complete')
       })
 
@@ -360,12 +362,10 @@ export default {
           }
         })
         .then(res => {
-          console.log(res)
           this.$store.dispatch('complete')
           this.$router.push({ name: 'Cart' })
         })
         .catch(err => {
-          console.log(err)
           this.$store.dispatch('complete')
         })
       }
@@ -382,7 +382,8 @@ export default {
             cuts: this.cuts,
             cutPrice: this.totalCutPrice,
             subtotalPrice: this.totalPrice
-          }
+          },
+          distance: this.distance
         })
         .then(res => {
           this.$store.dispatch('complete')
