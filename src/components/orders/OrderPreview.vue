@@ -6,19 +6,19 @@
       <!-- Buyer Info -->
       <div class="buyer-info">
         <p class="title">Buyer</p>
-        <p>{{ order.buyer.company }}</p>
-        <p>{{ order.buyer.city }}, {{ order.buyer.state }}</p>
-        <p>{{ order.buyer.contactName }}</p>
-        <p>{{ order.buyer.phone }}</p>
+        <p>{{ order.order.buyer.name }}</p>
+        <p>{{ order.order.buyer.city }}, {{ order.order.buyer.state }}</p>
+        <p>{{ order.order.buyer.contactName }}</p>
+        <p>{{ order.order.buyer.phone }}</p>
       </div>
 
       <!-- Seller Info -->
       <div class="seller-info">
         <p class="title">Seller</p>
-        <p>{{ order.seller.company }}</p>
-        <p>{{ order.seller.city }}, {{ order.seller.state }}</p>
-        <p>{{ order.seller.contactName }}</p>
-        <p>{{ order.seller.phone }}</p>
+        <p>{{ order.order.seller.name }}</p>
+        <p>{{ order.order.seller.city }}, {{ order.order.seller.state }}</p>
+        <p>{{ order.order.seller.contactName }}</p>
+        <p>{{ order.order.seller.phone }}</p>
       </div>
 
     </div>
@@ -28,14 +28,36 @@
       <p class="title">Order</p>
       <p>Date Placed: {{ order.date }}</p>
       <p>Time Placed: {{ order.time }}</p>
-      <p>Total: ${{ order.total }}</p>
+      <p>Total: {{ order.order.totalPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}</p>
     </div>
 
     <!-- Info on material ordered -->
     <div class="info-div">
       <p class="title">Material Ordered</p>
-      <div v-for="item in order.order" :key="item.id">
-        <p>({{ item.quantity }}) {{ item.shape.toUpperCase() }} {{ item.dimension }}</p>
+      <div v-for="item in order.order.order" :key="item.id">
+        <p>
+          <span>
+            ({{ item.quantity }})
+          </span>
+          <span>
+            {{ item.material.shape.toUpperCase() }}
+          </span>
+          <span>
+            {{ item.material.dimension }}
+          </span>
+          x
+          <span>
+            <span v-if="item.material.feet">
+              {{ item.material.feet }}'
+            </span>
+            <span v-if="item.material.inches">
+              {{ item.material.inches }}"
+            </span>
+            <span v-if="item.material.numerator">
+              {{ item.material.numerator }}/{{ item.material.denominator }}
+            </span>
+          </span>
+        </p>
       </div>
     </div>
 

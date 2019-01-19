@@ -3,7 +3,7 @@
 
     <hr>
 
-    <h3>Order From {{ order.seller.name }}</h3>
+    <h3 class="heading">Order From {{ order.seller.name }}</h3>
 
     <!-- Items ordered from seller -->
     <div class="cart-items">
@@ -29,7 +29,8 @@
         <label>Delivery?</label>
       </div>
       <div class="input">
-        <select v-if="order.seller.delivery.offered && this.deliveryWeightExceeded === false" v-model="delivery">
+        <select v-if="order.seller.delivery.offered && this.deliveryWeightExceeded === false" v-model="delivery.selected" @change="updateDelivery">
+          <option :value="undefined" disabled selected>Pickup/Delivery</option>
           <option :value="false">Pickup</option>
           <option :value="true">Delivery (${{ order.seller.delivery.price }}/mile)</option>
         </select>
@@ -103,7 +104,9 @@ export default {
   props: ['order'],
   data () {
     return {
-      delivery: false
+      delivery: {
+        selected: this.order.delivery.selected
+      }
     }
   },
   computed: {
@@ -118,7 +121,7 @@ export default {
     },
     // calculate cost of delivery
     totalDeliveryPrice () {
-      if (this.delivery) {
+      if (this.delivery.selected) {
         return parseFloat(this.order.delivery.distance) * parseFloat(this.order.seller.delivery.price)
       } else {
         return 0
@@ -154,7 +157,7 @@ export default {
       }
     },
     totalPrice () {
-      if (this.delivery) {
+      if (this.delivery.selected) {
         return parseFloat(this.totalDeliveryPrice) + parseFloat(this.materialPrice)
       } else {
         return this.materialPrice
@@ -183,15 +186,28 @@ export default {
         }
       })
     },
+    updateDelivery () {
+      api.axios.put(`${api.baseUrl}/cart/edit-delivery`, {
+        id: this.order._id,
+        selected: this.delivery.selected,
+        distance: this.order.delivery.distance,
+        price: this.totalDeliveryPrice
+      })
+      .then(res => {
+        this.delivery = res.data.delivery
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    },
     checkout () {
       this.$router.push({
         name: 'Checkout',
-        params: {
-          seller: this.order.seller,
-          order: this.order.order,
-          materialPrice: this.materialPrice,
-          deliveryPrice: this.order.deliveryPrice,
-          totalPrice: this.totalPrice
+        query: {
+          id: this.order._id,
+          material: this.materialPrice,
+          delivery: this.totalDeliveryPrice,
+          total: this.totalPrice
         }
       })
     }
@@ -203,7 +219,11 @@ export default {
   @import '@/assets/scss/variables.scss';
 
   #cart-seller {
-    margin-top: 75px;
+    margin: 75px 0 125px 0;
+  }
+
+  .heading {
+    font-size: 22px;
   }
 
   .cart-items {

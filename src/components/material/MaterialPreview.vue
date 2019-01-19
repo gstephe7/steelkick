@@ -5,13 +5,13 @@
 
       <!-- Shape and Dimension -->
       <div>
-        <h4>
+        <h4 class="heading">
           {{ item.shape.toUpperCase() }} {{ item.dimension }}
         </h4>
       </div>
 
       <!-- Hundred Weight Price -->
-      <div>
+      <div class="heading">
         <h4 v-if="item.forSale">${{ item.cwt }} Cwt</h4>
         <h4 v-else>Not For Sale</h4>
       </div>
@@ -123,6 +123,12 @@ export default {
   .heading-div {
     display: flex;
     justify-content: space-between;
+  }
+
+  .heading {
+    @media screen and (min-width: 500px) {
+      font-size: 22px;
+    }
   }
 
   .spec-div {

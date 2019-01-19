@@ -14,6 +14,7 @@
 </template>
 
 <script>
+import api from '@/api/api'
 import NewMaterial from '@/components/material/NewMaterial'
 
 export default {
@@ -22,7 +23,7 @@ export default {
   },
   data () {
     return {
-      item: this.$route.query.item
+      item: ''
     }
   }
 }

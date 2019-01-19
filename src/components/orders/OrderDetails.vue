@@ -6,28 +6,28 @@
     <!-- Buyer Info -->
     <div class="company-info">
       <p class="title">Buyer</p>
-      <p>{{ order.buyer.company }}</p>
-      <p>{{ order.buyer.street }}</p>
-      <p>{{ order.buyer.city }}, {{ order.buyer.state }} {{ order.buyer.zipcode }}</p>
-      <p>{{ order.buyer.contactName }}</p>
-      <p>{{ order.buyer.phone }}</p>
-      <p>{{ order.buyer.email }}</p>
+      <p>{{ buyer.name }}</p>
+      <p>{{ buyer.street }}</p>
+      <p>{{ buyer.city }}, {{ buyer.state }} {{ buyer.zipcode }}</p>
+      <p>{{ buyer.contactName }}</p>
+      <p>{{ buyer.phone }}</p>
+      <p>{{ buyer.email }}</p>
     </div>
 
     <!-- Seller Info -->
     <div class="company-info">
       <p class="title">Seller</p>
-      <p>{{ order.seller.company }}</p>
-      <p>{{ order.seller.street }}</p>
-      <p>{{ order.seller.city }}, {{ order.seller.state }} {{ order.seller.zipcode }}</p>
-      <p>{{ order.seller.contactName }}</p>
-      <p>{{ order.seller.phone }}</p>
-      <p>{{ order.seller.email }}</p>
+      <p>{{ seller.name }}</p>
+      <p>{{ seller.street }}</p>
+      <p>{{ seller.city }}, {{ seller.state }} {{ seller.zipcode }}</p>
+      <p>{{ seller.contactName }}</p>
+      <p>{{ seller.phone }}</p>
+      <p>{{ seller.email }}</p>
     </div>
 
     <div class="order">
 
-      <div class="order-item" v-for="item in order.order" :key="item.id">
+      <div class="order-item" v-for="item in order" :key="item._id">
 
           <CartItem :item="item"></CartItem>
 
@@ -36,13 +36,13 @@
     </div>
 
     <!-- Price Breakdown -->
-    <div class="price-div">
+    <div class="price-div" v-if="totalPrice">
       <div class="price-box">
         <div class="item">
           <p>Material: </p>
         </div>
         <div class="price">
-          <p>${{ order.materialPrice.toLocaleString() }}</p>
+          <p>{{ materialPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}</p>
         </div>
       </div>
       <div class="price-box">
@@ -50,7 +50,7 @@
           <p>Delivery: </p>
         </div>
         <div class="price">
-          <p>${{ order.deliveryCost.toFixed(2) }}</p>
+          <p>{{ delivery.totalPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}</p>
         </div>
       </div>
       <div class="price-box">
@@ -58,26 +58,42 @@
           <h3>Total: </h3>
         </div>
         <div class="price">
-          <h3>${{ order.total.toLocaleString() }}</h3>
+          <h3>{{ totalPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}</h3>
         </div>
       </div>
     </div>
 
     <!-- Confirm/Deny order for received order -->
-    <div v-if="received" class="buttons">
-      <button class="alert">Deny</button>
+    <div v-if="$route.query.received" class="buttons">
+      <button class="alert">Decline</button>
       <button class="success">Confirm</button>
     </div>
 
     <!-- Cancel placed order -->
-    <div v-else class="buttons">
-      <button class="alert">Cancel Order</button>
+    <div v-else class="cancel">
+      <p>This order has been placed. Please wait to hear back from the seller for confirmation.</p>
+      <button class="alert" @click="toggleCancel">Cancel Order</button>
+    </div>
+
+    <!-- Cancel/Decline Confirmation -->
+    <div class="confirmation" v-if="showCancel">
+      <p v-if="$route.query.received">
+        Are you sure you want to decline this order request?
+      </p>
+      <p v-else>
+        Are you sure you want to cancel this order?
+      </p>
+      <div class="buttons">
+        <button @click="toggleCancel">No</button>
+        <button @click="cancelOrder">Yes</button>
+      </div>
     </div>
 
   </div>
 </template>
 
 <script>
+import api from '@/api/api'
 import CartItem from '@/components/cart/CartItem'
 
 export default {
@@ -86,21 +102,63 @@ export default {
   },
   data () {
     return {
-      order: this.$route.query.order,
-      received: this.$route.query.received
+      buyer: {},
+      seller: {},
+      order: [],
+      delivery: {},
+      totalPrice: null,
+      date: null,
+      time: null,
+      _id: null,
+      showCancel: false
+    }
+  },
+  created () {
+    this.$store.dispatch('loading')
+    api.axios.get(`${api.baseUrl}/orders/order`, {
+      params: {
+        id: this.$route.query.order
+      }
+    })
+    .then(res => {
+      this.$store.dispatch('complete')
+      this.buyer = res.data.order.order.buyer
+      this.seller = res.data.order.order.seller
+      this.order = res.data.order.order.order
+      this.delivery = res.data.order.order.delivery
+      this.totalPrice = res.data.order.order.totalPrice
+      this.date = res.data.order.date
+      this.time = res.data.order.time
+      this._id = res.data.order._id
+    })
+    .catch(err => {
+      this.$store.dispatch('complete')
+    })
+  },
+  computed: {
+    materialPrice () {
+      let price = 0
+      this.order.forEach(item => {
+        price += parseFloat(item.subtotalPrice)
+      })
+      return price
     }
   },
   methods: {
-    placeOrder () {
-      this.$router.push({
-        name: 'CheckoutConfirmation',
-        params: {
-          seller: this.$route.params.seller,
-          order: this.$route.params.order,
-          materialPrice: this.$route.params.materialPrice,
-          deliveryPrice: this.$route.params.deliveryPrice,
-          totalPrice: this.$route.params.totalPrice
-        }
+    toggleCancel () {
+      this.showCancel = !this.showCancel
+    },
+    cancelOrder () {
+      this.$store.dispatch('loading')
+      api.axios.post(`${api.baseUrl}/orders/cancel-order`, {
+        id: this._id
+      })
+      .then(res => {
+        this.$store.dispatch('complete')
+        this.$router.push({ name: 'OrderPage' })
+      })
+      .catch(err => {
+        this.$store.dispatch('complete')
       })
     }
   }
@@ -165,12 +223,22 @@ export default {
     justify-content: space-around;
   }
 
+  .cancel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
   .success {
     background-color: $success;
   }
 
   .alert {
     background-color: $alert;
+  }
+
+  .confirmation {
+    text-align: center;
   }
 
   h3 {

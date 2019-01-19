@@ -352,25 +352,37 @@ export default {
   },
   created () {
     if (this.edit) {
-      this._id = this.item._id
-      this.shape = this.item.shape
-      this.pushDimensions()
-      this.dimension = this.item.dimension
-      this.feet = this.item.feet
-      this.inches = this.item.inches
-      this.numerator = this.item.numerator
-      this.denominator = this.item.denominator
-      this.domestic = this.item.domestic
-      this.painted = this.item.painted
-      this.galvanized = this.item.galvanized
-      this.quantity = this.item.quantity
-      this.location = this.item.location
-      this.condition = this.item.condition
-      this.grade = this.item.grade
-      this.heat = this.item.heat
-      this.forSale = this.item.forSale
-      this.cwt = this.item.cwt
-      this.remarks = this.item.remarks
+      this.$store.dispatch('loading')
+      api.axios.get(`${api.baseUrl}/material/item`, {
+        params: {
+          id: this.$route.query.id
+        }
+      })
+      .then(res => {
+        this.$store.dispatch('complete')
+        this._id = res.data.material._id
+        this.shape = res.data.material.shape
+        this.pushDimensions()
+        this.dimension = res.data.material.dimension
+        this.feet = res.data.material.feet
+        this.inches = res.data.material.inches
+        this.numerator = res.data.material.numerator
+        this.denominator = res.data.material.denominator
+        this.domestic = res.data.material.domestic
+        this.painted = res.data.material.painted
+        this.galvanized = res.data.material.galvanized
+        this.quantity = res.data.material.quantity
+        this.location = res.data.material.location
+        this.condition = res.data.material.condition
+        this.grade = res.data.material.grade
+        this.heat = res.data.material.heat
+        this.forSale = res.data.material.forSale
+        this.cwt = res.data.material.cwt
+        this.remarks = res.data.material.remarks
+      })
+      .catch(err => {
+        this.store.dispatch('complete')
+      })
     }
   }
 }

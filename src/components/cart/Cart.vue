@@ -40,6 +40,7 @@ export default {
     })
     .then(res => {
       this.$store.dispatch('complete')
+      let newData = res.data.cart.reverse()
       this.cart = res.data.cart
     })
     .catch(err => {

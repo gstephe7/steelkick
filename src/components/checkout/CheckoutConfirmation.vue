@@ -3,7 +3,7 @@
 
     <h2>Order Placed!</h2>
 
-    <p>An email has been sent to you with details for this order. Print this page or the email for use as a receipt.</p>
+    <p>An email has been sent to you with details for this order.</p>
 
     <h3>Order Confirmation</h3>
 
@@ -17,7 +17,7 @@
             <p>Seller:</p>
           </div>
           <div class="seller-value">
-            <p>{{ company }}</p>
+            <p>{{ item.seller.name }}</p>
           </div>
         </div>
 
@@ -26,7 +26,7 @@
             <p>Address:</p>
           </div>
           <div class="seller-value">
-            <p>{{ street }} {{ city }}, {{ state }} {{ zipcode }}</p>
+            <p>{{ item.seller.street }} {{ item.seller.city }}, {{ item.seller.state }} {{ item.seller.zipcode }}</p>
           </div>
         </div>
 
@@ -35,7 +35,7 @@
             <p>Contact:</p>
           </div>
           <div class="seller-value">
-            <p>{{ contactName }}</p>
+            <p>{{ item.seller.contactName }}</p>
           </div>
         </div>
 
@@ -44,7 +44,7 @@
             <p>Phone:</p>
           </div>
           <div class="seller-value">
-            <p>{{ phone }}</p>
+            <p>{{ item.seller.phone }}</p>
           </div>
         </div>
 
@@ -53,7 +53,7 @@
             <p>Email:</p>
           </div>
           <div class="seller-value">
-            <p>{{ email }}</p>
+            <p>{{ item.seller.email }}</p>
           </div>
         </div>
 
@@ -62,7 +62,7 @@
             <p>Remarks:</p>
           </div>
           <div class="seller-value">
-            <p>{{ remarks }}</p>
+            <p>{{ item.seller.remarks }}</p>
           </div>
         </div>
 
@@ -73,9 +73,9 @@
 
       <div class="items-ordered">
 
-        <div v-for="item in $route.params.order" :key="item.id" class="item">
+        <div v-for="order in item.order" :key="item._id" class="item">
 
-          <CartItem :item="item"></CartItem>
+          <CartItem :item="order"></CartItem>
 
         </div>
 
@@ -89,7 +89,7 @@
             <p>Material:</p>
           </div>
           <div class="price-value">
-            <p>${{ $route.params.materialPrice.toLocaleString() }}</p>
+            <p>{{ item.materialPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}</p>
           </div>
         </div>
 
@@ -98,7 +98,7 @@
             <p>Delivery:</p>
           </div>
           <div class="price-value">
-            <p>${{ $route.params.deliveryPrice.toFixed(2) }}</p>
+            <p>{{ item.delivery.price.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}</p>
           </div>
         </div>
 
@@ -107,7 +107,7 @@
             <h3>Total:</h3>
           </div>
           <div class="price-value">
-            <h3>${{ $route.params.totalPrice.toLocaleString() }}</h3>
+            <h3>{{ item.totalPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}</h3>
           </div>
         </div>
 
@@ -127,15 +127,7 @@ export default {
   },
   data () {
     return {
-      company: 'Benco Welding Inc.',
-      phone: '678-233-7110',
-      contactName: 'Butch Davis',
-      email: 'butchdavis@bencowelding.com',
-      street: '1162 Winder Industrial Pkwy',
-      city: 'Winder',
-      state: 'GA',
-      zipcode: '30656',
-      remarks: 'Pickup from 7am to 3pm Monday-Thursday. Delivery can be arranged from 7am to 2pm Monday-Thursday.'
+      item: this.$route.params
     }
   }
 }

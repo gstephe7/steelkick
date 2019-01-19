@@ -3,11 +3,11 @@
 
     <h2>Checkout</h2>
 
-    <h3>Order from {{ $route.params.seller }}</h3>
+    <h3>Order from {{ seller.name }}</h3>
 
     <div class="order">
 
-      <div class="order-item" v-for="item in $route.params.order" :key="item.id">
+      <div class="order-item" v-for="item in order" :key="item._id">
 
           <CartItem :item="item"></CartItem>
 
@@ -22,7 +22,7 @@
           <p>Material: </p>
         </div>
         <div class="price">
-          <p>${{ $route.params.materialPrice.toLocaleString() }}</p>
+          <p>{{ materialPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}</p>
         </div>
       </div>
       <div class="price-box">
@@ -30,7 +30,7 @@
           <p>Delivery: </p>
         </div>
         <div class="price">
-          <p>${{ $route.params.deliveryPrice.toFixed(2) }}</p>
+          <p>{{ delivery.price.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}</p>
         </div>
       </div>
       <div class="price-box">
@@ -38,7 +38,7 @@
           <h3>Total: </h3>
         </div>
         <div class="price">
-          <h3>${{ $route.params.totalPrice.toLocaleString() }}</h3>
+          <h3>{{ totalPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}</h3>
         </div>
       </div>
     </div>
@@ -52,23 +52,78 @@
 </template>
 
 <script>
+import api from '@/api/api'
 import CartItem from '@/components/cart/CartItem'
 
 export default {
   components: {
     CartItem
   },
+  data () {
+    return {
+      seller: {
+        name: ''
+      },
+      order: [],
+      delivery: {
+        selected: null,
+        distance: null,
+        price: parseFloat(this.$route.query.delivery)
+      },
+      materialPrice: parseFloat(this.$route.query.material),
+      totalPrice: parseFloat(this.$route.query.total),
+      _id: null
+    }
+  },
+  beforeCreate () {
+    this.$store.dispatch('loading')
+    api.axios.get(`${api.baseUrl}/cart/checkout`, {
+      params: {
+        id: this.$route.query.id
+      }
+    })
+    .then(res => {
+      this.$store.dispatch('complete')
+      this._id = res.data.order._id
+      this.order = res.data.order.order
+      this.seller = res.data.order.seller
+      this.delivery.selected = res.data.order.delivery.selected
+      this.delivery.distance = res.data.order.delivery.distance
+    })
+    .catch(err => {
+      this.$store.dispatch('complete')
+    })
+  },
   methods: {
     placeOrder () {
-      this.$router.push({
-        name: 'CheckoutConfirmation',
-        params: {
-          seller: this.$route.params.seller,
-          order: this.$route.params.order,
-          materialPrice: this.$route.params.materialPrice,
-          deliveryPrice: this.$route.params.deliveryPrice,
-          totalPrice: this.$route.params.totalPrice
-        }
+      this.$store.dispatch('loading')
+      api.axios.post(`${api.baseUrl}/orders/new-order`, {
+        buyer: this.$store.getters.companyId,
+        seller: this.seller._id,
+        order: this.order,
+        delivery: {
+          selected: this.delivery.selected,
+          distance: this.delivery.distance,
+          totalPrice: this.delivery.price
+        },
+        totalPrice: this.totalPrice,
+        id: this._id
+      })
+      .then(res => {
+        this.$store.dispatch('complete')
+        this.$router.push({
+          name: 'CheckoutConfirmation',
+          params: {
+            seller: this.seller,
+            order: this.order,
+            delivery: this.delivery,
+            totalPrice: this.totalPrice,
+            materialPrice: this.materialPrice
+          }
+        })
+      })
+      .catch(err => {
+        this.$store.dispatch('complete')
       })
     }
   }

@@ -2,9 +2,13 @@
       <div id="listing">
 
         <!-- Shape and Price -->
-        <div class="container">
-          <h4>{{ material.shape.toUpperCase() }} {{ material.dimension }}</h4>
-          <h4>${{ material.cwt }} Cwt</h4>
+        <div class="container heading">
+          <h4>
+            {{ material.shape.toUpperCase() }} {{ material.dimension }}
+          </h4>
+          <h4>
+            ${{ material.cwt }} Cwt
+          </h4>
         </div>
 
         <!-- Length -->
@@ -104,7 +108,7 @@
         </div>
 
         <!-- Click message -->
-        <div class="click-message">
+        <div class="click-message" v-if="$route.path == '/dashboard/cart'">
           <p>Click to edit this item/remove item from cart</p>
         </div>
 
@@ -139,6 +143,12 @@ export default {
     display: flex;
     justify-content: space-between;
     flex: 1;
+  }
+
+  .heading {
+    @media screen and (min-width: 500px) {
+      font-size: 20px;
+    }
   }
 
   .info-div {
