@@ -89,6 +89,9 @@ export default {
     justify-content: space-between;
   }
 
+  .buyer-info {
+  }
+
   .seller-info {
     text-align: right;
   }

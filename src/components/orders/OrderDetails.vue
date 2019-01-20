@@ -25,6 +25,13 @@
       <p>{{ seller.email }}</p>
     </div>
 
+    <!-- Date and Time order placed -->
+    <div class="company-info">
+      <p class="title">Order Date/Time</p>
+      <p>{{ date }}</p>
+      <p>{{ time }}</p>
+    </div>
+
     <div class="order">
 
       <div class="order-item" v-for="item in order" :key="item._id">
@@ -65,8 +72,8 @@
 
     <!-- Confirm/Deny order for received order -->
     <div v-if="$route.query.received" class="buttons">
-      <button class="alert">Decline</button>
-      <button class="success">Confirm</button>
+      <button class="alert" @click="toggleCancel">Decline</button>
+      <button class="success" @click="toggleConfirm">Confirm</button>
     </div>
 
     <!-- Cancel placed order -->
@@ -86,6 +93,18 @@
       <div class="buttons">
         <button @click="toggleCancel">No</button>
         <button @click="cancelOrder">Yes</button>
+      </div>
+    </div>
+
+    <!-- Confirm Order -->
+    <div class="confirmation" v-if="showConfirm">
+      <p>
+        Send a message with your confirmation
+      </p>
+      <textarea v-model="confirmationMessage"></textarea>
+      <div class="buttons">
+        <button @click="toggleConfirm">Cancel</button>
+        <button @click="confirmOrder" class="success">Confirm Order</button>
       </div>
     </div>
 
@@ -110,7 +129,9 @@ export default {
       date: null,
       time: null,
       _id: null,
-      showCancel: false
+      confirmationMessage: '',
+      showCancel: false,
+      showConfirm: false,
     }
   },
   created () {
@@ -148,9 +169,25 @@ export default {
     toggleCancel () {
       this.showCancel = !this.showCancel
     },
+    toggleConfirm () {
+      this.showConfirm = !this.showConfirm
+    },
     cancelOrder () {
       this.$store.dispatch('loading')
       api.axios.post(`${api.baseUrl}/orders/cancel-order`, {
+        id: this._id
+      })
+      .then(res => {
+        this.$store.dispatch('complete')
+        this.$router.push({ name: 'OrderPage' })
+      })
+      .catch(err => {
+        this.$store.dispatch('complete')
+      })
+    },
+    confirmOrder () {
+      this.$store.dispatch('loading')
+      api.axios.post(`${api.baseUrl}/orders/confirm-order`, {
         id: this._id
       })
       .then(res => {
@@ -248,5 +285,9 @@ export default {
 
   p {
     margin: 0;
+  }
+
+  textarea {
+    height: 125px;
   }
 </style>
