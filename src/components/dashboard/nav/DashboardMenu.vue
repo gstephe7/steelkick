@@ -10,19 +10,19 @@
       <li>
         <router-link :to="{ name: 'Inventory' }">Manage Inventory</router-link>
       </li>
-      <li>
+      <li v-if="$store.getters.isAdmin">
         <router-link :to="{ name: 'Cart' }">Cart</router-link>
       </li>
-      <li>
+      <li v-if="$store.getters.isAdmin">
         <router-link :to="{ name: 'OrderPage' }">Pending Orders</router-link>
       </li>
-      <li>
+      <li v-if="$store.getters.isAdmin">
         <router-link :to="{ name: 'Transactions' }">Transaction History</router-link>
       </li>
-      <li>
+      <li v-if="$store.getters.isAdmin">
         <router-link :to="{ name: 'SetPrices' }">Set Prices</router-link>
       </li>
-      <li>
+      <li v-if="$store.getters.isAdmin">
         <router-link :to="{ name: 'ManageUsers' }">Manage Company Users</router-link>
       </li>
       <li>

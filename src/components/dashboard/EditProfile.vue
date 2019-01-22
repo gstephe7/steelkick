@@ -42,7 +42,7 @@
 
     </div>
 
-    <div class="container">
+    <div class="container" v-if="$store.getters.isAdmin">
 
       <h3>Edit Company</h3>
 

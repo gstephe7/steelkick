@@ -14,7 +14,7 @@
         </div>
       </div>
 
-      <div class="container">
+      <div class="container" v-if="$store.getters.isAdmin">
         <div class="card" @click="$router.push('cart')">
           <fa-icon icon="shopping-cart" class="icon orange"></fa-icon>
           <h3>Checkout Cart</h3>
@@ -29,7 +29,7 @@
 
     <div class="div">
 
-      <div class="container">
+      <div class="container" v-if="$store.getters.isAdmin">
         <div class="card" @click="$router.push('transactions')">
           <fa-icon icon="history" class="icon gold"></fa-icon>
           <h3>Transaction History</h3>
@@ -41,7 +41,7 @@
       </div>
 
       <div class="container">
-        <div class="card" @click="$router.push('manage-users')">
+        <div class="card" @click="$router.push('manage-users')" v-if="$store.getters.isAdmin">
           <fa-icon icon="users" class="icon purple"></fa-icon>
           <h3>Manage Company Users</h3>
         </div>
