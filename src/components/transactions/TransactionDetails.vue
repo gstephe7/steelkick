@@ -4,20 +4,20 @@
     <h3 class="page-title">Transaction Details</h3>
 
     <!-- Company Info -->
-    <div class="company-info">
-      <p>{{ order.company }}</p>
-      <p>{{ order.street }}</p>
-      <p>{{ order.city }}, {{ order.state }} {{ order.zipcode }}</p>
-      <p>{{ order.contactName }}</p>
-      <p>{{ order.phone }}</p>
-      <p>{{ order.email }}</p>
+    <div class="company-info" v-if="order.length > 0">
+      <p>{{ company.name }}</p>
+      <p>{{ company.street }}</p>
+      <p>{{ company.city }}, {{ company.state }} {{ company.zipcode }}</p>
+      <p>{{ company.contactName }}</p>
+      <p>{{ company.phone }}</p>
+      <p>{{ company.email }}</p>
       <br>
-      <p>Confirmation Date: {{ order.date }}</p>
+      <p>Date: {{ date }}</p>
     </div>
 
     <div class="order">
 
-      <div class="order-item" v-for="item in order.order" :key="item.id">
+      <div class="order-item" v-for="item in order" :key="item._id">
 
           <CartItem :item="item"></CartItem>
 
@@ -26,13 +26,13 @@
     </div>
 
     <!-- Price Breakdown -->
-    <div class="price-div">
+    <div class="price-div" v-if="order.length > 0">
       <div class="price-box">
         <div class="item">
           <p>Material: </p>
         </div>
         <div class="price">
-          <p>${{ order.materialPrice.toLocaleString() }}</p>
+          <p>{{ materialPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}</p>
         </div>
       </div>
       <div class="price-box">
@@ -40,7 +40,7 @@
           <p>Delivery: </p>
         </div>
         <div class="price">
-          <p>${{ order.deliveryCost.toFixed(2) }}</p>
+          <p>{{ delivery.totalPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}</p>
         </div>
       </div>
       <div class="price-box">
@@ -48,7 +48,7 @@
           <h3>Total: </h3>
         </div>
         <div class="price">
-          <h3>${{ order.total.toLocaleString() }}</h3>
+          <h3>{{ totalPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}</h3>
         </div>
       </div>
     </div>
@@ -57,6 +57,7 @@
 </template>
 
 <script>
+import api from '@/api/api'
 import CartItem from '@/components/cart/CartItem'
 
 export default {
@@ -65,7 +66,52 @@ export default {
   },
   data () {
     return {
-      order: this.$route.query.order
+      buyer: {},
+      seller: {},
+      order: [],
+      delivery: {},
+      totalPrice: null,
+      date: null,
+      time: null,
+      _id: null
+    }
+  },
+  created () {
+    this.$store.dispatch('loading')
+    api.axios.get(`${api.baseUrl}/orders/order`, {
+      params: {
+        id: this.$route.query.order
+      }
+    })
+    .then(res => {
+      this.$store.dispatch('complete')
+      this.buyer = res.data.order.order.buyer
+      this.seller = res.data.order.order.seller
+      this.order = res.data.order.order.order
+      this.delivery = res.data.order.order.delivery
+      this.totalPrice = res.data.order.order.totalPrice
+      this.date = res.data.order.date
+      this.time = res.data.order.time
+      this._id = res.data.order._id
+    })
+    .catch(err => {
+      this.$store.dispatch('complete')
+    })
+  },
+  computed: {
+    company () {
+      if (this.buyer._id == this.$store.getters.companyId) {
+        return this.seller
+      } else {
+        return this.buyer
+      }
+    },
+    materialPrice () {
+      let price = 0
+      this.order.forEach(item => {
+        price += parseFloat(item.subtotalPrice)
+      })
+      return price
     }
   }
 }

@@ -4,12 +4,17 @@
     <div class="container">
 
       <div>
-        <b>{{ item.type }}</b>
+        <b v-if="purchase">
+          Purchase
+        </b>
+        <b v-else>
+          Sale
+        </b>
       </div>
 
       <div>
-        <b v-if="item.type === 'Sale'">${{ item.total }}</b>
-        <b v-if="item.type === 'Purchase'">-${{ item.total }}</b>
+        <b v-if="purchase">-{{ item.order.totalPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}</b>
+        <b v-else>{{ item.order.totalPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}</b>
       </div>
 
     </div>
@@ -21,7 +26,12 @@
       </div>
 
       <div>
-        <p>{{ item.company }}</p>
+        <p v-if="purchase">
+          {{ item.order.seller.name }}
+        </p>
+        <p v-else>
+          {{ item.order.buyer.name }}
+        </p>
       </div>
 
     </div>
@@ -31,7 +41,16 @@
 
 <script>
 export default {
-  props: ['item']
+  props: ['item'],
+  computed: {
+    purchase () {
+      if (this.item.order.buyer._id == this.$store.getters.companyId) {
+        return true
+      } else {
+        return false
+      }
+    }
+  }
 }
 </script>
 
