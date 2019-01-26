@@ -170,6 +170,7 @@ export default {
         name: 'Listings',
         query: {
           cart: true,
+          forSale: true,
           company: this.order.seller._id
         }
       })

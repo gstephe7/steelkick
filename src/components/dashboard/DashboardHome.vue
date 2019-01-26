@@ -79,6 +79,7 @@ export default {
     flex-wrap: wrap;
     justify-content: space-around;
     align-items: center;
+    width: 100%;
   }
 
   .container {

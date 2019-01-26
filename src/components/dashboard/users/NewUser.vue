@@ -116,7 +116,8 @@ export default {
           email: this.email,
           password: this.password,
           admin: this.admin,
-          company: this.$store.getters.companyName
+          company: this.$store.getters.companyName,
+          companyId: this.$store.getters.companyId
         })
         .then(res => {
           this.$store.dispatch('complete')

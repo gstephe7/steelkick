@@ -33,7 +33,10 @@
             <input class="numerator-input autotab" type="number" maxlength="2" v-model="numerator"> /
             <input class="denominator-input autotab" type="number" maxlength="2" v-model="denominator">
           </div>
-          <input type="number" placeholder="Zipcode" v-model="zipcode" class="autotab" maxlength="5">
+          <select v-model="state" class="autotab">
+            <option :value="null" selected disabled>State</option>
+            <option v-for="state in states" :value="state" :key="state">{{ state }}</option>
+          </select>
         </div>
 
       </div>
@@ -47,6 +50,7 @@
 
 <script>
 import material from '@/assets/data/material.js'
+import states from '@/assets/data/states.js'
 
 export default {
   data () {
@@ -64,7 +68,8 @@ export default {
       inches: null,
       numerator: null,
       denominator: null,
-      zipcode: ''
+      state: null,
+      states: states
     }
   },
   methods: {
@@ -86,11 +91,9 @@ export default {
           domestic: null,
           painted: null,
           galvanized: null,
-          radius: '50',
-          zipcode: this.zipcode,
           cut: null,
           delivery: null,
-          state: null,
+          state: this.state,
           company: null
         }
       })

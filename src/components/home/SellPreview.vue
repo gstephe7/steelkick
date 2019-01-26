@@ -18,12 +18,16 @@ export default {
 
   #sell-preview {
     height: 400px;
+    width: 100%;
     max-width: 400px;
     padding: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
+    p {
+      width: 100%;
+    }
   }
 
   .icon {

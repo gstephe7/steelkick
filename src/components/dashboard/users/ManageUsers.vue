@@ -47,7 +47,7 @@ export default {
     this.$store.dispatch('loading')
     api.axios.get(`${api.baseUrl}/users/all-users`, {
       params: {
-        company: this.$store.getters.companyName
+        id: this.$store.getters.companyId
       }
     })
     .then(res => {

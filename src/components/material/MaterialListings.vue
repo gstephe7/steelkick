@@ -38,31 +38,13 @@
       </div>
 
       <!-- show if listings were found -->
-      <div v-if="listings.length > 0">
-
-        <div v-if="buying">
-          <select v-model="perPage">
-            <option selected value="25">show 25</option>
-            <option value="50">show 50</option>
-            <option value="75">show 75</option>
-            <option value="100">show 100</option>
-          </select>
+      <div v-if="listings.length > 0" class="listings-div">
+        <div v-for="item in listings" :key="item.id" @click="viewDetails(item)" class="item">
+          <MaterialPreview :item="item"
+                           :inventory="inventory"
+                           :buying="buying">
+          </MaterialPreview>
         </div>
-
-        <div class="listings-div">
-          <div v-for="item in listings" :key="item.id" @click="viewDetails(item)" class="item">
-            <MaterialPreview :item="item"
-                             :inventory="inventory"
-                             :buying="buying">
-            </MaterialPreview>
-          </div>
-        </div>
-
-        <div class="buttons" v-if="buying">
-          <button>PREV</button>
-          <button>NEXT</button>
-        </div>
-
       </div>
 
       <!-- show if no listings were found -->
@@ -186,8 +168,11 @@ export default {
 
   #listings {
     padding: 10px;
-    max-width: 620px;
-    margin: auto;
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     flex: 1;
     h2 {
       margin-left: 10px;
@@ -203,6 +188,8 @@ export default {
 
   .listings-div {
     margin-top: 25px;
+    width: 100%;
+    max-width: 620px;
   }
 
   .filter-toggle {

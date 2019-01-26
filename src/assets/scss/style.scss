@@ -31,6 +31,10 @@ input[type=number]::-webkit-outer-spin-button {
   margin: 0;
 }
 
+input[type=number] {
+  -moz-appearance:textfield;
+}
+
 select {
   width: 140px;
   padding: 10px 5px 10px 5px;

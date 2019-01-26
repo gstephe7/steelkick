@@ -71,4 +71,8 @@ export default {
   p {
     margin: 0;
   }
+
+  b {
+    font-weight: bold;
+  }
 </style>

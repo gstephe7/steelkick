@@ -69,6 +69,9 @@
             <div>
               <p v-if="item.galvanized"><span class="check">&#10004;</span>Galvanized</p>
             </div>
+            <div v-if="item.remarks" class="remarks">
+              <p>Remarks: {{ item.remarks }}</p>
+            </div>
           </div>
 
           <!-- Information on company -->
@@ -250,9 +253,8 @@ export default {
       this.$store.dispatch('loading')
       api.axios.get(`${api.baseUrl}/cart/item`, {
         params: {
-          buyer: this.$store.getters.companyId,
-          seller: this.$route.query.seller,
-          id: this.$route.query.orderId
+          cartId: this.$route.query.cartId,
+          orderId: this.$route.query.orderId
         }
       })
       .then(res => {
@@ -403,12 +405,10 @@ export default {
         order: this.$route.query.orderId
       })
       .then(res => {
-        console.log(res)
         this.$store.dispatch('complete')
         this.$router.push({ name: 'Cart' })
       })
       .catch(err => {
-        console.log(err)
         this.$store.dispatch('complete')
         this.$router.push({ name: 'Cart' })
       })
@@ -420,7 +420,7 @@ export default {
       let length = 0
 
       this.cuts.forEach(cut => {
-        length += cut.lengthInches + this.company.cut.kerf
+        length += parseFloat(cut.lengthInches)
       })
 
       if (length > this.totalLengthInches) {
@@ -431,26 +431,17 @@ export default {
     },
     // calculates total length in inches of stock material
     totalLengthInches () {
-      const feet = parseFloat(this.item.feet) * 12
-      const inches = parseFloat(this.item.inches)
-      const fraction = parseFloat(this.item.numerator) / parseFloat(this.item.denominator)
-      let quantity = 1
+      let feet = parseFloat(this.item.feet) * 12
+      let inches = parseFloat(this.item.inches)
+      let fraction = parseFloat(this.item.numerator) / parseFloat(this.item.denominator)
 
-      if (!this.quantity) {
-        quantity = 1
-      } else {
-        quantity = parseFloat(this.quantity)
-      }
+      let quantity = parseFloat(this.quantity)
 
-      if (feet && inches && fraction) {
-        return (feet + inches + fraction) * quantity
-      } else if (feet && inches) {
-        return (feet + inches) * quantity
-      } else if (feet) {
-        return feet * quantity
-      } else if (inches) {
-        return inches * quantity
-      }
+      if (!feet) feet = 0
+      if (!inches) inches = 0
+      if (!fraction) fraction = 0
+
+      return (feet + inches + fraction) * quantity
     },
     // calculates total length in feet of stock material
     totalLengthFeet () {
@@ -523,6 +514,11 @@ export default {
 
   .info-container {
     margin-top: 25px;
+    max-width: 50%;
+  }
+
+  .remarks {
+    margin-top: 10px;
   }
 
   .preferences {

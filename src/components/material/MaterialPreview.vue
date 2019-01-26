@@ -49,7 +49,7 @@
     <div class="spec-div">
 
       <!-- Item Information -->
-      <div>
+      <div class="material-info">
 
         <!-- Grade and Origin -->
         <div>
@@ -92,6 +92,11 @@
 
       </div>
 
+    </div>
+
+    <!-- Remarks -->
+    <div v-if="item.remarks" class="remarks">
+      <p>Remarks: {{ item.remarks }}</p>
     </div>
 
     <!-- Click Message -->
@@ -143,12 +148,21 @@ export default {
     flex-wrap: wrap;
   }
 
+  .material-info {
+    max-width: 50%;
+  }
+
   .company-info {
     text-align: right;
   }
 
   .company-name {
     text-decoration: underline;
+  }
+
+  .remarks {
+    margin-top: 10px;
+    font-size: 12px;
   }
 
   .click-message {

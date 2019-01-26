@@ -53,7 +53,7 @@ export default {
     display: flex;
     justify-content: space-around;
     height: 200px;
-    padding-top: 50px;
+    padding: 50px 0 50px 0;
     margin-top: 100px;
     background-color: $primary;
   }

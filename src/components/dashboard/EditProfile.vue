@@ -490,6 +490,7 @@ export default {
       this.company.editing = !this.company.editing
 
       api.axios.put(`${api.baseUrl}/users/edit-company`, {
+        id: this.$store.getters.companyId,
         name: this.company.name,
         street: this.company.street,
         city: this.company.city,
@@ -535,7 +536,7 @@ export default {
     // retrieve company profile
     api.axios.get(`${api.baseUrl}/users/company`, {
       params: {
-        name: this.$store.getters.companyName
+        id: this.$store.getters.companyId
       }
     })
     .then(res => {

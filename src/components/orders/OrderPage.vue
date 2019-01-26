@@ -11,7 +11,7 @@
           <h4>Orders Received</h4>
         </hgroup>
 
-        <div class="orders">
+        <div class="orders" v-if="received.length > 0">
 
           <div class="order" v-for="order in received" :key="order._id" @click="viewOrderDetails({ order: order, received: true })">
 
@@ -19,6 +19,10 @@
 
           </div>
 
+        </div>
+
+        <div v-else class="empty">
+          <p>None at this time</p>
         </div>
 
       </div>
@@ -29,7 +33,7 @@
           <h4>Orders Placed</h4>
         </hgroup>
 
-        <div class="orders">
+        <div v-if="placed.length > 0" class="orders">
 
           <div class="order" v-for="order in placed" :key="order._id" @click="viewOrderDetails({ order: order, received: false })">
 
@@ -37,6 +41,10 @@
 
           </div>
 
+        </div>
+
+        <div v-else class="empty">
+          <p>None at this time</p>
         </div>
 
       </div>
@@ -70,7 +78,7 @@ export default {
     })
     .then(res => {
       this.$store.dispatch('complete')
-      this.received = res.data.order
+      this.received = res.data.order.reverse()
     })
     .catch(err => {
       this.$store.dispatch('complete')
@@ -85,7 +93,7 @@ export default {
     })
     .then(res => {
       this.$store.dispatch('complete')
-      this.placed = res.data.order
+      this.placed = res.data.order.reverse()
     })
     .catch(err => {
       this.$store.dispatch('complete')
@@ -142,5 +150,9 @@ export default {
       margin: 0;
     }
     box-shadow: $box-shadow;
+  }
+
+  .empty {
+    padding: 10px;
   }
 </style>

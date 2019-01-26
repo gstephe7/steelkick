@@ -20,6 +20,7 @@ export default {
     padding: 0;
     font-style: italic;
     letter-spacing: -3px;
+    font-weight: 700;
   }
 
   .title-b {
@@ -33,5 +34,6 @@ export default {
     padding: 0;
     font-style: italic;
     letter-spacing: -3px;
+    font-weight: 700;
   }
 </style>

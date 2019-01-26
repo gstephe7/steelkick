@@ -3,7 +3,7 @@
 
     <h2>Order Placed!</h2>
 
-    <p>An email has been sent to you with details for this order.</p>
+    <p>An email has been sent to both you and the seller with details for this order.</p>
 
     <h3>Order Confirmation</h3>
 

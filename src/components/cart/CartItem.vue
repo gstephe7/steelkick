@@ -40,13 +40,18 @@
 
             <div class="box">
               <div>
-                <p v-if="material.heat"><span class="check">&#10004;</span>Heat #s included</p>
-              </div>
-              <div>
                 <p v-if="material.painted"><span class="check">&#10004;</span>Painted</p>
               </div>
               <div>
                 <p v-if="material.galvanized"><span class="check">&#10004;</span>Galvanized</p>
+              </div>
+              <div>
+                <p v-if="material.heat">
+                  Heat #: {{ material.heat }}
+                </p>
+              </div>
+              <div v-if="material.remarks" class="remarks">
+                <p>Remarks: {{ material.remarks }}</p>
               </div>
             </div>
 

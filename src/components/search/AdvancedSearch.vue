@@ -52,15 +52,17 @@
       <div class="form" v-if="!inventory">
 
         <div class="subform">
-          <select v-model="radius" class="autotab">
-            <option value="10">Within 10 miles</option>
-            <option value="25">Within 25 miles</option>
-            <option value="50" selected>Within 50 miles</option>
-            <option value="75">Within 75 miles</option>
-            <option value="100">Within 100 miles</option>
-            <option value="">Any</option>
+          <select v-model="state" class="autotab" @change="pushCompanies">
+            <option :value="null" selected disabled>State</option>
+            <option v-for="state in states" :value="state" :key="state">{{ state }}</option>
           </select>
-          <input type="number" class="input autotab" placeholder="Zipcode" maxlength="5" v-model="zipcode">
+          <select v-if="companiesLoading">
+            <option disabled selected>Loading...</option>
+          </select>
+          <select v-else v-model="company" class="autotab">
+            <option :value="null" selected disabled>Company</option>
+            <option v-for="company in companies" :value="company._id" :key="company._id">{{ company.name }}</option>
+          </select>
         </div>
 
         <div class="subform">
@@ -73,17 +75,6 @@
             <option disabled selected :value="null">Delivery?</option>
             <option :value="true">Offers Delivery</option>
             <option :value="false">Doesn't matter</option>
-          </select>
-        </div>
-
-        <div class="subform">
-          <select v-model="state" class="autotab">
-            <option :value="null" selected disabled>State</option>
-            <option v-for="state in states" :value="state" :key="state">{{ state }}</option>
-          </select>
-          <select v-model="company" class="autotab">
-            <option :value="null" selected disabled>Company</option>
-            <option v-for="company in companies" :value="company" :key="company">{{ company }}</option>
           </select>
         </div>
 
@@ -131,14 +122,13 @@ export default {
       domestic: null,
       painted: null,
       galvanized: null,
-      radius: '50',
-      zipcode: null,
       cut: null,
       delivery: null,
       state: null,
       company: null,
       states: states,
-      companies: []
+      companies: [],
+      companiesLoading: false
     }
   },
   methods: {
@@ -148,6 +138,21 @@ export default {
         newDimensions.push(dimension.dimension)
       })
       this.dimensions = newDimensions
+    },
+    pushCompanies () {
+      this.companiesLoading = true
+      api.axios.get(`${api.baseUrl}/users/state-companies`, {
+        params: {
+          state: this.state
+        }
+      })
+      .then(res => {
+        this.companiesLoading = false
+        this.companies = res.data.companies
+      })
+      .catch(err => {
+        this.companiesLoading = false
+      })
     },
     search () {
       let buying = () => {
@@ -272,13 +277,12 @@ export default {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
-    align-items: center;
+    align-items: flex-start;
   }
 
   .form {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     max-width: 400px;
     padding-top: 25px;

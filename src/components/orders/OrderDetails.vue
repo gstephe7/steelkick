@@ -12,6 +12,7 @@
       <p>{{ buyer.contactName }}</p>
       <p>{{ buyer.phone }}</p>
       <p>{{ buyer.email }}</p>
+      <p>Remarks: {{ buyer.remarks }}</p>
     </div>
 
     <!-- Seller Info -->
@@ -23,6 +24,7 @@
       <p>{{ seller.contactName }}</p>
       <p>{{ seller.phone }}</p>
       <p>{{ seller.email }}</p>
+      <p>Remarks: {{ seller.remarks }}</p>
     </div>
 
     <!-- Date and Time order placed -->

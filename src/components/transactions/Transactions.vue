@@ -5,7 +5,7 @@
 
     <div class="transaction-list" v-if="transactions.length > 0">
 
-      <div class="transaction" v-for="item in transactions" :key="item.id" @click="viewTransaction(item)">
+      <div class="transaction" v-for="item in transactions" :key="item._id" @click="viewTransaction(item)">
 
         <TransactionEntry :item="item"></TransactionEntry>
 
