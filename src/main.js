@@ -43,14 +43,14 @@ library.add({
 
 Vue.component('fa-icon', FontAwesomeIcon)
 
+// Vue cookies
+Vue.use(VueCookies)
+
 //vue-router
 import router from './router'
 
 // vuex store
 import store from './store'
-
-// Vue cookies
-Vue.use(VueCookies)
 
 Vue.config.productionTip = false
 

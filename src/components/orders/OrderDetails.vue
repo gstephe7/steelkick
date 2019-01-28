@@ -130,7 +130,7 @@ export default {
       totalPrice: null,
       date: null,
       time: null,
-      _id: null,
+      id: null,
       confirmationMessage: '',
       showCancel: false,
       showConfirm: false,
@@ -152,9 +152,9 @@ export default {
       this.totalPrice = res.data.order.order.totalPrice
       this.date = res.data.order.date
       this.time = res.data.order.time
-      this._id = res.data.order._id
+      this.id = res.data.order._id
     })
-    .catch(err => {
+    .catch(() => {
       this.$store.dispatch('complete')
     })
   },
@@ -177,26 +177,26 @@ export default {
     cancelOrder () {
       this.$store.dispatch('loading')
       api.axios.post(`${api.baseUrl}/orders/cancel-order`, {
-        id: this._id
+        id: this.id
       })
-      .then(res => {
+      .then(() => {
         this.$store.dispatch('complete')
         this.$router.push({ name: 'OrderPage' })
       })
-      .catch(err => {
+      .catch(() => {
         this.$store.dispatch('complete')
       })
     },
     confirmOrder () {
       this.$store.dispatch('loading')
       api.axios.post(`${api.baseUrl}/orders/confirm-order`, {
-        id: this._id
+        id: this.id
       })
-      .then(res => {
+      .then(() => {
         this.$store.dispatch('complete')
         this.$router.push({ name: 'OrderPage' })
       })
-      .catch(err => {
+      .catch(() => {
         this.$store.dispatch('complete')
       })
     }

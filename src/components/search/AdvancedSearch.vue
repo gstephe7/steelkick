@@ -150,7 +150,7 @@ export default {
         this.companiesLoading = false
         this.companies = res.data.companies
       })
-      .catch(err => {
+      .catch(() => {
         this.companiesLoading = false
       })
     },

@@ -9,13 +9,13 @@
       </AdvancedSearch>
     </div>
 
-    <div id="listings">
+    <div v-if="$route.query.cart" class="back">
+      <span @click="$router.push({ name: 'Cart' })">
+        &lt; Back to cart
+      </span>
+    </div>
 
-      <div v-if="$route.query.cart" class="back">
-        <span @click="$router.push({ name: 'Cart' })">
-          < Back to cart
-        </span>
-      </div>
+    <div id="listings">
 
       <h2 v-if="buying">Your Search Results</h2>
       <h3 v-if="inventory">Company Inventory</h3>

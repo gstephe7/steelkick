@@ -84,10 +84,10 @@ export default {
               this.$store.dispatch('login', {
                 token: res.data.token,
                 user: {
+                  id: res.data.user._id,
                   admin: res.data.user.admin,
                   company: res.data.user.company,
-                  companyId: res.data.user.companyId,
-                  email: res.data.user.email
+                  companyId: res.data.user.companyId
                 }
               })
               this.$router.push(`${this.$route.query.redirect}`)

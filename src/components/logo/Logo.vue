@@ -30,7 +30,7 @@ export default {
   .footer {
     color: $accent;
     opacity: .5;
-    margin: 0;
+    margin: 0 5px 0 0;
     padding: 0;
     font-style: italic;
     letter-spacing: -3px;

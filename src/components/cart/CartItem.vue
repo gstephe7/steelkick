@@ -66,7 +66,7 @@
               <div v-if="item.cuts">
                 <p>Cut Total</p>
                 <p>{{ item.cuts.length }}</p>
-                <div class="cuts-box" v-for="cut in item.cuts">
+                <div class="cuts-box" v-for="(cut, index) in item.cuts" :key="index">
                   <p>
                     {{ cut.quantity }} @
                     <span v-if="cut.feet">

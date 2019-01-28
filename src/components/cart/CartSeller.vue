@@ -52,7 +52,7 @@
           <p>Distance</p>
         </div>
         <div class="price">
-          <p>{{ order.delivery.distance.toFixed(2) }} miles</p>
+          <p v-if="order.delivery.distance">{{ order.delivery.distance.toFixed(2) }} miles</p>
         </div>
       </div>
     </div>

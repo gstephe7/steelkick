@@ -73,7 +73,7 @@
 
       <div class="items-ordered">
 
-        <div v-for="order in item.order" :key="item._id" class="item">
+        <div v-for="order in item.order" :key="order._id" class="item">
 
           <CartItem :item="order"></CartItem>
 

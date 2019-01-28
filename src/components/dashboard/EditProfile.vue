@@ -42,7 +42,7 @@
 
     </div>
 
-    <div class="container" v-if="$store.getters.isAdmin">
+    <div class="container" v-if="$store.getters.isAdmin" id="edit-company">
 
       <h3>Edit Company</h3>
 
@@ -53,23 +53,26 @@
           Name:
           <input v-model="company.name">
         </div>
+        <div v-if="addressInvalid" class="address-text">
+          <p>Please enter a valid address before ordering or listing steel</p>
+        </div>
         <div class="input">
           Street:
-          <input v-model="company.street">
+          <input v-model="company.street" :class="{ address : addressInvalid }">
         </div>
         <div class="input">
           City:
-          <input v-model="company.city">
+          <input v-model="company.city" :class="{ address : addressInvalid }">
         </div>
         <div class="input">
           State:
-          <select v-model="company.state">
+          <select v-model="company.state" :class="{ address : addressInvalid }">
             <option v-for="state in states" :value="state" :key="state">{{ state }}</option>
           </select>
         </div>
         <div class="input">
           Zipcode:
-          <input v-model="company.zipcode">
+          <input v-model="company.zipcode" :class="{ address : addressInvalid }">
         </div>
         <div class="input">
           Contact Person:
@@ -405,6 +408,7 @@ export default {
   data () {
     return {
       profile: {
+        id: null,
         firstName: '',
         lastName: '',
         email: '',
@@ -465,7 +469,8 @@ export default {
         remarks: ''
       },
       states: states,
-      hours: hours
+      hours: hours,
+      addressInvalid: this.$route.query.addressInvalid
     }
   },
   methods: {
@@ -473,20 +478,21 @@ export default {
       this.profile.editing = !this.profile.editing
 
       api.axios.put(`${api.baseUrl}/users/edit-user`, {
+        id: this.profile.id,
         email: this.profile.email,
         firstName: this.profile.firstName,
         lastName: this.profile.lastName,
         password: this.profile.password
       })
-      .then(res => {
-        console.log(res)
+      .then(() => {
       })
-      .catch(err => {
-        console.log(err)
+      .catch(() => {
       })
 
     },
     editCompany () {
+      this.addressInvalid = false
+
       this.company.editing = !this.company.editing
 
       api.axios.put(`${api.baseUrl}/users/edit-company`, {
@@ -504,12 +510,10 @@ export default {
         hours: this.company.hours,
         remarks: this.company.remarks
       })
-      .then((res) => {
-        console.log(res)
-        //location.reload()
+      .then(() => {
+        this.$store.dispatch('validateAddress')
       })
-      .catch(err => {
-        console.log(err)
+      .catch(() => {
       })
 
     }
@@ -520,16 +524,17 @@ export default {
     // retrieve user profile
     api.axios.get(`${api.baseUrl}/users/user`, {
       params: {
-        email: this.$store.getters.userEmail
+        id: this.$store.getters.userId
       }
     })
     .then(res => {
       this.$store.dispatch('complete')
+      this.profile.id = res.data.user._id
       this.profile.email = res.data.user.email
       this.profile.firstName = res.data.user.firstName
       this.profile.lastName = res.data.user.lastName
     })
-    .catch(err => {
+    .catch(() => {
       this.$store.dispatch('complete')
     })
 
@@ -561,10 +566,20 @@ export default {
         this.company.hours = co.hours
       }
     })
-    .catch(err => {
+    .catch(() => {
       this.$store.dispatch('complete')
     })
 
+    if (this.$route.query.addressInvalid) {
+      this.addressInvalid = true
+      this.company.editing = true
+    }
+
+  },
+  updated () {
+    if (this.addressInvalid) {
+      document.getElementById('edit-company').scrollIntoView()
+    }
   }
 }
 </script>
@@ -625,5 +640,13 @@ export default {
     .hours {
       min-width: 180px;
     }
+  }
+
+  .address {
+    outline: thin solid $alert;
+  }
+
+  .address-text {
+    color: $alert;
   }
 </style>

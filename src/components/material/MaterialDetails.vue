@@ -3,10 +3,10 @@
 
       <p class="back" @click="$router.back()">
         <span v-if="$route.query.buying">
-          < Back to results
+          &lt; Back to results
         </span>
         <span v-if="$route.query.cart">
-          < Back to cart
+          &lt; Back to cart
         </span>
       </p>
 
@@ -148,7 +148,7 @@
           </div>
 
           <!-- Details for cuts requested -->
-          <div class="cut-div" v-for="(cut, index) in cuts">
+          <div class="cut-div" v-for="(cut, index) in cuts" :key="index">
             <div>
               <input class="cut-quantity" type="number" v-model="cut.quantity">
             </div>
@@ -264,7 +264,7 @@ export default {
         this.quantity = res.data.item.quantity
         this.cuts = res.data.item.cuts
       })
-      .catch(err => {
+      .catch(() => {
         this.$store.dispatch('complete')
       })
 
@@ -290,13 +290,12 @@ export default {
           .then(res => {
             this.distance = res.data.distance
           })
-          .catch(err => {
-
+          .catch(() => {
           })
         }
 
       })
-      .catch(err => {
+      .catch(() => {
         this.$store.dispatch('complete')
       })
 
@@ -348,52 +347,63 @@ export default {
     },
     submit () {
 
-      // if editing a cart item
-      if (this.$route.query.cart) {
-        this.$store.dispatch('loading')
-        api.axios.put(`${api.baseUrl}/cart/edit-cart`, {
-          buyer: this.$store.getters.companyId,
-          seller: this.company._id,
-          orderId: this.$route.query.orderId,
-          order: {
-            material: this.item._id,
-            quantity: this.quantity,
-            cuts: this.cuts,
-            cutPrice: this.totalCutPrice,
-            subtotalPrice: this.totalPrice
-          }
-        })
-        .then(res => {
-          this.$store.dispatch('complete')
-          this.$router.push({ name: 'Cart' })
-        })
-        .catch(err => {
-          this.$store.dispatch('complete')
-        })
-      }
+      if (this.$store.getters.addressValid == true) {
 
-      // if placing a new item in the cart
-      else {
-        this.$store.dispatch('loading')
-        api.axios.post(`${api.baseUrl}/cart/`, {
-          buyer: this.$store.getters.companyId,
-          seller: this.company._id,
-          order: {
-            material: this.item._id,
-            quantity: this.quantity,
-            cuts: this.cuts,
-            cutPrice: this.totalCutPrice,
-            subtotalPrice: this.totalPrice
-          },
-          distance: this.distance
-        })
-        .then(res => {
-          this.$store.dispatch('complete')
-          this.$router.push({ name: 'Cart' })
-        })
-        .catch(err => {
-          this.$store.dispatch('complete')
-          this.itemRepeat = true
+        // if editing a cart item
+        if (this.$route.query.cart) {
+          this.$store.dispatch('loading')
+          api.axios.put(`${api.baseUrl}/cart/edit-cart`, {
+            buyer: this.$store.getters.companyId,
+            seller: this.company._id,
+            orderId: this.$route.query.orderId,
+            order: {
+              material: this.item._id,
+              quantity: this.quantity,
+              cuts: this.cuts,
+              cutPrice: this.totalCutPrice,
+              subtotalPrice: this.totalPrice
+            }
+          })
+          .then(() => {
+            this.$store.dispatch('complete')
+            this.$router.push({ name: 'Cart' })
+          })
+          .catch(() => {
+            this.$store.dispatch('complete')
+          })
+        }
+
+        // if placing a new item in the cart
+        else {
+          this.$store.dispatch('loading')
+          api.axios.post(`${api.baseUrl}/cart/`, {
+            buyer: this.$store.getters.companyId,
+            seller: this.company._id,
+            order: {
+              material: this.item._id,
+              quantity: this.quantity,
+              cuts: this.cuts,
+              cutPrice: this.totalCutPrice,
+              subtotalPrice: this.totalPrice
+            },
+            distance: this.distance
+          })
+          .then(() => {
+            this.$store.dispatch('complete')
+            this.$router.push({ name: 'Cart' })
+          })
+          .catch(() => {
+            this.$store.dispatch('complete')
+            this.itemRepeat = true
+          })
+        }
+
+      } else {
+        this.$router.push({
+          name: 'EditProfile',
+          query: {
+            addressInvalid: true
+          }
         })
       }
 
@@ -404,11 +414,11 @@ export default {
         cart: this.$route.query.cartId,
         order: this.$route.query.orderId
       })
-      .then(res => {
+      .then(() => {
         this.$store.dispatch('complete')
         this.$router.push({ name: 'Cart' })
       })
-      .catch(err => {
+      .catch(() => {
         this.$store.dispatch('complete')
         this.$router.push({ name: 'Cart' })
       })
@@ -445,15 +455,11 @@ export default {
     },
     // calculates total length in feet of stock material
     totalLengthFeet () {
-      if (this.totalLengthInches) {
-        return this.totalLengthInches / 12
-      }
+      return this.totalLengthInches / 12
     },
     // calculates total weight of order
     totalWeight () {
-      if (this.totalLengthFeet) {
-        return this.totalLengthFeet * this.item.weightPerFoot
-      }
+      return this.totalLengthFeet * this.item.weightPerFoot
     },
     // calculates cost of material alone
     totalMaterialPrice () {

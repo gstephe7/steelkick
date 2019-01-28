@@ -44,7 +44,7 @@ export default {
       this.$store.dispatch('complete')
       this.transactions = res.data.order.reverse()
     })
-    .catch(err => {
+    .catch(() => {
       this.$store.dispatch('complete')
     })
   },

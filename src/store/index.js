@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import api from '@/api/api'
 
 Vue.use(Vuex)
 
@@ -9,7 +10,8 @@ export default new Vuex.Store({
     loading: false,
     auth: false,
     token: null,
-    user: {}
+    user: {},
+    addressValid: false
   },
 
   mutations: {
@@ -28,13 +30,20 @@ export default new Vuex.Store({
     },
     complete (state) {
       state.loading = false
+    },
+    addressValid (state) {
+      state.addressValid = true
+    },
+    addressInvalid (state) {
+      state.addressValid = false
     }
   },
 
   actions: {
-    login ({commit}, token) {
+    login ({commit, dispatch}, token) {
       $cookies.set('token', token, '14d')
       commit('login', token)
+      dispatch('validateAddress')
     },
     logout ({commit}) {
       $cookies.remove('token')
@@ -45,6 +54,21 @@ export default new Vuex.Store({
     },
     complete ({commit}) {
       commit('complete')
+    },
+    validateAddress ({commit, getters}) {
+      api.axios.post(`${api.baseUrl}/users/validate-address`, {
+        id: getters.companyId
+      })
+      .then(res => {
+        if (res.data.latitude && res.data.longitude) {
+          commit('addressValid')
+        } else {
+          commit('addressInvalid')
+        }
+      })
+      .catch(() => {
+        commit('addressInvalid')
+      })
     }
   },
 
@@ -58,14 +82,17 @@ export default new Vuex.Store({
     companyId: (state) => {
       return state.user.companyId
     },
-    userEmail: (state) => {
-      return state.user.email
+    userId: (state) => {
+      return state.user.id
     },
     loading: (state) => {
       return state.loading
     },
     isAdmin: (state) => {
       return state.user.admin
+    },
+    addressValid: (state) => {
+      return state.addressValid
     }
   }
 

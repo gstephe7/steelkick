@@ -54,7 +54,7 @@ export default {
       this.$store.dispatch('complete')
       this.users = res.data.users
     })
-    .catch(err => {
+    .catch(() => {
       this.$store.dispatch('complete')
     })
   }

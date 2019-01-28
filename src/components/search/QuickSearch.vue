@@ -73,7 +73,7 @@ export default {
     }
   },
   methods: {
-    pushDimensions (e) {
+    pushDimensions () {
       const newDimensions = []
       material[this.shape].forEach(dimension => {
         newDimensions.push(dimension.dimension)
