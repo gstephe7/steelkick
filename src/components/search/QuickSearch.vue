@@ -85,6 +85,7 @@ export default {
         name: 'Listings',
         query: {
           update: true,
+          forSale: true,
           shape: this.shape,
           dimension: this.dimension,
           feet: this.feet,

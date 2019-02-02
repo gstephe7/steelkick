@@ -183,7 +183,7 @@ export default {
             company: this.company
           }
         })
-        this.$router.go()
+        location.reload(true)
       }
 
       // push search query when filtering through inventory
@@ -202,7 +202,7 @@ export default {
             galvanized: this.galvanized
           }
         })
-        this.$router.go()
+        location.reload(true)
       }
 
       // Push search query when searching for steel

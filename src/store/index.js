@@ -24,6 +24,7 @@ export default new Vuex.Store({
       state.auth = false
       state.token = ''
       state.user = {}
+      state.addressValid = false
     },
     loading (state) {
       state.loading = true
@@ -56,11 +57,13 @@ export default new Vuex.Store({
       commit('complete')
     },
     validateAddress ({commit, getters}) {
-      api.axios.post(`${api.baseUrl}/users/validate-address`, {
-        id: getters.companyId
+      api.axios.get(`${api.baseUrl}/users/validate-address`, {
+        params: {
+          id: getters.companyId
+        }
       })
       .then(res => {
-        if (res.data.latitude && res.data.longitude) {
+        if (res.data.valid == true) {
           commit('addressValid')
         } else {
           commit('addressInvalid')

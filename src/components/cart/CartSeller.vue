@@ -40,6 +40,11 @@
       </div>
     </div>
 
+    <!-- Address Invalid Alert -->
+    <div v-if="addressInvalid" class="alert">
+      <p>Please enter a valid address for your company's profile before requesting delivery</p>
+    </div>
+
     <!-- Max Delivery Weight Exceeded Alert -->
     <div v-if="deliveryWeightExceeded" class="alert">
       <p>This order exceeds the seller's maximum delivery weight of {{ order.seller.delivery.maxWeight }} lbs</p>
@@ -106,7 +111,8 @@ export default {
     return {
       delivery: {
         selected: this.order.delivery.selected
-      }
+      },
+      addressInvalid: false
     }
   },
   computed: {
@@ -188,18 +194,22 @@ export default {
       })
     },
     updateDelivery () {
-      api.axios.put(`${api.baseUrl}/cart/edit-delivery`, {
-        id: this.order._id,
-        selected: this.delivery.selected,
-        distance: this.order.delivery.distance,
-        price: this.totalDeliveryPrice
-      })
-      .then(res => {
-        this.delivery = res.data.delivery
-      })
-      .catch(err => {
-        console.log(err)
-      })
+      if (this.$store.getters.addressValid) {
+        api.axios.put(`${api.baseUrl}/cart/edit-delivery`, {
+          id: this.order._id,
+          selected: this.delivery.selected,
+          distance: this.order.delivery.distance,
+          price: this.totalDeliveryPrice
+        })
+        .then(res => {
+          this.delivery = res.data.delivery
+        })
+        .catch(() => {
+        })
+      } else {
+        this.delivery.selected = false
+        this.addressInvalid = true
+      }
     },
     checkout () {
       this.$router.push({

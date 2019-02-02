@@ -90,6 +90,7 @@ export default {
                 this.$store.dispatch('login', {
                   token: res.data.token,
                   user: {
+                    id: res.data.user._id,
                     company: this.company,
                     companyId: res.data.user.companyId,
                     email: this.email,
@@ -97,10 +98,15 @@ export default {
                   }
                 })
               }
-              this.$router.push('dashboard/edit-profile')
+              this.$router.push({
+                name: 'EditProfile',
+                query: {
+                  newAccount: true
+                }
+              })
             }
           })
-          .catch((err) => {
+          .catch(() => {
             this.$store.dispatch('complete')
             this.errors.server = 'An account for this company has already been created!'
           })

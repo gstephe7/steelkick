@@ -5,9 +5,9 @@
 
     <div class="form">
 
-      <input v-model="email" placeholder="Email" :class="{ highlight : errors.email }">
+      <input v-model="email" placeholder="Email" :class="{ highlight : errors.email }" @keyup.enter="submit">
 
-      <input type="password" v-model="password" placeholder="Password" :class="{ highlight : errors.password }">
+      <input type="password" v-model="password" placeholder="Password" :class="{ highlight : errors.password }" @keyup.enter="submit">
 
       <button @click="submit">Sign In</button>
 
@@ -93,7 +93,7 @@ export default {
               this.$router.push(`${this.$route.query.redirect}`)
             }
           })
-          .catch((err) => {
+          .catch(() => {
             this.$store.dispatch('complete')
             this.errors.server = 'Please try again with different credentials.'
           })

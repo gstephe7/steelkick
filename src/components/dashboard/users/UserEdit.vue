@@ -12,7 +12,10 @@
     <div>
       <span>
         Admin:
-        <select v-model="admin">
+        <select v-if="owner">
+          <option selected>Yes</option>
+        </select>
+        <select v-else v-model="admin">
           <option :value="false">No</option>
           <option :value="true">Yes</option>
         </select>
@@ -47,6 +50,7 @@ export default {
     return {
       user: this.$route.query.user,
       admin: this.$route.query.user.admin,
+      owner: this.$route.query.user.owner,
       showDelete: false
     }
   },
@@ -57,16 +61,17 @@ export default {
     updateUser () {
       this.$store.dispatch('loading')
       api.axios.put(`${api.baseUrl}/users/edit-user`, {
+        id: this.user._id,
         email: this.user.email,
         firstName: this.user.firstName,
         lastName: this.user.lastName,
         admin: this.admin
       })
-      .then(res => {
+      .then(() => {
         this.$store.dispatch('complete')
         this.$router.push('manage-users')
       })
-      .catch(err => {
+      .catch(() => {
         this.$store.dispatch('complete')
       })
     },
@@ -74,14 +79,14 @@ export default {
       this.$store.dispatch('loading')
       api.axios.delete(`${api.baseUrl}/users/delete-user`, {
         params: {
-          email: this.user.email
+          id: this.user._id
         }
       })
-      .then(res => {
+      .then(() => {
         this.$store.dispatch('complete')
         this.$router.push('manage-users')
       })
-      .catch(err => {
+      .catch(() => {
         this.$store.dispatch('complete')
       })
     }

@@ -91,7 +91,7 @@
                 {{ distance.toFixed(2) }} miles away
               </p>
               <p v-else>
-                calculating distance...
+                Distance N/A
               </p>
             </div>
             <div v-else>
@@ -283,9 +283,9 @@ export default {
 
         if (this.$store.getters.loggedIn) {
           // make call for distance between companies
-          api.axios.post(`${api.baseUrl}/distance/`, {
-            companyA: this.$store.getters.companyName,
-            companyB: this.company.name
+          api.axios.post(`${api.baseUrl}/users/distance`, {
+            buyer: this.$store.getters.companyId,
+            seller: this.company._id
           })
           .then(res => {
             this.distance = res.data.distance
@@ -347,63 +347,52 @@ export default {
     },
     submit () {
 
-      if (this.$store.getters.addressValid == true) {
-
-        // if editing a cart item
-        if (this.$route.query.cart) {
-          this.$store.dispatch('loading')
-          api.axios.put(`${api.baseUrl}/cart/edit-cart`, {
-            buyer: this.$store.getters.companyId,
-            seller: this.company._id,
-            orderId: this.$route.query.orderId,
-            order: {
-              material: this.item._id,
-              quantity: this.quantity,
-              cuts: this.cuts,
-              cutPrice: this.totalCutPrice,
-              subtotalPrice: this.totalPrice
-            }
-          })
-          .then(() => {
-            this.$store.dispatch('complete')
-            this.$router.push({ name: 'Cart' })
-          })
-          .catch(() => {
-            this.$store.dispatch('complete')
-          })
-        }
-
-        // if placing a new item in the cart
-        else {
-          this.$store.dispatch('loading')
-          api.axios.post(`${api.baseUrl}/cart/`, {
-            buyer: this.$store.getters.companyId,
-            seller: this.company._id,
-            order: {
-              material: this.item._id,
-              quantity: this.quantity,
-              cuts: this.cuts,
-              cutPrice: this.totalCutPrice,
-              subtotalPrice: this.totalPrice
-            },
-            distance: this.distance
-          })
-          .then(() => {
-            this.$store.dispatch('complete')
-            this.$router.push({ name: 'Cart' })
-          })
-          .catch(() => {
-            this.$store.dispatch('complete')
-            this.itemRepeat = true
-          })
-        }
-
-      } else {
-        this.$router.push({
-          name: 'EditProfile',
-          query: {
-            addressInvalid: true
+      // if editing a cart item
+      if (this.$route.query.cart) {
+        this.$store.dispatch('loading')
+        api.axios.put(`${api.baseUrl}/cart/edit-cart`, {
+          buyer: this.$store.getters.companyId,
+          seller: this.company._id,
+          orderId: this.$route.query.orderId,
+          order: {
+            material: this.item._id,
+            quantity: this.quantity,
+            cuts: this.cuts,
+            cutPrice: this.totalCutPrice,
+            subtotalPrice: this.totalPrice
           }
+        })
+        .then(() => {
+          this.$store.dispatch('complete')
+          this.$router.push({ name: 'Cart' })
+        })
+        .catch(() => {
+          this.$store.dispatch('complete')
+        })
+      }
+
+      // if placing a new item in the cart
+      else {
+        this.$store.dispatch('loading')
+        api.axios.post(`${api.baseUrl}/cart/`, {
+          buyer: this.$store.getters.companyId,
+          seller: this.company._id,
+          order: {
+            material: this.item._id,
+            quantity: this.quantity,
+            cuts: this.cuts,
+            cutPrice: this.totalCutPrice,
+            subtotalPrice: this.totalPrice
+          },
+          distance: this.distance
+        })
+        .then(() => {
+          this.$store.dispatch('complete')
+          this.$router.push({ name: 'Cart' })
+        })
+        .catch(() => {
+          this.$store.dispatch('complete')
+          this.itemRepeat = true
         })
       }
 

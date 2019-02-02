@@ -5,7 +5,7 @@
 
     <div class="users">
 
-      <div class="user" v-for="user in users" :key="user.email" @click="viewUser(user)">
+      <div class="user" v-for="user in users" :key="user._id" @click="viewUser(user)">
 
         <UserPreview :user="user"></UserPreview>
 
