@@ -1,16 +1,17 @@
 <template>
-  <div id="password-recovery">
+  <div id="password-reset">
 
     <h2>Reset Your Password</h2>
 
-    <p>Enter your email address below and follow the link sent to your email to reset your password.</p>
+    <p>Enter your new password below</p>
 
-    <input placeholder="Email" v-model="email" :class="{ highlight : errors.email }">
+    <input v-model="password" type="password" placeholder="New Password" :class="{ highlight : errors.password }">
 
-    <button @click="submit">Send Link</button>
+    <button @click="resetPassword">Update Password</button>
 
     <div class="errors">
-      <p v-if="errors.email">Please enter your email</p>
+      <p v-if="errors.password">Password must be longer than 7 characters</p>
+      <p v-if="failed">We failed to verify your account. The link you used to reset your password may be expired. You may need to try again.</p>
     </div>
 
   </div>
@@ -22,40 +23,41 @@ import api from '@/api/api'
 export default {
   data () {
     return {
-      email: '',
+      password: '',
       errors: {
-        email: false
+        password: null
       },
-      verified: false
+      verified: false,
+      failed: false
     }
   },
   methods: {
     checkForm () {
-      if (this.email.includes('@') && this.email.includes('.')) {
-        this.errors.email = false
-      } else {
-        this.errors.email = true
-      }
-
-      if (!this.errors.email) {
+      if (this.password.length > 7) {
+        this.errors.password = false
         this.verified = true
+      } else {
+        this.errors.password = true
+        this.verified = false
       }
     },
-    submit () {
+    resetPassword () {
       this.checkForm()
 
       if (this.verified) {
         this.$store.dispatch('loading')
-        api.axios.post(`${api.baseUrl}/users/recover-password`, {
-          email: this.email
+        api.axios.post(`${api.baseUrl}/users/reset-password`, {
+          token: this.$route.query.token,
+          password: this.password
         })
         .then(() => {
           this.$store.dispatch('complete')
-          this.$router.push('password-recovery-confirmation')
+          this.$router.push({ name: 'DashboardHome' })
         })
         .catch(() => {
           this.$store.dispatch('complete')
-          this.$router.push('password-recovery-confirmation')
+          this.failed = true
+          this.password = ''
         })
       }
     }
@@ -66,12 +68,13 @@ export default {
 <style lang="scss" scoped>
   @import '@/assets/scss/variables.scss';
 
-  #password-recovery {
+  #password-reset {
     height: 400px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    text-align: center;
   }
 
   p {

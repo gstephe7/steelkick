@@ -30,6 +30,7 @@ import LogoutConfirmation from '@/components/logout/LogoutConfirmation'
 import PasswordRecovery from '@/components/login/PasswordRecovery'
 import Register from '@/components/register/Register'
 import PasswordRecoveryConfirmation from '@/components/login/PasswordRecoveryConfirmation'
+import PasswordReset from '@/components/login/PasswordReset'
 
 Vue.use(Router)
 
@@ -79,6 +80,11 @@ const router = new Router({
       path: '/password-recovery-confirmation',
       name: 'PasswordRecoveryConfirmation',
       component: PasswordRecoveryConfirmation
+    },
+    {
+      path: '/reset-password',
+      name: 'PasswordReset',
+      component: PasswordReset
     },
     {
       path: '/register',

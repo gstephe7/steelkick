@@ -3,7 +3,7 @@
 
     <fa-icon icon="check-circle" class="icon"></fa-icon>
 
-    <p>An email has been sent to you containing your password.</p>
+    <p>An email has been sent to you containing a link to reset your password.</p>
 
     <router-link :to="{ name: 'Login' }">
       Return to sign in page
