@@ -186,6 +186,17 @@ export default {
     }
 
   },
+  mounted () {
+    setTimeout(() => {
+      if (this.addressInvalid) {
+        document.getElementById('edit-company').scrollIntoView()
+      }
+  
+      if (this.newAccount) {
+        document.getElementById('edit-company').scrollIntoView()
+      }
+    }, 750)
+  },
   methods: {
     completeEditing () {
       this.company.editing = false

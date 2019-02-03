@@ -273,15 +273,6 @@ export default {
       .catch(() => {
       })
     }
-  },
-  updated () {
-    if (this.addressInvalid) {
-      document.getElementById('edit-company').scrollIntoView()
-    }
-
-    if (this.newAccount) {
-      document.getElementById('edit-company').scrollIntoView()
-    }
   }
 }
 </script>

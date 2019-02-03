@@ -42,7 +42,7 @@
         </div>
 
         <div class="subform">
-          <textarea placeholder="Location in shop (for internal use)" v-model="location"></textarea>
+          <textarea placeholder="Location in shop (for internal use)" v-model="location" class="autotab"></textarea>
         </div>
 
       </div>
@@ -75,7 +75,7 @@
             <option value="A992">A992</option>
             <option value="A500">A500</option>
           </select>
-          <input type="text" class="input" placeholder="Heat #" v-model="heat">
+          <input type="text" class="input autotab" placeholder="Heat #" v-model="heat">
         </div>
 
         <div class="subform">
@@ -224,7 +224,7 @@ export default {
         this.errors.length = false
       }
 
-      if (!this.domestic) {
+      if (this.domestic == null) {
         this.errors.domestic = true
       } else {
         this.errors.domestic = false
