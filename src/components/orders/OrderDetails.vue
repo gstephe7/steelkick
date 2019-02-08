@@ -3,32 +3,34 @@
 
     <h3 class="page-title">Pending Order</h3>
 
-    <!-- Buyer Info -->
-    <div class="company-info">
-      <p class="title">Buyer</p>
-      <p>{{ buyer.name }}</p>
-      <p>{{ buyer.street }}</p>
-      <p>{{ buyer.city }}, {{ buyer.state }} {{ buyer.zipcode }}</p>
-      <p>{{ buyer.contactName }}</p>
-      <p>{{ buyer.phone }}</p>
-      <p>{{ buyer.email }}</p>
-      <p>Remarks: {{ buyer.remarks }}</p>
-    </div>
+    <div class="company-div">
+      <!-- Buyer Info -->
+      <div class="company-info">
+        <p class="title">Buyer</p>
+        <p>{{ buyer.name }}</p>
+        <p>{{ buyer.street }}</p>
+        <p>{{ buyer.city }}, {{ buyer.state }} {{ buyer.zipcode }}</p>
+        <p>{{ buyer.contactName }}</p>
+        <p>{{ buyer.phone }}</p>
+        <p>{{ buyer.email }}</p>
+        <p>Remarks: {{ buyer.remarks }}</p>
+      </div>
 
-    <!-- Seller Info -->
-    <div class="company-info">
-      <p class="title">Seller</p>
-      <p>{{ seller.name }}</p>
-      <p>{{ seller.street }}</p>
-      <p>{{ seller.city }}, {{ seller.state }} {{ seller.zipcode }}</p>
-      <p>{{ seller.contactName }}</p>
-      <p>{{ seller.phone }}</p>
-      <p>{{ seller.email }}</p>
-      <p>Remarks: {{ seller.remarks }}</p>
+      <!-- Seller Info -->
+      <div class="company-info">
+        <p class="title">Seller</p>
+        <p>{{ seller.name }}</p>
+        <p>{{ seller.street }}</p>
+        <p>{{ seller.city }}, {{ seller.state }} {{ seller.zipcode }}</p>
+        <p>{{ seller.contactName }}</p>
+        <p>{{ seller.phone }}</p>
+        <p>{{ seller.email }}</p>
+        <p>Remarks: {{ seller.remarks }}</p>
+      </div>
     </div>
 
     <!-- Date and Time order placed -->
-    <div class="company-info">
+    <div class="order-info">
       <p class="title">Order Date/Time</p>
       <p>{{ date }}</p>
       <p>{{ time }}</p>
@@ -218,13 +220,23 @@ export default {
     text-align: center;
   }
 
+  .company-div {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
   .company-info {
-    box-shadow: $box-shadow;
+    flex: 1;
     padding: 10px;
+    min-width: 300px;
   }
 
   .title {
     text-decoration: underline;
+  }
+
+  .order-info {
+    padding: 10px;
   }
 
   .order {

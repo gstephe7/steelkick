@@ -220,6 +220,11 @@ export default {
 
   .item {
     cursor: pointer;
+    transition: 250ms all;
+  }
+
+  .item:hover {
+    transform: scale(1.01);
   }
 
   .buttons {
