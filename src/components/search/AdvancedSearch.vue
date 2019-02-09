@@ -35,10 +35,10 @@
         </div>
 
         <div class="subform">
-          <select v-model="painted" class="autotab">
-            <option :value="null">Painted?</option>
-            <option :value="false">Not Painted</option>
-            <option :value="true">Painted</option>
+          <select v-model="primed" class="autotab">
+            <option :value="null">Primed?</option>
+            <option :value="false">Not Primed</option>
+            <option :value="true">Primed</option>
           </select>
           <select v-model="galvanized" class="autotab">
             <option :value="null">Galvanized?</option>
@@ -120,7 +120,7 @@ export default {
       numerator: null,
       denominator: null,
       domestic: null,
-      painted: null,
+      primed: null,
       galvanized: null,
       cut: null,
       delivery: null,
@@ -173,7 +173,7 @@ export default {
             numerator: this.numerator,
             denominator: this.denominator,
             domestic: this.domestic,
-            painted: this.painted,
+            primed: this.primed,
             galvanized: this.galvanized,
             radius: this.radius,
             zipcode: this.zipcode,
@@ -198,7 +198,7 @@ export default {
             numerator: this.numerator,
             denominator: this.denominator,
             domestic: this.domestic,
-            painted: this.painted,
+            primed: this.primed,
             galvanized: this.galvanized
           }
         })
@@ -219,7 +219,7 @@ export default {
             numerator: this.numerator,
             denominator: this.denominator,
             domestic: this.domestic,
-            painted: this.painted,
+            primed: this.primed,
             galvanized: this.galvanized,
             radius: this.radius,
             zipcode: this.zipcode,
@@ -248,7 +248,7 @@ export default {
       this.numerator = this.$route.query.numerator
       this.denominator = this.$route.query.denominator
       this.domestic = this.$route.query.domestic
-      this.painted = this.$route.query.painted
+      this.primed = this.$route.query.primed
       this.galvanized = this.$route.query.galvanized
       this.radius = this.$route.query.radius
       this.zipcode = this.$route.query.zipcode

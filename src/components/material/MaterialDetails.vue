@@ -64,7 +64,7 @@
               <p v-if="item.heat"><span class="check">&#10004;</span>Heat #s included</p>
             </div>
             <div>
-              <p v-if="item.painted"><span class="check">&#10004;</span>Painted</p>
+              <p v-if="item.primed"><span class="check">&#10004;</span>Primed</p>
             </div>
             <div>
               <p v-if="item.galvanized"><span class="check">&#10004;</span>Galvanized</p>

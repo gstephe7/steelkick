@@ -15,7 +15,15 @@
         <div class="container length-div">
           <div>
             <p>
-              {{ material.feet }}' {{ material.inches }}" <span v-if="material.numerator">{{ material.numerator }}/{{ material.denominator }}</span>
+              <span v-if="material.feet">
+                {{ material.feet }}'
+              </span>
+              <span v-if="material.inches">
+                {{ material.inches }}"
+              </span>
+              <span v-if="material.numerator">
+                {{ material.numerator }}/{{ material.denominator }}
+              </span>
             </p>
           </div>
           <div class="quantity">
@@ -40,7 +48,7 @@
 
             <div class="box">
               <div>
-                <p v-if="material.painted"><span class="check">&#10004;</span>Painted</p>
+                <p v-if="material.primed"><span class="check">&#10004;</span>Primed</p>
               </div>
               <div>
                 <p v-if="material.galvanized"><span class="check">&#10004;</span>Galvanized</p>

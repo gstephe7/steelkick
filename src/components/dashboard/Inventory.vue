@@ -31,7 +31,7 @@ export default {
         dimension: query.dimension,
         feet: query.feet,
         domestic: query.domestic,
-        painted: query.painted,
+        primed: query.primed,
         galvanized: query.galvanized
       }
     })

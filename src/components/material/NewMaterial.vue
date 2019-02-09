@@ -31,9 +31,9 @@
         </div>
 
         <div class="subform">
-          <select v-model="painted" class="autotab">
-            <option :value="false">Not Painted</option>
-            <option :value="true">Painted</option>
+          <select v-model="primed" class="autotab">
+            <option :value="false">Not Primed</option>
+            <option :value="true">Primed</option>
           </select>
           <select v-model="galvanized" class="autotab">
             <option :value="false">Not Galvanized</option>
@@ -158,7 +158,7 @@ export default {
       quantity: null,
       location: null,
       domestic: null,
-      painted: false,
+      primed: false,
       galvanized: false,
       condition: null,
       grade: null,
@@ -270,7 +270,7 @@ export default {
             quantity: this.quantity,
             location: this.location,
             domestic: this.domestic,
-            painted: this.painted,
+            primed: this.primed,
             galvanized: this.galvanized,
             condition: this.condition,
             grade: this.grade,
@@ -305,7 +305,7 @@ export default {
             quantity: this.quantity,
             location: this.location,
             domestic: this.domestic,
-            painted: this.painted,
+            primed: this.primed,
             galvanized: this.galvanized,
             condition: this.condition,
             grade: this.grade,
@@ -369,7 +369,7 @@ export default {
         this.numerator = res.data.material.numerator
         this.denominator = res.data.material.denominator
         this.domestic = res.data.material.domestic
-        this.painted = res.data.material.painted
+        this.primed = res.data.material.primed
         this.galvanized = res.data.material.galvanized
         this.quantity = res.data.material.quantity
         this.location = res.data.material.location

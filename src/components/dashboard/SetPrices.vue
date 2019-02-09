@@ -18,10 +18,10 @@
         </div>
         <div class="container">
           <div>
-            <h4>Painted</h4>
+            <h4>Primed</h4>
           </div>
           <div>
-            <span>$ <input type="number" v-model="prices.l.painted"> Cwt</span>
+            <span>$ <input type="number" v-model="prices.l.primed"> Cwt</span>
           </div>
         </div>
         <div class="container">
@@ -54,10 +54,10 @@
         </div>
         <div class="container">
           <div>
-            <h4>Painted</h4>
+            <h4>Primed</h4>
           </div>
           <div>
-            <span>$ <input type="number" v-model="prices.c.painted"> Cwt</span>
+            <span>$ <input type="number" v-model="prices.c.primed"> Cwt</span>
           </div>
         </div>
         <div class="container">
@@ -90,10 +90,10 @@
         </div>
         <div class="container">
           <div>
-            <h4>Painted</h4>
+            <h4>Primed</h4>
           </div>
           <div>
-            <span>$ <input type="number" v-model="prices.w.painted"> Cwt</span>
+            <span>$ <input type="number" v-model="prices.w.primed"> Cwt</span>
           </div>
         </div>
         <div class="container">
@@ -126,10 +126,10 @@
         </div>
         <div class="container">
           <div>
-            <h4>Painted</h4>
+            <h4>Primed</h4>
           </div>
           <div>
-            <span>$ <input type="number" v-model="prices.hss.painted"> Cwt</span>
+            <span>$ <input type="number" v-model="prices.hss.primed"> Cwt</span>
           </div>
         </div>
         <div class="container">
@@ -159,22 +159,22 @@ export default {
       prices: {
         c: {
           standard: null,
-          painted: null,
+          primed: null,
           galvanized: null
         },
         l: {
           standard: null,
-          painted: null,
+          primed: null,
           galvanized: null
         },
         w: {
           standard: null,
-          painted: null,
+          primed: null,
           galvanized: null
         },
         hss: {
           standard: null,
-          painted: null,
+          primed: null,
           galvanized: null
         }
       },

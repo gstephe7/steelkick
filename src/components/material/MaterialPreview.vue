@@ -65,8 +65,8 @@
           <p v-if="item.galvanized">
             <span class="check">&#10004;</span> Galvanized
           </p>
-          <p v-if="item.painted">
-            <span class="check">&#10004;</span> Painted
+          <p v-if="item.primed">
+            <span class="check">&#10004;</span> Primed
           </p>
         </div>
 
@@ -80,8 +80,12 @@
         </div>
 
         <div v-if="buying" class="company-info">
-          <p class="company-name">{{ item.company.name }}</p>
-          <p>{{ item.company.city }}, {{ item.company.state }}</p>
+          <p class="company-name">
+            {{ item.company.name }}
+          </p>
+          <p v-if="item.company.city && item.company.state">
+            {{ item.company.city }}, {{ item.company.state }}
+          </p>
           <p v-if="item.company.delivery.offered">
             <span class="check">&#10004;</span> Offers Delivery
           </p>

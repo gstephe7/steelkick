@@ -35,7 +35,7 @@ export default {
         numerator: query.numerator,
         denominator: query.denominator,
         domestic: query.domestic,
-        painted: query.painted,
+        primed: query.primed,
         galvanized: query.galvanized,
         radius: query.radius,
         zipcode: query.zipcode,

@@ -90,7 +90,7 @@ export default {
           dimension: this.dimension,
           feet: this.feet,
           domestic: null,
-          painted: null,
+          primed: null,
           galvanized: null,
           cut: null,
           delivery: null,
