@@ -25,17 +25,19 @@ export default {
 
       fields.forEach((item, index) => {
         if (item.tagName == 'INPUT') {
-          item.addEventListener('keyup', () => {
+          item.addEventListener('input', () => {
             let maxLength = item.getAttribute('maxlength')
             if (item.value.length == maxLength) {
               let next = index + 1
               fields[next].focus()
+              fields[next].click()
             }
           })
         } else if (item.tagName == 'SELECT') {
           item.addEventListener('change', () => {
             let next = index + 1
             fields[next].focus()
+            fields[next].click()
           })
         }
       })
