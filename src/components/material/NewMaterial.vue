@@ -22,7 +22,7 @@
 
         <div class="subform">
           <div class="length" :class="{ required : errors.length }">
-            <input class="feet-input autotab" type="number" placeholder="10" maxlength="2" v-model="feet">'
+            <input class="feet-input autotab" type="number" placeholder="11" maxlength="2" v-model="feet">'
             <input class="inches-input autotab" type="number" placeholder="9" maxlength="2" v-model="inches">"
             <input class="numerator-input autotab" type="number" maxlength="2" v-model="numerator"> /
             <input class="denominator-input autotab" type="number" maxlength="2" v-model="denominator">
@@ -143,9 +143,16 @@ export default {
       showDeletePopup: false,
       shapes: [
         'w',
+        's',
+        'm',
+        'hp',
         'hss',
         'c',
-        'l'
+        'mc',
+        'l',
+        'fb',
+        'pipe',
+        'pl'
       ],
       _id: null,
       shape: null,
@@ -191,6 +198,8 @@ export default {
 
         return weight
 
+      } else {
+        return null
       }
 
     }
@@ -240,16 +249,13 @@ export default {
       }
     },
     autoSetGrade () {
-      if (this.shape === 'w') {
+      if (this.shape === 'w' || this.shape === 's' || this.shape === 'm' || this.shape === 'hp') {
         this.grade = 'A992'
       }
-      if (this.shape === 'hss') {
+      if (this.shape === 'hss' || this.shape === 'pipe') {
         this.grade = 'A500'
       }
-      if (this.shape === 'c') {
-        this.grade = 'A36'
-      }
-      if (this.shape === 'l') {
+      if (this.shape === 'c' || this.shape === 'l' || this.shape === 'fb' || this.shape === 'mc' || this.shape === 'pl') {
         this.grade = 'A36'
       }
     },
@@ -280,7 +286,7 @@ export default {
             remarks: this.remarks,
             weightPerFoot: this.weightPerFoot
           })
-          .then(res => {
+          .then(() => {
             this.$store.dispatch('complete')
             this.$router.push({
               path: 'material-confirmation',
@@ -289,7 +295,7 @@ export default {
               }
             })
           })
-          .catch(err => {
+          .catch(() => {
             this.$store.dispatch('complete')
           })
 
@@ -316,7 +322,7 @@ export default {
             weightPerFoot: this.weightPerFoot,
             company: this.$store.getters.companyId
           })
-          .then(res => {
+          .then(() => {
             this.$store.dispatch('complete')
             this.$router.push({
               path: 'material-confirmation',
@@ -325,7 +331,7 @@ export default {
               }
             })
           })
-          .catch(err => {
+          .catch(() => {
             this.$store.dispatch('complete')
           })
         }
@@ -341,11 +347,11 @@ export default {
           _id: this._id
         }
       })
-      .then(res => {
+      .then(() => {
         this.$store.dispatch('complete')
         this.$router.push('inventory')
       })
-      .catch(err => {
+      .catch(() => {
         this.$store.dispatch('complete')
       })
     }
@@ -380,7 +386,7 @@ export default {
         this.cwt = res.data.material.cwt
         this.remarks = res.data.material.remarks
       })
-      .catch(err => {
+      .catch(() => {
         this.store.dispatch('complete')
       })
     }

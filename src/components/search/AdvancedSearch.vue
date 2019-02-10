@@ -22,7 +22,7 @@
 
         <div class="subform">
           <div class="length">
-            <input class="feet-input autotab" type="number" placeholder="10" maxlength="2" v-model="feet">'
+            <input class="feet-input autotab" type="number" placeholder="11" maxlength="2" v-model="feet">'
             <input class="inches-input autotab" type="number" placeholder="9" maxlength="2" v-model="inches">"
             <input class="numerator-input autotab" type="number" maxlength="2" v-model="numerator">/
             <input class="denominator-input autotab" type="number" maxlength="2" v-model="denominator">
@@ -108,9 +108,16 @@ export default {
     return {
       shapes: [
         'w',
+        's',
+        'm',
+        'hp',
         'hss',
         'c',
-        'l'
+        'mc',
+        'l',
+        'fb',
+        'pipe',
+        'pl'
       ],
       dimensions: [],
       shape: null,
