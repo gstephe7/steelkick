@@ -93,7 +93,6 @@ export default {
                     id: res.data.user._id,
                     company: this.company,
                     companyId: res.data.user.companyId,
-                    email: this.email,
                     admin: true
                   }
                 })
