@@ -42,7 +42,7 @@ export default new Vuex.Store({
 
   actions: {
     login ({commit, dispatch}, payload) {
-      $cookies.set('token', payload.token, '14d')
+      $cookies.set('token', payload, '14d')
       commit('login', payload)
       dispatch('validateAddress')
     },
