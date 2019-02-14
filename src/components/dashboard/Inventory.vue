@@ -2,7 +2,8 @@
   <div id="inventory">
 
     <MaterialListings inventory="true"
-                      :listings="material">
+                      :listings="material"
+                      v-if="loaded">
     </MaterialListings>
 
   </div>
@@ -18,7 +19,8 @@ export default {
   },
   data () {
     return {
-      material: []
+      material: [],
+      loaded: false
     }
   },
   created () {
@@ -40,10 +42,12 @@ export default {
       res.data.material.forEach(item => {
         this.material.push(item)
       })
+      this.loaded = true
     })
     .catch(err => {
       this.$store.dispatch('complete')
       this.material = []
+      this.loaded = true
     })
   }
 }

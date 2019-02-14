@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import VueCookies from 'vue-cookies'
+import VueAnalytics from 'vue-analytics'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {
   faBars,
@@ -51,6 +52,12 @@ import router from './router'
 
 // vuex store
 import store from './store'
+
+// Vue Analytics (Google Analytics)
+Vue.use(VueAnalytics, {
+  id: 'UA-99774746-4',
+  router
+})
 
 Vue.config.productionTip = false
 

@@ -41,7 +41,7 @@ export default {
           })
         }
       })
-    }
+    },
   },
   beforeCreate () {
     const token = this.$cookies.get('token')

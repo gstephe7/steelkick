@@ -2,7 +2,8 @@
   <div>
 
     <MaterialListings :buying="true"
-                      :listings="listings">
+                      :listings="listings"
+                      v-if="loaded">
     </MaterialListings>
 
   </div>
@@ -19,7 +20,8 @@ export default {
   data () {
     return {
       perPage: 25,
-      listings: []
+      listings: [],
+      loaded: false
     }
   },
   created () {
@@ -48,10 +50,12 @@ export default {
     .then((res) => {
       this.$store.dispatch('complete')
       this.listings = res.data.material
+      this.loaded = true
     })
     .catch((err) => {
       this.$store.dispatch('complete')
       this.listings = []
+      this.loaded = true
     })
   }
 }
