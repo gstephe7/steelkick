@@ -156,7 +156,7 @@
             </div>
             <div>
               <div class="length">
-                <input class="feet-input" type="number" placeholder="10" maxlength="2" v-model="cut.feet" @blur="calculateCutLengthInches(cut)">'
+                <input class="feet-input" type="number" placeholder="11" maxlength="2" v-model="cut.feet" @blur="calculateCutLengthInches(cut)">'
                 <input class="inches-input" type="number" placeholder="9" maxlength="2" v-model="cut.inches" @blur="calculateCutLengthInches(cut)">"
                 <input class="numerator-input" type="number" maxlength="2" v-model="cut.numerator"> /
                 <input class="denominator-input" type="number" maxlength="2" v-model="cut.denominator" @blur="calculateCutLengthInches(cut)">

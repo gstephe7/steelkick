@@ -28,6 +28,8 @@
       <p class="title">Order</p>
       <p>Date Placed: {{ order.date }}</p>
       <p>Time Placed: {{ order.time }}</p>
+      <p v-if="order.order.delivery.selected">Delivery</p>
+      <p v-else>Pickup</p>
       <p>Total: {{ order.order.totalPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}</p>
     </div>
 
@@ -57,6 +59,32 @@
               {{ item.material.numerator }}/{{ item.material.denominator }}
             </span>
           </span>
+          <span v-if="item.material.primed">
+            <em>Primed</em>
+          </span>
+          <span v-if="item.material.galvanized">
+            <em>Galv.</em>
+          </span>
+        </p>
+        <p v-if="item.cuts.length > 0" class="sub">
+          Cuts
+          <p v-for="cut in item.cuts" class="sub">
+            <span>
+              ({{ cut.quantity }}) @
+            </span>
+            <span v-if="cut.feet">
+              {{ cut.feet }}'
+            </span>
+            <span v-if="cut.inches">
+              {{ cut.inches }}"
+            </span>
+            <span v-else>
+              0"
+            </span>
+            <span v-if="cut.numerator">
+              {{ cut.numerator }}/{{ cut.denominator }}
+            </span>
+          </p>
         </p>
       </div>
     </div>
@@ -114,5 +142,9 @@ export default {
 
   .title {
     text-decoration: underline;
+  }
+
+  .sub {
+    margin-left: 10%;
   }
 </style>

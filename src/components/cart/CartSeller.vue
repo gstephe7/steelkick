@@ -4,7 +4,7 @@
     <hr>
 
     <h3 class="heading">
-      Order From
+      Order With
       <router-link :to="{ name: 'Company', query: { id: order.seller._id } }">
         {{ order.seller.name }}
       </router-link>

@@ -44,6 +44,9 @@
                 <p v-if="material.domestic">Domestic</p>
                 <p v-else>Foreign</p>
               </div>
+              <div v-if="received">
+                <p>Location: {{ material.location }}</p>
+              </div>
             </div>
 
             <div class="box">
@@ -72,7 +75,7 @@
 
           <div class="order-container">
               <div v-if="item.cuts.length > 0">
-                <p>Cut Total</p>
+                <p>Cuts Requested</p>
                 <div class="cuts-box" v-for="(cut, index) in item.cuts" :key="index">
                   <p>
                     {{ cut.quantity }} @
@@ -129,7 +132,7 @@
 
 <script>
 export default {
-  props: [ 'item'],
+  props: [ 'item', 'received'],
   data () {
     return {
       material: this.item.material
@@ -159,7 +162,7 @@ export default {
 
   .heading {
     @media screen and (min-width: 500px) {
-      font-size: 20px;
+      font-size: 22px;
     }
   }
 
@@ -211,10 +214,6 @@ export default {
   .cuts-box {
     display: flex;
     padding-left: 10%;
-  }
-
-  .upper-box {
-    height: 50px;
   }
 
   h4 {

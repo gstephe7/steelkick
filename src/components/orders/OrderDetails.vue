@@ -44,11 +44,25 @@
       <p>{{ time }}</p>
     </div>
 
+    <!-- Delivery or Pickup -->
+    <div class="order-info">
+      <p class="title">Order Method</p>
+      <div v-if="delivery.selected">
+        <p>Delivery</p>
+        <p>{{ delivery.distance.toFixed(2) }} miles away</p>
+      </div>
+      <div v-else>
+        <p>Pickup</p>
+      </div>
+    </div>
+
     <div class="order">
 
       <div class="order-item" v-for="item in order" :key="item._id">
 
-          <CartItem :item="item"></CartItem>
+          <CartItem :item="item"
+                    :received="$route.query.received">
+          </CartItem>
 
       </div>
 
@@ -231,11 +245,12 @@ export default {
   .company-div {
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-between;
   }
 
   .company-info {
     flex: 1;
-    padding: 10px;
+    padding: 10px 5px 10px 5px;
     min-width: 300px;
   }
 
@@ -244,7 +259,7 @@ export default {
   }
 
   .order-info {
-    padding: 10px;
+    padding: 10px 5px 10px 5px;
   }
 
   .order {
