@@ -78,7 +78,9 @@
           <div class="info-container">
             <div>
               <h4>
-                {{ company.name }}
+                <router-link :to="{ name: 'Company', query: { id: company._id } }">
+                  {{ company.name }}
+                </router-link>
               </h4>
             </div>
             <div>
@@ -150,7 +152,7 @@
           <!-- Details for cuts requested -->
           <div class="cut-div" v-for="(cut, index) in cuts" :key="index">
             <div>
-              <input class="cut-quantity" type="number" v-model="cut.quantity">
+              <input class="cut-quantity" type="number" v-model="cut.quantity" @blur="calculateCutLengthInches(cut)">
             </div>
             <div>
               <div class="length">
@@ -166,6 +168,9 @@
           </div>
           <div v-if="totalLengthExceeded" class="length-exceeded">
             <p>Length of cut cannot exceed order length</p>
+          </div>
+          <div v-if="materialLengthExceeded" class="length-exceeded">
+            <p>Length of cut cannot exceed material stock length</p>
           </div>
 
         </div>
@@ -331,19 +336,16 @@ export default {
     },
     // converts the cut length to inches
     calculateCutLengthInches (cut) {
-      const feet = parseFloat(cut.feet) * 12
-      const inches = parseFloat(cut.inches)
-      const fraction = parseFloat(cut.numerator) / parseFloat(cut.denominator)
-
-      if (feet && inches && fraction) {
-        cut.lengthInches = feet + inches + fraction
-      } else if (feet && inches) {
-        cut.lengthInches = feet + inches
-      } else if (feet) {
-        cut.lengthInches = feet
-      } else if (inches) {
-        cut.lengthInches = inches
+      if (!cut.quantity) {
+        cut.quantity = 1
       }
+
+      let quantity = parseFloat(cut.quantity) || 1
+      let feet = parseFloat(cut.feet) * 12 || 0
+      let inches = parseFloat(cut.inches) || 0
+      let fraction = parseFloat(cut.numerator) / parseFloat(cut.denominator) || 0
+
+      cut.lengthInches = (feet + inches + fraction) * quantity
     },
     submit () {
 
@@ -427,6 +429,23 @@ export default {
       } else {
         return false
       }
+    },
+    // prevents user from ordering a cut length that is greater than the material's stock length
+    materialLengthExceeded () {
+      let feet = parseFloat(this.item.feet) * 12 || 0
+      let inches = parseFloat(this.item.inches) || 0
+      let fraction = parseFloat(this.item.numerator) / parseFloat(this.item.denominator) || 0
+      let materialLength = feet + inches + fraction
+
+      let exceeded = false
+
+      this.cuts.forEach(cut => {
+        if (cut.lengthInches > materialLength) {
+          exceeded = true
+        }
+      })
+
+      return exceeded
     },
     // calculates total length in inches of stock material
     totalLengthInches () {
@@ -640,5 +659,9 @@ export default {
 
   p {
     margin: 0;
+  }
+
+  a {
+    color: royalblue;
   }
 </style>

@@ -3,7 +3,12 @@
 
     <hr>
 
-    <h3 class="heading">Order From {{ order.seller.name }}</h3>
+    <h3 class="heading">
+      Order From
+      <router-link :to="{ name: 'Company', query: { id: order.seller._id } }">
+        {{ order.seller.name }}
+      </router-link>
+    </h3>
 
     <!-- Items ordered from seller -->
     <div class="cart-items">
@@ -128,7 +133,8 @@ export default {
     // calculate cost of delivery
     totalDeliveryPrice () {
       if (this.delivery.selected) {
-        return parseFloat(this.order.delivery.distance) * parseFloat(this.order.seller.delivery.price)
+        let distancePrice = parseFloat(this.order.delivery.distance) * parseFloat(this.order.seller.delivery.price)
+        return parseFloat(this.order.seller.delivery.fee) + distancePrice
       } else {
         return 0
       }
@@ -315,5 +321,10 @@ export default {
 
   b, p {
     margin: 0;
+  }
+
+  a {
+    text-decoration: none;
+    color: royalblue;
   }
 </style>

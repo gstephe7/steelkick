@@ -31,6 +31,7 @@ import PasswordRecovery from '@/components/login/PasswordRecovery'
 import Register from '@/components/register/Register'
 import PasswordRecoveryConfirmation from '@/components/login/PasswordRecoveryConfirmation'
 import PasswordReset from '@/components/login/PasswordReset'
+import Company from '@/components/company/Company'
 
 Vue.use(Router)
 
@@ -90,6 +91,11 @@ const router = new Router({
       path: '/register',
       name: 'Register',
       component: Register
+    },
+    {
+      path: '/company',
+      name: 'Company',
+      component: Company
     },
     {
       path: '/dashboard',

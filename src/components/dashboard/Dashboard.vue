@@ -3,7 +3,11 @@
 
     <DashboardNav></DashboardNav>
 
-    <h2 class="dashboard-title">{{ company }} Dashboard</h2>
+    <h2 class="dashboard-title">
+      <router-link :to="{ name: 'Company', query: { id: $store.getters.companyId } }">
+        {{ company }}
+      </router-link> Dashboard
+    </h2>
 
     <router-view></router-view>
 
@@ -33,5 +37,10 @@ export default {
 
   .dashboard-title {
     text-align: center;
+  }
+
+  a {
+    text-decoration: none;
+    color: royalblue;
   }
 </style>

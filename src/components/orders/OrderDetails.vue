@@ -7,7 +7,11 @@
       <!-- Buyer Info -->
       <div class="company-info">
         <p class="title">Buyer</p>
-        <p>{{ buyer.name }}</p>
+        <p>
+          <router-link :to="{ name: 'Company', query: { id: buyer._id } }">
+            {{ buyer.name }}
+          </router-link>
+        </p>
         <p>{{ buyer.street }}</p>
         <p>{{ buyer.city }}, {{ buyer.state }} {{ buyer.zipcode }}</p>
         <p>{{ buyer.contactName }}</p>
@@ -19,7 +23,11 @@
       <!-- Seller Info -->
       <div class="company-info">
         <p class="title">Seller</p>
-        <p>{{ seller.name }}</p>
+        <p>
+          <router-link :to="{ name: 'Company', query: { id: seller._id } }">
+            {{ seller.name }}
+          </router-link>
+        </p>
         <p>{{ seller.street }}</p>
         <p>{{ seller.city }}, {{ seller.state }} {{ seller.zipcode }}</p>
         <p>{{ seller.contactName }}</p>
@@ -303,5 +311,10 @@ export default {
 
   textarea {
     height: 125px;
+  }
+
+  a {
+    color: royalblue;
+    text-decoration: none;
   }
 </style>

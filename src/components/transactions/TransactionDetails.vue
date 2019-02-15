@@ -5,7 +5,11 @@
 
     <!-- Company Info -->
     <div class="company-info" v-if="order.length > 0">
-      <p>{{ company.name }}</p>
+      <p>
+        <router-link :to="{ name: 'Company', query: { id: company._id } }">
+          {{ company.name }}
+        </router-link>
+      </p>
       <p>{{ company.street }}</p>
       <p>{{ company.city }}, {{ company.state }} {{ company.zipcode }}</p>
       <p>{{ company.contactName }}</p>
@@ -190,5 +194,10 @@ export default {
 
   p {
     margin: 0;
+  }
+
+  a {
+    color: royalblue;
+    text-decoration: none;
   }
 </style>

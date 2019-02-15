@@ -15,6 +15,9 @@
     </p>
     <div class="sub" v-if="company.delivery.offered">
       <p>
+        Base Delivery Fee: ${{ company.delivery.fee }}
+      </p>
+      <p>
         Price per mile: ${{ company.delivery.price }}
       </p>
       <p>
@@ -88,14 +91,12 @@
             <p>{{ company.hours.saturday.start }} - {{ company.hours.saturday.end }}</p>
           </div>
         </div>
-        <div class="input">
-          <div>
-            <p>Sunday</p>
-          </div>
-          <div>
-            <p>{{ company.hours.sunday.start }} - {{ company.hours.sunday.end }}</p>
-          </div>
-        </div>
+      </div>
+    </div>
+    <div>
+      <p>Company Description</p>
+      <div class="sub">
+        <p>{{ company.description }}</p>
       </div>
     </div>
     <div>
@@ -143,5 +144,5 @@ export default {
       min-width: 180px;
     }
   }
-  
+
 </style>

@@ -71,9 +71,8 @@
         <div class="order-div">
 
           <div class="order-container">
-              <div v-if="item.cuts">
+              <div v-if="item.cuts.length > 0">
                 <p>Cut Total</p>
-                <p>{{ item.cuts.length }}</p>
                 <div class="cuts-box" v-for="(cut, index) in item.cuts" :key="index">
                   <p>
                     {{ cut.quantity }} @
@@ -211,7 +210,7 @@ export default {
 
   .cuts-box {
     display: flex;
-    padding-left: 20%;
+    padding-left: 10%;
   }
 
   .upper-box {

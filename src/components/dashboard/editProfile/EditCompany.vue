@@ -47,7 +47,21 @@
     <div v-if="company.delivery.offered" class="sub">
       <div class="input">
         <div>
-          <p>Price per mile:</p>
+          <p>
+            Base Delivery Fee:
+            <ToolTip>This delivery fee will be charged to the buyer for every delivery, regardless of distance.</ToolTip>
+          </p>
+        </div>
+        <div>
+          <input v-model="company.delivery.fee" type="number">
+        </div>
+      </div>
+      <div class="input">
+        <div>
+          <p>
+            Price per mile:
+            <ToolTip>This is how much you charge per mile (one-way) for a delivery.</ToolTip>
+          </p>
         </div>
         <div>
           <input v-model="company.delivery.price" type="number"> /mile
@@ -55,7 +69,10 @@
       </div>
       <div class="input">
         <div>
-          <p>Max Delivery Distance:</p>
+          <p>
+            Max Delivery Distance:
+            <ToolTip>This is the maximum distance (one way) you are willing to travel to make a delivery.</ToolTip>
+          </p>
         </div>
         <div>
           <input v-model="company.delivery.maxDistance" type="number"> miles
@@ -63,7 +80,10 @@
       </div>
       <div class="input">
         <div>
-          <p>Max Delivery Length:</p>
+          <p>
+            Max Delivery Length:
+            <ToolTip>The maximum length (in feet) that your delivery truck is capable of hauling.</ToolTip>
+          </p>
         </div>
         <div>
           <input v-model="company.delivery.maxLength" type="number"> feet
@@ -71,7 +91,10 @@
       </div>
       <div class="input">
         <div>
-          <p>Max Delivery Weight:</p>
+          <p>
+            Max Delivery Weight:
+            <ToolTip>The maximum weight (in pounds) that your delivery truck is capable of hauling.</ToolTip>
+          </p>
         </div>
         <div>
           <input v-model="company.delivery.maxWeight" type="number"> lbs
@@ -204,27 +227,19 @@
             </span>
           </div>
         </div>
-        <div class="input">
-          <div class="day">
-            <p>Sunday</p>
-          </div>
-          <div class="hours">
-            <span>
-              <select v-model="company.hours.sunday.start">
-                <option :value="null">-</option>
-                <option v-for="hour in hours" :key="hour" :value="hour">{{ hour }}</option>
-              </select> -
-              <select v-model="company.hours.sunday.end">
-                <option :value="null">-</option>
-                <option v-for="hour in hours" :key="hour" :value="hour">{{ hour }}</option>
-              </select>
-            </span>
-          </div>
-        </div>
       </div>
     </div>
     <div>
-      <p>Remarks</p>
+      <p>Company Description</p>
+      <div class="sub">
+        <textarea v-model="company.description"></textarea>
+      </div>
+    </div>
+    <div>
+      <p>
+        Remarks
+        <ToolTip>Leave additional remarks for buyers. These can include delivery times, expected turnaround, and instructions for pickups.</ToolTip>
+      </p>
       <div class="sub">
         <textarea v-model="company.remarks"></textarea>
       </div>
@@ -240,9 +255,13 @@
 import api from '@/api/api'
 import states from '@/assets/data/states.js'
 import hours from '@/assets/data/hours.js'
+import ToolTip from '@/components/popups/ToolTip'
 
 export default {
   props: ['company', 'addressInvalid', 'newAccount'],
+  components: {
+    ToolTip
+  },
   data () {
     return {
       states: states,
@@ -265,6 +284,7 @@ export default {
         delivery: this.company.delivery,
         cut: this.company.cut,
         hours: this.company.hours,
+        description: this.company.description,
         remarks: this.company.remarks
       })
       .then(() => {

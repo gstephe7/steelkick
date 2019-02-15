@@ -78,6 +78,7 @@ export default {
         editing: false,
         delivery: {
           offered: null,
+          fee: null,
           price: null,
           maxDistance: null,
           maxLength: null,
@@ -117,6 +118,7 @@ export default {
             end: ''
           }
         },
+        description: '',
         remarks: ''
       },
       addressInvalid: false,
@@ -160,6 +162,7 @@ export default {
       this.company.contactName = co.contactName
       this.company.contactPhone = co.phone
       this.company.contactEmail = co.email
+      this.company.description = co.description
       this.company.remarks = co.remarks
       if (co.delivery) {
         this.company.delivery = co.delivery
@@ -191,7 +194,7 @@ export default {
       if (this.addressInvalid) {
         document.getElementById('edit-company').scrollIntoView()
       }
-  
+
       if (this.newAccount) {
         document.getElementById('edit-company').scrollIntoView()
       }
