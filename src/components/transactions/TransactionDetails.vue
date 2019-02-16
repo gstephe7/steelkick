@@ -1,6 +1,10 @@
 <template>
   <div id="checkout">
 
+    <span class="back" @click="$router.back()">
+      &lt; Back to transactions
+    </span>
+
     <h3 class="page-title">Transaction Details</h3>
 
     <!-- Company Info -->
@@ -199,5 +203,10 @@ export default {
   a {
     color: royalblue;
     text-decoration: none;
+  }
+
+  .back {
+    color: royalblue;
+    cursor: pointer;
   }
 </style>

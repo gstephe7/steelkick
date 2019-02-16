@@ -98,7 +98,7 @@
 
     <!-- Confirm/Deny order for received order -->
     <div v-if="$route.query.received" class="buttons">
-      <button class="alert" @click="toggleCancel">Decline</button>
+      <button class="alert" @click="toggleDecline">Decline</button>
       <button class="success" @click="toggleConfirm">Confirm</button>
     </div>
 
@@ -110,15 +110,24 @@
 
     <!-- Cancel/Decline Confirmation -->
     <div class="confirmation" v-if="showCancel">
-      <p v-if="$route.query.received">
-        Are you sure you want to decline this order request?
-      </p>
-      <p v-else>
+      <p>
         Are you sure you want to cancel this order?
       </p>
-      <div class="buttons">
+      <div class="confirm-buttons">
         <button @click="toggleCancel">No</button>
         <button @click="cancelOrder">Yes</button>
+      </div>
+    </div>
+
+    <!-- Decline Order -->
+    <div class="confirmation" v-if="showDecline">
+      <p>
+        Send a message explaining why you had to decline this order request.
+      </p>
+      <textarea v-model="declineMessage"></textarea>
+      <div class="confirm-buttons">
+        <button @click="toggleDecline">Cancel</button>
+        <button @click="declineOrder" class="alert">Decline Order</button>
       </div>
     </div>
 
@@ -128,7 +137,7 @@
         Send a message with your confirmation
       </p>
       <textarea v-model="confirmationMessage"></textarea>
-      <div class="buttons">
+      <div class="confirm-buttons">
         <button @click="toggleConfirm">Cancel</button>
         <button @click="confirmOrder" class="success">Confirm Order</button>
       </div>
@@ -155,8 +164,10 @@ export default {
       date: null,
       time: null,
       id: null,
+      declineMessage: '',
       confirmationMessage: '',
       showCancel: false,
+      showDecline: false,
       showConfirm: false,
     }
   },
@@ -195,6 +206,9 @@ export default {
     toggleCancel () {
       this.showCancel = !this.showCancel
     },
+    toggleDecline () {
+      this.showDecline = !this.showDecline
+    },
     toggleConfirm () {
       this.showConfirm = !this.showConfirm
     },
@@ -211,10 +225,25 @@ export default {
         this.$store.dispatch('complete')
       })
     },
+    declineOrder () {
+      this.$store.dispatch('loading')
+      api.axios.post(`${api.baseUrl}/orders/decline-order`, {
+        id: this.id,
+        msg: this.declineMessage
+      })
+      .then(() => {
+        this.$store.dispatch('complete')
+        this.$router.push({ name: 'OrderPage' })
+      })
+      .catch(() => {
+        this.$store.dispatch('complete')
+      })
+    },
     confirmOrder () {
       this.$store.dispatch('loading')
       api.axios.post(`${api.baseUrl}/orders/confirm-order`, {
-        id: this.id
+        id: this.id,
+        msg: this.confirmationMessage
       })
       .then(() => {
         this.$store.dispatch('complete')
@@ -295,6 +324,13 @@ export default {
   .buttons {
     display: flex;
     justify-content: space-around;
+  }
+
+  .confirm-buttons {
+    display: flex;
+    justify-content: space-around;
+    max-width: 400px;
+    margin: auto;
   }
 
   .cancel {

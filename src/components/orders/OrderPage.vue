@@ -93,7 +93,6 @@ export default {
     })
     .then(res => {
       this.$store.dispatch('complete')
-      console.log(res)
       this.placed = res.data.order.reverse()
     })
     .catch(err => {
