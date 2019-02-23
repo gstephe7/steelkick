@@ -224,7 +224,7 @@ export default {
   }
 
   .item:hover {
-    transform: scale(1.01);
+    transform: scale(1.02);
   }
 
   .buttons {

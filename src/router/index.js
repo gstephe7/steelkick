@@ -32,11 +32,17 @@ import Register from '@/components/register/Register'
 import PasswordRecoveryConfirmation from '@/components/login/PasswordRecoveryConfirmation'
 import PasswordReset from '@/components/login/PasswordReset'
 import Company from '@/components/company/Company'
+import Logo from '@/components/logo/LogoImg'
 
 Vue.use(Router)
 
 const router = new Router({
   routes: [
+    {
+      path: '/logo',
+      name: 'Logo',
+      component: Logo
+    },
     {
       path: '/',
       name: 'Home',

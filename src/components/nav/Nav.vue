@@ -28,6 +28,7 @@
               <router-link :to="{ name: 'AddMaterial' }">Sell Steel</router-link>
             </li>
             <li>
+              <Notify class="notify"></Notify>
               <router-link :to="{ name: 'DashboardHome' }">Dashboard</router-link>
             </li>
             <li>
@@ -50,11 +51,13 @@
 <script>
 import Logo from '@/components/logo/Logo'
 import MobileMenu from '@/components/nav/MobileMenu'
+import Notify from '@/components/notifications/Notify'
 
 export default {
   components: {
     Logo,
-    MobileMenu
+    MobileMenu,
+    Notify
   },
   data () {
     return {
@@ -150,5 +153,11 @@ export default {
 
   a:hover {
     color: $secondary;
+  }
+
+  .notify {
+    position: absolute;
+    top: 8px;
+    right: 189px;
   }
 </style>

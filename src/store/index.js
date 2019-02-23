@@ -11,6 +11,7 @@ export default new Vuex.Store({
     auth: false,
     token: null,
     user: {},
+    notifications: [],
     addressValid: false
   },
 
@@ -37,6 +38,9 @@ export default new Vuex.Store({
     },
     addressInvalid (state) {
       state.addressValid = false
+    },
+    newNotifications (state, payload) {
+      state.notifications = payload
     }
   },
 
@@ -44,6 +48,7 @@ export default new Vuex.Store({
     login ({commit, dispatch}, payload) {
       $cookies.set('token', payload, '14d')
       commit('login', payload)
+      dispatch('getNotifications')
       dispatch('validateAddress')
     },
     logout ({commit}) {
@@ -72,6 +77,31 @@ export default new Vuex.Store({
       .catch(() => {
         commit('addressInvalid')
       })
+    },
+    getNotifications ({commit, dispatch, getters}) {
+      api.axios.get(`${api.baseUrl}/users/notifications`, {
+        params: {
+          companyId: getters.companyId
+        }
+      })
+      .then(res => {
+        if (res.data.notifications) {
+          commit('newNotifications', res.data.notifications)
+        }
+      })
+      .catch(() => {
+
+      })
+    },
+    notificationViewed ({commit, dispatch, getters}, payload) {
+      api.axios.post(`${api.baseUrl}/users/notification-viewed`, {
+        companyId: getters.companyId,
+        subjectId: payload
+      })
+      .then(() => {
+        dispatch('getNotifications')
+      })
+      .catch(() => {})
     }
   },
 
@@ -96,6 +126,9 @@ export default new Vuex.Store({
     },
     addressValid: (state) => {
       return state.addressValid
+    },
+    notifications: (state) => {
+      return state.notifications
     }
   }
 

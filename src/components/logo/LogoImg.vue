@@ -19,7 +19,7 @@ export default {
     margin: 0;
     padding: 0;
     font-style: italic;
-    letter-spacing: -13px;
+    letter-spacing: -17px;
   }
 
   .title-b {
@@ -27,6 +27,7 @@ export default {
   }
 
   .logo {
-    font-size: 150px;
+    font-size: 200px;
+    margin: 100px;
   }
 </style>

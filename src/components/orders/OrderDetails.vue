@@ -188,6 +188,12 @@ export default {
       this.date = res.data.order.date
       this.time = res.data.order.time
       this.id = res.data.order._id
+
+      this.$store.getters.notifications.forEach(item => {
+        if (item.subject == this.id) {
+          this.$store.dispatch('notificationViewed', this.id)
+        }
+      })
     })
     .catch(() => {
       this.$store.dispatch('complete')

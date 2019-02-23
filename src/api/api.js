@@ -2,5 +2,5 @@ import axios from 'axios'
 
 export default {
   axios: axios,
-  baseUrl: 'https://steelkick-backend.appspot.com'
+  baseUrl: 'http://localhost:8080'
 }

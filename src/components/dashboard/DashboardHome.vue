@@ -20,6 +20,7 @@
           <h3>Checkout Cart</h3>
         </div>
         <div class="card" @click="$router.push('pending-orders')">
+          <New class="notify"></New>
           <fa-icon icon="clock" class="icon red"></fa-icon>
           <h3>Pending Orders</h3>
         </div>
@@ -57,7 +58,12 @@
 </template>
 
 <script>
+import New from '@/components/notifications/New'
+
 export default {
+  components: {
+    New
+  }
 }
 </script>
 
@@ -142,5 +148,11 @@ export default {
 
   .burgundy {
     color: $burgundy;
+  }
+
+  .notify {
+    position: absolute;
+    margin-left: 120px;
+    margin-top: -100px;
   }
 </style>

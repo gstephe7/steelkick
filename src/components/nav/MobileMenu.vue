@@ -8,7 +8,10 @@
         <router-link :to="{ name: 'AddMaterial' }">Sell Steel</router-link>
       </li>
       <li>
-        <router-link :to="{ name: 'DashboardHome' }">Dashboard</router-link>
+        <Notify class="notify"></Notify>
+        <router-link :to="{ name: 'DashboardHome' }">
+          Dashboard
+        </router-link>
       </li>
       <li>
         <router-link v-if="$store.getters.loggedIn" :to="{ name: 'Logout' }">
@@ -23,7 +26,12 @@
 </template>
 
 <script>
+import Notify from '@/components/notifications/Notify'
+
 export default {
+  components: {
+    Notify
+  },
   methods: {
     closeMenu () {
       this.$emit('closeMenu')
@@ -54,5 +62,10 @@ export default {
     color: $accent;
     text-decoration: none;
     font-size: 24px;
+  }
+
+  .notify {
+    position: absolute;
+    right: 128px;
   }
 </style>

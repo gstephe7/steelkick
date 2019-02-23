@@ -1,6 +1,10 @@
 <template>
   <div id="order-preview">
 
+    <div v-if="newOrder" class="new">
+      New
+    </div>
+
     <div class="contact-info">
 
       <!-- Buyer Info -->
@@ -100,7 +104,26 @@
 
 <script>
 export default {
-  props: ['order', 'received', 'placed']
+  props: ['order', 'received', 'placed'],
+  computed: {
+    newOrder () {
+      if (this.$store.getters.notifications.length > 0) {
+
+        let isNew = false
+
+        this.$store.getters.notifications.forEach(item => {
+          if (item.subject == this.order._id) {
+            isNew = true
+          }
+        })
+
+        return isNew
+
+      } else {
+        return false
+      }
+    }
+  }
 }
 </script>
 
@@ -146,5 +169,13 @@ export default {
 
   .sub {
     margin-left: 10%;
+  }
+
+  .new {
+    position: absolute;
+    opacity: .2;
+    font-size: 100px;
+    font-weight: bold;
+    color: $success;
   }
 </style>
