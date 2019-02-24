@@ -85,7 +85,7 @@ export default new Vuex.Store({
         }
       })
       .then(res => {
-        if (res.data.notifications) {
+        if (res.data.notifications.length > 0) {
           commit('newNotifications', res.data.notifications)
         }
       })

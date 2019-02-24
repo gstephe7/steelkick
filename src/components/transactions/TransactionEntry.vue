@@ -1,6 +1,10 @@
 <template>
   <div id="transaction-entry">
 
+    <div class="new" v-if="newTransaction">
+      New
+    </div>
+
     <div class="container">
 
       <div>
@@ -49,6 +53,23 @@ export default {
       } else {
         return false
       }
+    },
+    newTransaction () {
+      if (this.$store.getters.notifications.length > 0) {
+
+        let isNew = false
+
+        this.$store.getters.notifications.forEach(item => {
+          if (item.subject == this.item._id) {
+            isNew = true
+          }
+        })
+
+        return isNew
+
+      } else {
+        return false
+      }
     }
   }
 }
@@ -74,5 +95,20 @@ export default {
 
   b {
     font-weight: bold;
+  }
+
+  .new {
+    position: absolute;
+    opacity: .2;
+    font-size: 40px;
+    width: 150px;
+    text-align: center;
+    margin-top: -3px;
+    margin-right: auto;
+    margin-left: auto;
+    left: 0;
+    right: 0;
+    font-weight: bold;
+    color: $success;
   }
 </style>

@@ -1,14 +1,18 @@
 <template>
-  <span id="notify" v-if="number > 0">
-    {{ number }}
+  <span id="notify" v-if="show">
+    {{ show }}
   </span>
 </template>
 
 <script>
 export default {
-  data () {
-    return {
-      number: this.$store.getters.notifications.length
+  computed: {
+    show () {
+      if (this.$store.getters.notifications.length > 0) {
+        return this.$store.getters.notifications.length
+      } else {
+        return false
+      }
     }
   }
 }

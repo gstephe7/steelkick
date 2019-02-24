@@ -1,14 +1,35 @@
 <template>
-  <span id="new" v-if="notifications > 0">
+  <span id="new" v-if="show">
     New
   </span>
 </template>
 
 <script>
 export default {
-  data () {
-    return {
-      notifications: this.$store.getters.notifications.length
+  props: ['orders', 'transactions'],
+  computed: {
+    show () {
+      if (this.$store.getters.notifications.length > 0) {
+        if (this.orders) {
+          let isOrder = false
+          this.$store.getters.notifications.forEach(item => {
+            if (item.action == 'order') {
+              isOrder = true
+            }
+          })
+          return isOrder
+        } else if (this.transactions) {
+          let isTransaction = false
+          this.$store.getters.notifications.forEach(item => {
+            if (item.action == 'transaction') {
+              isTransaction = true
+            }
+          })
+          return isTransaction
+        }
+      } else {
+        return false
+      }
     }
   }
 }

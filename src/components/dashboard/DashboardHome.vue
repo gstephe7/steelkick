@@ -20,7 +20,7 @@
           <h3>Checkout Cart</h3>
         </div>
         <div class="card" @click="$router.push('pending-orders')">
-          <New class="notify"></New>
+          <New class="notify" :orders="true"></New>
           <fa-icon icon="clock" class="icon red"></fa-icon>
           <h3>Pending Orders</h3>
         </div>
@@ -32,6 +32,7 @@
 
       <div class="container" v-if="$store.getters.isAdmin">
         <div class="card" @click="$router.push('transactions')">
+          <New class="notify" :transactions="true"></New>
           <fa-icon icon="history" class="icon gold"></fa-icon>
           <h3>Transaction History</h3>
         </div>
@@ -153,6 +154,8 @@ export default {
   .notify {
     position: absolute;
     margin-left: 120px;
+    margin-right: -120px;
     margin-top: -100px;
+    margin-bottom: 100px;
   }
 </style>
