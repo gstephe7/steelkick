@@ -33,11 +33,16 @@ import PasswordRecoveryConfirmation from '@/components/login/PasswordRecoveryCon
 import PasswordReset from '@/components/login/PasswordReset'
 import Company from '@/components/company/Company'
 import Logo from '@/components/logo/LogoImg'
+import NotFound from '@/components/notFound/NotFound'
 
 Vue.use(Router)
 
 const router = new Router({
   routes: [
+    {
+      path: '*',
+      component: NotFound
+    },
     {
       path: '/logo',
       name: 'Logo',
