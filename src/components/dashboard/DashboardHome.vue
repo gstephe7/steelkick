@@ -153,8 +153,8 @@ export default {
 
   .notify {
     position: absolute;
-    margin-left: 120px;
-    margin-right: -120px;
+    margin-left: 110px;
+    margin-right: -110px;
     margin-top: -100px;
     margin-bottom: 100px;
   }

@@ -1,6 +1,6 @@
 <template>
   <span id="new" v-if="show">
-    New
+    {{ number }} New
   </span>
 </template>
 
@@ -30,6 +30,13 @@ export default {
       } else {
         return false
       }
+    },
+    number () {
+      if (this.$store.getters.notifications.length > 0) {
+        return this.$store.getters.notifications.length
+      } else {
+        return false
+      }
     }
   }
 }
@@ -42,7 +49,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 50px;
+    width: 55px;
     height: 25px;
     border-radius: 50%;
     font-size: 14px;
