@@ -32,6 +32,9 @@
               <router-link :to="{ name: 'DashboardHome' }">Dashboard</router-link>
             </li>
             <li>
+              <router-link :to="{ name: 'Contact' }">Contact</router-link>
+            </li>
+            <li>
               <router-link v-if="$store.getters.loggedIn" :to="{ name: 'Logout' }">
                 <span @click="$store.dispatch('logout')">Logout</span>
               </router-link>
@@ -128,7 +131,7 @@ export default {
   }
 
   .show {
-    height: 190px;
+    height: 200px;
     visibility: visible;
     opacity: 1;
   }
@@ -158,6 +161,6 @@ export default {
   .notify {
     position: absolute;
     top: 8px;
-    right: 189px;
+    right: 276px;
   }
 </style>

@@ -41,6 +41,9 @@ export default new Vuex.Store({
     },
     newNotifications (state, payload) {
       state.notifications = payload
+    },
+    noNotifications (state, payload) {
+      state.notifications = []
     }
   },
 
@@ -87,10 +90,12 @@ export default new Vuex.Store({
       .then(res => {
         if (res.data.notifications.length > 0) {
           commit('newNotifications', res.data.notifications)
+        } else {
+          commit('noNotifications')
         }
       })
       .catch(() => {
-
+        commit('noNotifications')
       })
     },
     notificationViewed ({commit, dispatch, getters}, payload) {

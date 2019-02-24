@@ -14,6 +14,9 @@
         </router-link>
       </li>
       <li>
+        <router-link :to="{ name: 'Contact' }">Contact</router-link>
+      </li>
+      <li>
         <router-link v-if="$store.getters.loggedIn" :to="{ name: 'Logout' }">
           <span @click="$store.dispatch('logout')">Logout</span>
         </router-link>
@@ -55,7 +58,7 @@ export default {
   }
 
   li {
-    padding: 15px 15px 0 0;
+    padding: 5px 15px 5px 0;
   }
 
   a {

@@ -34,6 +34,8 @@ import PasswordReset from '@/components/login/PasswordReset'
 import Company from '@/components/company/Company'
 import Logo from '@/components/logo/LogoImg'
 import NotFound from '@/components/notFound/NotFound'
+import Contact from '@/components/contact/Contact'
+import ContactConfirmation from '@/components/contact/ContactConfirmation'
 
 Vue.use(Router)
 
@@ -107,6 +109,16 @@ const router = new Router({
       path: '/company',
       name: 'Company',
       component: Company
+    },
+    {
+      path: '/contact',
+      name: 'Contact',
+      component: Contact
+    },
+    {
+      path: '/contact-confirmation',
+      name: 'ContactConfirmation',
+      component: ContactConfirmation
     },
     {
       path: '/dashboard',

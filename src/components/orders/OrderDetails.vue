@@ -188,12 +188,6 @@ export default {
       this.date = res.data.order.date
       this.time = res.data.order.time
       this.id = res.data.order._id
-
-      this.$store.getters.notifications.forEach(item => {
-        if (item.subject == this.id) {
-          this.$store.dispatch('notificationViewed', this.id)
-        }
-      })
     })
     .catch(() => {
       this.$store.dispatch('complete')
@@ -209,6 +203,19 @@ export default {
     }
   },
   methods: {
+    removeNotification () {
+      this.$store.getters.notifications.forEach(item => {
+        if (item.subject == this.id) {
+          this.$store.dispatch('notificationViewed', this.id)
+        }
+      })
+    },
+    cancelNotification () {
+      api.axios.post(`${api.baseUrl}/users/notification-viewed`, {
+        companyId: this.seller._id,
+        subjectId: this.id
+      })
+    },
     toggleCancel () {
       this.showCancel = !this.showCancel
     },
@@ -225,6 +232,7 @@ export default {
       })
       .then(() => {
         this.$store.dispatch('complete')
+        this.cancelNotification()
         this.$router.push({ name: 'OrderPage' })
       })
       .catch(() => {
@@ -239,6 +247,7 @@ export default {
       })
       .then(() => {
         this.$store.dispatch('complete')
+        this.removeNotification()
         this.$router.push({ name: 'OrderPage' })
       })
       .catch(() => {
@@ -253,6 +262,7 @@ export default {
       })
       .then(() => {
         this.$store.dispatch('complete')
+        this.removeNotification()
         this.$router.push({ name: 'OrderPage' })
       })
       .catch(() => {
