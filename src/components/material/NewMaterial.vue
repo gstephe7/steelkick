@@ -6,7 +6,7 @@
       <div class="form">
 
         <div class="subform">
-          <select @change="pushDimensions" class="autotab" v-model="shape" :class="{ required : errors.shape }">
+          <select @change="pushDimensions" class="autotab" v-model="shape" :class="{ required : errors.shape }" autofocus>
             <option disabled selected :value="null">
               Shape
             </option>
@@ -86,7 +86,7 @@
             <option :value="true">For Sale</option>
             <option :value="false">Not For Sale</option>
           </select>
-          <input type="number" class="input autotab" placeholder="$ Cwt (ex: 42)" v-model="cwt">
+          <input type="text" inputmode="numeric" class="input autotab" placeholder="$ Cwt (ex: 42)" v-model="cwt">
         </div>
 
         <div class="subform">
