@@ -8,12 +8,12 @@
       <div class="search">
 
         <div class="search-section">
-          <select @change="pushDimensions" v-model="shape" class="autotab">
+          <select v-model="shape" class="autotab">
             <option disabled selected :value="null">
               Shape
             </option>
             <option v-for="shape in shapes" :value="shape" :key="shape">
-              {{ shape.toUpperCase() }}
+              {{ shape }}
             </option>
           </select>
           <select v-model="dimension" class="autotab">
@@ -55,20 +55,6 @@ import states from '@/assets/data/states.js'
 export default {
   data () {
     return {
-      shapes: [
-        'w',
-        's',
-        'm',
-        'hp',
-        'hss',
-        'c',
-        'mc',
-        'l',
-        'fb',
-        'pipe',
-        'pl'
-      ],
-      dimensions: [],
       shape: null,
       dimension: null,
       feet: null,
@@ -79,14 +65,27 @@ export default {
       states: states
     }
   },
-  methods: {
-    pushDimensions () {
-      const newDimensions = []
-      material[this.shape].forEach(dimension => {
-        newDimensions.push(dimension.dimension)
+  computed: {
+    shapes () {
+      let allShapes = []
+      material.forEach(item => {
+        allShapes.push(item.shape)
       })
-      this.dimensions = newDimensions
+      return allShapes
     },
+    dimensions () {
+      let newDimensions = []
+      material.forEach(item => {
+        if (item.shape == this.shape) {
+          item.dimensions.forEach(value => {
+            newDimensions.push(value.dimension)
+          })
+        }
+      })
+      return newDimensions
+    }
+  },
+  methods: {
     search () {
       this.$router.push({
         name: 'Listings',

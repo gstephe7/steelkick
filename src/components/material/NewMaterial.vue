@@ -6,12 +6,12 @@
       <div class="form">
 
         <div class="subform">
-          <select @change="pushDimensions" class="autotab" v-model="shape" :class="{ required : errors.shape }" autofocus>
+          <select @change="autoSetGrade" class="autotab" v-model="shape" :class="{ required : errors.shape }" autofocus>
             <option disabled selected :value="null">
               Shape
             </option>
             <option v-for="shape in shapes" :value="shape" :key="shape">
-              {{ shape.toUpperCase() }}
+              {{ shape }}
             </option>
           </select>
           <select v-model="dimension" class="autotab" :class="{ required : errors.dimension }">
@@ -31,11 +31,11 @@
         </div>
 
         <div class="subform">
-          <select v-model="primed" class="autotab">
+          <select v-model="primed" class="autotab" @change="autoSetPrice">
             <option :value="false">Not Primed</option>
             <option :value="true">Primed</option>
           </select>
-          <select v-model="galvanized" class="autotab">
+          <select v-model="galvanized" class="autotab" @change="autoSetPrice">
             <option :value="false">Not Galvanized</option>
             <option :value="true">Galvanized</option>
           </select>
@@ -141,22 +141,8 @@ export default {
   data () {
     return {
       showDeletePopup: false,
-      shapes: [
-        'w',
-        's',
-        'm',
-        'hp',
-        'hss',
-        'c',
-        'mc',
-        'l',
-        'fb',
-        'pipe',
-        'pl'
-      ],
       _id: null,
       shape: null,
-      dimensions: [],
       dimension: null,
       feet: null,
       inches: null,
@@ -179,20 +165,42 @@ export default {
         length: false,
         domestic: false
       },
-      verified: false
+      verified: false,
+      prices: []
     }
   },
   computed: {
+    shapes () {
+      let allShapes = []
+      material.forEach(item => {
+        allShapes.push(item.shape)
+      })
+      return allShapes
+    },
+    dimensions () {
+      let newDimensions = []
+      material.forEach(item => {
+        if (item.shape == this.shape) {
+          item.dimensions.forEach(value => {
+            newDimensions.push(value.dimension)
+          })
+        }
+      })
+      return newDimensions
+    },
     weightPerFoot () {
 
-      if (this.shape != 'Shape' && this.dimension != 'Dimension') {
+      if (this.shape && this.dimension) {
 
         let weight = null
-        let dimension = this.dimension
 
-        material[this.shape].forEach(item => {
-          if (item.dimension == dimension) {
-            weight = item.weight
+        material.forEach(item => {
+          if (item.shape == this.shape) {
+            item.dimensions.forEach(value => {
+              if (value.dimension == this.dimension) {
+                weight = value.weight
+              }
+            })
           }
         })
 
@@ -205,23 +213,15 @@ export default {
     }
   },
   methods: {
-    pushDimensions () {
-      this.autoSetGrade()
-      const newDimensions = []
-      material[this.shape].forEach(dimension => {
-        newDimensions.push(dimension.dimension)
-      })
-      this.dimensions = newDimensions
-    },
     checkForm () {
       // form error messages
-      if (this.shape === 'Shape') {
+      if (!this.shape) {
         this.errors.shape = true
       } else {
         this.errors.shape = false
       }
 
-      if (this.dimension === 'Dimension') {
+      if (!this.dimension) {
         this.errors.dimension = true
       } else {
         this.errors.dimension = false
@@ -249,14 +249,35 @@ export default {
       }
     },
     autoSetGrade () {
-      if (this.shape === 'w' || this.shape === 's' || this.shape === 'm' || this.shape === 'hp') {
+      if (this.shape === 'W' || this.shape === 'S' || this.shape === 'M' || this.shape === 'HP') {
         this.grade = 'A992'
       }
-      if (this.shape === 'hss' || this.shape === 'pipe') {
+      if (this.shape === 'HSS' || this.shape === 'PIPE') {
         this.grade = 'A500'
       }
-      if (this.shape === 'c' || this.shape === 'l' || this.shape === 'fb' || this.shape === 'mc' || this.shape === 'pl') {
+      if (this.shape === 'C' || this.shape === 'L' || this.shape === 'FB' || this.shape === 'RB' || this.shape === 'SB' || this.shape === 'MC' || this.shape === 'PL') {
         this.grade = 'A36'
+      }
+      this.autoSetPrice()
+    },
+    autoSetPrice () {
+      if (this.shape) {
+        let matched = false
+        this.prices.forEach(item => {
+          if (item.shape == this.shape) {
+            matched = true
+            if (this.galvanized) {
+              this.cwt = item.galvanized
+            } else if (this.primed) {
+              this.cwt = item.primed
+            } else {
+              this.cwt = item.standard
+            }
+          }
+        })
+        if (matched == false) {
+          this.cwt = null
+        }
       }
     },
     completeEntry () {
@@ -368,7 +389,6 @@ export default {
         this.$store.dispatch('complete')
         this._id = res.data.material._id
         this.shape = res.data.material.shape
-        this.pushDimensions()
         this.dimension = res.data.material.dimension
         this.feet = res.data.material.feet
         this.inches = res.data.material.inches
@@ -390,6 +410,18 @@ export default {
         this.store.dispatch('complete')
       })
     }
+  },
+  beforeMount () {
+    api.axios.get(`${api.baseUrl}/material/get-prices`, {
+      params: {
+        id: this.$store.getters.companyId
+      }
+    })
+    .then(res => {
+      this.prices = res.data.prices
+    })
+    .catch(() => {
+    })
   }
 }
 </script>
