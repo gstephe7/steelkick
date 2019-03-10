@@ -10,7 +10,7 @@
       <!-- Basic Company Information -->
       <div class="header">
         <h2>{{ company.name }}</h2>
-        <p>
+        <p v-if="company.city">
           {{ company.street }} <br>
           {{ company.city }}, {{ company.state }} {{ company.zipcode }}
         </p>

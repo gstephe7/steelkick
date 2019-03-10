@@ -5,7 +5,7 @@
       <input v-model="company.name">
     </div>
     <div v-if="addressInvalid" class="address-text">
-      <p>Please enter a valid address before ordering or listing steel</p>
+      <p>Please enter a valid address before listing steel for sale</p>
     </div>
     <div class="input">
       Street:
@@ -31,11 +31,11 @@
     </div>
     <div class="input">
       Contact Phone:
-      <input v-model="company.contactPhone">
+      <input v-model="company.phone">
     </div>
     <div class="input">
       Contact Email:
-      <input v-model="company.contactEmail">
+      <input v-model="company.email">
     </div>
     <div class="input">
       Offer Delivery:
@@ -103,7 +103,7 @@
     </div>
     <div class="input">
       <div>
-        <p>Offer Cut to order:</p>
+        <p>Offer Cut to Order:</p>
       </div>
       <div>
         <select v-model="company.cut.offered">
@@ -272,23 +272,12 @@ export default {
     editCompany () {
       this.$emit('close')
       api.axios.put(`${api.baseUrl}/users/edit-company`, {
-        id: this.$store.getters.companyId,
-        name: this.company.name,
-        street: this.company.street,
-        city: this.company.city,
-        state: this.company.state,
-        zipcode: this.company.zipcode,
-        contactName: this.company.contactName,
-        phone: this.company.contactPhone,
-        email: this.company.contactEmail,
-        delivery: this.company.delivery,
-        cut: this.company.cut,
-        hours: this.company.hours,
-        description: this.company.description,
-        remarks: this.company.remarks
+        company: this.company
       })
       .then(() => {
-        this.$store.dispatch('validateAddress')
+        if (this.$route.path != '/admin/company-edit') {
+          this.$store.dispatch('validateAddress')
+        }
       })
       .catch(() => {
       })

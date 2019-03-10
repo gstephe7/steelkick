@@ -12,7 +12,12 @@ export default new Vuex.Store({
     token: null,
     user: {},
     notifications: [],
-    addressValid: false
+    addressValid: false,
+    admin: {
+      auth: false,
+      email: '',
+      super: false
+    }
   },
 
   mutations: {
@@ -25,6 +30,7 @@ export default new Vuex.Store({
       state.auth = false
       state.token = ''
       state.user = {}
+      state.notifications = []
       state.addressValid = false
     },
     loading (state) {
@@ -44,6 +50,16 @@ export default new Vuex.Store({
     },
     noNotifications (state, payload) {
       state.notifications = []
+    },
+    adminLogin (state, payload) {
+      state.admin.auth = true
+      state.admin.email = payload.email
+      state.admin.super = payload.super
+    },
+    adminLogout (state) {
+      state.admin.auth = false
+      state.admin.email = ''
+      state.admin.super = false
     }
   },
 
@@ -107,6 +123,14 @@ export default new Vuex.Store({
         dispatch('getNotifications')
       })
       .catch(() => {})
+    },
+    adminLogin ({commit}, payload) {
+      $cookies.set('adminToken', payload, '3d')
+      commit('adminLogin', payload)
+    },
+    adminLogout ({commit}) {
+      $cookies.remove('adminToken')
+      commit('adminLogout')
     }
   },
 

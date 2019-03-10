@@ -5,15 +5,15 @@
 
     <div class="form">
 
-      <input v-model="firstName" placeholder="First Name" :class="{ required : errors.firstName }">
+      <input v-model="user.firstName" placeholder="First Name" :class="{ required : errors.firstName }">
 
-      <input v-model="lastName" placeholder="Last Name" :class="{ required : errors.lastName }">
+      <input v-model="user.lastName" placeholder="Last Name" :class="{ required : errors.lastName }">
 
-      <input v-model="email" placeholder="Email" :class="{ required : errors.email }">
+      <input v-model="user.email" placeholder="Email" :class="{ required : errors.email }">
 
-      <input v-model="password" placeholder="Password" type="password" :class="{ required : errors.password }">
+      <input v-model="user.password" placeholder="Password" type="password" :class="{ required : errors.password }">
 
-      <select v-model="admin" :class="{ required : errors.admin }">
+      <select v-model="user.admin" :class="{ required : errors.admin }">
         <option :value="null" selected disabled>Admin?</option>
         <option :value="false">No</option>
         <option :value="true">Yes</option>
@@ -53,11 +53,13 @@ import api from '@/api/api'
 export default {
   data () {
     return {
-      firstName: '',
-      lastName: '',
-      email: '',
-      password: '',
-      admin: null,
+      user: {
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+        admin: null,
+      },
       errors: {
         firstName: false,
         lastName: false,
@@ -71,31 +73,31 @@ export default {
   methods: {
     checkForm () {
 
-      if (!this.firstName) {
+      if (!this.user.firstName) {
         this.errors.firstName = true
       } else {
         this.errors.firstName = false
       }
 
-      if (!this.lastName) {
+      if (!this.user.lastName) {
         this.errors.lastName = true
       } else {
         this.errors.lastName = false
       }
 
-      if (this.email.includes('@') && this.email.includes('.')) {
+      if (this.user.email.includes('@') && this.user.email.includes('.')) {
         this.errors.email = false
       } else {
         this.errors.email = true
       }
 
-      if (this.password.length < 7) {
+      if (this.user.password.length < 7) {
         this.errors.password = true
       } else {
         this.errors.password = false
       }
 
-      if (this.admin === null) {
+      if (this.user.admin === null) {
         this.errors.admin = true
       } else {
         this.errors.admin = false
@@ -111,11 +113,7 @@ export default {
       if (this.verified) {
         this.$store.dispatch('loading')
         api.axios.post(`${api.baseUrl}/users/new-user`, {
-          firstName: this.firstName,
-          lastName: this.lastName,
-          email: this.email,
-          password: this.password,
-          admin: this.admin,
+          user: this.user,
           company: this.$store.getters.companyName,
           companyId: this.$store.getters.companyId
         })

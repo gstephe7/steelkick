@@ -79,14 +79,14 @@
         </div>
 
         <div class="subform">
-          <select v-model="forSale" class="autotab">
+          <select v-model="forSale" class="autotab" @change="checkAddressValid" :class="{ required : errors.addressInvalid }">
             <option selected disabled :value="null">
               For Sale?
             </option>
             <option :value="true">For Sale</option>
             <option :value="false">Not For Sale</option>
           </select>
-          <input type="text" inputmode="numeric" class="input autotab" placeholder="$ Cwt (ex: 42)" v-model="cwt">
+          <input type="text" class="input autotab" placeholder="$ Cwt (ex: 42)" v-model="cwt">
         </div>
 
         <div class="subform">
@@ -95,6 +95,14 @@
 
       </div>
 
+    </div>
+
+    <div v-if="errors.addressInvalid" class="err-msg">
+      <p>
+        Please enter a valid address before listing steel for sale
+        <br>
+        <a @click="editAddress" class="link">Click here to edit your address</a>
+      </p>
     </div>
 
     <div class="buttons">
@@ -163,7 +171,8 @@ export default {
         shape: false,
         dimension: false,
         length: false,
-        domestic: false
+        domestic: false,
+        addressInvalid: false
       },
       verified: false,
       prices: []
@@ -213,6 +222,22 @@ export default {
     }
   },
   methods: {
+    checkAddressValid () {
+      if (this.$store.getters.addressValid) {
+        return
+      } else {
+        this.forSale = false
+        this.errors.addressInvalid = true
+      }
+    },
+    editAddress () {
+      this.$router.push({
+        name: 'EditProfile',
+        query: {
+          addressInvalid: true
+        }
+      })
+    },
     checkForm () {
       // form error messages
       if (!this.shape) {
@@ -509,5 +534,11 @@ export default {
   .err-msg {
     color: $alert;
     text-align: center;
+  }
+
+  .link {
+    color: $primary;
+    cursor: pointer;
+    text-decoration: underline;
   }
 </style>

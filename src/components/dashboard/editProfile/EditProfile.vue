@@ -7,15 +7,17 @@
 
       <hr>
 
-      <EditUser v-if="user.editing"
-                :user="user"
-                @close="user.editing = false">
-      </EditUser>
+      <div v-if="loaded.user">
+        <EditUser v-if="editing.user"
+                  :user="user"
+                  @close="editing.user = false">
+        </EditUser>
 
-      <ViewUser v-else
-                :user="user"
-                @editing="user.editing = true">
-      </ViewUser>
+        <ViewUser v-else
+                  :user="user"
+                  @editing="editing.user = true">
+        </ViewUser>
+      </div>
 
     </div>
 
@@ -25,17 +27,19 @@
 
       <hr>
 
-      <EditCompany v-if="company.editing"
-                   :company="company"
-                   :addressInvalid="addressInvalid"
-                   :newAccount="newAccount"
-                   @close="completeEditing">
-      </EditCompany>
+      <div v-if="loaded.company">
+        <EditCompany v-if="editing.company"
+                     :company="company"
+                     :addressInvalid="addressInvalid"
+                     :newAccount="newAccount"
+                     @close="completeEditing">
+        </EditCompany>
 
-      <ViewCompany v-else
-                   :company="company"
-                   @editing="company.editing = true">
-      </ViewCompany>
+        <ViewCompany v-else
+                     :company="company"
+                     @editing="editing.company = true">
+        </ViewCompany>
+      </div>
 
     </div>
 
@@ -58,68 +62,15 @@ export default {
   },
   data () {
     return {
-      user: {
-        id: null,
-        firstName: '',
-        lastName: '',
-        email: '',
-        password: '',
-        editing: false
+      user: {},
+      company: {},
+      editing: {
+        company: false,
+        user: false
       },
-      company: {
-        name: '',
-        street: '',
-        city: '',
-        state: '',
-        zipcode: '',
-        contactName: '',
-        contactPhone: '',
-        contactEmail: '',
-        editing: false,
-        delivery: {
-          offered: null,
-          fee: null,
-          price: null,
-          maxDistance: null,
-          maxLength: null,
-          maxWeight: null
-        },
-        cut: {
-          offered: null,
-          price: null
-        },
-        hours: {
-          monday: {
-            start: '',
-            end: ''
-          },
-          tuesday: {
-            start: '',
-            end: ''
-          },
-          wednesday: {
-            start: '',
-            end: ''
-          },
-          thursday: {
-            start: '',
-            end: ''
-          },
-          friday: {
-            start: '',
-            end: ''
-          },
-          saturday: {
-            start: '',
-            end: ''
-          },
-          sunday: {
-            start: '',
-            end: ''
-          }
-        },
-        description: '',
-        remarks: ''
+      loaded: {
+        company: false,
+        user: false
       },
       addressInvalid: false,
       newAccount: false
@@ -136,10 +87,8 @@ export default {
     })
     .then(res => {
       this.$store.dispatch('complete')
-      this.user.id = res.data.user._id
-      this.user.email = res.data.user.email
-      this.user.firstName = res.data.user.firstName
-      this.user.lastName = res.data.user.lastName
+      this.user = res.data.user
+      this.loaded.user = true
     })
     .catch(() => {
       this.$store.dispatch('complete')
@@ -153,26 +102,8 @@ export default {
     })
     .then(res => {
       this.$store.dispatch('complete')
-      const co = res.data.company
-      this.company.name = co.name
-      this.company.street = co.street
-      this.company.city = co.city
-      this.company.state = co.state
-      this.company.zipcode = co.zipcode
-      this.company.contactName = co.contactName
-      this.company.contactPhone = co.phone
-      this.company.contactEmail = co.email
-      this.company.description = co.description
-      this.company.remarks = co.remarks
-      if (co.delivery) {
-        this.company.delivery = co.delivery
-      }
-      if (co.cut) {
-        this.company.cut = co.cut
-      }
-      if (co.hours) {
-        this.company.hours = co.hours
-      }
+      this.company = res.data.company
+      this.loaded.company = true
     })
     .catch(() => {
       this.$store.dispatch('complete')
@@ -180,11 +111,11 @@ export default {
 
     if (this.$route.query.addressInvalid) {
       this.addressInvalid = true
-      this.company.editing = true
+      this.editing.company = true
     }
 
     if (this.$route.query.newAccount) {
-      this.company.editing = true
+      this.editing.company = true
       this.newAccount = true
     }
 
@@ -202,7 +133,7 @@ export default {
   },
   methods: {
     completeEditing () {
-      this.company.editing = false
+      this.editing.company = false
       this.addressInvalid = false
       this.newAccount = false
     }

@@ -38,7 +38,7 @@ export default {
       this.$router.push({
         path: 'edit-user',
         query: {
-          user: user
+          id: user._id
         }
       })
     }

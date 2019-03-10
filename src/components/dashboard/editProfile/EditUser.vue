@@ -32,15 +32,7 @@ export default {
     editUser () {
       this.$emit('close')
       api.axios.put(`${api.baseUrl}/users/edit-user`, {
-        id: this.user.id,
-        email: this.user.email,
-        firstName: this.user.firstName,
-        lastName: this.user.lastName,
-        password: this.user.password
-      })
-      .then(() => {
-      })
-      .catch(() => {
+        user: this.user
       })
 
     }

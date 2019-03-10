@@ -6,8 +6,8 @@
     <p>State: {{ company.state }}</p>
     <p>Zipcode: {{ company.zipcode }}</p>
     <p>Contact Person: {{ company.contactName }}</p>
-    <p>Contact Phone: {{ company.contactPhone }}</p>
-    <p>Contact Email: {{ company.contactEmail }}</p>
+    <p>Contact Phone: {{ company.phone }}</p>
+    <p>Contact Email: {{ company.email }}</p>
     <p>
       Delivery Offered:
       <span v-if="company.delivery.offered">Yes</span>
@@ -31,7 +31,7 @@
       </p>
     </div>
     <p>
-      Cut to order offered:
+      Cut to Order Offered:
       <span v-if="company.cut.offered">Yes</span>
       <span v-else>No</span>
     </p>

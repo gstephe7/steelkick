@@ -37,6 +37,12 @@ import NotFound from '@/components/notFound/NotFound'
 import Contact from '@/components/contact/Contact'
 import ContactConfirmation from '@/components/contact/ContactConfirmation'
 
+// import admin routes
+import Admin from '@/components/admin/Admin'
+import AdminLogin from '@/components/admin/AdminLogin'
+import AdminHome from '@/components/admin/AdminHome'
+import CompanyEdit from '@/components/admin/components/companies/CompanyEdit'
+
 Vue.use(Router)
 
 const router = new Router({
@@ -219,6 +225,31 @@ const router = new Router({
           component: CheckoutConfirmation
         },
       ]
+    },
+    {
+      path: '/admin-login',
+      name: 'AdminLogin',
+      component: AdminLogin
+    },
+    {
+      path: '/admin',
+      name: 'Admin',
+      component: Admin,
+      meta: {
+        requiresAdmin: true
+      },
+      children: [
+        {
+          path: 'home',
+          name: 'AdminHome',
+          component: AdminHome
+        },
+        {
+          path: 'company-edit',
+          name: 'CompanyEdit',
+          component: CompanyEdit
+        }
+      ]
     }
   ],
   scrollBehavior () {
@@ -234,6 +265,18 @@ router.beforeEach((to, from, next) => {
     } else {
       next({
         path: '/login',
+        query: {
+          redirect: to.fullPath
+        }
+      })
+    }
+  } else if (to.matched.some(record => record.meta.requiresAdmin)) {
+    const adminToken = $cookies.get('adminToken')
+    if (adminToken) {
+      next()
+    } else {
+      next({
+        path: '/admin-login',
         query: {
           redirect: to.fullPath
         }

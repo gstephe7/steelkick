@@ -12,10 +12,10 @@
     <div>
       <span>
         Admin:
-        <select v-if="owner">
+        <select v-if="user.owner">
           <option selected>Yes</option>
         </select>
-        <select v-else v-model="admin">
+        <select v-else v-model="user.admin">
           <option :value="false">No</option>
           <option :value="true">Yes</option>
         </select>
@@ -48,11 +48,25 @@ import api from '@/api/api'
 export default {
   data () {
     return {
-      user: this.$route.query.user,
-      admin: this.$route.query.user.admin,
-      owner: this.$route.query.user.owner,
+      user: {},
       showDelete: false
     }
+  },
+  created () {
+    this.$store.dispatch('loading')
+    api.axios
+      .get(`${api.baseUrl}/users/user`, {
+        params: {
+          id: this.$route.query.id
+        }
+      })
+      .then(res => {
+        this.$store.dispatch('complete')
+        this.user = res.data.user
+      })
+      .catch(() => {
+        this.$store.dispatch('complete')
+      })
   },
   methods: {
     toggleDelete () {
@@ -61,11 +75,7 @@ export default {
     updateUser () {
       this.$store.dispatch('loading')
       api.axios.put(`${api.baseUrl}/users/edit-user`, {
-        id: this.user._id,
-        email: this.user.email,
-        firstName: this.user.firstName,
-        lastName: this.user.lastName,
-        admin: this.admin
+        user: this.user
       })
       .then(() => {
         this.$store.dispatch('complete')
