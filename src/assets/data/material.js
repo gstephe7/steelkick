@@ -1,6 +1,7 @@
 export default [
   {
     shape: 'W',
+    name: 'W Beams',
     dimensions: [
       { dimension: '4x13', weight: 13 },
       { dimension: '5x16', weight: 16 },
@@ -81,6 +82,7 @@ export default [
     ]
   }, {
     shape: 'S',
+    name: 'S Beams',
     dimensions: [
       { dimension: '3x5.7', weight: 5.7 },
       { dimension: '3x7.5', weight: 7.5 },
@@ -113,6 +115,7 @@ export default [
     ]
   }, {
     shape: 'M',
+    name: 'M Beams',
     dimensions: [
       { dimension: '3x2.9', weight: 2.9 },
       { dimension: '4x3.2', weight: 3.2 },
@@ -135,6 +138,7 @@ export default [
     ]
   }, {
     shape: 'HP',
+    name: 'HP Beams',
     dimensions: [
       { dimension: '8x36', weight: 36 },
       { dimension: '10x42', weight: 42 },
@@ -161,6 +165,7 @@ export default [
     ]
   }, {
     shape: 'HSS',
+    name: 'Tubes',
     dimensions: [
       { dimension: '2x1x1/8', weight: 2.2 },
       { dimension: '2x1x3/16', weight: 3.04 },
@@ -441,6 +446,7 @@ export default [
     ]
   }, {
     shape: 'C',
+    name: 'Channel',
     dimensions: [
       { dimension: '3x4.1', weight: 4.1 },
       { dimension: '3x5', weight: 5 },
@@ -476,6 +482,7 @@ export default [
     ]
   }, {
     shape: 'MC',
+    name: 'MC Channel',
     dimensions: [
       { dimension: '3x7.1', weight: 7.1 },
       { dimension: '4x13.8', weight: 13.8 },
@@ -519,6 +526,7 @@ export default [
     ]
   }, {
     shape: 'L',
+    name: 'Angle',
     dimensions: [
       { dimension: '1 1/8 x 1 1/8 x 1/8', weight: .90 },
       { dimension: '1 1/4 x 1 1/4 x 1/8', weight: 1.01 },
@@ -667,6 +675,7 @@ export default [
     ]
   }, {
     shape: 'FB',
+    name: 'Flat Bar',
     dimensions: [
       { dimension: '1/16x1/2', weight: .1 },
       { dimension: '1/16x3/4', weight: .16 },
@@ -801,6 +810,7 @@ export default [
     ]
   }, {
     shape: 'RB',
+    name: 'Round Bar',
     dimensions: [
       { dimension: '1/4', weight: .167 },
       { dimension: '5/16', weight: .261 },
@@ -835,6 +845,7 @@ export default [
     ]
   }, {
     shape: 'SB',
+    name: 'Square Bar',
     dimensions: [
       { dimension: '3/8', weight: .479 },
       { dimension: '1/2', weight: .85 },
@@ -853,6 +864,7 @@ export default [
     ]
   }, {
     shape: 'PIPE',
+    name: 'Pipe',
     dimensions: [
       { dimension: '2XXS', weight: 9.04 },
       { dimension: '2 1/2 XXS', weight: 13.7 },
@@ -908,6 +920,7 @@ export default [
     ]
   }, {
     shape: 'PL',
+    name: 'Plate',
     dimensions: [
       { dimension: '3/16x12', weight: 7.66 },
       { dimension: '3/16x24', weight: 15.32 },

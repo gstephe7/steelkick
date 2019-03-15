@@ -1,47 +1,34 @@
 <template>
-  <div id="set-prices">
+  <main>
 
     <h3>Set Prices</h3>
 
-    <div class="div" v-for="(price, index) in prices" :key="index">
-      <div>
-        <div>
-          <h3>{{ price.shape }}</h3>
+    <section>
+      <article v-for="(price, index) in prices" :key="index">
+        <h3>{{ price.name }}</h3>
+        <aside>
+          <h4>Standard</h4>
+          <span>$ <input type="null" v-model="prices[index].standard"> Cwt</span>
+        </aside>
+        <aside>
+          <h4>Primed</h4>
+          <span>$ <input type="null" v-model="prices[index].primed"> Cwt</span>
+        </aside>
+        <aside>
+          <h4>Galvanized</h4>
+          <span>$ <input type="null" v-model="prices[index].galvanized"> Cwt</span>
+        </aside>
+        <div class="buttons">
+          <p v-if="prices[index].updated" class="success">&#10004; Updated</p>
+          <button v-else @click="updatePrices(index)">
+            Update {{ price.shape }} Prices
+          </button>
         </div>
-        <div class="container">
-          <div>
-            <h4>Standard</h4>
-          </div>
-          <div>
-            <span>$ <input type="null" v-model="prices[index].standard"> Cwt</span>
-          </div>
-        </div>
-        <div class="container">
-          <div>
-            <h4>Primed</h4>
-          </div>
-          <div>
-            <span>$ <input type="null" v-model="prices[index].primed"> Cwt</span>
-          </div>
-        </div>
-        <div class="container">
-          <div>
-            <h4>Galvanized</h4>
-          </div>
-          <div>
-            <span>$ <input type="null" v-model="prices[index].galvanized"> Cwt</span>
-          </div>
-        </div>
-      </div>
-      <div class="buttons">
-        <p v-if="prices[index].updated" class="success">&#10004; Updated</p>
-        <button v-else @click="updatePrices(index)">
-          Update {{ price.shape }} Prices
-        </button>
-      </div>
-    </div>
+      </article>
+    </section>
 
-  </div>
+
+  </main>
 </template>
 
 <script>
@@ -58,6 +45,7 @@ export default {
     material.forEach(item => {
       this.prices.push({
         shape: item.shape,
+        name: item.name,
         standard: null,
         primed: null,
         galvanized: null,
@@ -114,31 +102,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '@/assets/scss/variables.scss';
+  @import '@/assets/scss/structure.scss';
 
-  #set-prices {
-    max-width: 600px;
-    padding: 10px;
-    margin: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  main {
+    max-width: 1000px;
   }
 
-  .div {
-    display: flex;
-    flex-direction: column;
-    margin: 10px;
-    min-width: 280px;
+  article {
+    width: 250px;
     box-shadow: $box-shadow;
     border-radius: 2px;
-    padding: 20px;
+    padding: 15px;
   }
 
-  .container {
-    display: flex;
-    justify-content: space-between;
-    margin-left: 20%;
+  h3 {
+    text-align: center;
   }
 
   input {
