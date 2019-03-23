@@ -1,20 +1,20 @@
 <template>
   <div>
     <Loading v-if="$store.getters.loading"></Loading>
-    <Nav></Nav>
+    <Header></Header>
     <router-view></router-view>
     <Footer></Footer>
   </div>
 </template>
 
 <script>
-import Nav from '@/components/nav/Nav'
+import Header from '@/components/header/Header'
 import Footer from '@/components/footer/Footer'
 import Loading from '@/components/popups/Loading'
 
 export default {
   components: {
-    Nav,
+    Header,
     Footer,
     Loading
   },
@@ -23,7 +23,7 @@ export default {
     autotab () {
       let fields = document.querySelectorAll('.autotab')
 
-      fields.forEach((item, index) => {
+      Array.prototype.forEach.call(fields, (item, index) => {
         if (item.tagName == 'INPUT') {
           item.addEventListener('input', () => {
             let maxLength = item.getAttribute('maxlength')

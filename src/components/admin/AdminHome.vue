@@ -1,7 +1,7 @@
 <template>
   <main>
 
-    <section>
+    <!-- <section>
       <article>
         <Companies></Companies>
       </article>
@@ -13,7 +13,7 @@
       <article></article>
       <article></article>
       <article></article>
-    </section>
+    </section> -->
 
     <summary>
       This is a summary
@@ -89,10 +89,4 @@ export default {
 
 <style lang="scss" scoped>
   @import '@/assets/scss/structure.scss';
-
-  article {
-    height: 300px;
-    width: 300px;
-    box-shadow: $box-shadow;
-  }
 </style>

@@ -1,11 +1,11 @@
 <template>
   <div>
 
-    <AdminNav></AdminNav>
+    <!-- <AdminNav></AdminNav>
 
     <header>
-      <h2>SteelKick Admin</h2>      
-    </header>
+      <h2>SteelKick Admin</h2>
+    </header> -->
 
     <router-view></router-view>
 

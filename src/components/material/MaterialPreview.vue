@@ -1,97 +1,95 @@
 <template>
-  <div id="entry">
+  <div card click @click="viewDetails">
 
-    <div class="heading-div">
+    <div between>
 
       <!-- Shape and Dimension -->
-      <div>
-        <h4 class="heading">
-          {{ item.shape.toUpperCase() }} {{ item.dimension }}
-        </h4>
-      </div>
+      <h4>
+        {{ item.shape.toUpperCase() }} {{ item.dimension }}
+      </h4>
 
       <!-- Hundred Weight Price -->
-      <div class="heading">
-        <h4 v-if="item.forSale">${{ item.cwt }} Cwt</h4>
-        <h4 v-else>Not For Sale</h4>
-      </div>
+      <h4 v-if="item.forSale">${{ item.cwt }} Cwt</h4>
+      <h4 v-else>Not For Sale</h4>
 
     </div>
 
-    <div class="heading-div">
+    <div between>
 
       <!-- Length -->
-      <div>
-        <p>
-          <span v-if="item.feet">
-            {{ item.feet }}'
-          </span>
-          <span v-if="item.inches">
-            {{ item.inches }}"
-          </span>
-          <span v-else>
-            0"
-          </span>
-          <span v-if="item.numerator">
-            {{ item.numerator }}/{{ item.denominator }}
-          </span>
-        </p>
-      </div>
+      <span>
+        <span v-if="item.feet">
+          {{ item.feet }}'
+        </span>
+        <span v-if="item.inches">
+          {{ item.inches }}"
+        </span>
+        <span v-else>
+          0"
+        </span>
+        <span v-if="item.numerator">
+          {{ item.numerator }}/{{ item.denominator }}
+        </span>
+      </span>
 
       <!-- Quantity -->
-      <div>
-        <p>{{ item.quantity }} available</p>
-      </div>
+      <span>
+        {{ item.quantity }} available
+      </span>
 
     </div>
 
+    <br>
+
     <!-- Specifications -->
-    <div class="spec-div">
+    <div between>
 
       <!-- Item Information -->
-      <div class="material-info">
+      <div col start>
 
         <!-- Grade and Origin -->
         <div>
-          <p>{{ item.grade }}</p>
+          <span>
+            {{ item.grade }}
+          </span>
           <div>
-            <p v-if="item.domestic">Domestic</p>
-            <p v-else>Foreign</p>
+            <span v-if="item.domestic">Domestic</span>
+            <span v-else>Foreign</span>
           </div>
         </div>
 
         <!-- Galvanized or Painted -->
         <div>
-          <p v-if="item.galvanized">
+          <div v-if="item.galvanized">
             <span class="check">&#10004;</span> Galvanized
-          </p>
-          <p v-if="item.primed">
+          </div>
+          <div v-if="item.primed">
             <span class="check">&#10004;</span> Primed
-          </p>
+          </div>
         </div>
 
       </div>
 
       <!-- Location or Company Info (if buying) -->
-      <div>
+      <div col end>
 
         <div v-if="inventory">
-          <p>Location: {{ item.location }}</p>
+          <span>Location: {{ item.location }}</span>
         </div>
 
-        <div v-if="buying" class="company-info">
-          <p class="company-name">
+        <div v-if="buying">
+          <strong>
             {{ item.company.name }}
-          </p>
-          <p v-if="item.company.city && item.company.state">
+          </strong>
+          <address v-if="item.company.city && item.company.state">
             {{ item.company.city }}, {{ item.company.state }}
-          </p>
-          <p v-if="item.company.delivery.offered">
+          </address>
+          <div v-if="item.company.delivery.offered">
             <span class="check">&#10004;</span> Offers Delivery
-          </p>
-          <p v-if="item.company.cut.offered">
+          </div>
+          <div v-if="item.company.cut.offered">
             <span class="check">&#10004;</span> Offers Cut to Order
-          </p>
+          </div>
         </div>
 
       </div>
@@ -99,12 +97,17 @@
     </div>
 
     <!-- Remarks -->
-    <div v-if="item.remarks" class="remarks">
-      <p>Remarks: {{ item.remarks }}</p>
+    <div col start v-if="item.remarks">
+      <br>
+      <small>
+        Remarks: {{ item.remarks }}
+      </small>
     </div>
 
+    <br>
+
     <!-- Click Message -->
-    <div class="click-message">
+    <div col>
       <em v-if="inventory">Click to edit material</em>
       <em v-if="buying">Click for information/to place order</em>
     </div>
@@ -114,71 +117,38 @@
 
 <script>
 export default {
-  props: ['item', 'buying', 'inventory']
+  props: ['item', 'buying', 'inventory'],
+  methods: {
+    viewDetails () {
+      if (this.inventory) {
+        this.$router.push({
+          path: 'edit-material',
+          query: {
+            edit: true,
+            id: this.item._id
+          }
+        })
+      } else if (this.buying) {
+        this.$router.push({
+          path: '/listing',
+          query: {
+            buying: true,
+            id: this.item._id
+          }
+        })
+      }
+    }
+  }
 }
 </script>
 
 <style lang="scss" scoped>
-  @import '@/assets/scss/variables.scss';
+  @import '@/assets/scss/structure.scss';
 
-  #entry {
-    padding: 10px;
-    max-width: 600px;
-    margin: auto;
-    border-radius: 2px;
-    box-shadow: $box-shadow;
-  }
-
-  .heading-div {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .heading {
+  h4 {
     @media screen and (min-width: 500px) {
       font-size: 22px;
     }
-  }
-
-  .spec-div {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
-  }
-
-  .container {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-  }
-
-  .material-info {
-    max-width: 50%;
-  }
-
-  .company-info {
-    text-align: right;
-  }
-
-  .company-name {
-    text-decoration: underline;
-  }
-
-  .remarks {
-    margin-top: 10px;
-    font-size: 12px;
-  }
-
-  .click-message {
-    margin-top: 10px;
-    text-align: center;
-    color: $secondary;
-    text-decoration: underline;
-  }
-
-  h4 {
-    font-weight: bold;
-    margin: 0;
   }
 
   p {

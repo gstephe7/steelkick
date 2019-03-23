@@ -120,17 +120,7 @@ export default {
   }
 
   input {
-    border: 1px solid $accent;
     width: 75px;
-  }
-
-  .warn {
-    text-align: center;
-    color: $alert;
-  }
-
-  .highlight {
-    outline: thin solid $alert;
   }
 
   .buttons {

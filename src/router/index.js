@@ -3,7 +3,7 @@ import Router from 'vue-router'
 
 //import route components
 import Home from '@/components/home/Home'
-import SearchPage from '@/components/search/SearchPage'
+import AdvancedSearch from '@/components/search/AdvancedSearch'
 import Listings from '@/components/listings/Listings'
 import MaterialDetails from '@/components/material/MaterialDetails'
 import Cart from '@/components/cart/Cart'
@@ -28,7 +28,7 @@ import EditProfile from '@/components/dashboard/editProfile/EditProfile'
 import Login from '@/components/login/Login'
 import LogoutConfirmation from '@/components/logout/LogoutConfirmation'
 import PasswordRecovery from '@/components/login/PasswordRecovery'
-import Register from '@/components/register/Register'
+import CreateAccountPage from '@/components/createAccount/CreateAccountPage'
 import PasswordRecoveryConfirmation from '@/components/login/PasswordRecoveryConfirmation'
 import PasswordReset from '@/components/login/PasswordReset'
 import Company from '@/components/company/Company'
@@ -43,6 +43,9 @@ import AdminLogin from '@/components/admin/AdminLogin'
 import AdminHome from '@/components/admin/AdminHome'
 import CompanyEdit from '@/components/admin/components/companies/CompanyEdit'
 
+// landing pages
+import BetaSignUp from '@/components/landing/BetaSignUp'
+
 Vue.use(Router)
 
 const router = new Router({
@@ -52,11 +55,6 @@ const router = new Router({
       component: NotFound
     },
     {
-      path: '/logo',
-      name: 'Logo',
-      component: Logo
-    },
-    {
       path: '/',
       name: 'Home',
       component: Home
@@ -64,7 +62,7 @@ const router = new Router({
     {
       path: '/search',
       name: 'Search',
-      component: SearchPage
+      component: AdvancedSearch
     },
     {
       path: '/listings',
@@ -107,9 +105,9 @@ const router = new Router({
       component: PasswordReset
     },
     {
-      path: '/register',
-      name: 'Register',
-      component: Register
+      path: '/create-account',
+      name: 'CreateAccount',
+      component: CreateAccountPage
     },
     {
       path: '/company',
@@ -227,6 +225,11 @@ const router = new Router({
       ]
     },
     {
+      path: '/signup',
+      name: 'BetaSignUp',
+      component: BetaSignUp
+    },
+    {
       path: '/admin-login',
       name: 'AdminLogin',
       component: AdminLogin
@@ -239,6 +242,11 @@ const router = new Router({
         requiresAdmin: true
       },
       children: [
+        {
+          path: 'logo',
+          name: 'Logo',
+          component: Logo
+        },
         {
           path: 'home',
           name: 'AdminHome',

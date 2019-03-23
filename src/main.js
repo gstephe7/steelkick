@@ -2,6 +2,8 @@ import Vue from 'vue'
 import App from './App.vue'
 import VueCookies from 'vue-cookies'
 import VueAnalytics from 'vue-analytics'
+import VueGtm from 'vue-gtm'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {
   faBars,
@@ -19,9 +21,14 @@ import {
   faCheckCircle,
   faAngleUp,
   faAngleDown,
-  faSpinner
+  faSpinner,
+  faEnvelope,
 } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
+import {
+  faFacebook,
+  faLinkedin
+} from '@fortawesome/free-brands-svg-icons'
 
 library.add({
   faBars,
@@ -39,10 +46,13 @@ library.add({
   faCheckCircle,
   faAngleUp,
   faAngleDown,
-  faSpinner
+  faSpinner,
+  faEnvelope,
+  faFacebook,
+  faLinkedin
 })
 
-Vue.component('fa-icon', FontAwesomeIcon)
+Vue.component('icon', FontAwesomeIcon)
 
 // Vue cookies
 Vue.use(VueCookies)
@@ -57,6 +67,12 @@ import store from './store'
 Vue.use(VueAnalytics, {
   id: 'UA-99774746-4',
   router
+})
+
+// Google Tag Manager
+Vue.use(VueGtm, {
+  id: 'GTM-MFBLMZ3',
+  vueRouter: router
 })
 
 Vue.config.productionTip = false

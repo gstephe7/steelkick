@@ -59,7 +59,7 @@
     <div class="price-div">
       <div class="price-box">
         <div class="item">
-          <p>Distance</p>
+          <p>Distance:</p>
         </div>
         <div class="price">
           <p v-if="order.delivery.distance">{{ order.delivery.distance.toFixed(2) }} miles</p>
@@ -268,9 +268,6 @@ export default {
     align-items: center;
     justify-content: flex-end;
     margin-top: 50px;
-    select {
-      border: 1px solid $accent;
-    }
   }
 
   .input {

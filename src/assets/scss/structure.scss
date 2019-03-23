@@ -1,64 +1,302 @@
-/*
-  main
-  section
-  article
-  menu
-  summary
-  address
-  aside
-  header
-  footer
-  nav
-  figure
-  div
-  blockquote
-*/
-
 @import 'variables';
 
-main {
-  max-width: 800px;
-  margin: auto;
-  padding: 5px;
-}
 
-section {
+
+
+// CUSTOM LAYOUT STRUCTURE
+[row] {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
 }
 
-article {
-  margin: 10px;
-  padding: 5px;
-}
-
-article::-webkit-scrollbar {
-  width: 10px;
-}
-
-article::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 5px $accent;
-  border-radius: 10px;
-}
-
-article::-webkit-scrollbar-thumb {
-  background: $accent;
-  border-radius: 10px;
-}
-
-header {
+[col] {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
 }
 
-menu {
+[around] {
   display: flex;
   justify-content: space-around;
-  margin: 5px 0 0 0;
-  padding: 0;
+}
+
+[between] {
+  display: flex;
+  justify-content: space-between;
+}
+
+[center] {
+  display: flex;
+  justify-content: center;
+}
+
+[stretch] {
+  display: flex;
+  align-items: stretch;
+}
+
+[wrap] {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+[start] {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  align-content: flex-start;
+  text-align: left;
+}
+
+[end] {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  align-content: flex-end;
+  text-align: right;
+}
+
+[box] {
+  flex: 1;
+}
+
+
+
+
+// CUSTOM STYLED ELEMENTS
+[card] {
+  padding: 10px;
+  box-shadow: $box-shadow;
+  border-radius: 10px;
+}
+
+[click] {
+  cursor: pointer;
+  transition: 250ms all;
+}
+
+[click]:hover {
+  transform: scale(1.02);
+}
+
+
+
+
+// CONTENT SECTIONING ELEMENTS
+main {
+  max-width: 1000px;
+  min-height: 400px;
+  margin: auto;
+  padding: 10px 5px;
+}
+
+section {
+  margin: 5px;
+  padding: 10px;
+}
+
+header {
+  height: 40px;
+  background-color: $primary;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 10px;
+}
+
+nav {
+  background-color: $primary;
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+  padding: 0 5px;
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+  }
+  li {
+    padding: 5px 10px;
+    display: flex;
+    justify-content: flex-end;
+  }
 }
 
 aside {
+  width: 320px;
+  box-shadow: $box-shadow;
+  border-radius: 5px;
+  padding: 15px 5px;
+}
+
+footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: space-around;
+  height: 300px;
+  margin-top: 100px;
+  padding: 10px;
+  text-align: center;
+  background-color: $primary;
+  color: $accent;
+  a, h3, small, hr {
+    opacity: .5;
+  }
+  a {
+    font-size: 18px;
+  }
+}
+
+
+
+
+// FORM STRUCTURE
+form {
+  width: 100%;
+}
+
+button {
+  width: 200px;
+  margin: 10px;
+  padding: 5px;
+  background-color: $secondary;
+  border-radius: 10px;
+  border: none;
+  color: #fff;
+  font-family: 'Roboto', sans-serif;
+  font-size: 18px;
+  cursor: pointer;
+  transition: 250ms all;
+  box-shadow: $box-shadow;
+  svg {
+    font-size: 24px;
+    color: $accent;
+  }
+}
+
+button[grey] {
+  background-color: $accent;
+}
+
+button[green] {
+  background-color: $success;
+}
+
+button[red] {
+  background-color: $alert;
+}
+
+input {
+  width: 120px;
+  padding: 10px;
+  margin: 5px;
+  border-radius: 5px;
+  border: 1px solid $input-border;
+  font-size: 18px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance:textfield;
+}
+
+input[length] {
+  width: 20px;
+  border-radius: 0;
+  box-shadow: none;
+  border: none;
+  text-align: right;
+  padding: 0;
+  margin: 0;
+}
+
+input[denominator] {
+  text-align: left;
+}
+
+span[length] {
+  padding: 10px;
+  margin: 5px;
+  background-color: #fff;
+  border-radius: 5px;
+  border: 1px solid $input-border;
+  width: 118px;
   display: flex;
   justify-content: space-between;
+}
+
+select {
+  width: 140px;
+  padding: 10px;
+  margin: 5px;
+  border-radius: 5px;
+  border: 1px solid $input-border;
+  font-size: 18px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+}
+
+textarea {
+  width: 270px;
+  padding: 10px;
+  margin: 5px;
+  border-radius: 5px;
+  border: 1px solid $input-border;
+  font-size: 18px;
+  font-family: 'Roboto', sans-serif;
+}
+
+[highlight] {
+  outline: 1px solid $alert;
+}
+
+[errors] {
+  color: $alert;
+  text-align: center;
+}
+
+
+
+
+// ELEMENTS
+h1 {
+  text-align: center;
+  font-weight: 300;
+  margin: 20px;
+}
+
+h2 {
+  text-align: center;
+}
+
+h4 {
+  font-weight: bold;
+  margin: 0;
+}
+
+p {
+  width: 100%;
+}
+
+strong {
+  font-weight: 300;
+  text-decoration: underline;
+}
+
+em {
+  text-decoration: underline;
+  color: $secondary;
+}
+
+svg {
+  font-size: 50px;
+  color: $accent;
 }

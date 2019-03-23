@@ -21,7 +21,7 @@
         Forgot your password?
       </router-link>
 
-      <router-link :to="{ name: 'Register' }">Create an account</router-link>
+      <router-link :to="{ name: 'CreateAccount' }">Create an account</router-link>
 
     </div>
 

@@ -63,6 +63,7 @@ export default {
     background-color: rgba(0,0,0,0);
     outline: none;
     border: none;
+    box-shadow: none;
     color: $primary;
     font-size: 18px;
     width: 25px;

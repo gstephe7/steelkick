@@ -488,18 +488,6 @@ export default {
     height: 60px;
   }
 
-  .input {
-    border: 1px solid $accent;
-  }
-
-  .length {
-    border: 1px solid $accent;
-  }
-
-  select {
-    border: 1px solid $accent;
-  }
-
   .buttons {
     display: flex;
     flex-direction: column;

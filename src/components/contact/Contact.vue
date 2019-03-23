@@ -1,16 +1,19 @@
 <template>
-  <div id="contact">
+  <main>
 
     <h2>Contact SteelKick</h2>
 
-    <input v-model="email" placeholder="Email" name="email"><br>
-    <input v-model="name" placeholder="Name" name="name">
-    <textarea v-model="message" placeholder="Message"></textarea><br>
-    <button @click="submit">Submit</button>
-
-    <div v-if="error" class="error">
-      <p>Failed to send message. Please try again.</p>
-    </div>
+    <form>
+      <fieldset>
+        <input v-model="email" placeholder="Email" name="email">
+        <input v-model="name" placeholder="Name" name="name">
+        <textarea v-model="message" placeholder="Message"></textarea>
+        <button type="button" @click="submit">Submit</button>
+        <div v-if="error" class="error">
+          <p>Failed to send message. Please try again.</p>
+        </div>
+      </fieldset>
+    </form>
 
     <p>or</p>
     <hr>
@@ -20,7 +23,7 @@
       <a href="mailto:contact@steelkick.com">contact@steelkick.com</a>
     </p>
 
-  </div>
+  </main>
 </template>
 
 <script>
@@ -57,24 +60,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '@/assets/scss/variables.scss';
-
-  #contact {
-    max-width: 600px;
-    margin: auto;
-    padding: 50px 10px;
-    text-align: center;
-  }
+  @import '@/assets/scss/structure.scss';
 
   input {
-    border: 1px solid $accent;
     width: 270px;
-    margin: 5px;
   }
 
   textarea {
-    margin: 5px;
     height: 100px;
+  }
+
+  p {
+    text-align: center;
   }
 
   .error {

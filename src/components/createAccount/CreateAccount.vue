@@ -1,28 +1,26 @@
 <template>
-  <div id="register">
+    <form col @submit.prevent="submit">
 
-    <h2>Create Your Free Account</h2>
+        <input v-model="company" name="company" placeholder="Company Name" :highlight="errors.company">
 
-    <div class="form">
+        <input v-model="email" name="email" placeholder="Email" :highlight="errors.email">
 
-      <input v-model="company" placeholder="Company Name" :class="{ highlight : errors.company }">
+        <input v-model="password" type="password" name="password" placeholder="Password" :highlight="errors.password" @keyup.enter="submit">
 
-      <input v-model="email" placeholder="Email" :class="{ highlight : errors.email }">
+        <div>
+          <button green>
+            Create Account
+          </button>
+        </div>
 
-      <input v-model="password" type="password" placeholder="Password" :class="{ highlight : errors.password }">
+        <div errors>
+          <p v-if="errors.company">Please enter your company's name.</p>
+          <p v-if="errors.email">Please enter a valid email address</p>
+          <p v-if="errors.password">Password must be longer than 7 characters</p>
+          <p v-if="errors.server">{{ errors.server }}</p>
+        </div>
 
-      <button @click="submit">Create Account</button>
-
-    </div>
-
-    <div class="errors">
-      <p v-if="errors.company">Please enter your company's name.</p>
-      <p v-if="errors.email">Please enter a valid email address</p>
-      <p v-if="errors.password">Password must be longer than 7 characters</p>
-      <p v-if="errors.server">{{ errors.server }}</p>
-    </div>
-
-  </div>
+    </form>
 </template>
 
 <script>
@@ -116,36 +114,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '@/assets/scss/variables.scss';
-
-  #register {
-    height: 500px;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .form {
-    height: 300px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
+  @import '@/assets/scss/structure.scss';
 
   input {
-    border: 1px solid $accent;
-    margin: 10px;
     width: 250px;
-  }
-
-  .highlight {
-    outline: 1px solid $alert;
-  }
-
-  .errors {
-    color: $alert;
-    text-align: center;
   }
 </style>

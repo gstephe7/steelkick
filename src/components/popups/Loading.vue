@@ -1,7 +1,7 @@
 <template>
   <div id="loading">
 
-    <fa-icon icon="spinner" id="spinner"></fa-icon>
+    <icon icon="spinner" id="spinner"></icon>
 
   </div>
 </template>

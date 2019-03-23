@@ -1,5 +1,6 @@
 <template>
   <div>
+
     <h1 class="logo title-a">STEEL<span class="title-b">KICK</span></h1>
 
     <h1 class="logo title-a">S<span class="title-b">K</span></h1>
@@ -29,6 +30,23 @@
         </h3>
       </div>
     </div>
+
+    <div id="ad">
+      <div class="ad-layer">
+        <div class="content">
+          <h1 class="title-c">
+            STEEL<span class="title-b">KICK</span>
+          </h1>
+          <h2>
+            Buy and Sell Steel Online
+          </h2>
+          <div class="free-box">
+            <p>100% FREE</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -46,15 +64,18 @@ export default {
     padding: 0;
     font-style: italic;
     letter-spacing: -17px;
+    font-weight: 700;
   }
 
   .title-b {
     color: $accent;
+    font-weight: 700;
   }
 
   .logo {
     font-size: 200px;
     margin: 100px;
+    font-weight: 700;
   }
 
   .blue-profilepic {
@@ -82,6 +103,7 @@ export default {
     padding: 0;
     font-style: italic;
     letter-spacing: -10px;
+    font-weight: 700;
   }
 
   .cover {
@@ -90,6 +112,7 @@ export default {
     background-position: center;
     background-size: cover;
     width: auto;
+    margin: 50px 0;
     .title-c {
       font-size: 140px;
       letter-spacing: -12px;
@@ -128,5 +151,55 @@ export default {
   .icon {
     color: $accent;
     font-size: 50px;
+  }
+
+  .free-box {
+    display: inline-block;
+    padding: 25px;
+    background-color: $alert;
+    color: white;
+    border-radius: 50%;
+    box-shadow: $box-shadow;
+    p {
+      margin: 0;
+      font-size: 40px;
+      font-weight: 700;
+      text-shadow: $text-shadow;
+    }
+  }
+
+  #ad {
+    background-image: url('../../assets/img/welder.jpg');
+    background-position: center;
+    background-size: cover;
+    height: 500px;
+    .title-c {
+      margin-left: -15px;
+      font-size: 100px;
+      text-align: left;
+      letter-spacing: -9px;
+      text-shadow: $text-shadow;
+    }
+    h2 {
+      color: $accent;
+      font-size: 40px;
+      margin: 0 0 20px 0;
+      text-shadow: $text-shadow;
+    }
+  }
+
+  .ad-layer {
+    height: 100%;
+    width: 100%;
+    background-color: rgba(24, 32, 51, .7);
+  }
+
+  .content {
+    width: 60%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 </style>

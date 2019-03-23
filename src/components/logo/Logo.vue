@@ -21,6 +21,7 @@ export default {
     font-style: italic;
     letter-spacing: -3px;
     font-weight: 700;
+    font-size: 36px;
   }
 
   .title-b {

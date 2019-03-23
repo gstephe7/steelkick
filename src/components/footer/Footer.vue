@@ -1,78 +1,49 @@
 <template>
-  <div id="footer">
+  <footer>
 
-    <div class="container">
-      <ul>
-        <li>
-          <router-link :to="{ name: 'Home' }">Home</router-link>
-        </li>
-        <li>
-          <router-link :to="{ name: 'Search' }">Buy Steel</router-link>
-        </li>
-        <li>
-          <router-link :to="{ name: 'AddMaterial' }">Sell Steel</router-link>
-        </li>
-        <li>
-          <router-link :to="{ name: 'DashboardHome' }">Dashboard</router-link>
-        </li>
-        <li>
-          <router-link :to="{ name: 'Inventory' }">Manage Inventory</router-link>
-        </li>
-        <li>
-          <router-link :to="{ name: 'Contact' }">Contact</router-link>
-        </li>
-        <li>
-          <router-link v-if="$store.getters.loggedIn" :to="{ name: 'Logout' }">
-            <span @click="$store.dispatch('logout')">Logout</span>
-          </router-link>
-          <router-link v-else :to="{ name: 'Register' }">
-            Create Account
-          </router-link>
-        </li>
-      </ul>
+    <div around>
+
+      <section>
+        <Nav :footer="true"></Nav>
+      </section>
+
+      <section>
+        <Social></Social>
+      </section>
+
     </div>
 
-    <div class="logo">
-      <Logo :footer="true"></Logo>
+    <div around>
+      <small>&copy; {{ currentYear }} SteelKick, LLC. All Rights Reserved.</small>
     </div>
 
-  </div>
+  </footer>
 </template>
 
 <script>
-import Logo from '@/components/logo/Logo'
+import Social from '@/components/social/Social'
+import Nav from '@/components/nav/Nav'
 
 export default {
   components: {
-    Logo
+    Social,
+    Nav
+  },
+  computed: {
+    currentYear () {
+      let date = new Date()
+      let year = date.getFullYear()
+
+      return year
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-  @import '@/assets/scss/variables.scss';
+  @import '@/assets/scss/structure.scss';
 
-  #footer {
-    display: flex;
-    justify-content: space-around;
-    height: 200px;
-    padding: 50px 0 50px 0;
-    margin-top: 100px;
-    background-color: $primary;
-  }
-
-  ul {
-    margin: 0;
-    padding: 0;
-  }
-
-  li {
-    margin: 10px 0 10px 0;
-  }
-
-  a {
-    color: $accent;
-    text-decoration: none;
-    opacity: .75;
+  section {
+    max-width: 180px;
   }
 </style>

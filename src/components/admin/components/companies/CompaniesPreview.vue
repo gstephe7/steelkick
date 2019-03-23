@@ -52,10 +52,6 @@ export default {
 <style lang="scss" scoped>
   @import '@/assets/scss/structure.scss';
 
-  h4 {
-    margin: 0;
-  }
-
   article {
     height: 200px;
     overflow-y: scroll;
@@ -65,5 +61,6 @@ export default {
     box-shadow: $box-shadow;
     padding: 10px;
     margin: 5px 0;
+    width: 100%;
   }
 </style>

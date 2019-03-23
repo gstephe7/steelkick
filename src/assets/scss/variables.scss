@@ -12,6 +12,9 @@ $blue-green: #2e7175;
 $purple: #4b2d56;
 $burgundy: #590a04;
 $blue: #293e70;
+$input-border: #d8d8d8;
 
-// box shadow
-$box-shadow: 2px 2px 2px 2px #e5e5e5;
+// box shadows
+$box-shadow: 0 4px 8px 0 rgba(0,0,0,.2);
+$input-shadow: 0 1px 4px 0 rgba(0,0,0,.2);
+$text-shadow: 0 4px 8px rgba(0,0,0,.2);

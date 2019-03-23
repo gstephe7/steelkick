@@ -1,11 +1,20 @@
 <template>
   <div>
     <QuickSearch></QuickSearch>
-    <div class="info">
-      <SellPreview></SellPreview>
-      <BuyPreview></BuyPreview>
+    <div around wrap>
+      <section>
+        <SellPreview></SellPreview>
+      </section>
+      <section>
+        <BuyPreview></BuyPreview>
+      </section>
     </div>
-    <QuickRegister></QuickRegister>
+    <div around wrap>
+      <section>
+        <h2>Create Your Free Account</h2>
+        <CreateAccount></CreateAccount>
+      </section>
+    </div>
   </div>
 </template>
 
@@ -13,24 +22,23 @@
 import QuickSearch from '@/components/search/QuickSearch'
 import SellPreview from '@/components/home/SellPreview'
 import BuyPreview from '@/components/home/BuyPreview'
-import QuickRegister from '@/components/register/QuickRegister'
+import CreateAccount from '@/components/createAccount/CreateAccount'
 
 export default {
   components: {
     QuickSearch,
     SellPreview,
     BuyPreview,
-    QuickRegister
+    CreateAccount
   }
 }
 </script>
 
-<style lang="scss">
-  @import '@/assets/scss/variables.scss';
+<style lang="scss" scoped>
+  @import '@/assets/scss/structure.scss';
 
-  .info {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
+  section {
+    max-width: 400px;
+    min-width: 290px;
   }
 </style>

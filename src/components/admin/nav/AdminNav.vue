@@ -1,16 +1,16 @@
 <template>
   <div>
-    <div id="admin-nav"  @click="toggleAdminMenu">
+    <nav  @click="toggleAdminMenu">
 
       <div class="mobile">
         <button class="menu-button">
-          <fa-icon v-if="showMenu" icon="times"></fa-icon>
-          <fa-icon v-else icon="bars"></fa-icon>
+          <icon v-if="showMenu" icon="times"></icon>
+          <icon v-else icon="bars"></icon>
         </button>
         <p>Admin Navigation</p>
       </div>
 
-    </div>
+    </nav>
 
     <AdminMenu class="hide" :class="{ show: showMenu }" @closeMenu="closeMenu"></AdminMenu>
 
@@ -43,13 +43,11 @@ export default {
 <style lang="scss" scoped>
   @import '@/assets/scss/variables.scss';
 
-  #admin-nav {
-    height: 35px;
-    width: 100%;
+  nav {
+    height: 25px;
     background-color: $accent;
     display: flex;
     align-items: center;
-    justify-content: space-between;
     box-shadow: $box-shadow;
     cursor: pointer;
   }
@@ -63,10 +61,15 @@ export default {
     background-color: rgba(0,0,0,0);
     outline: none;
     border: none;
+    box-shadow: none;
     color: $primary;
     font-size: 18px;
     width: 25px;
     cursor: pointer;
+  }
+
+  svg {
+    color: $primary;
   }
 
   .hide {

@@ -18,7 +18,7 @@ input {
   width: 120px;
   padding: 10px;
   border-radius: 5px;
-  border: none;
+  border: 1px solid $input-border;
   font-size: 18px;
   font-family: 'Roboto', sans-serif;
   font-weight: 300;
@@ -39,7 +39,7 @@ select {
   width: 140px;
   padding: 10px 5px 10px 5px;
   border-radius: 5px;
-  border: none;
+  border: 1px solid $input-border;
   font-size: 18px;
   font-family: 'Roboto', sans-serif;
   font-weight: 300;
@@ -49,7 +49,7 @@ textarea {
   width: 270px;
   padding: 10px;
   border-radius: 5px;
-  border: 1px solid $accent;
+  border: 1px solid $input-border;
   font-size: 18px;
   font-family: 'Roboto', sans-serif;
   height: 22px;
@@ -67,6 +67,7 @@ button {
   font-size: 18px;
   cursor: pointer;
   transition: 250ms all;
+  box-shadow: $box-shadow;
 }
 
 .button-secondary {
@@ -75,25 +76,31 @@ button {
 
 button:hover {
   transform: scale(1.05);
-  box-shadow: 3px 3px 3px 3px rgba(0,0,0,.1);
 }
 
 button[red] {
   background-color: $alert;
 }
 
+button[green] {
+  background-color: $success;
+}
+
 .length {
   display: inline;
-  width: 130px;
   padding: 10px 5px 10px 5px;
   background-color: #fff;
   border-radius: 5px;
+  border: 1px solid $input-border;
   height: 24px;
+  width: 128px;
 }
 
 .feet-input, .inches-input {
   width: 20px;
   border-radius: 0;
+  box-shadow: none;
+  border: none;
   text-align: right;
   padding: 0 1px 0 5px;
 }
@@ -101,6 +108,8 @@ button[red] {
 .numerator-input, .denominator-input {
   width: 20px;
   font-size: 18px;
+  box-shadow: none;
+  border: none;
   border-radius: 0;
   padding: 0px;
 }
