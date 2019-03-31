@@ -88,5 +88,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '@/assets/scss/structure.scss';
 </style>

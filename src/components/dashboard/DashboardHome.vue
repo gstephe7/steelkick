@@ -1,56 +1,60 @@
 <template>
-  <div id="dashboard-home">
+  <div main>
 
-    <div class="div">
+    <div center wrap>
 
-      <div class="container">
-        <div class="card" @click="$router.push('add-material')">
-          <fa-icon icon="plus-circle" class="icon green"></fa-icon>
+      <div around wrap>
+        <section col center card click @click="$router.push('add-material')">
+          <icon icon="plus-circle" class="green"></icon>
           <h3>Add New Material</h3>
-        </div>
-        <div class="card" @click="$router.push('inventory')">
-          <fa-icon icon="list" class="icon burgundy"></fa-icon>
+        </section>
+        <section col center card click @click="$router.push('inventory')">
+          <icon icon="list" class="burgundy"></icon>
           <h3>Manage Inventory</h3>
-        </div>
+        </section>
       </div>
 
-      <div class="container" v-if="$store.getters.isAdmin">
-        <div class="card" @click="$router.push('cart')">
-          <fa-icon icon="shopping-cart" class="icon orange"></fa-icon>
+      <div around wrap v-if="$store.getters.isAdmin">
+        <section col center card click @click="$router.push('cart')">
+          <icon icon="shopping-cart" class="orange"></icon>
           <h3>Checkout Cart</h3>
-        </div>
-        <div class="card" @click="$router.push('pending-orders')">
-          <New class="notify" :orders="true"></New>
-          <fa-icon icon="clock" class="icon red"></fa-icon>
+        </section>
+        <section col center card click @click="$router.push('pending-orders')">
+          <span class="notify-container">
+            <New class="notify" :orders="true"></New>
+          </span>
+          <icon icon="clock" class="red"></icon>
           <h3>Pending Orders</h3>
-        </div>
+        </section>
       </div>
 
     </div>
 
-    <div class="div">
+    <div center wrap>
 
-      <div class="container" v-if="$store.getters.isAdmin">
-        <div class="card" @click="$router.push('transactions')">
-          <New class="notify" :transactions="true"></New>
-          <fa-icon icon="history" class="icon gold"></fa-icon>
+      <div around wrap v-if="$store.getters.isAdmin">
+        <section col center card click @click="$router.push('transactions')">
+          <span class="notify-container">
+            <New class="notify" :transactions="true"></New>
+          </span>
+          <icon icon="history" class="gold"></icon>
           <h3>Transaction History</h3>
-        </div>
-        <div class="card" @click="$router.push('set-prices')">
-          <fa-icon icon="chart-line" class="icon blue-green"></fa-icon>
+        </section>
+        <section col center card click @click="$router.push('set-prices')">
+          <icon icon="chart-line" class="blue-green"></icon>
           <h3>Set Prices</h3>
-        </div>
+        </section>
       </div>
 
-      <div class="container">
-        <div class="card" @click="$router.push('manage-users')" v-if="$store.getters.isAdmin">
-          <fa-icon icon="users" class="icon purple"></fa-icon>
+      <div around wrap>
+        <section col center card click @click="$router.push('manage-users')" v-if="$store.getters.isAdmin">
+          <icon icon="users" class="purple"></icon>
           <h3>Manage Company Users</h3>
-        </div>
-        <div class="card" @click="$router.push('edit-profile')">
-          <fa-icon icon="cog" class="icon blue"></fa-icon>
+        </section>
+        <section col center card click @click="$router.push('edit-profile')">
+          <icon icon="cog" class="blue"></icon>
           <h3>Edit Profile</h3>
-        </div>
+        </section>
       </div>
 
     </div>
@@ -69,93 +73,27 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '@/assets/scss/variables.scss';
 
-  #dashboard-home {
-    max-width: 1100px;
-    margin: auto;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
+  [main] {
+    max-width: 1200px;
   }
 
-  .div {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    align-items: center;
-    width: 100%;
+  [card] {
+    height: 230px;
+    width: 230px;
   }
 
-  .container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    align-items: center;
-  }
-
-  .card {
-    width: 250px;
-    height: 250px;
-    margin: 10px;
-    box-shadow: $box-shadow;
-    border-radius: 2px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: 250ms all;
-  }
-
-  .card:hover {
-    transform: scale(1.05);
-  }
-
-  .icon {
+  svg {
     font-size: 75px;
-    color: $accent;
   }
 
-  .green {
-    color: $success;
-  }
-
-  .gold {
-    color: $gold;
-  }
-
-  .orange {
-    color: $orange;
-  }
-
-  .blue {
-    color: $blue;
-  }
-
-  .red {
-    color: $alert;
-  }
-
-  .blue-green {
-    color: $blue-green;
-  }
-
-  .purple {
-    color: $purple;
-  }
-
-  .burgundy {
-    color: $burgundy;
+  .notify-container {
+    position: relative;
   }
 
   .notify {
     position: absolute;
-    margin-left: 110px;
-    margin-right: -110px;
-    margin-top: -100px;
-    margin-bottom: 100px;
+    top: -40px;
+    right: -140px;
   }
 </style>

@@ -1,7 +1,7 @@
 <template>
-  <div id="inventory">
+  <div>
 
-    <MaterialListings inventory="true"
+    <MaterialListings :inventory="true"
                       :listings="material"
                       v-if="loaded">
     </MaterialListings>
@@ -54,5 +54,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '@/assets/scss/variables.scss';
 </style>

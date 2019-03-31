@@ -1,7 +1,7 @@
 <template>
-  <div id="material-confirmation">
+  <div main col>
 
-    <fa-icon icon="check-circle" class="icon"></fa-icon>
+    <icon confirm icon="check-circle"></icon>
 
     <p v-if="$route.query.newEntry">You have successfully added new material!</p>
     <p v-if="$route.query.edit">You have successfully updated your material!</p>
@@ -27,26 +27,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '@/assets/scss/variables.scss';
-
-  #material-confirmation {
-    padding: 10px;
-    max-width: 800px;
-    height: 300px;
-    margin: auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
 
   p {
     text-align: center;
-  }
-
-  .icon {
-    color: $success;
-    font-size: 75px;
   }
 
   a {

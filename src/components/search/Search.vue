@@ -44,7 +44,7 @@
     <!-- If used in the advanced search or inventory search -->
     <div center wrap v-else>
 
-      <section>
+      <div fieldset>
         <div row>
           <select v-model="shape" class="autotab">
             <option disabled selected :value="null">
@@ -90,9 +90,9 @@
             <option :value="true">Galvanized</option>
           </select>
         </div>
-      </section>
+      </div>
 
-      <section>
+      <div fieldset>
         <div row>
           <select v-model="state" class="autotab" @change="pushCompanies">
             <option :value="null" selected disabled>State</option>
@@ -118,7 +118,7 @@
             <option :value="false">Doesn't matter</option>
           </select>
         </div>
-      </section>
+      </div>
 
     </div>
 
@@ -306,7 +306,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '@/assets/scss/structure.scss';
+  @import '@/assets/scss/variables.scss';
 
   a {
     color: $accent;

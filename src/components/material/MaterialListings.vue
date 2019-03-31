@@ -9,10 +9,14 @@
       </Search>
     </aside>
 
-    <main>
+    <div main>
+
+      <span back v-if="$route.query.cart" @click="$router.back()">
+        &lt; Back to cart
+      </span>
 
       <h1 v-if="buying">Your Search Results</h1>
-      <h2 v-if="inventory">Company Inventory</h2>
+      <h1 v-if="inventory">Company Inventory</h1>
 
       <div id="mobile">
         <div card class="mobile-filter" :class="{ show : showFilter }">
@@ -52,7 +56,7 @@
         </div>
       </div>
 
-    </main>
+    </div>
 
   </div>
 </template>
@@ -82,7 +86,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '@/assets/scss/structure.scss';
 
   #mobile {
     @media screen and (max-width: 999px) {
@@ -109,25 +112,19 @@ export default {
     }
   }
 
-  main {
+  [main] {
     flex-basis: 100%;
+    padding: 25px 5px;
     max-width: 600px;
   }
 
   .mobile-filter {
+    padding: 10px 0;
     display: none;
   }
 
   .show {
     display: block;
-  }
-
-  .back {
-    color: royalblue;
-    margin-left: 10px;
-    span {
-      cursor: pointer;
-    }
   }
 
   svg {

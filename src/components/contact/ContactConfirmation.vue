@@ -1,7 +1,7 @@
 <template>
-  <div id="confirmation">
+  <div main col center>
 
-    <fa-icon icon="check-circle" class="icon"></fa-icon>
+    <icon confirm icon="check-circle" class="icon"></icon>
 
     <p>Thank you for contacting SteelKick! We'll get back to you as soon as possible!</p>
 
@@ -16,18 +16,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '@/assets/scss/variables.scss';
-
-  #confirmation {
-    max-width: 600px;
-    height: 300px;
-    margin: auto;
-    padding: 50px 10px;
-    text-align: center;
-  }
-
-  .icon {
-    color: $success;
-    font-size: 75px;
-  }
 </style>

@@ -1,9 +1,9 @@
 <template>
-  <div id="material-edit">
+  <div main>
 
-    <router-link :to="{ name: 'Inventory' }">< Back to Inventory</router-link>
+    <router-link back :to="{ name: 'Inventory' }">< Back to Inventory</router-link>
 
-    <h3>Edit Material</h3>
+    <h1>Edit Material</h1>
 
     <NewMaterial btnText="Update"
                  :edit="true"
@@ -30,16 +30,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '@/assets/scss/variables.scss';
-
-  #material-edit {
-    max-width: 700px;
-    margin: auto;
-    padding: 10px;
-  }
-
-  h3 {
-    text-align: center;
-    margin-top: 50px;
-  }
 </style>

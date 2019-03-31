@@ -1,7 +1,7 @@
 <template>
-  <div id="cart">
+  <div main>
 
-    <h2>Your Cart</h2>
+    <h1>Your Cart</h1>
 
     <div v-if="cart.length > 0">
       <CartSeller v-if="cart.length > 0"
@@ -11,7 +11,7 @@
       </CartSeller>
     </div>
 
-    <div v-else class="empty-cart">
+    <div col v-else>
       <p>Your cart is empty</p>
     </div>
 
@@ -51,35 +51,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '@/assets/scss/variables.scss';
-
-  #cart {
-    padding: 10px;
-    max-width: 800px;
-    margin: auto;
-  }
-
-  .seller-div {
-    margin-top: 50px;
-  }
-
-  .cart-items {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .price-div {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-  }
-
-  h3 {
-    font-weight: bold;
-  }
-
-  .empty-cart {
-    text-align: center;
-  }
 </style>

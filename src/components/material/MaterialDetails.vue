@@ -1,237 +1,260 @@
 <template>
-    <div id="listing">
+    <div main>
 
-      <p class="back" @click="$router.back()">
-        <span v-if="$route.query.buying">
-          &lt; Back to results
+      <div>
+        <span back @click="$router.back()">
+          <span v-if="$route.query.buying">
+            &lt; Back to results
+          </span>
+          <span v-if="$route.query.cart">
+            &lt; Back to cart
+          </span>
         </span>
-        <span v-if="$route.query.cart">
-          &lt; Back to cart
-        </span>
-      </p>
+      </div>
 
-      <div class="listing-details" v-if="item">
+      <div v-if="item">
 
-        <!-- Heading with shape, length, and cwt -->
-        <div class="heading">
-          <div class="heading-div">
-            <h2>
-              {{ item.shape.toUpperCase() }} {{ item.dimension }}
-            </h2>
-          </div>
-          <div>
-            <h2>${{ item.cwt }} Cwt</h2>
-          </div>
+        <!-- Heading with shape, cwt, length, and quantity -->
+        <div between>
+          <h1>
+            {{ item.shape.toUpperCase() }} {{ item.dimension }}
+          </h1>
+          <h1>
+            ${{ item.cwt }} Cwt
+          </h1>
         </div>
 
-        <div class="heading">
-          <div>
-            <p>
-              <span v-if="item.feet">
-                {{ item.feet }}'
-              </span>
-              <span v-if="item.inches">
-                {{ item.inches }}"
-              </span>
-              <span v-else>
-                0"
-              </span>
-              <span v-if="item.numerator">
-                {{ item.numerator }}/{{ item.denominator }}
-              </span>
-            </p>
-          </div>
-          <div>
-            <p>{{ item.quantity }} available</p>
-          </div>
+        <div between>
+          <span>
+            <span v-if="item.feet">
+              {{ item.feet }}'
+            </span>
+            <span v-if="item.inches">
+              {{ item.inches }}"
+            </span>
+            <span v-else>
+              0"
+            </span>
+            <span v-if="item.numerator">
+              {{ item.numerator }}/{{ item.denominator }}
+            </span>
+          </span>
+
+          <span>
+            {{ item.quantity }} available
+          </span>
         </div>
 
-        <div class="info-div">
+        <br>
+
+        <div between>
 
           <!-- Additional details on material -->
-          <div class="info-container">
+          <div col start grow>
             <div>
-              <p>{{ item.grade }}</p>
+              <span>
+                {{ item.grade }}
+              </span>
             </div>
             <div>
-              <p v-if="item.domestic">Domestic</p>
-              <p v-else>Foreign</p>
+              <span v-if="item.domestic">
+                Domestic
+              </span>
+              <span v-else>
+                Foreign
+              </span>
             </div>
             <div>
-              <p>{{ item.condition }} condition</p>
+              <span>
+                {{ item.condition }} condition
+              </span>
             </div>
-            <div>
-              <p v-if="item.heat"><span class="check">&#10004;</span>Heat #s included</p>
+            <div v-if="item.heat">
+              <i check>&#10004;</i>Heat #s included
             </div>
-            <div>
-              <p v-if="item.primed"><span class="check">&#10004;</span>Primed</p>
+            <div v-if="item.primed">
+              <i check>&#10004;</i>Primed
             </div>
-            <div>
-              <p v-if="item.galvanized"><span class="check">&#10004;</span>Galvanized</p>
+            <div v-if="item.galvanized">
+              <i check>&#10004;</i>Galvanized
             </div>
-            <div v-if="item.remarks" class="remarks">
-              <p>Remarks: {{ item.remarks }}</p>
+            <div v-if="item.remarks">
+              <small>Remarks: {{ item.remarks }}</small>
             </div>
           </div>
 
           <!-- Information on company -->
-          <div class="info-container">
-            <div>
-              <h4>
-                <router-link :to="{ name: 'Company', query: { id: company._id } }">
-                  {{ company.name }}
-                </router-link>
-              </h4>
-            </div>
-            <div>
-              <p>
-                {{ company.city }}, {{ company.state }}
-              </p>
-            </div>
+          <div col end grow>
+            <strong>
+              <router-link :to="{ name: 'Company', query: { id: company._id } }">
+                {{ company.name }}
+              </router-link>
+            </strong>
+            <address>
+              {{ company.city }}, {{ company.state }}
+            </address>
             <div v-if="$store.getters.loggedIn">
-              <p v-if="distance">
+              <span v-if="distance">
                 {{ distance.toFixed(2) }} miles away
-              </p>
-              <p v-else>
+              </span>
+              <span v-else>
                 Distance N/A
-              </p>
+              </span>
             </div>
             <div v-else>
-              <p>
+              <span>
                 Login to see distance
-              </p>
+              </span>
             </div>
             <div>
-              <p v-if="company.delivery.offered">
+              <span v-if="company.delivery.offered">
                 Delivery: ${{ company.delivery.price }}/mile
-              </p>
-              <p v-else>
+              </span>
+              <span v-else>
                 Delivery: N/A
-              </p>
+              </span>
             </div>
             <div>
-              <p v-if="company.cut.offered">
+              <span v-if="company.cut.offered">
                 Cut to length: ${{ company.cut.price }}/cut
-              </p>
-              <p v-else>
+              </span>
+              <span v-else>
                 Cut to length: N/A
-              </p>
+              </span>
             </div>
           </div>
 
         </div>
 
+        <br>
+
         <!-- Preferences for order -->
-        <div class="preferences">
+        <div>
 
           <!-- Quantity Ordered -->
-          <div class="form-section">
-            <div class="label">
-              <label>Order Quantity: </label>
-            </div>
-            <div class="input">
-              <input type="number" @change="maxQuantity" v-model="quantity" class="quantity-input">
-            </div>
+          <div>
+            <label between align>
+              Order Quantity:
+              <input small type="number" @change="maxQuantity" v-model="quantity">
+            </label>
           </div>
 
           <!-- Cut to length -->
-          <div class="form-section">
-            <div class="label">
-              <label>Cut to length?</label>
-            </div>
-            <div class="input">
-              <button v-if="company.cut.offered" class="add-cut" @click="addCut">
-                Add Cut (${{ company.cut.price }}/cut)
-              </button>
-              <button v-else disabled class="add-cut">
-                Does not offer
-              </button>
-            </div>
+          <div>
+            <label between align>
+              Cut to length?
+              <span>
+                <button small v-if="company.cut.offered" @click="addCut">
+                  Add Cut (${{ company.cut.price }}/cut)
+                </button>
+                <button v-else disabled>
+                  Does not offer
+                </button>
+              </span>
+            </label>
           </div>
+
+          <br>
 
           <!-- Details for cuts requested -->
-          <div class="cut-div" v-for="(cut, index) in cuts" :key="index">
+          <div sub row align v-for="(cut, index) in cuts" :key="index">
             <div>
-              <input class="cut-quantity" type="number" v-model="cut.quantity" @blur="calculateCutLengthInches(cut)">
+              <input tiny type="number" v-model="cut.quantity" @blur="calculateCutLengthInches(cut)">
             </div>
             <div>
-              <div class="length">
-                <input class="feet-input" type="number" placeholder="11" maxlength="2" v-model="cut.feet" @blur="calculateCutLengthInches(cut)">'
-                <input class="inches-input" type="number" placeholder="9" maxlength="2" v-model="cut.inches" @blur="calculateCutLengthInches(cut)">"
-                <input class="numerator-input" type="number" maxlength="2" v-model="cut.numerator"> /
-                <input class="denominator-input" type="number" maxlength="2" v-model="cut.denominator" @blur="calculateCutLengthInches(cut)">
-              </div>
+              <span length :highlight="totalLengthExceeded">
+                <input length type="number" placeholder="11" maxlength="2" v-model="cut.feet" @blur="calculateCutLengthInches(cut)">'
+                <input length type="number" placeholder="9" maxlength="2" v-model="cut.inches" @blur="calculateCutLengthInches(cut)">"
+                <input length type="number" maxlength="2" v-model="cut.numerator"> /
+                <input length denominator type="number" maxlength="2" v-model="cut.denominator" @blur="calculateCutLengthInches(cut)">
+              </span>
             </div>
             <div>
-              <button class="remove-cut" @click="removeCut(index)">X</button>
+              <button tiny red @click="removeCut(index)">X</button>
             </div>
-          </div>
-          <div v-if="totalLengthExceeded" class="length-exceeded">
-            <p>Length of cut cannot exceed order length</p>
-          </div>
-          <div v-if="materialLengthExceeded" class="length-exceeded">
-            <p>Length of cut cannot exceed material stock length</p>
           </div>
 
+          <div errors>
+            <p v-if="totalLengthExceeded">
+              Length of cut cannot exceed order length
+            </p>
+            <p  v-if="materialLengthExceeded">
+              Length of cut cannot exceed material stock length
+            </p>
+          </div>
         </div>
 
+        <br>
+
         <!-- Material price -->
-        <div class="price-div">
+        <dl col end>
+
+          <!-- weight of material ordered -->
+          <div row>
+            <dt>
+              Weight:
+            </dt>
+            <dd>
+              {{ totalWeight.toFixed(2) }} lbs
+            </dd>
+          </div>
 
           <!-- subtotal for material alone -->
-          <div class="price-container">
-            <div class="expense-box">
-              <h3>Material Subtotal:</h3>
-            </div>
-            <div class="price-box">
-              <h3>${{ totalMaterialPrice.toFixed(2) }}</h3>
-            </div>
+          <div row>
+            <dt>
+              Material Subtotal:
+            </dt>
+            <dd>
+              {{ totalMaterialPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}
+            </dd>
           </div>
 
           <!-- total for cut expenses -->
-          <div class="price-container">
-            <div class="expense-box">
-              <p>Cut Expense:</p>
-            </div>
-            <div class="price-box">
-              <p>
-                ${{ totalCutPrice.toFixed(2) }}
-              </p>
-            </div>
+          <div row>
+            <dt>
+              Cut Expense:
+            </dt>
+            <dd>
+              {{ totalCutPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}
+            </dd>
           </div>
 
           <!-- total price -->
-          <div class="price-container total">
-            <div class="expense-box">
-              <h2>Total Price:</h2>
-            </div>
-            <div class="price-box">
+          <div row>
+            <dt>
               <h2>
-                ${{ totalPrice.toFixed(2) }}
+                Total Price:
               </h2>
-            </div>
+            </dt>
+            <dd>
+              <h2>
+                {{ totalPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}
+              </h2>
+            </dd>
           </div>
 
-        </div>
+        </dl>
 
         <!-- place order -->
-        <div class="place-order">
-          <button v-if="$route.query.buying" class="success" @click="submit">
+        <div col>
+          <button green v-if="$route.query.buying" @click="submit">
             Add to Cart
           </button>
-          <button v-if="$route.query.cart" class="success" @click="submit">
+          <button green v-if="$route.query.cart" @click="submit">
             Update Order
           </button>
         </div>
 
         <!-- item already in cart alert -->
-        <div class="alert-message" v-if="itemRepeat">
+        <div errors v-if="itemRepeat">
           <p>This item has already been added to your cart!</p>
         </div>
 
         <!-- if cart item, remove item from cart button -->
-        <div class="remove-item" v-if="$route.query.cart">
-          <button class="alert" @click="removeItem">Remove from cart</button>
+        <div col v-if="$route.query.cart">
+          <button red @click="removeItem">
+            Remove from cart
+          </button>
         </div>
 
       </div>
@@ -360,13 +383,15 @@ export default {
             material: this.item._id,
             quantity: this.quantity,
             cuts: this.cuts,
+            weight: this.totalWeight,
+            materialPrice: this.totalMaterialPrice,
             cutPrice: this.totalCutPrice,
             subtotalPrice: this.totalPrice
           }
         })
         .then(() => {
-          this.$store.dispatch('complete')
           this.$router.push({ name: 'Cart' })
+          this.$store.dispatch('complete')
         })
         .catch(() => {
           this.$store.dispatch('complete')
@@ -383,6 +408,8 @@ export default {
             material: this.item._id,
             quantity: this.quantity,
             cuts: this.cuts,
+            weight: this.totalWeight,
+            materialPrice: this.totalMaterialPrice,
             cutPrice: this.totalCutPrice,
             subtotalPrice: this.totalPrice
           },
@@ -498,170 +525,20 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '@/assets/scss/variables.scss';
 
-  #listing {
-    width: 90%;
-    max-width: 800px;
-    margin: auto;
-  }
-
-  .back {
-    color: royalblue;
-    cursor: pointer;
-    margin: 25px 0 25px 0;
-  }
-
-  .heading {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .heading-div {
-    max-width: 55%;
-  }
-
-  .info-div {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .info-container {
-    margin-top: 25px;
-    max-width: 50%;
-  }
-
-  .remarks {
-    margin-top: 10px;
-  }
-
-  .preferences {
-    margin-top: 50px;
-  }
-
-  .form-section {
-    display: flex;
-    align-items: center;
-    margin-top: 10px;
-  }
-
-  .label {
-    width: 150px;
-  }
-
-  .input {
-    width: 100px;
-  }
-
-  .add-cut {
-    width: 140px;
-    margin: 0;
-  }
-
-  .cut-div {
-    margin: 15px 0 0 50px;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    width: 250px;
-  }
-
-  .quantity-input {
-    border: 1px solid $accent;
-    width: 120px;
-  }
-
-  .cut-quantity {
-    width: 30px;
-    height: 29px;
-    padding: 5px;
-    border: 1px solid $accent;
-  }
-
-  .length {
-    border: 1px solid $accent;
-  }
-
-  .remove-cut {
-    border-radius: 50%;
-    height: 30px;
-    width: 30px;
-    font-size: 14px;
-    margin: 0;
-    background-color: $alert;
-  }
-
-  .length-exceeded {
-    margin-top: 15px;
-    color: $alert;
-    text-align: center;
-  }
-
-  .price-div {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    margin-top: 50px;
-  }
-
-  .price-container {
-    display: flex;
-    justify-content: flex-end;
-    align-content: flex-end;
-  }
-
-  .expense-box {
-    width: 175px;
-  }
-
-  .price-box {
-    width: 100px;
-    text-align: right;
-  }
-
-  .total {
-    margin-top: 25px;
-  }
-
-  .place-order {
-    display: flex;
-    justify-content: center;
-    margin-top: 50px;
-  }
-
-  .success {
-    background-color: $success;
-  }
-
-  .remove-item {
-    display: flex;
-    justify-content: center;
-  }
-
-  .alert {
-    background-color: $alert;
-  }
-
-  .alert-message {
-    color: $alert;
-    text-align: center;
-  }
-
-  select {
-    border: 1px solid $accent;
-    width: 142px;
-  }
-
-  h2, h3, h4 {
+  h1 {
     font-weight: bold;
-    margin: 0;
+    margin: 20px 0 0 0;
+    @media screen and (max-width: 649px) {
+      font-size: 18px;
+    }
+    @media screen and (min-width: 650px) {
+      font-size: 32px;
+    }
   }
 
-  p {
-    margin: 0;
-  }
-
-  a {
-    color: royalblue;
+  h2 {
+    font-weight: bold;
+    text-align: right;
   }
 </style>

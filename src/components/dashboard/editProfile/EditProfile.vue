@@ -1,7 +1,7 @@
 <template>
-  <div id="edit-profile">
+  <div main>
 
-    <div class="container">
+    <div>
 
       <h3>Edit Profile</h3>
 
@@ -21,7 +21,9 @@
 
     </div>
 
-    <div class="container" v-if="$store.getters.isAdmin" id="edit-company">
+    <br>
+
+    <div v-if="$store.getters.isAdmin">
 
       <h3>Edit Company</h3>
 
@@ -142,68 +144,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '@/assets/scss/variables.scss';
 
-  #edit-profile {
+  [main] {
     max-width: 600px;
-    margin: auto;
-    padding: 10px;
-  }
-
-  .container {
-    margin-bottom: 50px;
-  }
-
-  .button-div {
-    display: flex;
-    justify-content: space-around;
-  }
-
-  .input {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    margin: 5px 0;
-  }
-
-  input {
-    border: 1px solid $accent;
-    width: 175px;
-  }
-
-  select {
-    border: 1px solid $accent;
-    width: 197px;
-  }
-
-  .sub {
-    margin: 25px 0 25px 10%;
-    input {
-      width: 60px;
-    }
-    select {
-      width: 80px;
-    }
-    textarea {
-      width: 90%;
-      height: 150px;
-    }
-    div {
-      flex: 1;
-    }
-    p {
-      margin: 0;
-    }
-    .hours {
-      min-width: 180px;
-    }
-  }
-
-  .address {
-    outline: thin solid $alert;
-  }
-
-  .address-text {
-    color: $alert;
   }
 </style>

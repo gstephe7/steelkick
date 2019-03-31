@@ -54,7 +54,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '@/assets/scss/structure.scss';
 
   .mobile {
     @media screen and (max-width: 800px) {
@@ -82,6 +81,7 @@ export default {
     width: 40px;
     margin: 0;
     cursor: pointer;
+    font-size: 24px;
   }
 
   .hide {

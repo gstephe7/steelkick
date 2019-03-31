@@ -1,30 +1,36 @@
 <template>
-  <div id="new-user">
+  <div main col>
 
-    <h3>Add New User</h3>
+    <h1>Add New User</h1>
 
-    <div class="form">
+    <form col @submit.prevent="submit">
 
-      <input v-model="user.firstName" placeholder="First Name" :class="{ required : errors.firstName }">
+      <input big v-model="user.firstName" placeholder="First Name" :highlight="errors.firstName">
 
-      <input v-model="user.lastName" placeholder="Last Name" :class="{ required : errors.lastName }">
+      <input big v-model="user.lastName" placeholder="Last Name" :highlight="errors.lastName">
 
-      <input v-model="user.email" placeholder="Email" :class="{ required : errors.email }">
+      <input big v-model="user.email" placeholder="Email" :highlight="errors.email">
 
-      <input v-model="user.password" placeholder="Password" type="password" :class="{ required : errors.password }">
+      <input big v-model="user.password" placeholder="Password" type="password" :highlight="errors.password">
 
-      <select v-model="user.admin" :class="{ required : errors.admin }">
+      <select big v-model="user.admin" :highlight="errors.admin">
         <option :value="null" selected disabled>Admin?</option>
         <option :value="false">No</option>
         <option :value="true">Yes</option>
       </select>
 
-      <div class="buttons">
-        <button @click="cancel">Cancel</button>
-        <button @click="submit" class="success">Add User</button>
+      <br>
+
+      <div around>
+        <button small type="button" @click="cancel">
+          Cancel
+        </button>
+        <button small type="submit" green>
+          Add User
+        </button>
       </div>
 
-      <div class="errors">
+      <div errors>
         <p v-if="errors.firstName">
           Please enter a first name
         </p>
@@ -42,7 +48,7 @@
         </p>
       </div>
 
-    </div>
+    </form>
 
   </div>
 </template>
@@ -134,60 +140,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '@/assets/scss/variables.scss';
-
-  #new-user {
-    max-width: 800px;
-    margin: auto;
-    padding: 10px;
-  }
-
-  h3 {
-    text-align: center;
-  }
-
-  .form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 50px;
-  }
-
-  input {
-    border: 1px solid $accent;
-    margin: 10px;
-    width: 200px;
-  }
-
-  select {
-    border: 1px solid $accent;
-    margin: 10px;
-    width: 222px;
-  }
-
-  .buttons {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 25px;
-  }
-
-  button {
-    width: 125px;
-  }
-
-  .success {
-    background-color: $success;
-  }
-
-  .required {
-    outline: 1px solid $alert;
-  }
-
-  .errors {
-    text-align: center;
-    color: $alert;
-    p: {
-      margin: 2px;
-    };
-  }
 </style>

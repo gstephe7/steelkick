@@ -1,15 +1,15 @@
 <template>
-  <div id="password-reset">
+  <div main col center>
 
-    <h2>Reset Your Password</h2>
+    <h1>Reset Your Password</h1>
 
     <p>Enter your new password below</p>
 
-    <input v-model="password" type="password" placeholder="New Password" :class="{ highlight : errors.password }">
+    <input v-model="password" type="password" placeholder="New Password" :highlight="errors.password">
 
     <button @click="resetPassword">Update Password</button>
 
-    <div class="errors">
+    <div errors>
       <p v-if="errors.password">Password must be longer than 7 characters</p>
       <p v-if="failed">We failed to verify your account. The link you used to reset your password may be expired. You may need to try again.</p>
     </div>
@@ -66,16 +66,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '@/assets/scss/variables.scss';
-
-  #password-reset {
-    height: 400px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-  }
 
   p {
     text-align: center;
@@ -83,17 +73,6 @@ export default {
   }
 
   input {
-    border: 1px solid $accent;
     width: 250px;
-    margin: 10px;
-  }
-
-  .highlight {
-    outline: 1px solid $alert;
-  }
-
-  .errors {
-    color: $alert;
-    text-align: center;
   }
 </style>

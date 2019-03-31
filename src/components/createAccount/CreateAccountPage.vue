@@ -1,11 +1,11 @@
 <template>
-  <main col center>
+  <div main col center>
 
     <h1>Create Your Free Account</h1>
 
     <CreateAccount></CreateAccount>
 
-  </main>
+  </div>
 </template>
 
 <script>
@@ -19,5 +19,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '@/assets/scss/structure.scss';
 </style>

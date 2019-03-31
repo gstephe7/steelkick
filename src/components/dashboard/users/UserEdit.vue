@@ -1,16 +1,41 @@
 <template>
-  <div id="user-edit">
+  <div main>
 
-    <h3>Edit User</h3>
+    <h1>Edit User</h1>
+
+    <dl>
+
+      <div row>
+        <dt>
+          First Name:
+        </dt>
+        <dd grow>
+          {{ user.firstName }}
+        </dd>
+      </div>
+
+      <div row>
+        <dt>
+          Last Name:
+        </dt>
+        <dd grow>
+          {{ user.lastName }}
+        </dd>
+      </div>
+
+      <div row>
+        <dt>
+          Email:
+        </dt>
+        <dd grow>
+          {{ user.email }}
+        </dd>
+      </div>
+
+    </dl>
 
     <div>
-      <p>First Name: {{ user.firstName }}</p>
-      <p>Last Name: {{ user.lastName }}</p>
-      <p>Email: {{ user.email }}</p>
-    </div>
-
-    <div>
-      <span>
+      <label between align>
         Admin:
         <select v-if="user.owner">
           <option selected>Yes</option>
@@ -19,23 +44,29 @@
           <option :value="false">No</option>
           <option :value="true">Yes</option>
         </select>
-      </span>
+      </label>
     </div>
 
-    <div class="buttons">
-      <button @click="$router.push('manage-users')">Cancel</button>
-      <button class="success" @click="updateUser">Update User</button>
+    <br>
+
+    <div center>
+      <div box around>
+        <button small @click="$router.push('manage-users')">Cancel</button>
+        <button small green @click="updateUser">Update User</button>
+      </div>
     </div>
 
-    <div class="buttons">
-      <button class="alert" @click="toggleDelete">Delete User</button>
+    <br>
+
+    <div center>
+      <button red @click="toggleDelete">Delete User</button>
     </div>
 
-    <div v-if="showDelete" class="delete-div">
+    <div col center v-if="showDelete">
       <p>Are you sure you want to delete this user?</p>
-      <div class="delete-buttons">
-        <button @click="toggleDelete">No</button>
-        <button @click="deleteUser">Yes</button>
+      <div around>
+        <button small @click="toggleDelete">No</button>
+        <button small @click="deleteUser">Yes</button>
       </div>
     </div>
 
@@ -105,52 +136,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '@/assets/scss/variables.scss';
 
-  #user-edit {
-    max-width: 800px;
-    margin: auto;
-    padding: 10px;
-  }
-
-  h3 {
-    text-align: center;
-    margin-bottom: 50px;
-  }
-
-  select {
-    border: 1px solid $accent;
-  }
-
-  .buttons {
-    display: flex;
-    justify-content: space-around;
-    max-width: 300px;
-    margin: 50px auto 0px;
-  }
-
-  button {
-    margin: 0;
-    width: 125px;
-  }
-
-  .success {
-    background-color: $success;
-  }
-
-  .alert {
-    background-color: $alert;
-    width: 200px;
-  }
-
-  .delete-div {
-    text-align: center;
-    max-width: 300px;
-    margin: auto;
-  }
-
-  .delete-buttons {
-    display: flex;
-    justify-content: space-around;
+  dt {
+    width: 100px;
   }
 </style>

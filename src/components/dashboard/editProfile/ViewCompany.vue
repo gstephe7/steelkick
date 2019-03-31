@@ -13,99 +13,106 @@
       <span v-if="company.delivery.offered">Yes</span>
       <span v-else>No</span>
     </p>
-    <div class="sub" v-if="company.delivery.offered">
-      <p>
+    <div sub col start v-if="company.delivery.offered">
+      <span>
         Base Delivery Fee: ${{ company.delivery.fee }}
-      </p>
-      <p>
+      </span>
+      <span>
         Price per mile: ${{ company.delivery.price }}
-      </p>
-      <p>
+      </span>
+      <span>
         Max Delivery Distance: {{ company.delivery.maxDistance }} miles
-      </p>
-      <p>
+      </span>
+      <span>
         Max Delivery Length: {{ company.delivery.maxLength }}'
-      </p>
-      <p>
+      </span>
+      <span>
         Max Delivery Weight: {{ company.delivery.maxWeight }} lbs
-      </p>
+      </span>
     </div>
     <p>
       Cut to Order Offered:
       <span v-if="company.cut.offered">Yes</span>
       <span v-else>No</span>
     </p>
-    <div class="sub" v-if="company.cut.offered">
+    <div sub v-if="company.cut.offered">
       <p>
         Price per cut: ${{ company.cut.price }}
       </p>
     </div>
     <div>
       <p>Hours</p>
-      <div class="sub">
-        <div class="input">
-          <div>
-            <p>Monday</p>
-          </div>
-          <div>
-            <p>{{ company.hours.monday.start }} - {{ company.hours.monday.end }}</p>
-          </div>
+      <dl sub>
+
+        <div row>
+          <dt>
+            Monday
+          </dt>
+          <dd>
+            {{ company.hours.monday.start }} - {{ company.hours.monday.end }}
+          </dd>
         </div>
-        <div class="input">
-          <div>
-            <p>Tuesday</p>
-          </div>
-          <div>
-            <p>{{ company.hours.tuesday.start }} - {{ company.hours.tuesday.end }}</p>
-          </div>
+
+        <div row>
+          <dt>
+            Tuesday
+          </dt>
+          <dd>
+            {{ company.hours.tuesday.start }} - {{ company.hours.tuesday.end }}
+          </dd>
         </div>
-        <div class="input">
-          <div>
-            <p>Wednesday</p>
-          </div>
-          <div>
-            <p>{{ company.hours.wednesday.start }} - {{ company.hours.wednesday.end }}</p>
-          </div>
+
+        <div row>
+          <dt>
+            Wednesday
+          </dt>
+          <dd>
+            {{ company.hours.wednesday.start }} - {{ company.hours.wednesday.end }}
+          </dd>
         </div>
-        <div class="input">
-          <div>
-            <p>Thursday</p>
-          </div>
-          <div>
-            <p>{{ company.hours.thursday.start }} - {{ company.hours.thursday.end }}</p>
-          </div>
+
+        <div row>
+          <dt>
+            Thursday
+          </dt>
+          <dd>
+            {{ company.hours.thursday.start }} - {{ company.hours.thursday.end }}
+          </dd>
         </div>
-        <div class="input">
-          <div>
-            <p>Friday</p>
-          </div>
-          <div>
-            <p>{{ company.hours.friday.start }} - {{ company.hours.friday.end }}</p>
-          </div>
+
+        <div row>
+          <dt>
+            Friday
+          </dt>
+          <dd>
+            {{ company.hours.friday.start }} - {{ company.hours.friday.end }}
+          </dd>
         </div>
-        <div class="input">
-          <div>
-            <p>Saturday</p>
-          </div>
-          <div>
-            <p>{{ company.hours.saturday.start }} - {{ company.hours.saturday.end }}</p>
-          </div>
+
+        <div row>
+          <dt>
+            Saturday
+          </dt>
+          <dd>
+            {{ company.hours.saturday.start }} - {{ company.hours.saturday.end }}
+          </dd>
         </div>
-      </div>
+
+      </dl>
     </div>
     <div>
       <p>Company Description</p>
-      <div class="sub">
+      <div sub>
         <p>{{ company.description }}</p>
       </div>
     </div>
     <div>
       <p>Remarks</p>
-      <div class="sub">
+      <div sub>
         <p>{{ company.remarks }}</p>
       </div>
     </div>
-    <div class="button-div">
+    <div center>
       <button @click="$emit('editing')">Edit Company</button>
     </div>
   </div>
@@ -118,31 +125,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '@/assets/scss/variables.scss';
 
-  .button-div {
-    display: flex;
-    justify-content: space-around;
+  dt {
+    width: 100px;
   }
 
-  .input {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    margin: 5px 0;
+  dd {
+    width: 150px;
   }
-
-  .sub {
-    margin: 25px 0 25px 10%;
-    div {
-      flex: 1;
-    }
-    p {
-      margin: 0;
-    }
-    .hours {
-      min-width: 180px;
-    }
-  }
-
 </style>

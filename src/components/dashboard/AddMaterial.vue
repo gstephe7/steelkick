@@ -1,7 +1,7 @@
 <template>
-  <div id="add-material">
+  <div main>
 
-    <h3>Add New Material</h3>
+    <h1>Add New Material</h1>
 
     <NewMaterial btnText="Add Material"></NewMaterial>
 
@@ -19,15 +19,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '@/assets/scss/variables.scss';
-
-  #add-material {
-    padding: 10px;
-    max-width: 800px;
-    margin: auto;
-  }
-
-  h3 {
-    text-align: center;
-  }
 </style>

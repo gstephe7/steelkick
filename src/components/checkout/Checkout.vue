@@ -1,51 +1,80 @@
 <template>
-  <div id="checkout">
+  <div main v-if="loaded">
 
-    <h2>Checkout</h2>
+    <h1>Checkout</h1>
 
-    <h3>Order from {{ seller.name }}</h3>
+    <h2>Order from {{ order.seller.name }}</h2>
 
-    <div class="order">
+    <MaterialPreview v-for="item in order.order"
+                     :key="item._id"
+                     :item="item.material"
+                     :order="item"
+                     :cartId="order._id"
+                     :transaction="true">
+    </MaterialPreview>
 
-      <div class="order-item" v-for="item in order" :key="item._id">
-
-          <CartItem :item="item"></CartItem>
-
-      </div>
-
-    </div>
+    <br>
+    <br>
 
     <!-- Price Breakdown -->
-    <div class="price-div">
-      <div class="price-box">
-        <div class="item">
-          <p>Material: </p>
-        </div>
-        <div class="price">
-          <p>{{ materialPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}</p>
-        </div>
+    <dl col end fieldset>
+
+      <div row>
+        <dt>
+          Shipping Method:
+        </dt>
+        <dd>
+          <span v-if="order.delivery.selected">
+            Delivery
+          </span>
+          <span v-else>
+            Pickup
+          </span>
+        </dd>
       </div>
-      <div class="price-box">
-        <div class="item">
-          <p>Delivery: </p>
-        </div>
-        <div class="price">
-          <p>{{ delivery.price.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}</p>
-        </div>
+
+      <div row>
+        <dt>
+          Total Weight:
+        </dt>
+        <dd>
+          {{ order.weight.toFixed(2) }} lbs
+        </dd>
       </div>
-      <div class="price-box">
-        <div class="item">
-          <h3>Total: </h3>
-        </div>
-        <div class="price">
-          <h3>{{ totalPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}</h3>
-        </div>
+
+      <div row>
+        <dt>
+          Material:
+        </dt>
+        <dd>
+          {{ order.materialPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}
+        </dd>
       </div>
-    </div>
+
+      <div row v-if="order.delivery.selected">
+        <dt>
+          Delivery:
+        </dt>
+        <dd>
+          {{ order.delivery.totalPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}
+        </dd>
+      </div>
+
+      <div row>
+        <dt>
+          <h2>Total: </h2>
+        </dt>
+        <dd>
+          <h2>{{ order.totalPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}</h2>
+        </dd>
+      </div>
+
+    </dl>
+
 
     <!-- Place Order Button -->
-    <div class="place-order">
-      <button class="place-order-btn" @click="placeOrder">Place Order</button>
+    <div col center>
+      <button green @click="placeOrder">Place Order</button>
     </div>
 
   </div>
@@ -53,26 +82,16 @@
 
 <script>
 import api from '@/api/api'
-import CartItem from '@/components/cart/CartItem'
+import MaterialPreview from '@/components/material/MaterialPreview'
 
 export default {
   components: {
-    CartItem
+    MaterialPreview
   },
   data () {
     return {
-      seller: {
-        name: ''
-      },
-      order: [],
-      delivery: {
-        selected: null,
-        distance: null,
-        price: parseFloat(this.$route.query.delivery)
-      },
-      materialPrice: parseFloat(this.$route.query.material),
-      totalPrice: parseFloat(this.$route.query.total),
-      _id: null
+      order: {},
+      loaded: false
     }
   },
   beforeCreate () {
@@ -83,14 +102,11 @@ export default {
       }
     })
     .then(res => {
+      this.order = res.data.order
+      this.loaded = true
       this.$store.dispatch('complete')
-      this._id = res.data.order._id
-      this.order = res.data.order.order
-      this.seller = res.data.order.seller
-      this.delivery.selected = res.data.order.delivery.selected
-      this.delivery.distance = res.data.order.delivery.distance
     })
-    .catch(err => {
+    .catch(() => {
       this.$store.dispatch('complete')
     })
   },
@@ -98,31 +114,16 @@ export default {
     placeOrder () {
       this.$store.dispatch('loading')
       api.axios.post(`${api.baseUrl}/orders/new-order`, {
-        buyer: this.$store.getters.companyId,
-        seller: this.seller._id,
-        order: this.order,
-        delivery: {
-          selected: this.delivery.selected,
-          distance: this.delivery.distance,
-          totalPrice: this.delivery.price
-        },
-        totalPrice: this.totalPrice,
-        id: this._id
+        order: this.order
       })
       .then(res => {
         this.$store.dispatch('complete')
         this.$router.push({
           name: 'CheckoutConfirmation',
-          params: {
-            seller: this.seller,
-            order: this.order,
-            delivery: this.delivery,
-            totalPrice: this.totalPrice,
-            materialPrice: this.materialPrice
-          }
+          params: this.order
         })
       })
-      .catch(err => {
+      .catch(() => {
         this.$store.dispatch('complete')
       })
     }
@@ -131,56 +132,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '@/assets/scss/variables.scss';
 
-  #checkout {
-    max-width: 800px;
-    margin: auto;
-    padding: 10px;
-  }
-
-  .order {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .order-item {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-  }
-
-  .price-div {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    margin: 50px 5px 0 0;
-  }
-
-  .price-box {
-    display: flex;
-    justify-content: space-between;
-    width: 250px;
-  }
-
-  .item {
-    width: 150px;
-    text-align: right;
-  }
-
-  .place-order {
-    display: flex;
-    justify-content: center;
-  }
-
-  .place-order-btn {
-    background-color: $success;
-  }
-
-  h3 {
+  h2, h3 {
     font-weight: bold;
-    margin: 10px 0 10px 0;
   }
 
   p {

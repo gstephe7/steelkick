@@ -1,46 +1,50 @@
 <template>
-  <div id="order-preview">
+  <div card click @click="viewOrderDetails()">
 
     <div v-if="newOrder" class="new">
       New
     </div>
 
-    <div class="contact-info">
+    <div between>
 
       <!-- Buyer Info -->
-      <div class="buyer-info">
-        <p class="title">Buyer</p>
-        <p>{{ order.order.buyer.name }}</p>
-        <p>{{ order.order.buyer.city }}, {{ order.order.buyer.state }}</p>
-        <p>{{ order.order.buyer.contactName }}</p>
-        <p>{{ order.order.buyer.phone }}</p>
+      <div col start>
+        <strong>Buyer</strong>
+        <p>{{ order.buyer.name }}</p>
+        <p>{{ order.buyer.city }}, {{ order.buyer.state }}</p>
+        <p>{{ order.buyer.contactName }}</p>
+        <p>{{ order.buyer.phone }}</p>
       </div>
 
       <!-- Seller Info -->
-      <div class="seller-info">
-        <p class="title">Seller</p>
-        <p>{{ order.order.seller.name }}</p>
-        <p>{{ order.order.seller.city }}, {{ order.order.seller.state }}</p>
-        <p>{{ order.order.seller.contactName }}</p>
-        <p>{{ order.order.seller.phone }}</p>
+      <div col end>
+        <strong>Seller</strong>
+        <p>{{ order.seller.name }}</p>
+        <p>{{ order.seller.city }}, {{ order.seller.state }}</p>
+        <p>{{ order.seller.contactName }}</p>
+        <p>{{ order.seller.phone }}</p>
       </div>
 
     </div>
 
+    <br>
+
     <!-- Info on order transaction -->
-    <div class="info-div">
-      <p class="title">Order</p>
+    <div>
+      <strong>Order</strong>
       <p>Date Placed: {{ order.date }}</p>
       <p>Time Placed: {{ order.time }}</p>
-      <p v-if="order.order.delivery.selected">Delivery</p>
+      <p v-if="order.delivery.selected">Delivery</p>
       <p v-else>Pickup</p>
-      <p>Total: {{ order.order.totalPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}</p>
+      <p>Total: {{ order.totalPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}</p>
     </div>
 
+    <br>
+
     <!-- Info on material ordered -->
-    <div class="info-div">
-      <p class="title">Material Ordered</p>
-      <div v-for="item in order.order.order" :key="item.id">
+    <div>
+      <strong>Material Ordered</strong>
+      <div v-for="item in order.order" :key="item._id">
         <p>
           <span>
             ({{ item.quantity }})
@@ -63,16 +67,16 @@
               {{ item.material.numerator }}/{{ item.material.denominator }}
             </span>
           </span>
-          <span v-if="item.material.primed">
-            <em>Primed</em>
+          <span italic v-if="item.material.primed">
+            Primed
           </span>
-          <span v-if="item.material.galvanized">
-            <em>Galv.</em>
+          <span italic v-if="item.material.galvanized">
+            Galv.
           </span>
         </p>
-        <p v-if="item.cuts.length > 0" class="sub">
+        <p sub v-if="item.cuts.length > 0">
           Cuts
-          <p v-for="cut in item.cuts" class="sub">
+          <p sub v-for="cut in item.cuts">
             <span>
               ({{ cut.quantity }}) @
             </span>
@@ -93,10 +97,12 @@
       </div>
     </div>
 
+    <br>
+
     <!-- Click Message -->
-    <div class="click-message">
-      <p v-if="received">Click to view details and confirm/deny this order</p>
-      <p v-if="placed">Click to view details or cancel this order</p>
+    <div col>
+      <em v-if="received">Click to view details and confirm/deny this order</em>
+      <em v-if="placed">Click to view details or cancel this order</em>
     </div>
 
   </div>
@@ -123,6 +129,18 @@ export default {
         return false
       }
     }
+  },
+  methods: {
+    viewOrderDetails () {
+      this.$router.push({
+        path: 'order-details',
+        query: {
+          order: this.order._id,
+          received: this.received,
+          placed: this.placed
+        }
+      })
+    }
   }
 }
 </script>
@@ -130,45 +148,8 @@ export default {
 <style lang="scss" scoped>
   @import '@/assets/scss/variables.scss';
 
-  #order-preview {
-    box-shadow: $box-shadow;
-    padding: 10px;
-  }
-
-  .contact-info {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .buyer-info {
-  }
-
-  .seller-info {
-    text-align: right;
-  }
-
-  .info-div {
-    margin-top: 10px;
-  }
-
-  .click-message {
-    margin-top: 25px;
-    color: royalblue;
-    text-decoration: underline;
-    font-style: italic;
-    text-align: center;
-  }
-
   p {
     margin: 0;
-  }
-
-  .title {
-    text-decoration: underline;
-  }
-
-  .sub {
-    margin-left: 10%;
   }
 
   .new {
@@ -177,5 +158,9 @@ export default {
     font-size: 100px;
     font-weight: bold;
     color: $success;
+  }
+
+  em {
+    width: 100%;
   }
 </style>

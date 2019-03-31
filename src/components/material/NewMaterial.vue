@@ -1,12 +1,12 @@
 <template>
-  <div id="new-material">
+  <form @submit.prevent="completeEntry">
 
-    <div class="material-form">
+    <div center wrap>
 
-      <div class="form">
+      <div col fieldset>
 
-        <div class="subform">
-          <select @change="autoSetGrade" class="autotab" v-model="shape" :class="{ required : errors.shape }" autofocus>
+        <div center>
+          <select @change="autoSetGrade" class="autotab" v-model="shape" :highlight="errors.shape" autofocus>
             <option disabled selected :value="null">
               Shape
             </option>
@@ -14,23 +14,23 @@
               {{ shape }}
             </option>
           </select>
-          <select v-model="dimension" class="autotab" :class="{ required : errors.dimension }">
+          <select v-model="dimension" class="autotab" :highlight="errors.dimension">
             <option disabled selected :value="null">Dimension</option>
             <option v-for="dimension in dimensions" :value="dimension" :key="dimension">{{ dimension }}</option>
           </select>
         </div>
 
-        <div class="subform">
-          <div class="length" :class="{ required : errors.length }">
-            <input class="feet-input autotab" type="number" placeholder="11" maxlength="2" v-model="feet">'
-            <input class="inches-input autotab" type="number" placeholder="9" maxlength="2" v-model="inches">"
-            <input class="numerator-input autotab" type="number" maxlength="2" v-model="numerator"> /
-            <input class="denominator-input autotab" type="number" maxlength="2" v-model="denominator">
-          </div>
-          <input type="number" class="input autotab" v-model="quantity" placeholder="Quantity" maxlength="4">
+        <div center>
+          <span length :highlight="errors.length">
+            <input length class="autotab" type="number" placeholder="11" maxlength="2" v-model="feet">'
+            <input length class="autotab" type="number" placeholder="9" maxlength="2" v-model="inches">"
+            <input length class="autotab" type="number" maxlength="2" v-model="numerator"> /
+            <input length denominator class="autotab" type="number" maxlength="2" v-model="denominator">
+          </span>
+          <input type="number" class="autotab" v-model="quantity" placeholder="Quantity" maxlength="4">
         </div>
 
-        <div class="subform">
+        <div center>
           <select v-model="primed" class="autotab" @change="autoSetPrice">
             <option :value="false">Not Primed</option>
             <option :value="true">Primed</option>
@@ -41,16 +41,16 @@
           </select>
         </div>
 
-        <div class="subform">
+        <div center>
           <textarea placeholder="Location in shop (for internal use)" v-model="location" class="autotab"></textarea>
         </div>
 
       </div>
 
-      <div class="form">
+      <div col fieldset>
 
-        <div class="subform">
-          <select v-model="domestic" class="autotab" :class="{ required : errors.domestic }">
+        <div center>
+          <select v-model="domestic" class="autotab" :highlight="errors.domestic">
             <option disabled selected :value="null">Steel Origin</option>
             <option :value="true">Domestic</option>
             <option :value="false">Foreign</option>
@@ -66,7 +66,7 @@
           </select>
         </div>
 
-        <div class="subform">
+        <div center>
           <select v-model="grade" class="autotab">
             <option selected disabled :value="null">
               Grade
@@ -75,21 +75,21 @@
             <option value="A992">A992</option>
             <option value="A500">A500</option>
           </select>
-          <input type="text" class="input autotab" placeholder="Heat #" v-model="heat">
+          <input type="text" class="autotab" placeholder="Heat #" v-model="heat">
         </div>
 
-        <div class="subform">
-          <select v-model="forSale" class="autotab" @change="checkAddressValid" :class="{ required : errors.addressInvalid }">
+        <div center>
+          <select v-model="forSale" class="autotab" @change="checkAddressValid" :highlight="errors.addressInvalid">
             <option selected disabled :value="null">
               For Sale?
             </option>
             <option :value="true">For Sale</option>
             <option :value="false">Not For Sale</option>
           </select>
-          <input type="text" class="input autotab" placeholder="$ Cwt (ex: 42)" v-model="cwt">
+          <input class="autotab" placeholder="$ Cwt (ex: 42)" v-model="cwt" type="number" step="0.01">
         </div>
 
-        <div class="subform">
+        <div center>
           <textarea placeholder="Additional remarks" v-model="remarks" class="autotab"></textarea>
         </div>
 
@@ -97,30 +97,34 @@
 
     </div>
 
-    <div v-if="errors.addressInvalid" class="err-msg">
+    <div errors v-if="errors.addressInvalid">
       <p>
         Please enter a valid address before listing steel for sale
         <br>
-        <a @click="editAddress" class="link">Click here to edit your address</a>
+        <a @click="editAddress">Click here to edit your address</a>
       </p>
     </div>
 
-    <div class="buttons">
-      <button @click="completeEntry" class="autotab">{{ btnText }}</button>
-      <button v-if="edit" class="delete" @click="deletePopup">Delete</button>
+    <div col>
+      <button green class="autotab">
+        {{ btnText }}
+      </button>
+      <button red type="button" v-if="edit" @click="deletePopup">
+        Delete
+      </button>
     </div>
 
-    <div>
-      <p v-if="errors.shape" class="err-msg">
+    <div errors>
+      <p v-if="errors.shape">
         Please enter material shape
       </p>
-      <p v-if="errors.dimension" class="err-msg">
+      <p v-if="errors.dimension">
         Please enter material dimension
       </p>
-      <p v-if="errors.length" class="err-msg">
+      <p v-if="errors.length">
         Please enter material length
       </p>
-      <p v-if="errors.domestic" class="err-msg">
+      <p v-if="errors.domestic">
         Please enter material origin
       </p>
     </div>
@@ -133,7 +137,7 @@
                        @confirm="deleteItem">
     </ConfirmationPopup>
 
-  </div>
+  </form>
 </template>
 
 <script>
@@ -452,55 +456,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '@/assets/scss/variables.scss';
-
-  #new-material {
-    padding: 10px;
-    max-width: 650px;
-    margin: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: space-around;
-  }
-
-  .material-form {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    align-items: center;
-  }
-
-  .form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    max-width: 400px;
-    padding-top: 25px;
-  }
-
-  .subform {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    max-width: 400px;
-    min-width: 300px;
-    height: 60px;
-  }
-
-  .buttons {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  button {
-    background-color: $success;
-  }
-
-  .delete {
-    background-color: $alert;
-  }
 
   .popup {
     height: 0;
@@ -513,20 +468,5 @@ export default {
     height: 310px;
     opacity: 1;
     visibility: visible;
-  }
-
-  .required {
-    outline: solid thin $alert;
-  }
-
-  .err-msg {
-    color: $alert;
-    text-align: center;
-  }
-
-  .link {
-    color: $primary;
-    cursor: pointer;
-    text-decoration: underline;
   }
 </style>

@@ -33,7 +33,31 @@ export default {
     },
     number () {
       if (this.$store.getters.notifications.length > 0) {
-        return this.$store.getters.notifications.length
+
+        let orders = 0
+        let transactions = 0
+
+        this.$store.getters.notifications.forEach(item => {
+          if (item.action == 'order') {
+            orders += 1
+          }
+          if (item.action == 'transaction') {
+            transactions += 1
+          }
+        })
+
+        if (this.orders) {
+          return orders
+        }
+
+        else if (this.transactions) {
+          return transactions
+        }
+
+        else {
+          return 0
+        }
+
       } else {
         return false
       }

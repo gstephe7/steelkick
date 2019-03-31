@@ -114,7 +114,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '@/assets/scss/structure.scss';
 
   input {
     width: 250px;

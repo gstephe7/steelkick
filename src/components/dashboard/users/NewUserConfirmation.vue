@@ -1,7 +1,7 @@
 <template>
-  <div id="new-user-confirmation">
+  <div main col>
 
-    <fa-icon icon="check-circle" class="icon"></fa-icon>
+    <icon confirm icon="check-circle"></icon>
 
     <p>New user successfully added! An email invite has been sent.</p>
 
@@ -18,20 +18,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '@/assets/scss/variables.scss';
-
-  #new-user-confirmation {
-    max-width: 800px;
-    margin: auto;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-
-  .icon {
-    color: $success;
-    font-size: 75px;
-  }
 </style>

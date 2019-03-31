@@ -1,6 +1,9 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,700');
 @import 'variables';
 
+
+
+
 body {
   margin: 0;
   padding: 0;
@@ -10,19 +13,265 @@ body {
   font-weight: 300;
 }
 
-h2, h3, h4 {
-  font-weight: 300;
+
+
+
+// CUSTOM LAYOUT STRUCTURE
+[main] {
+  max-width: 800px;
+  min-height: 400px;
+  padding: 25px 10px;
+  margin: auto;
+}
+
+[row] {
+  display: flex;
+}
+
+[col] {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+[around] {
+  display: flex;
+  justify-content: space-around;
+}
+
+[between] {
+  display: flex;
+  justify-content: space-between;
+}
+
+[center] {
+  display: flex;
+  justify-content: center;
+}
+
+[align] {
+  display: flex;
+  align-items: center;
+}
+
+[stretch] {
+  display: flex;
+  align-items: stretch;
+}
+
+[wrap] {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+[start] {
+  display: flex;
+  align-items: flex-start;
+  align-content: flex-start;
+  text-align: left;
+}
+
+[end] {
+  display: flex;
+  align-items: flex-end;
+  align-content: flex-end;
+  text-align: right;
+}
+
+[grow] {
+  flex-grow: 1;
+}
+
+[box] {
+  flex-basis: 280px;
+}
+
+
+
+
+// CUSTOM STYLED CONTAINERS
+[card] {
+  padding: 10px;
+  box-shadow: $box-shadow;
+  border-radius: 10px;
+}
+
+[click] {
+  cursor: pointer;
+  transition: 250ms all;
+}
+
+[click]:hover {
+  transform: scale(1.02);
+}
+
+[sub] {
+  margin-left: 10%;
+}
+
+
+
+
+// CUSTOM STYLED ELEMENTS
+[back] {
+  color: royalblue;
+  cursor: pointer;
+}
+
+[check] {
+  color: green;
+  font-size: 14px;
+}
+
+[italic] {
+  font-style: italic;
+}
+
+
+
+
+// CONTENT SECTIONING ELEMENTS
+section {
+  margin: 5px;
+  padding: 10px;
+}
+
+header {
+  height: 40px;
+  background-color: $primary;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 10px;
+}
+
+nav {
+  background-color: $primary;
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+  padding: 0 5px;
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+  }
+  li {
+    padding: 5px 10px;
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
+aside {
+  width: 320px;
+  box-shadow: $box-shadow;
+  border-radius: 5px;
+  padding: 35px 5px;
+}
+
+footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: space-around;
+  height: 300px;
+  margin-top: 100px;
+  padding: 10px;
+  text-align: center;
+  background-color: $primary;
+  color: $accent;
+  a, h3, small, hr {
+    opacity: .5;
+  }
+  a {
+    font-size: 18px;
+  }
+}
+
+
+
+
+// FORM STRUCTURE
+form {
+  width: 100%;
+}
+
+[fieldset] {
+  margin: 10px 5px;
+}
+
+label {
+  width: 280px;
+}
+
+button {
+  width: 200px;
+  margin: 10px;
+  padding: 5px;
+  background-color: $secondary;
+  border-radius: 10px;
+  border: none;
+  color: #fff;
+  font-family: 'Roboto', sans-serif;
+  font-size: 18px;
+  cursor: pointer;
+  transition: 250ms all;
+  box-shadow: $box-shadow;
+  svg {
+    font-size: 24px;
+    color: $accent;
+  }
+}
+
+button:hover {
+  transform: scale(1.05);
+}
+
+button[grey] {
+  background-color: $accent;
+}
+
+button[green] {
+  background-color: $success;
+}
+
+button[red] {
+  background-color: $alert;
+}
+
+button[small] {
+  width: 122px;
+}
+
+button[tiny] {
+  width: 32px;
+  border-radius: 50%;
 }
 
 input {
-  width: 120px;
+  width: 118px;
   padding: 10px;
+  margin: 5px;
   border-radius: 5px;
   border: 1px solid $input-border;
   font-size: 18px;
   font-family: 'Roboto', sans-serif;
   font-weight: 300;
-  height: 24px;
+}
+
+input[big] {
+  width: 178px;
+}
+
+input[small] {
+  width: 100px;
+  margin: 5px 10px;
+}
+
+input[tiny] {
+  width: 30px;
 }
 
 input[type=number]::-webkit-inner-spin-button,
@@ -35,9 +284,35 @@ input[type=number] {
   -moz-appearance:textfield;
 }
 
+input[length] {
+  width: 20px;
+  border-radius: 0;
+  box-shadow: none;
+  border: none;
+  text-align: right;
+  padding: 0;
+  margin: 0;
+}
+
+input[denominator] {
+  text-align: left;
+}
+
+span[length] {
+  padding: 10px;
+  margin: 5px;
+  background-color: #fff;
+  border-radius: 5px;
+  border: 1px solid $input-border;
+  width: 118px;
+  display: flex;
+  justify-content: space-between;
+}
+
 select {
   width: 140px;
-  padding: 10px 5px 10px 5px;
+  padding: 10px;
+  margin: 5px;
   border-radius: 5px;
   border: 1px solid $input-border;
   font-size: 18px;
@@ -45,81 +320,113 @@ select {
   font-weight: 300;
 }
 
-textarea {
-  width: 270px;
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid $input-border;
-  font-size: 18px;
-  font-family: 'Roboto', sans-serif;
-  height: 22px;
-}
-
-button {
+select[big] {
   width: 200px;
-  margin: 15px;
-  padding: 5px;
-  background-color: $secondary;
-  border-radius: 10px;
-  border: none;
-  color: #fff;
-  font-family: 'Roboto', sans-serif;
-  font-size: 18px;
-  cursor: pointer;
-  transition: 250ms all;
-  box-shadow: $box-shadow;
 }
 
-.button-secondary {
-  background-color: $accent;
-}
-
-button:hover {
-  transform: scale(1.05);
-}
-
-button[red] {
-  background-color: $alert;
-}
-
-button[green] {
-  background-color: $success;
-}
-
-.length {
-  display: inline;
-  padding: 10px 5px 10px 5px;
-  background-color: #fff;
+textarea {
+  width: 268px;
+  padding: 10px;
+  margin: 5px;
   border-radius: 5px;
   border: 1px solid $input-border;
-  height: 24px;
-  width: 128px;
-}
-
-.feet-input, .inches-input {
-  width: 20px;
-  border-radius: 0;
-  box-shadow: none;
-  border: none;
-  text-align: right;
-  padding: 0 1px 0 5px;
-}
-
-.numerator-input, .denominator-input {
-  width: 20px;
   font-size: 18px;
-  box-shadow: none;
-  border: none;
-  border-radius: 0;
-  padding: 0px;
+  font-family: 'Roboto', sans-serif;
 }
 
-.numerator-input {
-  text-align: right;
-  padding-left: 5px;
+[highlight] {
+  outline: 1px solid $alert;
 }
 
-.check {
-  font-size: 14px;
-  color: green;
+[errors] {
+  color: $alert;
+  text-align: center;
+}
+
+
+
+
+// ELEMENTS
+h1 {
+  text-align: center;
+  font-weight: 300;
+  margin: 20px;
+}
+
+h2, h3 {
+  font-weight: 300;
+}
+
+h4 {
+  font-weight: bold;
+  margin: 0;
+}
+
+p {
+  width: 100%;
+}
+
+strong {
+  font-weight: 300;
+  text-decoration: underline;
+}
+
+em {
+  text-decoration: underline;
+  color: $secondary;
+}
+
+dt {
+  width: 140px;
+}
+
+dd {
+  width: 115px;
+  margin: 0;
+  word-wrap: break-word;
+}
+
+hr {
+  margin: 15px 0;
+}
+
+svg[confirm] {
+  font-size: 75px;
+  color: $success;
+}
+
+
+
+
+// colors
+.green {
+  color: $success;
+}
+
+.red {
+  color: $alert;
+}
+
+.gold {
+  color: $gold;
+}
+
+.orange {
+  color: $orange;
+}
+
+.blue {
+  color: $blue;
+}
+
+.blue-green {
+  color: $blue-green;
+}
+
+.purple {
+  color: $purple;
+}
+
+.burgundy {
+  color: $burgundy;
 }

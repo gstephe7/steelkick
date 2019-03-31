@@ -1,11 +1,11 @@
 <template>
-  <div id="transaction-entry">
+  <section card click @click="viewTransaction()">
 
     <div class="new" v-if="newTransaction">
       New
     </div>
 
-    <div class="container">
+    <div between>
 
       <div>
         <b v-if="purchase">
@@ -17,30 +17,32 @@
       </div>
 
       <div>
-        <b v-if="purchase">-{{ item.order.totalPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}</b>
-        <b v-else>{{ item.order.totalPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}</b>
+        <b v-if="purchase">-{{ item.totalPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}</b>
+        <b v-else>{{ item.totalPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}</b>
       </div>
 
     </div>
 
-    <div class="container">
+    <div between>
 
       <div>
-        <p>{{ item.date }}</p>
+        <span>
+          {{ item.date }}
+        </span>
       </div>
 
       <div>
-        <p v-if="purchase">
-          {{ item.order.seller.name }}
-        </p>
-        <p v-else>
-          {{ item.order.buyer.name }}
-        </p>
+        <span v-if="purchase">
+          {{ item.seller.name }}
+        </span>
+        <span v-else>
+          {{ item.buyer.name }}
+        </span>
       </div>
 
     </div>
 
-  </div>
+  </section>
 </template>
 
 <script>
@@ -48,7 +50,7 @@ export default {
   props: ['item'],
   computed: {
     purchase () {
-      if (this.item.order.buyer._id == this.$store.getters.companyId) {
+      if (this.item.buyer._id == this.$store.getters.companyId) {
         return true
       } else {
         return false
@@ -71,31 +73,22 @@ export default {
         return false
       }
     }
+  },
+  methods: {
+    viewTransaction () {
+      this.$router.push({
+        path: 'transaction-details',
+        query: {
+          order: this.item._id
+        }
+      })
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
   @import '@/assets/scss/variables.scss';
-
-  #transaction-entry {
-    box-shadow: $box-shadow;
-    padding: 10px;
-    margin: 5px 0 5px 0;
-  }
-
-  .container {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  p {
-    margin: 0;
-  }
-
-  b {
-    font-weight: bold;
-  }
 
   .new {
     position: absolute;

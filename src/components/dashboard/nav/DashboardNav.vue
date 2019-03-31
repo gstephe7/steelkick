@@ -2,10 +2,10 @@
   <div>
     <div id="dashboard-nav"  @click="toggleDashboardMenu">
 
-      <div class="mobile">
+      <div row align>
         <button class="menu-button">
-          <fa-icon v-if="showMenu" icon="times"></fa-icon>
-          <fa-icon v-else icon="bars"></fa-icon>
+          <icon v-if="showMenu" icon="times"></icon>
+          <icon v-else icon="bars"></icon>
         </button>
         <p>Dashboard Navigation</p>
       </div>
@@ -54,11 +54,6 @@ export default {
     cursor: pointer;
   }
 
-  .mobile {
-    display: flex;
-    align-items: center;
-  }
-
   .menu-button {
     background-color: rgba(0,0,0,0);
     outline: none;
@@ -68,6 +63,10 @@ export default {
     font-size: 18px;
     width: 25px;
     cursor: pointer;
+    svg {
+      color: $primary;
+      font-size: 18px;
+    }
   }
 
   .hide {

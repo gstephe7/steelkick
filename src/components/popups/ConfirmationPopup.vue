@@ -1,9 +1,9 @@
 <template>
-  <div id="popup">
+  <div col>
     <p>{{ msg }}</p>
-    <div class="buttons">
-      <button @click="cancel">Cancel</button>
-      <button @click="confirm">{{ btnText }}</button>
+    <div around>
+      <button small @click="cancel" type="button">Cancel</button>
+      <button small @click="confirm" type="button">{{ btnText }}</button>
     </div>
   </div>
 </template>
@@ -23,26 +23,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '@/assets/scss/variables.scss';
-
-  #background {
-    position: fixed;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-
-  p {
-    text-align: center;
-  }
-
-  .buttons {
-    display: flex;
-    justify-content: space-around;
-  }
-
-  button {
-    width: 125px;
-  }
 </style>

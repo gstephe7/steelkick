@@ -1,17 +1,17 @@
 <template>
-  <div id="login">
+  <div main col>
 
-    <h2>Sign In</h2>
+    <h1>Sign In</h1>
 
-    <div class="form">
+    <form col @submit.prevent="submit">
 
-      <input v-model="email" placeholder="Email" :class="{ highlight : errors.email }" @keyup.enter="submit">
+      <input big v-model="email" placeholder="Email" :highlight="errors.email">
 
-      <input type="password" v-model="password" placeholder="Password" :class="{ highlight : errors.password }" @keyup.enter="submit">
+      <input big type="password" v-model="password" placeholder="Password" :highlight="errors.password">
 
-      <button @click="submit">Sign In</button>
+      <button>Sign In</button>
 
-      <div class="errors">
+      <div errors>
         <p v-if="errors.email">Please enter your email</p>
         <p v-if="errors.password">Please enter your password</p>
         <p v-if="errors.server">{{ errors.server }}</p>
@@ -23,7 +23,7 @@
 
       <router-link :to="{ name: 'CreateAccount' }">Create an account</router-link>
 
-    </div>
+    </form>
 
   </div>
 </template>
@@ -104,39 +104,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '@/assets/scss/variables.scss';
 
-  #login {
-    height: 400px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .form {
-    width: 300px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  input {
-    border: 1px solid $accent;
+  input[big] {
     width: 250px;
-    margin: 10px;
-  }
-
-  .highlight {
-    outline: 1px solid $alert;
-  }
-
-  .errors {
-    color: $alert;
-    text-align: center;
-  }
-
-  a {
-    margin-bottom: 10px;
   }
 </style>

@@ -1,226 +1,243 @@
 <template>
   <div>
-    <div class="input">
+    <div between>
       Name:
-      <input v-model="company.name">
+      <input big v-model="company.name">
     </div>
-    <div v-if="addressInvalid" class="address-text">
-      <p>Please enter a valid address before listing steel for sale</p>
+    <div v-if="addressInvalid">
+      <p class="red">
+        Please enter a valid address before listing steel for sale
+      </p>
     </div>
-    <div class="input">
+    <div between>
       Street:
-      <input v-model="company.street" :class="{ address : addressInvalid }">
+      <input big v-model="company.street" :highlight="addressInvalid">
     </div>
-    <div class="input">
+    <div between>
       City:
-      <input v-model="company.city" :class="{ address : addressInvalid }">
+      <input big v-model="company.city" :highlight="addressInvalid">
     </div>
-    <div class="input">
+    <div between>
       State:
-      <select v-model="company.state" :class="{ address : addressInvalid }">
+      <select big v-model="company.state" :highlight="addressInvalid">
         <option v-for="state in states" :value="state" :key="state">{{ state }}</option>
       </select>
     </div>
-    <div class="input">
+    <div between>
       Zipcode:
-      <input v-model="company.zipcode" :class="{ address : addressInvalid }">
+      <input big v-model="company.zipcode" :highlight="addressInvalid">
     </div>
-    <div class="input">
+    <div between>
       Contact Person:
-      <input v-model="company.contactName">
+      <input big v-model="company.contactName">
     </div>
-    <div class="input">
+    <div between>
       Contact Phone:
-      <input v-model="company.phone">
+      <input big v-model="company.phone">
     </div>
-    <div class="input">
+    <div between>
       Contact Email:
-      <input v-model="company.email">
+      <input big v-model="company.email">
     </div>
-    <div class="input">
+    <div between>
       Offer Delivery:
-      <select v-model="company.delivery.offered">
+      <select big v-model="company.delivery.offered">
         <option :value="true">Yes</option>
         <option :value="false">No</option>
       </select>
     </div>
-    <div v-if="company.delivery.offered" class="sub">
-      <div class="input">
-        <div>
+
+    <br>
+
+    <div sub v-if="company.delivery.offered">
+      <div between>
+        <div box>
           <p>
             Base Delivery Fee:
             <ToolTip>This delivery fee will be charged to the buyer for every delivery, regardless of distance.</ToolTip>
           </p>
         </div>
-        <div>
-          <input v-model="company.delivery.fee" type="number">
+        <div box>
+          <input small v-model="company.delivery.fee" type="number" step="0.01">
         </div>
       </div>
-      <div class="input">
-        <div>
+      <div between>
+        <div box>
           <p>
             Price per mile:
             <ToolTip>This is how much you charge per mile (one-way) for a delivery.</ToolTip>
           </p>
         </div>
-        <div>
-          <input v-model="company.delivery.price" type="number"> /mile
+        <div box>
+          <input small v-model="company.delivery.price" type="number" step="0.01">/mile
         </div>
       </div>
-      <div class="input">
-        <div>
+      <div between>
+        <div box>
           <p>
             Max Delivery Distance:
             <ToolTip>This is the maximum distance (one way) you are willing to travel to make a delivery.</ToolTip>
           </p>
         </div>
-        <div>
-          <input v-model="company.delivery.maxDistance" type="number"> miles
+        <div box>
+          <input small v-model="company.delivery.maxDistance" type="number" step="0.01">miles
         </div>
       </div>
-      <div class="input">
-        <div>
+      <div between>
+        <div box>
           <p>
             Max Delivery Length:
             <ToolTip>The maximum length (in feet) that your delivery truck is capable of hauling.</ToolTip>
           </p>
         </div>
-        <div>
-          <input v-model="company.delivery.maxLength" type="number"> feet
+        <div box>
+          <input small v-model="company.delivery.maxLength" type="number" step="0.01">feet
         </div>
       </div>
-      <div class="input">
-        <div>
+      <div between>
+        <div box>
           <p>
             Max Delivery Weight:
             <ToolTip>The maximum weight (in pounds) that your delivery truck is capable of hauling.</ToolTip>
           </p>
         </div>
-        <div>
-          <input v-model="company.delivery.maxWeight" type="number"> lbs
+        <div box>
+          <input small v-model="company.delivery.maxWeight" type="number" step="0.01">lbs
         </div>
       </div>
     </div>
-    <div class="input">
+
+    <br>
+
+    <div between>
       <div>
         <p>Offer Cut to Order:</p>
       </div>
       <div>
-        <select v-model="company.cut.offered">
+        <select big v-model="company.cut.offered">
           <option :value="true">Yes</option>
           <option :value="false">No</option>
         </select>
       </div>
     </div>
-    <div v-if="company.cut.offered" class="sub">
-      <div class="input">
-        <div>
+
+    <br>
+
+    <div sub v-if="company.cut.offered">
+      <div between>
+        <div box>
           <p>Price per cut:</p>
         </div>
-        <div>
-          <input v-model="company.cut.price" type="number"> (USD)
+        <div box>
+          <input small v-model="company.cut.price" type="number" step="0.01">(USD)
         </div>
       </div>
     </div>
+
+    <br>
+
     <div>
       <p>Hours</p>
-      <div class="sub">
-        <div class="input">
-          <div class="day">
+
+      <br>
+
+      <div sub>
+        <div between>
+          <div>
             <p>Monday</p>
           </div>
-          <div class="hours">
+          <div>
             <span>
-              <select v-model="company.hours.monday.start">
+              <select hour v-model="company.hours.monday.start">
                 <option :value="null">-</option>
                 <option v-for="hour in hours" :key="hour" :value="hour">{{ hour }}</option>
               </select> -
-              <select v-model="company.hours.monday.end">
+              <select hour v-model="company.hours.monday.end">
                 <option :value="null">-</option>
                 <option v-for="hour in hours" :key="hour" :value="hour">{{ hour }}</option>
               </select>
             </span>
           </div>
         </div>
-        <div class="input">
-          <div class="day">
+        <div between>
+          <div>
             <p>Tuesday</p>
           </div>
-          <div class="hours">
+          <div>
             <span>
-              <select v-model="company.hours.tuesday.start">
+              <select hour v-model="company.hours.tuesday.start">
                 <option :value="null">-</option>
                 <option v-for="hour in hours" :key="hour" :value="hour">{{ hour }}</option>
               </select> -
-              <select v-model="company.hours.tuesday.end">
+              <select hour v-model="company.hours.tuesday.end">
                 <option :value="null">-</option>
                 <option v-for="hour in hours" :key="hour" :value="hour">{{ hour }}</option>
               </select>
             </span>
           </div>
         </div>
-        <div class="input">
-          <div class="day">
+        <div between>
+          <div>
             <p>Wednesday</p>
           </div>
-          <div class="hours">
+          <div>
             <span>
-              <select v-model="company.hours.wednesday.start">
+              <select hour v-model="company.hours.wednesday.start">
                 <option :value="null">-</option>
                 <option v-for="hour in hours" :key="hour" :value="hour">{{ hour }}</option>
               </select> -
-              <select v-model="company.hours.wednesday.end">
+              <select hour v-model="company.hours.wednesday.end">
                 <option :value="null">-</option>
                 <option v-for="hour in hours" :key="hour" :value="hour">{{ hour }}</option>
               </select>
             </span>
           </div>
         </div>
-        <div class="input">
-          <div class="day">
+        <div between>
+          <div>
             <p>Thursday</p>
           </div>
-          <div class="hours">
+          <div>
             <span>
-              <select v-model="company.hours.thursday.start">
+              <select hour v-model="company.hours.thursday.start">
                 <option :value="null">-</option>
                 <option v-for="hour in hours" :key="hour" :value="hour">{{ hour }}</option>
               </select> -
-              <select v-model="company.hours.thursday.end">
+              <select hour v-model="company.hours.thursday.end">
                 <option :value="null">-</option>
                 <option v-for="hour in hours" :key="hour" :value="hour">{{ hour }}</option>
               </select>
             </span>
           </div>
         </div>
-        <div class="input">
-          <div class="day">
+        <div between>
+          <div>
             <p>Friday</p>
           </div>
-          <div class="hours">
+          <div>
             <span>
-              <select v-model="company.hours.friday.start">
+              <select hour v-model="company.hours.friday.start">
                 <option :value="null">-</option>
                 <option v-for="hour in hours" :key="hour" :value="hour">{{ hour }}</option>
               </select> -
-              <select v-model="company.hours.friday.end">
+              <select hour v-model="company.hours.friday.end">
                 <option :value="null">-</option>
                 <option v-for="hour in hours" :key="hour" :value="hour">{{ hour }}</option>
               </select>
             </span>
           </div>
         </div>
-        <div class="input">
-          <div class="day">
+        <div between>
+          <div>
             <p>Saturday</p>
           </div>
-          <div class="hours">
+          <div>
             <span>
-              <select v-model="company.hours.saturday.start">
+              <select hour v-model="company.hours.saturday.start">
                 <option :value="null">-</option>
                 <option v-for="hour in hours" :key="hour" :value="hour">{{ hour }}</option>
               </select> -
-              <select v-model="company.hours.saturday.end">
+              <select hour v-model="company.hours.saturday.end">
                 <option :value="null">-</option>
                 <option v-for="hour in hours" :key="hour" :value="hour">{{ hour }}</option>
               </select>
@@ -229,25 +246,37 @@
         </div>
       </div>
     </div>
+
+    <br>
+
     <div>
       <p>Company Description</p>
-      <div class="sub">
+      <br>
+      <div sub>
         <textarea v-model="company.description"></textarea>
       </div>
     </div>
+
+    <br>
+
     <div>
       <p>
         Remarks
         <ToolTip>Leave additional remarks for buyers. These can include delivery times, expected turnaround, and instructions for pickups.</ToolTip>
       </p>
-      <div class="sub">
+      <br>
+      <div sub>
         <textarea v-model="company.remarks"></textarea>
       </div>
     </div>
-    <div class="button-div">
+
+    <br>
+
+    <div around>
       <button @click="$emit('close')">Cancel</button>
       <button @click="editCompany">Save</button>
     </div>
+
   </div>
 </template>
 
@@ -287,57 +316,30 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '@/assets/scss/variables.scss';
-  .button-div {
-    display: flex;
-    justify-content: space-around;
+
+  [box] {
+    flex-basis: 50%;
   }
 
-  .input {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
+  input[small] {
+    width: 50px;
+  }
+
+  select[small] {
+    width: 50px;
+  }
+
+  select[hour] {
+    width: 80px;
     margin: 5px 0;
   }
 
-  input {
-    border: 1px solid $accent;
-    width: 175px;
+  p {
+    margin: 0;
   }
 
-  select {
-    border: 1px solid $accent;
-    width: 197px;
-  }
-
-  .sub {
-    margin: 25px 0 25px 10%;
-    input {
-      width: 60px;
-    }
-    select {
-      width: 80px;
-    }
-    textarea {
-      width: 90%;
-      height: 150px;
-    }
-    div {
-      flex: 1;
-    }
-    p {
-      margin: 0;
-    }
-    .hours {
-      min-width: 180px;
-    }
-  }
-
-  .address {
-    outline: thin solid $alert;
-  }
-
-  .address-text {
-    color: $alert;
+  textarea {
+    width: 90%;
+    height: 150px;
   }
 </style>

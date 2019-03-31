@@ -1,64 +1,47 @@
 <template>
-  <div id="user-preview">
+  <section card click @click="viewUser(user)">
 
-    <div class="container">
+    <div between>
 
       <div>
         <h4>{{ user.firstName }} {{ user.lastName }}</h4>
       </div>
 
       <div>
-        <p v-if="user.admin">Admin</p>
-        <p v-else>User</p>
+        <span v-if="user.admin">Admin</span>
+        <span v-else>User</span>
       </div>
 
     </div>
 
-    <div class="container">
-      <p>{{ user.email }}</p>
+    <div between>
+      <span>{{ user.email }}</span>
     </div>
 
-    <div class="click-message">
-      <p>Click to edit</p>
-    </div>
+    <br>
 
-  </div>
+    <em col>
+      Click to edit
+    </em>
+
+  </section>
 </template>
 
 <script>
 export default {
-  props: ['user']
+  props: ['user'],
+  methods: {
+    viewUser () {
+      this.$router.push({
+        path: 'edit-user',
+        query: {
+          id: this.user._id
+        }
+      })
+    }
+  }
 }
 </script>
 
 <style lang="scss" scoped>
-  @import '@/assets/scss/variables.scss';
-
-  #user-preview {
-    box-shadow: $box-shadow;
-    padding: 10px;
-    margin: 5px 0 5px 0;
-  }
-
-  .container {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  h4 {
-    margin: 0;
-    font-weight: bold;
-  }
-
-  p {
-    margin: 0;
-  }
-
-  .click-message {
-    margin-top: 15px;
-    color: royalblue;
-    text-decoration: underline;
-    font-style: italic;
-    text-align: center;
-  }
 </style>

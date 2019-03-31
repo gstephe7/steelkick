@@ -1,145 +1,167 @@
 <template>
-  <div id="checkout">
+  <div main v-if="loaded">
 
-    <h3 class="page-title">Pending Order</h3>
+    <h1>Pending Order</h1>
 
-    <div class="company-div">
+    <hr>
+
+    <div between wrap>
+
       <!-- Buyer Info -->
-      <div class="company-info">
-        <p class="title">Buyer</p>
+      <div box grow>
+        <strong>Buyer</strong>
         <p>
-          <router-link :to="{ name: 'Company', query: { id: buyer._id } }">
-            {{ buyer.name }}
+          <router-link :to="{ name: 'Company', query: { id: order.buyer._id } }">
+            {{ order.buyer.name }}
           </router-link>
         </p>
-        <p>{{ buyer.street }}</p>
-        <p>{{ buyer.city }}, {{ buyer.state }} {{ buyer.zipcode }}</p>
-        <p>{{ buyer.contactName }}</p>
-        <p>{{ buyer.phone }}</p>
-        <p>{{ buyer.email }}</p>
-        <p>Remarks: {{ buyer.remarks }}</p>
+        <p>{{ order.buyer.street }}</p>
+        <p>{{ order.buyer.city }}, {{ order.buyer.state }} {{ order.buyer.zipcode }}</p>
+        <p>{{ order.buyer.contactName }}</p>
+        <p>{{ order.buyer.phone }}</p>
+        <p>{{ order.buyer.email }}</p>
+        <p>Remarks: {{ order.buyer.remarks }}</p>
+        <br>
       </div>
 
       <!-- Seller Info -->
-      <div class="company-info">
-        <p class="title">Seller</p>
+      <div box grow>
+        <strong>Seller</strong>
         <p>
-          <router-link :to="{ name: 'Company', query: { id: seller._id } }">
-            {{ seller.name }}
+          <router-link :to="{ name: 'Company', query: { id: order.seller._id } }">
+            {{ order.seller.name }}
           </router-link>
         </p>
-        <p>{{ seller.street }}</p>
-        <p>{{ seller.city }}, {{ seller.state }} {{ seller.zipcode }}</p>
-        <p>{{ seller.contactName }}</p>
-        <p>{{ seller.phone }}</p>
-        <p>{{ seller.email }}</p>
-        <p>Remarks: {{ seller.remarks }}</p>
+        <p>{{ order.seller.street }}</p>
+        <p>{{ order.seller.city }}, {{ order.seller.state }} {{ order.seller.zipcode }}</p>
+        <p>{{ order.seller.contactName }}</p>
+        <p>{{ order.seller.phone }}</p>
+        <p>{{ order.seller.email }}</p>
+        <p>Remarks: {{ order.seller.remarks }}</p>
+        <br>
       </div>
+
     </div>
 
     <!-- Date and Time order placed -->
-    <div class="order-info">
-      <p class="title">Order Date/Time</p>
-      <p>{{ date }}</p>
-      <p>{{ time }}</p>
+    <div>
+      <strong>Order Date/Time</strong>
+      <p>{{ order.date }}</p>
+      <p>{{ order.time }}</p>
     </div>
 
-    <!-- Delivery or Pickup -->
-    <div class="order-info">
-      <p class="title">Order Method</p>
-      <div v-if="delivery.selected">
-        <p>Delivery</p>
-        <p>{{ delivery.distance.toFixed(2) }} miles away</p>
-      </div>
-      <div v-else>
-        <p>Pickup</p>
-      </div>
+    <br>
+
+    <div>
+      <MaterialPreview v-for="item in order.order"
+                       :key="item._id"
+                       :item="item.material"
+                       :order="item"
+                       :transaction="true">
+      </MaterialPreview>
     </div>
 
-    <div class="order">
-
-      <div class="order-item" v-for="item in order" :key="item._id">
-
-          <CartItem :item="item"
-                    :received="$route.query.received">
-          </CartItem>
-
-      </div>
-
-    </div>
+    <br>
 
     <!-- Price Breakdown -->
-    <div class="price-div" v-if="totalPrice">
-      <div class="price-box">
-        <div class="item">
-          <p>Material: </p>
-        </div>
-        <div class="price">
-          <p>{{ materialPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}</p>
-        </div>
+    <dl col end fieldset>
+
+      <div row>
+        <dt>
+          Shipping Method:
+        </dt>
+        <dd>
+          <span v-if="order.delivery.selected">
+            Delivery
+          </span>
+          <span v-else>
+            Pickup
+          </span>
+        </dd>
       </div>
-      <div class="price-box">
-        <div class="item">
-          <p>Delivery: </p>
-        </div>
-        <div class="price">
-          <p>{{ delivery.totalPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}</p>
-        </div>
+
+      <div row>
+        <dt>
+          Total Weight:
+        </dt>
+        <dd>
+          {{ order.weight.toFixed(2) }} lbs
+        </dd>
       </div>
-      <div class="price-box">
-        <div class="item">
-          <h3>Total: </h3>
-        </div>
-        <div class="price">
-          <h3>{{ totalPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}</h3>
-        </div>
+
+      <div row>
+        <dt>
+          Material:
+        </dt>
+        <dd>
+          {{ order.materialPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}
+        </dd>
       </div>
-    </div>
+
+      <div row v-if="order.delivery.selected">
+        <dt>
+          Delivery:
+        </dt>
+        <dd>
+          {{ order.delivery.totalPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}
+        </dd>
+      </div>
+
+      <div row>
+        <dt>
+          <h2>Total: </h2>
+        </dt>
+        <dd>
+          <h2>{{ order.totalPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}</h2>
+        </dd>
+      </div>
+
+    </dl>
 
     <!-- Confirm/Deny order for received order -->
-    <div v-if="$route.query.received" class="buttons">
-      <button class="alert" @click="toggleDecline">Decline</button>
-      <button class="success" @click="toggleConfirm">Confirm</button>
+    <div around v-if="$route.query.received">
+      <button red @click="toggleDecline">Decline</button>
+      <button green @click="toggleConfirm">Confirm</button>
     </div>
 
     <!-- Cancel placed order -->
-    <div v-else class="cancel">
+    <div v-else col>
       <p>This order has been placed. Please wait to hear back from the seller for confirmation.</p>
-      <button class="alert" @click="toggleCancel">Cancel Order</button>
+      <button red @click="toggleCancel">Cancel Order</button>
     </div>
 
     <!-- Cancel/Decline Confirmation -->
-    <div class="confirmation" v-if="showCancel">
+    <div col v-if="showCancel">
       <p>
         Are you sure you want to cancel this order?
       </p>
-      <div class="confirm-buttons">
-        <button @click="toggleCancel">No</button>
-        <button @click="cancelOrder">Yes</button>
+      <div around>
+        <button small @click="toggleCancel">No</button>
+        <button small @click="cancelOrder">Yes</button>
       </div>
     </div>
 
     <!-- Decline Order -->
-    <div class="confirmation" v-if="showDecline">
+    <div col v-if="showDecline">
       <p>
         Send a message explaining why you had to decline this order request.
       </p>
       <textarea v-model="declineMessage"></textarea>
-      <div class="confirm-buttons">
-        <button @click="toggleDecline">Cancel</button>
-        <button @click="declineOrder" class="alert">Decline Order</button>
+      <div around>
+        <button small @click="toggleDecline">Cancel</button>
+        <button small red @click="declineOrder">Decline Order</button>
       </div>
     </div>
 
     <!-- Confirm Order -->
-    <div class="confirmation" v-if="showConfirm">
+    <div col v-if="showConfirm">
       <p>
         Send a message with your confirmation
       </p>
       <textarea v-model="confirmationMessage"></textarea>
-      <div class="confirm-buttons">
-        <button @click="toggleConfirm">Cancel</button>
-        <button @click="confirmOrder" class="success">Confirm Order</button>
+      <div around>
+        <button small @click="toggleConfirm">Cancel</button>
+        <button small green @click="confirmOrder">Confirm Order</button>
       </div>
     </div>
 
@@ -148,22 +170,16 @@
 
 <script>
 import api from '@/api/api'
-import CartItem from '@/components/cart/CartItem'
+import MaterialPreview from '@/components/material/MaterialPreview'
 
 export default {
   components: {
-    CartItem
+    MaterialPreview
   },
   data () {
     return {
-      buyer: {},
-      seller: {},
-      order: [],
-      delivery: {},
-      totalPrice: null,
-      date: null,
-      time: null,
-      id: null,
+      order: {},
+      loaded: false,
       declineMessage: '',
       confirmationMessage: '',
       showCancel: false,
@@ -171,7 +187,7 @@ export default {
       showConfirm: false,
     }
   },
-  created () {
+  beforeCreate () {
     this.$store.dispatch('loading')
     api.axios.get(`${api.baseUrl}/orders/order`, {
       params: {
@@ -179,41 +195,26 @@ export default {
       }
     })
     .then(res => {
+      this.order = res.data.order
+      this.loaded = true
       this.$store.dispatch('complete')
-      this.buyer = res.data.order.order.buyer
-      this.seller = res.data.order.order.seller
-      this.order = res.data.order.order.order
-      this.delivery = res.data.order.order.delivery
-      this.totalPrice = res.data.order.order.totalPrice
-      this.date = res.data.order.date
-      this.time = res.data.order.time
-      this.id = res.data.order._id
     })
     .catch(() => {
       this.$store.dispatch('complete')
     })
   },
-  computed: {
-    materialPrice () {
-      let price = 0
-      this.order.forEach(item => {
-        price += parseFloat(item.subtotalPrice)
-      })
-      return price
-    }
-  },
   methods: {
     removeNotification () {
       this.$store.getters.notifications.forEach(item => {
-        if (item.subject == this.id) {
-          this.$store.dispatch('notificationViewed', this.id)
+        if (item.subject == this.order._id) {
+          this.$store.dispatch('notificationViewed', this.order._id)
         }
       })
     },
     cancelNotification () {
       api.axios.post(`${api.baseUrl}/users/notification-viewed`, {
-        companyId: this.seller._id,
-        subjectId: this.id
+        companyId: this.order.seller._id,
+        subjectId: this.order._id
       })
     },
     toggleCancel () {
@@ -228,7 +229,7 @@ export default {
     cancelOrder () {
       this.$store.dispatch('loading')
       api.axios.post(`${api.baseUrl}/orders/cancel-order`, {
-        id: this.id
+        id: this.order._id
       })
       .then(() => {
         this.$store.dispatch('complete')
@@ -242,7 +243,7 @@ export default {
     declineOrder () {
       this.$store.dispatch('loading')
       api.axios.post(`${api.baseUrl}/orders/decline-order`, {
-        id: this.id,
+        id: this.order._id,
         msg: this.declineMessage
       })
       .then(() => {
@@ -257,7 +258,7 @@ export default {
     confirmOrder () {
       this.$store.dispatch('loading')
       api.axios.post(`${api.baseUrl}/orders/confirm-order`, {
-        id: this.id,
+        id: this.order._id,
         msg: this.confirmationMessage
       })
       .then(() => {
@@ -274,102 +275,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '@/assets/scss/variables.scss';
 
-  #checkout {
-    max-width: 800px;
-    margin: auto;
-    padding: 10px;
-  }
-
-  .page-title {
-    font-weight: 300;
-    text-align: center;
-  }
-
-  .company-div {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-  }
-
-  .company-info {
-    flex: 1;
-    padding: 10px 5px 10px 5px;
-    min-width: 300px;
-  }
-
-  .title {
-    text-decoration: underline;
-  }
-
-  .order-info {
-    padding: 10px 5px 10px 5px;
-  }
-
-  .order {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .order-item {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-  }
-
-  .price-div {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    margin: 50px 5px 0 0;
-  }
-
-  .price-box {
-    display: flex;
-    justify-content: space-between;
-    width: 250px;
-  }
-
-  .item {
-    width: 150px;
-    text-align: right;
-  }
-
-  .buttons {
-    display: flex;
-    justify-content: space-around;
-  }
-
-  .confirm-buttons {
-    display: flex;
-    justify-content: space-around;
-    max-width: 400px;
-    margin: auto;
-  }
-
-  .cancel {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .success {
-    background-color: $success;
-  }
-
-  .alert {
-    background-color: $alert;
-  }
-
-  .confirmation {
-    text-align: center;
-  }
-
-  h3 {
+  h2 {
     font-weight: bold;
-    margin: 10px 0 10px 0;
   }
 
   p {
@@ -383,5 +291,9 @@ export default {
   a {
     color: royalblue;
     text-decoration: none;
+  }
+
+  [box] {
+    padding-right: 20px;
   }
 </style>

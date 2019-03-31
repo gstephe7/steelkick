@@ -1,19 +1,16 @@
 <template>
-  <div id="manage-users">
+  <div main>
 
-    <h3>Manage Users</h3>
-
-    <div class="users">
-
-      <div class="user" v-for="user in users" :key="user._id" @click="viewUser(user)">
-
-        <UserPreview :user="user"></UserPreview>
-
-      </div>
-
-    </div>
+    <h1>Manage Users</h1>
 
     <div>
+      <UserPreview :user="user"
+                   v-for="user in users"
+                   :key="user._id">
+      </UserPreview>
+    </div>
+
+    <div col center>
       <button @click="$router.push('new-user')">Add New User</button>
     </div>
 
@@ -31,16 +28,6 @@ export default {
   data () {
     return {
       users: []
-    }
-  },
-  methods: {
-    viewUser (user) {
-      this.$router.push({
-        path: 'edit-user',
-        query: {
-          id: user._id
-        }
-      })
     }
   },
   created () {
@@ -62,22 +49,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '@/assets/scss/variables.scss';
-
-  #manage-users {
-    max-width: 800px;
-    margin: auto;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .users {
-    width: 100%;
-  }
-
-  .user {
-    cursor: pointer;
-  }
 </style>

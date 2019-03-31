@@ -1,53 +1,57 @@
 <template>
-  <div id="order-page">
+  <div main>
 
-    <h3>Pending Orders</h3>
+    <h1>Pending Orders</h1>
 
-    <div class="pending-orders">
+    <div wrap>
 
-      <div class="order-div">
+      <section grow box card>
 
-        <hgroup>
+        <div>
           <h4>Orders Received</h4>
-        </hgroup>
+        </div>
 
-        <div class="orders" v-if="received.length > 0">
+        <hr>
 
-          <div class="order" v-for="order in received" :key="order._id" @click="viewOrderDetails({ order: order, received: true })">
+        <div v-if="received.length > 0">
 
-            <OrderPreview :order="order" :received="true"></OrderPreview>
-
-          </div>
+          <OrderPreview v-for="order in received"
+                        :key="order._id"
+                        :order="order"
+                        :received="true">
+          </OrderPreview>
 
         </div>
 
-        <div v-else class="empty">
+        <div v-else>
           <p>None at this time</p>
         </div>
 
-      </div>
+      </section>
 
-      <div class="order-div">
+      <section grow box card>
 
-        <hgroup>
+        <div>
           <h4>Orders Placed</h4>
-        </hgroup>
+        </div>
 
-        <div v-if="placed.length > 0" class="orders">
+        <hr>
 
-          <div class="order" v-for="order in placed" :key="order._id" @click="viewOrderDetails({ order: order, received: false })">
+        <div v-if="placed.length > 0">
 
-            <OrderPreview :order="order" :placed="true"></OrderPreview>
-
-          </div>
+          <OrderPreview v-for="order in placed"
+                        :key="order._id"
+                        :order="order"
+                        :placed="true">
+          </OrderPreview>
 
         </div>
 
-        <div v-else class="empty">
+        <div v-else>
           <p>None at this time</p>
         </div>
 
-      </div>
+      </section>
 
     </div>
 
@@ -77,8 +81,8 @@ export default {
       }
     })
     .then(res => {
-      this.$store.dispatch('complete')
       this.received = res.data.order.reverse()
+      this.$store.dispatch('complete')
     })
     .catch(err => {
       this.$store.dispatch('complete')
@@ -92,67 +96,19 @@ export default {
       }
     })
     .then(res => {
-      this.$store.dispatch('complete')
       this.placed = res.data.order.reverse()
+      this.$store.dispatch('complete')
     })
     .catch(err => {
       this.$store.dispatch('complete')
     })
-  },
-  methods: {
-    viewOrderDetails ({order, received}) {
-      this.$router.push({
-        path: 'order-details',
-        query: {
-          order: order._id,
-          received: received
-        }
-      })
-    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-  @import '@/assets/scss/variables.scss';
 
-  #order-page {
-    padding: 10px;
-    max-width: 800px;
-    margin: auto;
-  }
-
-  h3 {
-    text-align: center;
-  }
-
-  .pending-orders {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-  }
-
-  .order-div {
-    box-shadow: $box-shadow;
-    margin: 15px;
-    min-width: 300px;
-    flex: 1;
-  }
-
-  .order {
-    cursor: pointer;
-  }
-
-  hgroup {
-    padding: 10px;
-    h4 {
-      font-weight: bold;
-      margin: 0;
-    }
-    box-shadow: $box-shadow;
-  }
-
-  .empty {
-    padding: 10px;
+  section {
+    min-height: 200px;
   }
 </style>

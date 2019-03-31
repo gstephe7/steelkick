@@ -1,15 +1,15 @@
 <template>
-  <div id="password-recovery">
+  <div main col>
 
-    <h2>Reset Your Password</h2>
+    <h1>Reset Your Password</h1>
 
     <p>Enter your email address below and follow the link sent to your email to reset your password.</p>
 
-    <input placeholder="Email" v-model="email" :class="{ highlight : errors.email }">
+    <input placeholder="Email" v-model="email" :highlight="errors.email">
 
     <button @click="submit">Send Link</button>
 
-    <div class="errors">
+    <div errors>
       <p v-if="errors.email">Please enter your email</p>
     </div>
 
@@ -64,15 +64,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '@/assets/scss/variables.scss';
-
-  #password-recovery {
-    height: 400px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
 
   p {
     text-align: center;
@@ -80,17 +71,6 @@ export default {
   }
 
   input {
-    border: 1px solid $accent;
     width: 250px;
-    margin: 10px;
-  }
-
-  .highlight {
-    outline: 1px solid $alert;
-  }
-
-  .errors {
-    color: $alert;
-    text-align: center;
   }
 </style>

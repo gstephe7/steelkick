@@ -1,11 +1,11 @@
 <template>
-  <main col>
+  <div main col>
 
     <h1>Search for Steel</h1>
 
     <Search :searching="true"></Search>
 
-  </main>
+  </div>
 </template>
 
 <script>
@@ -19,5 +19,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '@/assets/scss/structure.scss';
 </style>

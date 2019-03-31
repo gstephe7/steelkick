@@ -33,7 +33,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '@/assets/scss/structure.scss';
+  @import '@/assets/scss/variables.scss';
 
   #landing {
     position: fixed;

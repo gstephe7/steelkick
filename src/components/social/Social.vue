@@ -26,7 +26,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '@/assets/scss/structure.scss';
+  @import '@/assets/scss/variables.scss';
 
   #social {
     padding: 5px 15px;
@@ -35,6 +35,7 @@ export default {
   svg {
     opacity: .5;
     font-size: 24px;
+    color: $accent;
   }
 
   svg:hover {

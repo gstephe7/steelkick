@@ -1,34 +1,34 @@
 <template>
-  <main>
+  <div main>
 
-    <h3>Set Prices</h3>
+    <h1>Set Prices</h1>
 
-    <section>
-      <article v-for="(price, index) in prices" :key="index">
+    <div center wrap>
+      <section col card v-for="(price, index) in prices" :key="index">
         <h3>{{ price.name }}</h3>
-        <aside>
-          <h4>Standard</h4>
-          <span>$ <input type="null" v-model="prices[index].standard"> Cwt</span>
-        </aside>
-        <aside>
-          <h4>Primed</h4>
-          <span>$ <input type="null" v-model="prices[index].primed"> Cwt</span>
-        </aside>
-        <aside>
-          <h4>Galvanized</h4>
-          <span>$ <input type="null" v-model="prices[index].galvanized"> Cwt</span>
-        </aside>
-        <div class="buttons">
-          <p v-if="prices[index].updated" class="success">&#10004; Updated</p>
+        <label between align>
+          Standard
+          <span>$ <input small v-model="prices[index].standard"  type="number" step="0.01"> Cwt</span>
+        </label>
+        <label between align>
+          Primed
+          <span>$ <input small v-model="prices[index].primed"  type="number" step="0.01"> Cwt</span>
+        </label>
+        <label between align>
+          Galvanized
+          <span>$ <input small v-model="prices[index].galvanized"  type="number" step="0.01"> Cwt</span>
+        </label>
+        <div col>
+          <p v-if="prices[index].updated" class="green">&#10004; Updated</p>
           <button v-else @click="updatePrices(index)">
             Update {{ price.shape }} Prices
           </button>
         </div>
-      </article>
-    </section>
+      </section>
+    </div>
 
 
-  </main>
+  </div>
 </template>
 
 <script>
@@ -102,33 +102,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '@/assets/scss/structure.scss';
 
-  main {
+  [main] {
     max-width: 1000px;
   }
 
-  article {
-    width: 250px;
-    box-shadow: $box-shadow;
-    border-radius: 2px;
-    padding: 15px;
-  }
-
-  h3 {
-    text-align: center;
-  }
-
-  input {
+  input[small] {
     width: 75px;
   }
 
-  .buttons {
-    display: flex;
-    justify-content: center;
-  }
-
-  .success {
-    color: $success;
+  [card] {
+    padding: 15px;
   }
 </style>

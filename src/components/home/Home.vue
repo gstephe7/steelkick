@@ -10,7 +10,7 @@
       </section>
     </div>
     <div around wrap>
-      <section>
+      <section col>
         <h2>Create Your Free Account</h2>
         <CreateAccount></CreateAccount>
       </section>
@@ -35,7 +35,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '@/assets/scss/structure.scss';
 
   section {
     max-width: 400px;

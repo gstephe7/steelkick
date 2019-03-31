@@ -13,5 +13,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '@/assets/scss/structure.scss';
+  @import '@/assets/scss/variables.scss';
+
+  svg {
+    font-size: 50px;
+    color: $accent;
+  }
+
 </style>

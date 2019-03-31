@@ -1,111 +1,111 @@
 <template>
-  <div>
+  <div main v-if="company">
 
-    <div v-if="company" id="company">
+    <span back @click="$router.back()">
+      &lt; Back
+    </span>
 
-      <span class="back" @click="$router.back()">
-        &lt; Back
-      </span>
-
-      <!-- Basic Company Information -->
-      <div class="header">
-        <h2>{{ company.name }}</h2>
-        <p v-if="company.city">
-          {{ company.street }} <br>
-          {{ company.city }}, {{ company.state }} {{ company.zipcode }}
-        </p>
-        <p>
-          Phone: <a :href="`tel:${company.phone}`">{{ company.phone }}</a> <br>
-          Email: <a :href="`mailto:${company.email}`">{{ company.email }}</a> <br>
+    <!-- Basic Company Information -->
+    <div>
+      <h2>{{ company.name }}</h2>
+      <address v-if="company.city">
+        {{ company.street }} <br>
+        {{ company.city }}, {{ company.state }} {{ company.zipcode }}
+      </address>
+      <p col start>
+        <span>
+          Phone: <a :href="`tel:${company.phone}`">{{ company.phone }}</a>
+        </span>
+        <span>
+          Email: <a :href="`mailto:${company.email}`">{{ company.email }}</a>
+        </span>
+        <span>
           Contact Name: {{ company.contactName }}
-        </p>
+        </span>
+      </p>
+    </div>
+
+    <hr>
+
+    <!-- Commpany Details -->
+    <div>
+
+      <!-- Company description -->
+      <div>
+        <p>{{ company.description }}</p>
+      </div>
+
+      <div between wrap>
+
+        <!-- Hours -->
+        <div box>
+          <h3>Office Hours</h3>
+          <div sub>
+            <div v-if="company.hours">
+              <p>
+                Monday {{ company.hours.monday.start }} - {{ company.hours.monday.end }} <br>
+                Tuesday {{ company.hours.tuesday.start }} - {{ company.hours.tuesday.end }} <br>
+                Wednesday {{ company.hours.wednesday.start }} - {{ company.hours.wednesday.end }} <br>
+                Thursday {{ company.hours.thursday.start }} - {{ company.hours.thursday.end }} <br>
+                Friday {{ company.hours.friday.start }} - {{ company.hours.friday.end }} <br>
+                Saturday {{ company.hours.saturday.start }} - {{ company.hours.saturday.end }} <br>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Remarks -->
+        <div box>
+          <h3>Remarks</h3>
+          <div sub>
+            <p>{{ company.remarks }}</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Delivery and Cutting -->
+      <div between wrap>
+
+        <!-- Delivery -->
+        <div box v-if="company.delivery">
+          <h3>Delivery Services</h3>
+          <div sub>
+            <p v-if="company.delivery.offered">
+              Base Delivery Fee: ${{ company.delivery.fee }} <br>
+              Price per mile: ${{ company.delivery.price }} <br>
+              Max Delivery Distance: {{ company.delivery.maxDistance }} miles <br>
+              Max Delivery Length: {{ company.delivery.maxLength }}' <br>
+              Max Delivery Weigth: {{ company.delivery.maxWeight }} lbs
+            </p>
+            <p v-else>Does not offer delivery</p>
+          </div>
+        </div>
+
+        <!-- Cutting -->
+        <div box v-if="company.cut">
+          <h3>Cutting Services</h3>
+          <div sub>
+            <p v-if="company.cut.offered">
+              Price per cut: ${{ company.cut.price }}
+            </p>
+            <p v-else>Does not offer cutting services</p>
+          </div>
+        </div>
+
       </div>
 
       <hr>
 
-      <!-- Commpany Details -->
+      <!-- Material -->
       <div>
-
-        <!-- Company description -->
-        <div class="conatiner">
-          <div class="box">
-            <p>{{ company.description }}</p>
-          </div>
+        <h3>Listings</h3>
+          <MaterialPreview v-for="item in listings"
+                           :key="item._id"
+                           :item="item"
+                           :buying="true">
+          </MaterialPreview>
         </div>
-
-        <div class="container">
-
-          <!-- Hours -->
-          <div class="box">
-            <h3>Office Hours</h3>
-            <div class="sub">
-              <div v-if="company.hours">
-                <p>
-                  Monday {{ company.hours.monday.start }} - {{ company.hours.monday.end }} <br>
-                  Tuesday {{ company.hours.tuesday.start }} - {{ company.hours.tuesday.end }} <br>
-                  Wednesday {{ company.hours.wednesday.start }} - {{ company.hours.wednesday.end }} <br>
-                  Thursday {{ company.hours.thursday.start }} - {{ company.hours.thursday.end }} <br>
-                  Friday {{ company.hours.friday.start }} - {{ company.hours.friday.end }} <br>
-                  Saturday {{ company.hours.saturday.start }} - {{ company.hours.saturday.end }} <br>
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Remarks -->
-          <div class="box">
-            <h3>Remarks</h3>
-            <div class="sub">
-              <p>{{ company.remarks }}</p>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- Delivery and Cutting -->
-        <div class="container">
-
-          <!-- Delivery -->
-          <div class="box" v-if="company.delivery">
-            <h3>Delivery Services</h3>
-            <div class="sub">
-              <p v-if="company.delivery.offered">
-                Base Delivery Fee: ${{ company.delivery.fee }} <br>
-                Price per mile: ${{ company.delivery.price }} <br>
-                Max Delivery Distance: {{ company.delivery.maxDistance }} miles <br>
-                Max Delivery Length: {{ company.delivery.maxLength }}' <br>
-                Max Delivery Weigth: {{ company.delivery.maxWeight }} lbs
-              </p>
-              <p v-else>Does not offer delivery</p>
-            </div>
-          </div>
-
-          <!-- Cutting -->
-          <div class="box" v-if="company.cut">
-            <h3>Cutting Services</h3>
-            <div class="sub">
-              <p v-if="company.cut.offered">
-                Price per cut: ${{ company.cut.price }}
-              </p>
-              <p v-else>Does not offer cutting services</p>
-            </div>
-          </div>
-
-        </div>
-
-        <hr>
-
-        <!-- Material -->
-        <div>
-          <h3>Listings</h3>
-          <div v-for="item in listings" @click="viewDetails(item)">
-            <MaterialPreview :item="item"
-                             :buying="true"
-                             class="item">
-            </MaterialPreview>
-          </div>
-        </div>
-
       </div>
 
     </div>
@@ -154,61 +154,18 @@ export default {
     })
     .catch(() => {
     })
-  },
-  methods: {
-    viewDetails (item) {
-      this.$router.push({
-        path: '/listing',
-        query: {
-          buying: true,
-          id: item._id
-        }
-      })
-    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-  @import '@/assets/scss/variables.scss';
 
-  #company {
-    padding: 10px;
-    max-width: 800px;
-    margin: auto;
-  }
-
-  .back {
-    cursor: pointer;
-    color: royalblue;
+  [main] {
+    max-width: 700px;
   }
 
   h2 {
-    font-style: italic;
     text-decoration: underline;
     margin-bottom: 0;
-
-  }
-
-  p {
-    margin-top: 5px;
-  }
-
-  .container {
-    display: flex;
-    flex-wrap: wrap;
-  }
-
-  .box {
-    min-width: 300px;
-    flex: 1;
-  }
-
-  .sub {
-    margin-left: 10%;
-  }
-
-  .item {
-    cursor: pointer;
   }
 </style>

@@ -1,103 +1,120 @@
 <template>
-  <div id="cart-seller">
+  <div>
 
     <hr>
 
-    <h3 class="heading">
+    <h2>
       Order With
       <router-link :to="{ name: 'Company', query: { id: order.seller._id } }">
         {{ order.seller.name }}
       </router-link>
-    </h3>
+    </h2>
 
     <!-- Items ordered from seller -->
-    <div class="cart-items">
-
-      <div v-for="item in order.order" :key="item._id" @click="editItem(item)" class="cart-item">
-
-        <CartItem :item="item">
-        </CartItem>
-
-      </div>
-
+    <div>
+      <MaterialPreview v-for="item in order.order"
+                       :key="item._id"
+                       :item="item.material"
+                       :order="item"
+                       :cartId="order._id"
+                       :cartItem="true"
+                       :transaction="true">
+      </MaterialPreview>
     </div>
+
+    <br>
 
     <!-- Add more material from seller -->
-    <div class="add-material">
+    <section col>
       <p>Add more material for this shipment</p>
       <button @click="addMaterial">Add Material</button>
-    </div>
+    </section>
+
+    <br>
 
     <!-- Delivery -->
-    <div class="form-section">
-      <div class="label">
-        <label>Delivery?</label>
-      </div>
-      <div class="input">
-        <select v-if="order.seller.delivery.offered && this.deliveryWeightExceeded === false" v-model="delivery.selected" @change="updateDelivery">
-          <option :value="undefined" disabled selected>Pickup/Delivery</option>
-          <option :value="false">Pickup</option>
-          <option :value="true">Delivery (${{ order.seller.delivery.price }}/mile)</option>
-        </select>
-        <select v-else>
-          <option selected disabled>Pickup Only</option>
-        </select>
-      </div>
+    <div col end>
+      <label between align>
+        Delivery?
+        <div>
+          <select v-if="order.seller.delivery.offered && this.deliveryWeightExceeded === false" v-model="delivery.selected" @change="updateDelivery">
+            <option :value="undefined" disabled selected>Pickup/Delivery</option>
+            <option :value="false">Pickup</option>
+            <option :value="true">Delivery (${{ order.seller.delivery.price }}/mile)</option>
+          </select>
+          <select v-else>
+            <option selected disabled>Pickup Only</option>
+          </select>
+        </div>
+      </label>
     </div>
 
     <!-- Address Invalid Alert -->
-    <div v-if="addressInvalid" class="alert">
+    <div errors v-if="addressInvalid">
       <p>Please enter a valid address for your company's profile before requesting delivery</p>
     </div>
 
     <!-- Max Delivery Weight Exceeded Alert -->
-    <div v-if="deliveryWeightExceeded" class="alert">
+    <div errors v-if="deliveryWeightExceeded">
       <p>This order exceeds the seller's maximum delivery weight of {{ order.seller.delivery.maxWeight }} lbs</p>
     </div>
 
     <!-- Distance Away -->
-    <div class="price-div">
-      <div class="price-box">
-        <div class="item">
-          <p>Distance:</p>
-        </div>
-        <div class="price">
+    <dl col end fieldset>
+      <div row>
+        <dt>
+          Distance:
+        </dt>
+        <dd>
           <p v-if="order.delivery.distance">{{ order.delivery.distance.toFixed(2) }} miles</p>
-        </div>
+        </dd>
       </div>
-    </div>
+    </dl>
 
     <!-- Price Breakdown -->
-    <div class="price-div">
-      <div class="price-box">
-        <div class="item">
-          <p>Material: </p>
-        </div>
-        <div class="price">
-          <p>{{ materialPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}</p>
-        </div>
+    <dl col end fieldset>
+
+      <div row>
+        <dt>
+          Total Weight:
+        </dt>
+        <dd>
+          {{ totalWeight.toFixed(2) }} lbs
+        </dd>
       </div>
-      <div class="price-box">
-        <div class="item">
-          <p>Delivery: </p>
-        </div>
-        <div class="price">
-          <p>{{ totalDeliveryPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}</p>
-        </div>
+
+      <div row>
+        <dt>
+          Material:
+        </dt>
+        <dd>
+          {{ materialPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}
+        </dd>
       </div>
-      <div class="price-box">
-        <div class="item">
+
+      <div row>
+        <dt>
+          Delivery:
+        </dt>
+        <dd>
+          {{ totalDeliveryPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}
+        </dd>
+      </div>
+
+      <div row>
+        <dt>
           <h3>Total: </h3>
-        </div>
-        <div class="price">
+        </dt>
+        <dd>
           <h3>{{ totalPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}</h3>
-        </div>
+        </dd>
       </div>
-    </div>
+
+    </dl>
 
     <!-- Checkout Button -->
-    <div class="checkout">
-      <button class="checkout-btn" @click="checkout">Checkout with {{ order.seller.name }}</button>
+    <div col center>
+      <button green @click="checkout">Checkout with {{ order.seller.name }}</button>
     </div>
 
   </div>
@@ -105,11 +122,11 @@
 
 <script>
 import api from '@/api/api'
-import CartItem from '@/components/cart/CartItem'
+import MaterialPreview from '@/components/material/MaterialPreview'
 
 export default {
   components: {
-    CartItem
+    MaterialPreview
   },
   props: ['order'],
   data () {
@@ -139,27 +156,18 @@ export default {
         return 0
       }
     },
-    deliveryWeightExceeded () {
-      let totalWeight = 0
+    // total weight of entire order
+    totalWeight () {
+      let weight = 0
       this.order.order.forEach(item => {
-        let weight = parseFloat(item.material.weightPerFoot)
-        let feet = parseFloat(item.material.feet) || 0
-        let inches = parseFloat(item.material.inches) || 0
-        let numerator = parseFloat(item.material.numerator) || 0
-        let denominator = parseFloat(item.material.denominator) || 0
-
-        let fraction = (numerator > 0) ? (( numerator / denominator ) / 12) : 0
-        let inchesToFeet = (inches > 0) ? inches / 12 : 0
-        let length = feet + inchesToFeet + fraction
-
-        let quantity = parseFloat(item.quantity)
-        let orderWeight = weight * length * quantity
-
-        totalWeight = totalWeight + orderWeight
+        weight = weight + parseFloat(item.weight)
       })
-
+      return weight
+    },
+    // alerts the buyer that the seller will not be able to ship this order due to excessive weight
+    deliveryWeightExceeded () {
       if (this.order.seller.delivery.offered) {
-        if (totalWeight <= this.order.seller.delivery.maxWeight) {
+        if (this.totalWeight <= this.order.seller.delivery.maxWeight) {
           return false
         } else {
           return true
@@ -167,6 +175,16 @@ export default {
       } else {
         return false
       }
+    },
+    // alerts the buyer if any of the material order exceed the max length the seller can ship
+    deliveryLengthExceeded () {
+      let lengthExceeded = false
+      this.order.order.forEach(item => {
+        if (item.cuts.length > 0) {
+
+        }
+      })
+      return lengthExceeded
     },
     totalPrice () {
       if (this.delivery.selected) {
@@ -218,14 +236,23 @@ export default {
       }
     },
     checkout () {
-      this.$router.push({
-        name: 'Checkout',
-        query: {
-          id: this.order._id,
-          material: this.materialPrice,
-          delivery: this.totalDeliveryPrice,
-          total: this.totalPrice
-        }
+      this.$store.dispatch('loading')
+      api.axios.put(`${api.baseUrl}/cart/update-cart`, {
+        id: this.order._id,
+        weight: this.totalWeight,
+        materialPrice: this.materialPrice,
+        totalPrice: this.totalPrice
+      })
+      .then(() => {
+        this.$router.push({
+          name: 'Checkout',
+          query: {
+            id: this.order._id
+          }
+        })
+      })
+      .catch(() => {
+        this.$store.dispatch('complete')
       })
     }
   }
@@ -233,95 +260,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '@/assets/scss/variables.scss';
 
-  #cart-seller {
-    margin: 75px 0 125px 0;
-  }
-
-  .heading {
-    font-size: 22px;
-  }
-
-  .cart-items {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .cart-item {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    cursor: pointer;
-  }
-
-  .add-material {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 50px;
-  }
-
-  .form-section {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    margin-top: 50px;
-  }
-
-  .input {
-    margin-left: 20px;
-  }
-
-  .price-div {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    margin: 10px 5px 0 0;
-  }
-
-  .price-box {
-    display: flex;
-    justify-content: space-between;
-    width: 250px;
-  }
-
-  .item {
-    width: 150px;
-    text-align: right;
-  }
-
-  .checkout {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .checkout-btn {
-    background-color: $success;
-  }
-
-  .remove-btn {
-    background-color: $alert;
-  }
-
-  .alert {
-    color: $alert;
-    text-align: right;
-  }
-
-  h3 {
+  h2, h3 {
     font-weight: bold;
-    margin: 10px 0 10px 0;
   }
 
-  b, p {
+  p {
     margin: 0;
-  }
-
-  a {
-    text-decoration: none;
-    color: royalblue;
   }
 </style>

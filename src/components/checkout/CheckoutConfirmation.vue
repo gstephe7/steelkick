@@ -1,204 +1,162 @@
 <template>
-  <div id="checkout-confirmation">
+  <div main>
 
-    <h2>Order Placed!</h2>
+    <h1>Order Placed!</h1>
 
     <p>An email has been sent to both you and the seller with details for this order.</p>
 
-    <h3>Order Confirmation</h3>
-
-    <div class="order">
+    <h2>Order Confirmation</h2>
 
       <!-- Seller Info -->
-      <div class="seller-div">
+      <dl>
 
-        <div class="seller-container">
-          <div class="seller-key">
-            <p>Seller:</p>
-          </div>
-          <div class="seller-value">
-            <p>{{ item.seller.name }}</p>
-          </div>
+        <div row start>
+          <dt>
+            Seller:
+          </dt>
+          <dd grow>
+            {{ order.seller.name }}
+          </dd>
         </div>
 
-        <div class="seller-container">
-          <div class="seller-key">
-            <p>Address:</p>
-          </div>
-          <div class="seller-value">
-            <p>{{ item.seller.street }} {{ item.seller.city }}, {{ item.seller.state }} {{ item.seller.zipcode }}</p>
-          </div>
+        <div row>
+          <dt>
+            Address:
+          </dt>
+          <dd grow>
+            <address>
+              {{ order.seller.street }} {{ order.seller.city }}, {{ order.seller.state }} {{ order.seller.zipcode }}
+            </address>
+          </dd>
         </div>
 
-        <div class="seller-container">
-          <div class="seller-key">
-            <p>Contact:</p>
-          </div>
-          <div class="seller-value">
-            <p>{{ item.seller.contactName }}</p>
-          </div>
+        <div row>
+          <dt>
+            Contact:
+          </dt>
+          <dd grow>
+            {{ order.seller.contactName }}
+          </dd>
         </div>
 
-        <div class="seller-container">
-          <div class="seller-key">
-            <p>Phone:</p>
-          </div>
-          <div class="seller-value">
-            <p>{{ item.seller.phone }}</p>
-          </div>
+        <div row>
+          <dt>
+            Phone:
+          </dt>
+          <dd grow>
+            {{ order.seller.phone }}
+          </dd>
         </div>
 
-        <div class="seller-container">
-          <div class="seller-key">
-            <p>Email:</p>
-          </div>
-          <div class="seller-value">
-            <p>{{ item.seller.email }}</p>
-          </div>
+        <div row>
+          <dt>
+            Email:
+          </dt>
+          <dd grow>
+            {{ order.seller.email }}
+          </dd>
         </div>
 
-        <div class="seller-container">
-          <div class="seller-key">
-            <p>Remarks:</p>
-          </div>
-          <div class="seller-value">
-            <p>{{ item.seller.remarks }}</p>
-          </div>
+        <div row>
+          <dt>
+            Remarks:
+          </dt>
+          <dd grow>
+            {{ order.seller.remarks }}
+          </dd>
         </div>
 
-      </div>
+      </dl>
 
       <!-- Items Ordered -->
-      <h3>Order Details</h3>
+      <h2>Order Details</h2>
 
-      <div class="items-ordered">
+      <MaterialPreview v-for="item in order.order"
+                       :key="item._id"
+                       :item="item.material"
+                       :order="item"
+                       :transaction="true">
+      </MaterialPreview>
 
-        <div v-for="order in item.order" :key="order._id" class="item">
-
-          <CartItem :item="order"></CartItem>
-
-        </div>
-
-      </div>
+      <br>
 
       <!-- Price Breakdown -->
-      <div class="price-div">
+      <dl col end>
 
-        <div class="price-container">
-          <div class="price-key">
-            <p>Material:</p>
-          </div>
-          <div class="price-value">
-            <p>{{ item.materialPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}</p>
-          </div>
+        <div row>
+          <dt>
+            Shipping Method:
+          </dt>
+          <dd>
+            <span v-if="order.delivery.selected">
+              Delivery
+            </span>
+            <span v-else>
+              Pickup
+            </span>
+          </dd>
         </div>
 
-        <div class="price-container">
-          <div class="price-key">
-            <p>Delivery:</p>
-          </div>
-          <div class="price-value">
-            <p>{{ item.delivery.price.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}</p>
-          </div>
+        <div row>
+          <dt>
+            Total Weight:
+          </dt>
+          <dd>
+            {{ order.weight.toFixed(2) }} lbs
+          </dd>
         </div>
 
-        <div class="price-container">
-          <div class="price-key">
-            <h3>Total:</h3>
-          </div>
-          <div class="price-value">
-            <h3>{{ item.totalPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}</h3>
-          </div>
+        <div row>
+          <dt>
+            Material:
+          </dt>
+          <dd>
+            {{ order.materialPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}
+          </dd>
         </div>
 
-      </div>
+        <div row v-if="order.delivery.selected">
+          <dt>
+            Delivery:
+          </dt>
+          <dd>
+            {{ order.delivery.totalPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}
+          </dd>
+        </div>
 
-    </div>
+        <div row>
+          <dt>
+            <h2>Total: </h2>
+          </dt>
+          <dd>
+            <h2>{{ order.totalPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}</h2>
+          </dd>
+        </div>
+
+      </dl>
 
   </div>
 </template>
 
 <script>
-import CartItem from '@/components/cart/CartItem'
+import MaterialPreview from '@/components/material/MaterialPreview'
 
 export default {
   components: {
-    CartItem
+    MaterialPreview
   },
   data () {
     return {
-      item: this.$route.params
+      order: this.$route.params
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-  @import '@/assets/scss/variables.scss';
 
-  #checkout-confirmation {
-    padding: 10px;
-    max-width: 800px;
-    margin: auto;
-  }
-
-  .order {
-    margin-top: 10px;
-  }
-
-  .seller-div {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .seller-container {
-    display: flex;
-    justify-content: space-between;
-    width: 300px;
-  }
-
-  .seller-key {
-    width: 75px;
-  }
-
-  .seller-value {
-    width: 225px;
-    word-wrap: break-word;
-  }
-
-  .items-ordered {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .item {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-  }
-
-  .price-div {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    margin: 50px 5px 0 0;
-  }
-
-  .price-container {
-    display: flex;
-    justify-content: space-between;
-    width: 250px;
-  }
-
-  .price-key {
-    width: 150px;
-    text-align: right;
-  }
-
-  h3 {
+  h2 {
     font-weight: bold;
-    margin: 20px 0 0 0;
   }
 
   p, em {

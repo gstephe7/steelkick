@@ -1,19 +1,18 @@
 <template>
-  <div id="transactions">
+  <div main>
 
-    <h3>Transaction History</h3>
+    <h1>Transaction History</h1>
 
-    <div class="transaction-list" v-if="transactions.length > 0">
+    <div v-if="transactions.length > 0">
 
-      <div class="transaction" v-for="item in transactions" :key="item._id" @click="viewTransaction(item)">
-
-        <TransactionEntry :item="item"></TransactionEntry>
-
-      </div>
+      <TransactionEntry v-for="item in transactions"
+                        :key="item._id"
+                        :item="item">
+      </TransactionEntry>
 
     </div>
 
-    <div v-else class="error">
+    <div v-else>
       <p>You don't have any transactions yet</p>
     </div>
 
@@ -47,46 +46,9 @@ export default {
     .catch(() => {
       this.$store.dispatch('complete')
     })
-  },
-  methods: {
-    viewTransaction (item) {
-      this.$router.push({
-        path: 'transaction-details',
-        query: {
-          order: item._id
-        }
-      })
-    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-  @import '@/assets/scss/variables.scss';
-
-  #transactions {
-    max-width: 800px;
-    margin: auto;
-    padding: 10px;
-  }
-
-  h3 {
-    text-align: center;
-  }
-
-  .transaction-list {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-width: 300px;
-  }
-
-  .transaction {
-    width: 100%;
-    cursor: pointer;
-  }
-
-  .error {
-    text-align: center;
-  }
 </style>
