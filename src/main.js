@@ -1,13 +1,22 @@
 import Vue from 'vue'
 import App from './App.vue'
+
+// import libraries
 import VueCookies from 'vue-cookies'
 import VueAnalytics from 'vue-analytics'
 import VueGtm from 'vue-gtm'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
+
+// import global components
+import Back from '@/components/app/nav/Back.vue'
+
+// import icons
 import {
   faBars,
   faTimes,
+  faEdit,
+  faTrashAlt,
   faDollarSign,
   faShippingFast,
   faPlusCircle,
@@ -23,7 +32,13 @@ import {
   faAngleDown,
   faSpinner,
   faEnvelope,
+  faSitemap,
+  faCreditCard
 } from '@fortawesome/free-solid-svg-icons'
+
+import {
+  faCalendarAlt
+} from '@fortawesome/free-regular-svg-icons'
 
 import {
   faFacebook,
@@ -33,6 +48,8 @@ import {
 library.add({
   faBars,
   faTimes,
+  faEdit,
+  faTrashAlt,
   faDollarSign,
   faShippingFast,
   faPlusCircle,
@@ -49,9 +66,14 @@ library.add({
   faSpinner,
   faEnvelope,
   faFacebook,
-  faLinkedin
+  faLinkedin,
+  faSitemap,
+  faCreditCard,
+  faCalendarAlt
 })
 
+// register components
+Vue.component('Back', Back)
 Vue.component('icon', FontAwesomeIcon)
 
 // Vue cookies
@@ -78,7 +100,7 @@ Vue.use(VueGtm, {
 Vue.config.productionTip = false
 
 new Vue({
-  router,
   store,
+  router,
   render: h => h(App),
 }).$mount('#app')

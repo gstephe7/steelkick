@@ -37,8 +37,8 @@
 
 <script>
 import api from '@/api/api'
-import ViewCompany from '@/components/dashboard/editProfile/ViewCompany'
-import EditCompany from '@/components/dashboard/editProfile/EditCompany'
+import ViewCompany from '@/components/app/marketplace/editProfile/ViewCompany'
+import EditCompany from '@/components/app/marketplace/editProfile/EditCompany'
 
 export default {
   components: {

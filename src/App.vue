@@ -1,21 +1,15 @@
 <template>
   <div>
     <Loading v-if="$store.getters.loading"></Loading>
-    <Header></Header>
     <router-view></router-view>
-    <Footer></Footer>
   </div>
 </template>
 
 <script>
-import Header from '@/components/header/Header'
-import Footer from '@/components/footer/Footer'
-import Loading from '@/components/popups/Loading'
+import Loading from '@/components/app/popups/Loading'
 
 export default {
   components: {
-    Header,
-    Footer,
     Loading
   },
   methods: {
@@ -44,14 +38,16 @@ export default {
     },
   },
   beforeCreate () {
-    const token = this.$cookies.get('token')
-    if (token) {
-      this.$store.dispatch('login', {
-        user: token.user,
-        token: token.token
-      })
-    } else {
-      this.$store.dispatch('logout')
+    if (this.$store.getters.loggedIn == false) {
+      const token = this.$cookies.get('token')
+      if (token) {
+        this.$store.dispatch('login', {
+          user: token.user,
+          token: token.token
+        })
+      } else {
+        this.$store.dispatch('logout')
+      }
     }
   },
   mounted () {

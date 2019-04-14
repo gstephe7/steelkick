@@ -1,141 +1,138 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-//import route components
-import Home from '@/components/home/Home'
-import AdvancedSearch from '@/components/search/AdvancedSearch'
-import Listings from '@/components/listings/Listings'
-import MaterialDetails from '@/components/material/MaterialDetails'
-import Cart from '@/components/cart/Cart'
-import Checkout from '@/components/checkout/Checkout'
-import CheckoutConfirmation from '@/components/checkout/CheckoutConfirmation'
-import MaterialConfirmation from '@/components/material/MaterialConfirmation'
-import Dashboard from '@/components/dashboard/Dashboard'
-import DashboardHome from '@/components/dashboard/DashboardHome'
-import AddMaterial from '@/components/dashboard/AddMaterial'
-import Inventory from '@/components/dashboard/Inventory'
-import MaterialEdit from '@/components/material/MaterialEdit'
-import OrderPage from '@/components/orders/OrderPage'
-import OrderDetails from '@/components/orders/OrderDetails'
-import Transactions from '@/components/transactions/Transactions'
-import TransactionDetails from '@/components/transactions/TransactionDetails'
-import SetPrices from '@/components/dashboard/SetPrices'
-import ManageUsers from '@/components/dashboard/users/ManageUsers'
-import UserEdit from '@/components/dashboard/users/UserEdit'
-import NewUser from '@/components/dashboard/users/NewUser'
-import NewUserConfirmation from '@/components/dashboard/users/NewUserConfirmation'
-import EditProfile from '@/components/dashboard/editProfile/EditProfile'
-import Login from '@/components/login/Login'
-import LogoutConfirmation from '@/components/logout/LogoutConfirmation'
-import PasswordRecovery from '@/components/login/PasswordRecovery'
-import CreateAccountPage from '@/components/createAccount/CreateAccountPage'
-import PasswordRecoveryConfirmation from '@/components/login/PasswordRecoveryConfirmation'
-import PasswordReset from '@/components/login/PasswordReset'
-import Company from '@/components/company/Company'
-import Logo from '@/components/logo/LogoImg'
-import NotFound from '@/components/notFound/NotFound'
-import Contact from '@/components/contact/Contact'
-import ContactConfirmation from '@/components/contact/ContactConfirmation'
+// WEBSITE ROUTES
+import Website from '@/components/website/App'
+import Home from '@/components/website/home/Home'
+import Login from '@/components/website/login/Login'
+import LogoutConfirmation from '@/components/website/logout/LogoutConfirmation'
+import PasswordRecovery from '@/components/website/login/PasswordRecovery'
+import CreateAccountPage from '@/components/website/createAccount/CreateAccountPage'
+import PasswordRecoveryConfirmation from '@/components/website/login/PasswordRecoveryConfirmation'
+import PasswordReset from '@/components/website/login/PasswordReset'
+import Contact from '@/components/website/contact/Contact'
+import ContactConfirmation from '@/components/website/contact/ContactConfirmation'
 
-// import admin routes
+// APP ROUTES
+import App from '@/components/app/App'
+import Dashboard from '@/components/app/dashboard/Dashboard'
+
+// jobs
+import Jobs from '@/components/app/jobs/Jobs'
+import CreateJob from '@/components/app/jobs/CreateJob'
+import JobDetails from '@/components/app/jobs/JobDetails'
+import Sequences from '@/components/app/jobs/Sequences'
+import SequenceDetails from '@/components/app/jobs/SequenceDetails'
+
+// parts
+import CreatePart from '@/components/app/parts/CreatePart'
+
+// purchasing
+import Purchasing from '@/components/app/purchasing/Purchasing'
+
+// schedule
+import Schedule from '@/components/app/schedule/Schedule'
+
+// users
+import ManageUsers from '@/components/app/users/ManageUsers'
+import UserEdit from '@/components/app/users/UserEdit'
+import NewUser from '@/components/app/users/NewUser'
+import NewUserConfirmation from '@/components/app/users/NewUserConfirmation'
+
+// inventory
+import AddMaterial from '@/components/app/inventory/AddMaterial'
+import Inventory from '@/components/app/inventory/Inventory'
+import MaterialEdit from '@/components/app/inventory/MaterialEdit'
+import MaterialConfirmation from '@/components/app/inventory/MaterialConfirmation'
+
+// marketplace routes
+import Company from '@/components/app/marketplace/company/Company'
+import AdvancedSearch from '@/components/app/search/AdvancedSearch'
+import Listings from '@/components/app/marketplace/listings/Listings'
+import Cart from '@/components/app/marketplace/cart/Cart'
+import Checkout from '@/components/app/marketplace/checkout/Checkout'
+import CheckoutConfirmation from '@/components/app/marketplace/checkout/CheckoutConfirmation'
+import OrderPage from '@/components/app/marketplace/orders/OrderPage'
+import OrderDetails from '@/components/app/marketplace/orders/OrderDetails'
+import Transactions from '@/components/app/marketplace/transactions/Transactions'
+import TransactionDetails from '@/components/app/marketplace/transactions/TransactionDetails'
+import SetPrices from '@/components/app/marketplace/SetPrices'
+import EditProfile from '@/components/app/marketplace/editProfile/EditProfile'
+import MaterialDetails from '@/components/app/material/MaterialDetails'
+
+// admin routes
 import Admin from '@/components/admin/Admin'
 import AdminLogin from '@/components/admin/AdminLogin'
 import AdminHome from '@/components/admin/AdminHome'
 import CompanyEdit from '@/components/admin/components/companies/CompanyEdit'
 
-// landing pages
-import BetaSignUp from '@/components/landing/BetaSignUp'
+// misc routes
+import Logo from '@/components/logo/LogoImg'
+import NotFound from '@/components/notFound/NotFound'
 
 Vue.use(Router)
 
 const router = new Router({
   routes: [
+
+    // 404 page route
     {
       path: '*',
       component: NotFound
     },
+
+    // app
     {
       path: '/',
-      name: 'Home',
-      component: Home
-    },
-    {
-      path: '/search',
-      name: 'Search',
-      component: AdvancedSearch
-    },
-    {
-      path: '/listings',
-      name: 'Listings',
-      component: Listings
-    },
-    {
-      path: '/listing',
-      name: 'Listing',
-      component: MaterialDetails
-    },
-    {
-      path: '/material',
-      name: 'MaterialDetails',
-      component: MaterialDetails
-    },
-    {
-      path: '/login',
-      name: 'Login',
-      component: Login
-    },
-    {
-      path: '/logout',
-      name: 'Logout',
-      component: LogoutConfirmation
-    },
-    {
-      path: '/password-recovery',
-      name: 'PasswordRecovery',
-      component: PasswordRecovery
-    },
-    {
-      path: '/password-recovery-confirmation',
-      name: 'PasswordRecoveryConfirmation',
-      component: PasswordRecoveryConfirmation
-    },
-    {
-      path: '/reset-password',
-      name: 'PasswordReset',
-      component: PasswordReset
-    },
-    {
-      path: '/create-account',
-      name: 'CreateAccount',
-      component: CreateAccountPage
-    },
-    {
-      path: '/company',
-      name: 'Company',
-      component: Company
-    },
-    {
-      path: '/contact',
-      name: 'Contact',
-      component: Contact
-    },
-    {
-      path: '/contact-confirmation',
-      name: 'ContactConfirmation',
-      component: ContactConfirmation
-    },
-    {
-      path: '/dashboard',
-      name: 'Dashboard',
-      component: Dashboard,
+      component: App,
       meta: {
         requiresAuth: true
       },
       children: [
         {
-          path: 'home',
-          name: 'DashboardHome',
-          component: DashboardHome
+          path: '',
+          name: 'Dashboard',
+          component: Dashboard
+        },
+        {
+          path: 'jobs',
+          name: 'Jobs',
+          component: Jobs
+        },
+        {
+          path: 'create-job',
+          name: 'CreateJob',
+          component: CreateJob
+        },
+        {
+          path: 'job-details',
+          name: 'JobDetails',
+          component: JobDetails
+        },
+        {
+          path: 'sequences',
+          name: 'Sequences',
+          component: Sequences
+        },
+        {
+          path: 'sequence-details',
+          name: 'SequenceDetails',
+          component: SequenceDetails
+        },
+        {
+          path: 'create-part',
+          name: 'CreatePart',
+          component: CreatePart
+        },
+        {
+          path: 'purchasing',
+          name: 'Purchasing',
+          component: Purchasing
+        },
+        {
+          path: 'schedule',
+          name: 'Schedule',
+          component: Schedule
         },
         {
           path: 'add-material',
@@ -224,11 +221,86 @@ const router = new Router({
         },
       ]
     },
+
+    // landing page and marketing
     {
-      path: '/signup',
-      name: 'BetaSignUp',
-      component: BetaSignUp
+      path: '/welcome',
+      component: Website,
+      children: [
+        {
+          path: '',
+          name: 'Home',
+          component: Home
+        },
+        {
+          path: '/search',
+          name: 'Search',
+          component: AdvancedSearch
+        },
+        {
+          path: '/listings',
+          name: 'Listings',
+          component: Listings
+        },
+        {
+          path: '/listing',
+          name: 'Listing',
+          component: MaterialDetails
+        },
+        {
+          path: '/material',
+          name: 'MaterialDetails',
+          component: MaterialDetails
+        },
+        {
+          path: '/login',
+          name: 'Login',
+          component: Login
+        },
+        {
+          path: '/logout',
+          name: 'Logout',
+          component: LogoutConfirmation
+        },
+        {
+          path: '/password-recovery',
+          name: 'PasswordRecovery',
+          component: PasswordRecovery
+        },
+        {
+          path: '/password-recovery-confirmation',
+          name: 'PasswordRecoveryConfirmation',
+          component: PasswordRecoveryConfirmation
+        },
+        {
+          path: '/reset-password',
+          name: 'PasswordReset',
+          component: PasswordReset
+        },
+        {
+          path: '/create-account',
+          name: 'CreateAccount',
+          component: CreateAccountPage
+        },
+        {
+          path: '/company',
+          name: 'Company',
+          component: Company
+        },
+        {
+          path: '/contact',
+          name: 'Contact',
+          component: Contact
+        },
+        {
+          path: '/contact-confirmation',
+          name: 'ContactConfirmation',
+          component: ContactConfirmation
+        }
+      ]
     },
+
+    // admin
     {
       path: '/admin-login',
       name: 'AdminLogin',
@@ -272,10 +344,7 @@ router.beforeEach((to, from, next) => {
       next()
     } else {
       next({
-        path: '/login',
-        query: {
-          redirect: to.fullPath
-        }
+        path: '/welcome'
       })
     }
   } else if (to.matched.some(record => record.meta.requiresAdmin)) {

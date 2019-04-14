@@ -28,7 +28,7 @@ export default new Vuex.Store({
     },
     logout (state) {
       state.auth = false
-      state.token = ''
+      state.token = null
       state.user = {}
       state.notifications = []
       state.addressValid = false

@@ -20,7 +20,7 @@ body {
 [main] {
   max-width: 800px;
   min-height: 400px;
-  padding: 25px 10px;
+  padding: 25px 10px 200px 10px;
   margin: auto;
 }
 
@@ -79,8 +79,22 @@ body {
   text-align: right;
 }
 
+[first] {
+  display: flex;
+  justify-content: flex-start;
+}
+
+[last] {
+  display: flex;
+  justify-content: flex-end;
+}
+
 [grow] {
   flex-grow: 1;
+}
+
+[basis] {
+  flex-basis: 100%;
 }
 
 [box] {
@@ -166,8 +180,6 @@ nav {
 
 aside {
   width: 320px;
-  box-shadow: $box-shadow;
-  border-radius: 5px;
   padding: 35px 5px;
 }
 
@@ -177,12 +189,11 @@ footer {
   justify-content: space-around;
   align-items: space-around;
   height: 300px;
-  margin-top: 100px;
   padding: 10px;
   text-align: center;
   background-color: $primary;
   color: $accent;
-  a, h3, small, hr {
+  a, h3, small {
     opacity: .5;
   }
   a {
@@ -388,11 +399,21 @@ dd {
 
 hr {
   margin: 15px 0;
+  opacity: .25;
 }
 
 svg[confirm] {
   font-size: 75px;
   color: $success;
+}
+
+svg[big] {
+  font-size: 100px;
+}
+
+svg[small] {
+  font-size: 25px;
+  margin: 5px;
 }
 
 
