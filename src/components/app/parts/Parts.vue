@@ -1,27 +1,22 @@
 <template>
   <div main>
 
-    <Back>Back to all sequences</Back>
+    <Back>Back to job</Back>
 
     <h1>{{ $route.query.jobName }}</h1>
 
     <hr>
 
-    <h2>Sequence {{ $route.query.sequenceNumber }}</h2>
+    <h2>Parts</h2>
 
     <div col>
-      <button green @click="createNewPart">+ Add New Part</button>
+      <button green @click="createNewPart">+ Create New Part</button>
     </div>
 
-    <br>
-
-    <!-- Parts for Sequence -->
-    <div>
-      <PartPreview v-for="part in parts"
-                   :key="part._id"
-                   :part="part">
-      </PartPreview>
-    </div>
+    <PartPreview v-for="part in parts"
+                 :key="part._id"
+                 :part="part">
+    </PartPreview>
 
   </div>
 </template>
@@ -36,7 +31,6 @@ export default {
   },
   data () {
     return {
-      sequence: {},
       parts: []
     }
   },
@@ -46,24 +40,24 @@ export default {
         name: 'CreatePart',
         query: {
           job: this.$route.query.job,
-          jobName: this.$route.query.jobName,
-          sequence: this.$route.query.sequence,
-          sequenceNumber: this.$route.query.sequenceNumber
+          jobName: this.$route.query.jobName
         }
       })
     }
   },
   beforeCreate () {
     this.$store.dispatch('loading')
-    api.axios.get(`${api.baseUrl}/jobs/sequence-details`, {
-      params: {
-        sequence: this.$route.query.sequence
+    api.axios.get(`${api.baseUrl}/jobs/parts`, {
+      query: {
+        job: this.$route.query.job
       }
     })
     .then(res => {
       this.$store.dispatch('complete')
-      this.sequence = res.data.sequence
       this.parts = res.data.parts
+    })
+    .catch(() => {
+      this.$store.dispatch('complete')
     })
   }
 }

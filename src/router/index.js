@@ -26,6 +26,8 @@ import SequenceDetails from '@/components/app/jobs/SequenceDetails'
 
 // parts
 import CreatePart from '@/components/app/parts/CreatePart'
+import Parts from '@/components/app/parts/Parts'
+import PartConfirmation from '@/components/app/parts/PartConfirmation'
 
 // purchasing
 import Purchasing from '@/components/app/purchasing/Purchasing'
@@ -123,6 +125,16 @@ const router = new Router({
           path: 'create-part',
           name: 'CreatePart',
           component: CreatePart
+        },
+        {
+          path: 'part-confirmation',
+          name: 'PartConfirmation',
+          component: PartConfirmation
+        },
+        {
+          path: 'parts',
+          name: 'Parts',
+          component: Parts
         },
         {
           path: 'purchasing',

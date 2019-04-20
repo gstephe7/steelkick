@@ -9,7 +9,7 @@
 
     <!-- Basic Info -->
     <div col start>
-      <span>Job ID: {{ job.jobId }}</span>
+      <span>Job ID: {{ job.number }}</span>
       <span>Customer: {{ job.customer }}</span>
     </div>
 
@@ -20,15 +20,10 @@
       <h3>Job Progress</h3>
 
       <!-- Progress Bar -->
-      <div col>
-        <span>
-          {{ progressPercent }}%
-        </span>
-        <div class="progress-container">
-          <div class="progress" :style="{ width: progressPercent + '%' }">
-          </div>
-        </div>
-      </div>
+      <ProgressBar :numerator="job.weightComplete"
+                   :denominator="job.weightTotal"
+                   col>
+      </ProgressBar>
 
       <br>
 
@@ -37,8 +32,8 @@
         <span>
           Weight Completed:
         </span>
-        <span v-if="job.weight">
-          {{ job.weightComplete }}lbs / {{ job.weight }}lbs
+        <span v-if="progress.weightTotal">
+          {{ progress.weightComplete.toFixed(2) }}lbs / {{ progress.weightTotal.toFixed(2) }}lbs
         </span>
         <span v-else>
           0lbs / 0lbs
@@ -50,8 +45,8 @@
         <span>
           Parts Completed:
         </span>
-        <span v-if="job.partsTotal">
-          {{ job.weightComplete }} / {{ job.weight }}
+        <span v-if="progress.partsTotal">
+          {{ progress.partsComplete }} / {{ progress.partsTotal }}
         </span>
         <span v-else>
           0 / 0
@@ -68,9 +63,15 @@
     <div around wrap>
 
       <!-- Parts -->
-      <section col center card click @click="$router.push({name: 'Sequences', query: {id: job._id}})">
+      <section col center card click @click="$router.push({name: 'Parts', query: {job: job._id, jobName: job.name}})">
+        <icon big class="red" icon="th"></icon>
+        <h2>Parts</h2>
+      </section>
+
+      <!-- Sequences -->
+      <section col center card click @click="$router.push({name: 'Sequences', query: {id: job._id, job: job.name}})">
         <icon big class="orange" icon="sitemap"></icon>
-        <h2>Parts/Sequences</h2>
+        <h2>Sequences</h2>
       </section>
 
       <!-- Nesting/Purchasing -->
@@ -81,7 +82,7 @@
 
       <!-- Scheduling -->
       <section col center card click @click="$router.push({name: 'Schedule', query: {id: job._id}})">
-        <icon big class="red" :icon="['far', 'calendar-alt']"></icon>
+        <icon big class="green" :icon="['far', 'calendar-alt']"></icon>
         <h2>Schedule</h2>
       </section>
 
@@ -112,21 +113,16 @@
 
 <script>
 import api from '@/api/api'
+import ProgressBar from '@/components/app/outputs/ProgressBar'
 
 export default {
+  components: {
+    ProgressBar
+  },
   data () {
     return {
-      job: {}
-    }
-  },
-  computed: {
-    progressPercent () {
-      if (this.job.weightComplete) {
-        let number = this.job.weightComplete / this.job.weight
-        return number * 100
-      } else {
-        return 0
-      }
+      job: {},
+      progress: {}
     }
   },
   beforeCreate () {
@@ -139,6 +135,7 @@ export default {
     .then(res => {
       this.$store.dispatch('complete')
       this.job = res.data.job
+      this.progress = res.data.progress
     })
   }
 }
@@ -150,18 +147,5 @@ export default {
   section {
     width: 230px;
     height: 230px;
-  }
-
-  .progress-container {
-    width: 280px;
-    height: 20px;
-    border-radius: 5px;
-    border: 1px solid $accent;
-  }
-
-  .progress {
-    background-color: $success;
-    height: inherit;
-    border-radius: 5px;
   }
 </style>

@@ -33,7 +33,8 @@ import {
   faSpinner,
   faEnvelope,
   faSitemap,
-  faCreditCard
+  faCreditCard,
+  faTh
 } from '@fortawesome/free-solid-svg-icons'
 
 import {
@@ -69,7 +70,8 @@ library.add({
   faLinkedin,
   faSitemap,
   faCreditCard,
-  faCalendarAlt
+  faCalendarAlt,
+  faTh
 })
 
 // register components

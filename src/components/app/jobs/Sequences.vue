@@ -3,27 +3,55 @@
 
     <Back>Back to job</Back>
 
-    <h1>{{ job.name }}</h1>
+    <h1>{{ $route.query.job }}</h1>
 
     <hr>
 
-    <div card click v-for="sequence in job.sequences" @click="viewSequence({ id: sequence._id, number: sequence.number })">
+    <div card click v-for="sequence in sequences" @click="viewSequence({ id: sequence._id, number: sequence.number })">
 
       <h2>Sequence {{ sequence.number }}</h2>
 
       <hr>
 
-      <!-- Parts -->
+      <!-- Sequence Summary -->
       <div>
-        <div v-if="sequence.parts.length > 0">
 
+        <ProgressBar :numerator="sequence.weightComplete"
+                     :denominator="sequence.weightTotal"
+                     col>
+        </ProgressBar>
+
+        <br>
+
+        <!-- Completed Weight -->
+        <div>
+          <span>
+            Weight Completed:
+          </span>
+          <span v-if="sequence.weightTotal">
+            {{ sequence.weightComplete.toFixed(2) }}lbs / {{ sequence.weightTotal.toFixed(2) }}lbs
+          </span>
+          <span v-else>
+            0lbs / 0lbs
+          </span>
         </div>
-        <div v-else>
-          <p>
-            No parts for this sequence yet
-          </p>
+
+        <!-- Completed Parts -->
+        <div>
+          <span>
+            Parts Completed:
+          </span>
+          <span v-if="sequence.partsTotal">
+            {{ sequence.partsComplete }} / {{ sequence.partsTotal }}
+          </span>
+          <span v-else>
+            0 / 0
+          </span>
         </div>
+
       </div>
+
+      <br>
 
       <div col>
         <em>
@@ -38,15 +66,15 @@
 
 <script>
 import api from '@/api/api'
-import PartsPreview from '@/components/app/parts/PartsPreview'
+import ProgressBar from '@/components/app/outputs/ProgressBar'
 
 export default {
   components: {
-    PartsPreview
+    ProgressBar
   },
   data () {
     return {
-      job: {}
+      sequences: []
     }
   },
   methods: {
@@ -54,8 +82,8 @@ export default {
       this.$router.push({
         name: 'SequenceDetails',
         query: {
-          job: this.job._id,
-          jobName: this.job.name,
+          job: this.$route.query.id,
+          jobName: this.$route.query.job,
           sequence: id,
           sequenceNumber: number
         }
@@ -71,7 +99,7 @@ export default {
     })
     .then(res => {
       this.$store.dispatch('complete')
-      this.job = res.data.job
+      this.sequences = res.data.sequences
     })
   }
 }
@@ -79,6 +107,6 @@ export default {
 
 <style lang="scss" scoped>
   [card] {
-    margin: 10px 0px;
+    margin: 20px 0px;
   }
 </style>

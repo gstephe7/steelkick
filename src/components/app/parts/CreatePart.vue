@@ -1,7 +1,7 @@
 <template>
   <div main>
 
-    <Back>Back to sequence</Back>
+    <Back>Back</Back>
 
     <h1>Create New Part</h1>
 
@@ -9,7 +9,6 @@
 
     <div col>
       <h2>{{ $route.query.jobName }}</h2>
-      <h3>Sequence {{ $route.query.sequenceNumber }}</h3>
     </div>
 
     <br>
@@ -21,6 +20,9 @@
         <div>
           <div row>
             <input v-model="part.pieceMark" placeholder="Piece Mark" :highlight="errors.pieceMark" class="autotab">
+            <input v-model="part.minorMark" placeholder="Minor Mark" class="autotab">
+          </div>
+          <div row>
             <select v-model="part.shape" class="autotab" @change="autoSetGrade" :highlight="errors.shape">
               <option disabled selected :value="undefined">
                 Shape
@@ -29,19 +31,16 @@
                 {{ shape }}
               </option>
             </select>
-          </div>
-          <div row>
             <select v-model="part.dimension" class="autotab" :highlight="errors.dimension">
               <option disabled selected :value="undefined">Dimension</option>
               <option v-for="dimension in dimensions" :value="dimension" :key="dimension">{{ dimension }}</option>
             </select>
-            <LengthInput v-model="part.length" :highlight="errors.length"></LengthInput>
           </div>
         </div>
 
         <div>
           <div row>
-            <input v-model.number="part.quantity" :placeholder="`Seq. ${this.$route.query.sequenceNumber} Quantity`" class="autotab">
+            <LengthInput v-model="part.length" :highlight="errors.length"></LengthInput>
             <select v-model="part.grade" class="autotab">
               <option selected disabled :value="undefined">
                 Grade
@@ -64,6 +63,27 @@
             </select>
           </div>
         </div>
+
+      </div>
+
+      <!-- Sequences -->
+      <div col>
+
+        <p>
+          Sequences
+          <ToolTip>
+            Add this part to different sequences within the job.
+          </ToolTip>
+        </p>
+
+        <div row v-for="(sequence, index) in sequences">
+          <select v-model="sequences[index].id" class="autotab" :highlight="sequences[index].error">
+            <option v-for="item in sequenceList" :value="item._id">Sequence {{ item.number }}</option>
+          </select>
+          <input v-model="sequences[index].quantity" placeholder="Quantity" class="autotab" :highlight="sequences[index].error">
+        </div>
+
+        <button type="button" @click="addSequence">+ Add to Another Seq.</button>
 
       </div>
 
@@ -113,6 +133,11 @@
         <p v-if="errors.length">
           Please enter a length for this part
         </p>
+        <span v-if="errors.repeat">
+          <p v-for="item in errors.messages">
+            {{ item }}
+          </p>
+        </span>
       </div>
 
     </form>
@@ -136,11 +161,15 @@ export default {
       part: {
         minorMembers: []
       },
+      sequences: [],
+      sequenceList: [],
       errors: {
         pieceMark: false,
         shape: false,
         dimension: false,
-        length: false
+        length: false,
+        repeat: false,
+        messages: []
       }
     }
   },
@@ -182,6 +211,14 @@ export default {
       if (this.part.shape === 'C' || this.part.shape === 'L' || this.part.shape === 'FB' || this.part.shape === 'RB' || this.part.shape === 'SB' || this.part.shape === 'MC' || this.part.shape === 'PL') {
         this.part.grade = 'A36'
       }
+    },
+    addSequence () {
+      let index = this.sequences.length
+      this.sequences.push({
+        id: this.sequenceList[index]._id,
+        number: this.sequenceList[index].number,
+        quantity: null
+      })
     },
     addMinorMember () {
       this.part.minorMembers.push({
@@ -246,15 +283,53 @@ export default {
         api.axios.post(`${api.baseUrl}/jobs/create-part`, {
           part: this.part,
           job: this.$route.query.job,
-          sequence: this.$route.query.sequence,
-          sequenceNumber: this.$route.query.sequenceNumber
+          sequences: this.sequences
         })
         .then(res => {
           this.$store.dispatch('complete')
-          console.log(res)
+          this.$router.push({
+            name: 'PartConfirmation',
+            query: {
+              job: this.$route.query.job,
+              jobName: this.$route.query.jobName,
+              new: true
+            }
+          })
+        })
+        .catch(err => {
+          this.$store.dispatch('complete')
+          this.errors.repeat = true
+          this.errors.messages = err.response.data.messages
+          err.response.data.sequences.forEach(item => {
+            this.sequences.forEach(value => {
+              if (item == value.id) {
+                value.error = true
+              }
+            })
+          })
         })
       }
     }
+  },
+  beforeCreate () {
+    this.$store.dispatch('loading')
+    api.axios.get(`${api.baseUrl}/jobs/sequences`, {
+      params: {
+        id: this.$route.query.job
+      }
+    })
+    .then(res => {
+      this.$store.dispatch('complete')
+      this.sequenceList = res.data.sequences
+      this.sequences.push({
+        id: res.data.sequences[0]._id,
+        number: res.data.sequences[0].number,
+        quantity: null
+      })
+    })
+    .catch(() => {
+      this.$store.dispatch('complete')
+    })
   }
 }
 </script>

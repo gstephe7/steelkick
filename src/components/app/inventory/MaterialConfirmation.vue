@@ -14,7 +14,7 @@
       View your inventory
     </router-link>
 
-    <router-link :to="{ name: 'DashboardHome' }">
+    <router-link :to="{ name: 'Dashboard' }">
       Return to the dashboard
     </router-link>
 

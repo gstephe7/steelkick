@@ -8,7 +8,7 @@
     <form col @submit.prevent="submit">
 
       <input big v-model="name" placeholder="Job Name" :highlight="errors.name">
-      <input big v-model="jobId" placeholder="Job ID">
+      <input big v-model="number" placeholder="Job ID #">
       <input big v-model="customer" placeholder="Customer">
       <input big v-model="sequences" placeholder="# of Sequences">
 
@@ -30,7 +30,7 @@ export default {
   data () {
     return {
       name: '',
-      jobId: '',
+      number: '',
       customer: '',
       sequences: null,
       errors: {
@@ -53,7 +53,7 @@ export default {
         api.axios.post(`${api.baseUrl}/jobs/create-job`, {
           company: this.$store.getters.companyId,
           name: this.name,
-          jobId: this.jobId,
+          number: this.number,
           customer: this.customer,
           sequences: this.sequences
         })
