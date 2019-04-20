@@ -1,7 +1,7 @@
 <template>
   <div main>
 
-    <Back>Back</Back>
+    <Back route="Parts">Back to all parts</Back>
 
     <h1>Create New Part</h1>
 
@@ -19,7 +19,7 @@
 
         <div>
           <div row>
-            <input v-model="part.pieceMark" placeholder="Piece Mark" :highlight="errors.pieceMark" class="autotab">
+            <input v-model="part.pieceMark" placeholder="Piece Mark" :highlight="errors.pieceMark" class="autotab" id="autofocus">
             <input v-model="part.minorMark" placeholder="Minor Mark" class="autotab">
           </div>
           <div row>
@@ -292,6 +292,7 @@ export default {
             query: {
               job: this.$route.query.job,
               jobName: this.$route.query.jobName,
+              sequence: this.sequences[0].id,
               new: true
             }
           })
@@ -321,15 +322,32 @@ export default {
     .then(res => {
       this.$store.dispatch('complete')
       this.sequenceList = res.data.sequences
-      this.sequences.push({
-        id: res.data.sequences[0]._id,
-        number: res.data.sequences[0].number,
-        quantity: null
-      })
+
+      if (this.$route.query.sequence) {
+        res.data.sequences.forEach(item => {
+          if (item._id == this.$route.query.sequence) {
+            this.sequences.push({
+              id: item._id,
+              number: item.number,
+              quantity: null
+            })
+          }
+        })
+      } else {
+        this.sequences.push({
+          id: res.data.sequences[0]._id,
+          number: res.data.sequences[0].number,
+          quantity: null
+        })
+      }
+
     })
     .catch(() => {
       this.$store.dispatch('complete')
     })
+  },
+  mounted () {
+    document.getElementById('autofocus').focus()
   }
 }
 </script>

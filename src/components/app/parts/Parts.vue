@@ -13,6 +13,8 @@
       <button green @click="createNewPart">+ Create New Part</button>
     </div>
 
+    <br>
+
     <PartPreview v-for="part in parts"
                  :key="part._id"
                  :part="part">
@@ -48,7 +50,7 @@ export default {
   beforeCreate () {
     this.$store.dispatch('loading')
     api.axios.get(`${api.baseUrl}/jobs/parts`, {
-      query: {
+      params: {
         job: this.$route.query.job
       }
     })

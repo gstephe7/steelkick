@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <span click @click="$router.back()">
+    <span click @click="navigate">
       &lt; <slot></slot>
     </span>
 
@@ -10,6 +10,22 @@
 
 <script>
 export default {
+  props: ['route'],
+  methods: {
+    navigate () {
+      if (this.route) {
+        this.$router.push({
+          name: this.route,
+          query: {
+            job: this.$route.query.job,
+            jobName: this.$route.query.jobName
+          }
+        })
+      } else {
+        this.$router.back()
+      }
+    }
+  }
 }
 </script>
 
