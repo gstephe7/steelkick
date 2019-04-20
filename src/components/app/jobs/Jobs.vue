@@ -13,7 +13,7 @@
 
       <div v-if="jobs.length > 0">
         <h2 click v-for="job in jobs">
-          <router-link :to="{ name: 'JobDetails', query: { id: job._id } }">
+          <router-link :to="{ name: 'JobDetails', query: { job: job._id } }">
             {{ job.name }}
           </router-link>
         </h2>

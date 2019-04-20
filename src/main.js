@@ -34,7 +34,8 @@ import {
   faEnvelope,
   faSitemap,
   faCreditCard,
-  faTh
+  faTh,
+  faSearch
 } from '@fortawesome/free-solid-svg-icons'
 
 import {
@@ -71,7 +72,8 @@ library.add({
   faSitemap,
   faCreditCard,
   faCalendarAlt,
-  faTh
+  faTh,
+  faSearch
 })
 
 // register components

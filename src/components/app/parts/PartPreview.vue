@@ -85,4 +85,8 @@ export default {
     font-size: 24px;
     margin: 0;
   }
+
+  [card] {
+    margin: 10px auto;
+  }
 </style>

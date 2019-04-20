@@ -33,7 +33,7 @@
           Weight Completed:
         </span>
         <span v-if="progress.weightTotal">
-          {{ progress.weightComplete.toFixed(2) }}lbs / {{ progress.weightTotal.toFixed(2) }}lbs
+          {{ progress.weightComplete.toLocaleString('en', { maximumFractionDigits: 0 }) }} lbs / {{ progress.weightTotal.toLocaleString('en', { maximumFractionDigits: 0 }) }} lbs
         </span>
         <span v-else>
           0lbs / 0lbs
@@ -46,7 +46,7 @@
           Parts Completed:
         </span>
         <span v-if="progress.partsTotal">
-          {{ progress.partsComplete }} / {{ progress.partsTotal }}
+          {{ progress.partsComplete.toLocaleString() }} / {{ progress.partsTotal.toLocaleString() }}
         </span>
         <span v-else>
           0 / 0
@@ -129,7 +129,7 @@ export default {
     this.$store.dispatch('loading')
     api.axios.get(`${api.baseUrl}/jobs/job-details`, {
       params: {
-        id: this.$route.query.id
+        id: this.$route.query.job
       }
     })
     .then(res => {
