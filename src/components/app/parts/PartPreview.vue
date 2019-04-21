@@ -31,10 +31,6 @@
 
     <hr>
 
-    <div>
-
-    </div>
-
   </div>
 </template>
 

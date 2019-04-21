@@ -1,5 +1,5 @@
 <template>
-  <div card col>
+  <div col>
 
     <h3>Filter Parts</h3>
 
@@ -21,7 +21,7 @@
           <option disabled selected :value="undefined">Sequence</option>
           <option v-for="sequence in sequences" :value="sequence._id">Sequence {{ sequence.number }}</option>
         </select>
-        <select v-model="filter.complete">
+        <select>
           <option disabled selected :value="undefined">Completed?</option>
           <option :value="true">Complete</option>
           <option :value="false">Incomplete</option>
@@ -31,7 +31,7 @@
     </div>
 
     <div col>
-      <button @click="submit">Filter</button>
+      <button @click="reset">Reset Filter</button>
     </div>
 
   </div>
@@ -42,9 +42,9 @@ import material from '@/assets/data/material.js'
 import api from '@/api/api'
 
 export default {
+  props: ['filter'],
   data () {
     return {
-      filter: {},
       sequences: []
     }
   },
@@ -71,19 +71,8 @@ export default {
     }
   },
   methods: {
-    submit () {
-      this.$router.push({
-        query: {
-          job: this.$route.query.job,
-          jobName: this.$route.query.jobName,
-          shape: this.filter.shape,
-          dimension: this.filter.dimension,
-          sequence: this.filter.sequence,
-          complete: this.filter.complete,
-          updated: true
-        }
-      })
-      location.reload(true)
+    reset () {
+      this.$emit('reset')
     }
   },
   beforeCreate () {
@@ -95,25 +84,6 @@ export default {
     .then(res => {
       this.sequences = res.data.sequences
     })
-  },
-  created () {
-    let _ = this.$route.query
-
-    if (_.shape) {
-      this.filter.shape = _.shape
-    }
-
-    if (_.dimension) {
-      this.filter.dimension = _.dimension
-    }
-
-    if (_.sequence) {
-      this.filter.sequence = _.sequence
-    }
-
-    if (_.complete) {
-      this.filter.complete = _.complete
-    }
   }
 }
 </script>

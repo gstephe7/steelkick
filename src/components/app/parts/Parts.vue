@@ -3,50 +3,72 @@
 
     <Back route="JobDetails">Back to job</Back>
 
-    <h1>{{ $route.query.jobName }}</h1>
+    <h1>
+      {{ $route.query.jobName }} <br>
+      Parts
+    </h1>
 
     <hr>
 
-    <div between align>
-      <h2>Parts</h2>
-
-      <div>
-        <button green @click="createNewPart">+ Create New Part</button>
-      </div>
-    </div>
-
     <br>
 
-    <!-- Search and Filter -->
-    <div>
+    <div row>
 
-      <PartFilter v-show="showFilter"></PartFilter>
+      <aside card class="desktop">
+        <PartFilter :filter="filter"
+                    v-on:reset="resetFilter">
+        </PartFilter>
+        <br>
+        <div row align class="search-bar">
+          <icon icon="search"></icon>
+          <input grow id="search-input" v-model="search" placeholder="Search for parts" autocomplete="off">
+        </div>
+      </aside>
 
-      <br>
+      <div grow id="part-div" v-if="loaded">
+        <div col>
+          <button green @click="createNewPart">
+            + Create New Part
+          </button>
+        </div>
 
-      <div col end>
-        <span class="royal" click @click="showFilter = !showFilter">
-          <icon v-if="showFilter" icon="angle-up"></icon>
-          <icon v-else icon="angle-down"></icon>
-          Filter Parts
-        </span>
-      </div>
+        <br>
 
-      <br>
+        <div class="mobile">
+          <PartFilter card
+                      v-show="showFilter"
+                      :filter="filter"
+                      v-on:reset="resetFilter">
+          </PartFilter>
+          <br>
+          <div col end>
+            <span class="royal" click @click="showFilter = !showFilter">
+              <icon v-if="showFilter" icon="angle-up"></icon>
+              <icon v-else icon="angle-down"></icon>
+              Filter Parts
+            </span>
+          </div>
+          <br>
+          <div row align class="search-bar">
+            <icon icon="search"></icon>
+            <input grow id="search-input" v-model="search" placeholder="Search for parts" autocomplete="off">
+          </div>
+          <br>
+        </div>
 
-      <div row align class="search-bar">
-        <icon icon="search"></icon>
-        <input grow id="search-input" v-model="search" placeholder="Search for parts">
+        <div v-if="searchedParts.length > 0">
+          <PartPreview v-for="part in searchedParts"
+                       :key="part._id"
+                       :part="part">
+          </PartPreview>
+        </div>
+
+        <div col v-else>
+          <p>No parts found</p>
+        </div>
       </div>
 
     </div>
-
-    <br>
-
-    <PartPreview v-for="part in filteredParts"
-                 :key="part._id"
-                 :part="part">
-    </PartPreview>
 
   </div>
 </template>
@@ -65,20 +87,41 @@ export default {
   data () {
     return {
       parts: [],
+      filter: {},
+      loaded: false,
       search: '',
       showFilter: this.$route.query.updated || false
     }
   },
   computed: {
     filteredParts () {
+      return this.parts.filter(this.filterParts)
+    },
+    searchedParts () {
       if (this.search) {
-        return this.parts.filter(part => part.pieceMark.match(new RegExp(this.search, 'i')))
+        return this.filteredParts.filter(part => part.pieceMark.match(new RegExp(this.search, 'i')))
       } else {
-        return this.parts
+        return this.filteredParts
       }
     }
   },
   methods: {
+    filterParts (part) {
+      let _ = this.filter
+      if (_.shape && _.shape != part.shape) {
+        return false
+      }
+      if (_.dimension && _.dimension != part.dimension) {
+        return false
+      }
+      if (_.sequence && _.sequence != part.sequence._id) {
+        return false
+      }
+      return true
+    },
+    resetFilter () {
+      this.filter = {}
+    },
     createNewPart () {
       this.$router.push({
         name: 'CreatePart',
@@ -103,6 +146,7 @@ export default {
     .then(res => {
       this.$store.dispatch('complete')
       this.parts = res.data.parts
+      this.loaded = true
     })
     .catch(() => {
       this.$store.dispatch('complete')
@@ -118,7 +162,35 @@ export default {
   @import '@/assets/scss/variables.scss';
 
   [main] {
-    max-width: 700px;
+    max-width: 1200px;
+  }
+
+  .desktop {
+    @media screen and (min-width: 1000px) {
+      display: block;
+    }
+    @media screen and (max-width: 999px) {
+      display: none;
+    }
+  }
+
+  .mobile {
+    @media screen and (min-width: 1000px) {
+      display: none;
+    }
+    @media screen and (max-width: 999px) {
+      display: block;
+    }
+  }
+
+  aside {
+    width: 300px;
+    margin-right: 10px;
+  }
+
+  #part-div {
+    max-width: 600px;
+    margin: 0 auto;
   }
 
   button[green] {
@@ -126,7 +198,7 @@ export default {
   }
 
   .search-bar {
-    max-width: 500px;
+    max-width: 260px;
     border: 1px solid $accent;
     border-radius: 20px;
     padding: 0px 10px;
