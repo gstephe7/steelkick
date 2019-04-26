@@ -357,6 +357,28 @@ textarea {
 
 
 
+// media queries
+.desktop {
+  @media screen and (min-width: 1000px) {
+    display: block;
+  }
+  @media screen and (max-width: 999px) {
+    display: none;
+  }
+}
+
+.mobile {
+  @media screen and (min-width: 1000px) {
+    display: none;
+  }
+  @media screen and (max-width: 999px) {
+    display: block;
+  }
+}
+
+
+
+
 // ELEMENTS
 h1 {
   text-align: center;

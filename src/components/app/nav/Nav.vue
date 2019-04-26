@@ -26,7 +26,7 @@
         <router-link :to="{ name: 'SetPrices' }">Marketplace</router-link>
       </li>
       <li>
-        <router-link :to="{ name: 'ManageUsers' }">Company Settings</router-link>
+        <router-link :to="{ name: 'Settings' }">Settings</router-link>
       </li>
     </ul>
   </nav>

@@ -62,6 +62,11 @@ import SetPrices from '@/components/app/marketplace/SetPrices'
 import EditProfile from '@/components/app/marketplace/editProfile/EditProfile'
 import MaterialDetails from '@/components/app/material/MaterialDetails'
 
+// company settings
+import Settings from '@/components/app/settings/Settings'
+import Workflow from '@/components/app/settings/workflow/Workflow'
+import WorkflowConfirmation from '@/components/app/settings/workflow/WorkflowConfirmation'
+
 // admin routes
 import Admin from '@/components/admin/Admin'
 import AdminLogin from '@/components/admin/AdminLogin'
@@ -231,6 +236,21 @@ const router = new Router({
           name: 'CheckoutConfirmation',
           component: CheckoutConfirmation
         },
+        {
+          path: 'settings',
+          name: 'Settings',
+          component: Settings
+        },
+        {
+          path: 'workflow',
+          name: 'Workflow',
+          component: Workflow
+        },
+        {
+          path: 'workflow-confirmation',
+          name: 'WorkflowConfirmation',
+          component: WorkflowConfirmation
+        }
       ]
     },
 

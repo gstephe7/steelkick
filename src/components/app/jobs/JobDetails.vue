@@ -60,11 +60,11 @@
     <br>
 
     <!-- Menu -->
-    <div around wrap>
+    <div center wrap>
 
       <!-- Parts -->
       <section col center card click @click="$router.push({name: 'Parts', query: {job: job._id, jobName: job.name}})">
-        <icon big class="red" icon="th"></icon>
+        <icon big class="red" icon="cubes"></icon>
         <h2>Parts</h2>
       </section>
 

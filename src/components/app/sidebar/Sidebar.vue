@@ -31,7 +31,7 @@ export default {
 
   #logo {
     display: flex;
-    padding: 5px 10px;
+    margin: 10px;
   }
 
   aside {
