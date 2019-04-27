@@ -14,7 +14,10 @@
 </template>
 
 <script>
+import method from '@/global/methods'
+
 export default {
+  props: ['edit'],
   data () {
     return {
       feet: null,
@@ -32,6 +35,14 @@ export default {
       let length = feetToInches + inches + fraction
 
       this.$emit('input', length)
+    }
+  },
+  created () {
+    if (this.edit) {
+      this.feet = method.getFeet(this.edit)
+      this.inches = method.getInches(this.edit)
+      this.numerator = method.getNumerator(this.edit)
+      this.denominator = method.getDenominator(this.edit)
     }
   }
 }

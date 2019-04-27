@@ -57,10 +57,12 @@
         </div>
 
         <div v-if="searchedParts.length > 0">
-          <PartPreview v-for="part in searchedParts"
-                       :key="part._id"
-                       :part="part">
-          </PartPreview>
+          <div v-for="part in searchedParts" @click="viewPart(part._id)">
+            <PartPreview :key="part._id"
+                         :part="part"
+                         :workflow="workflow">
+            </PartPreview>
+          </div>
         </div>
 
         <div col v-else>
@@ -88,6 +90,7 @@ export default {
     return {
       parts: [],
       filter: {},
+      workflow: [],
       loaded: false,
       search: '',
       showFilter: this.$route.query.updated || false
@@ -130,6 +133,16 @@ export default {
           jobName: this.$route.query.jobName
         }
       })
+    },
+    viewPart (id) {
+      this.$router.push({
+        name: 'PartDetails',
+        query: {
+          job: this.$route.query.job,
+          jobName: this.$route.query.jobName,
+          part: id
+        }
+      })
     }
   },
   beforeCreate () {
@@ -150,6 +163,16 @@ export default {
     })
     .catch(() => {
       this.$store.dispatch('complete')
+    })
+  },
+  created () {
+    api.axios.get(`${api.baseUrl}/users/workflow`, {
+      params: {
+        id: this.$store.getters.companyId
+      }
+    })
+    .then(res => {
+      this.workflow = res.data.workflow
     })
   },
   mounted () {

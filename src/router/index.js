@@ -28,6 +28,7 @@ import SequenceDetails from '@/components/app/jobs/SequenceDetails'
 import CreatePart from '@/components/app/parts/CreatePart'
 import Parts from '@/components/app/parts/Parts'
 import PartConfirmation from '@/components/app/parts/PartConfirmation'
+import PartDetails from '@/components/app/parts/PartDetails'
 
 // purchasing
 import Purchasing from '@/components/app/purchasing/Purchasing'
@@ -140,6 +141,11 @@ const router = new Router({
           path: 'parts',
           name: 'Parts',
           component: Parts
+        },
+        {
+          path: 'part-details',
+          name: 'PartDetails',
+          component: PartDetails
         },
         {
           path: 'purchasing',

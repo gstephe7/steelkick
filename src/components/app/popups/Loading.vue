@@ -28,6 +28,7 @@ export default {
     position: fixed;
     height: 100vh;
     width: 100vw;
+    z-index: 999;
     background-color: rgba(0,0,0,.8);
     display: flex;
     align-items: center;
