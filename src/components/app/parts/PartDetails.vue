@@ -7,7 +7,8 @@
 
     <div col class="title">
       <h1>
-        {{ part.pieceMark }}
+        <span v-if="part.minorMark">{{ part.minorMark }}</span>
+        <span v-else>{{ part.pieceMark }}</span>
       </h1>
       <h2>
         {{ $route.query.jobName }}
@@ -69,7 +70,8 @@
       <section grow box card>
         <div between align>
           <h2>Minor Members</h2>
-          <icon click small icon="edit" class="blue"></icon>
+          <icon click small icon="edit" class="blue" @click="editingMembers = !editingMembers">
+          </icon>
         </div>
         <hr>
         <div v-if="part.minorMembers.length > 0">
@@ -79,7 +81,7 @@
             </span>
             &nbsp;
             <span>
-              {{ member.pieceMark }}
+              {{ member.minorMark }}
             </span>
           </div>
         </div>
@@ -87,6 +89,8 @@
           <p>None associated with this part</p>
         </div>
         <br>
+        <EditMembers v-if="editingMembers" :part="part" @close="editingMembers = false">
+        </EditMembers>
       </section>
 
     </div>
@@ -94,16 +98,21 @@
     <!-- Progress -->
     <div row>
       <section grow card>
-        <h2>Part Progress</h2>
+        <div between align>
+          <h2>Part Progress</h2>
+          <icon click small icon="edit" class="blue" @click="editingProgress = !editingProgress">
+          </icon>
+        </div>
         <hr>
         <div wrap center>
           <PartProgress v-for="action in progress"
                         :action="action"
-                        :details="true"
-                        click>
+                        :details="true">
           </PartProgress>
         </div>
       </section>
+      <EditProgress v-if="editingProgress" :progress="progress" :part="part" @close="editingProgress = false">
+      </EditProgress>
     </div>
 
     <!-- Actions -->
@@ -123,15 +132,24 @@ import api from '@/api/api'
 import method from '@/global/methods'
 import PartProgress from './PartProgress'
 import EditPart from './EditPart'
+import EditMembers from './EditMembers'
+import EditProgress from './EditProgress'
 
 export default {
-  components: { PartProgress, EditPart },
+  components: {
+    PartProgress,
+    EditPart,
+    EditMembers,
+    EditProgress
+  },
   data () {
     return {
       part: {},
       workflow: [],
       loaded: false,
-      editingPart: false
+      editingPart: false,
+      editingMembers: false,
+      editingProgress: false
     }
   },
   computed: {
@@ -187,7 +205,7 @@ export default {
   },
   methods: {
     viewMinorMember (id) {
-      this.$route.push({
+      this.$router.push({
         name: 'PartDetails',
         query: {
           part: id,
@@ -195,6 +213,7 @@ export default {
           jobName: this.$route.query.jobName
         }
       })
+      location.reload(true)
     }
   }
 }
@@ -207,6 +226,10 @@ export default {
     h1, h2, h3 {
       margin: 0;
     }
+  }
+
+  dd {
+    flex: 1;
   }
 
   .minor-member {

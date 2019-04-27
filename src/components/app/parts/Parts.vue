@@ -102,13 +102,33 @@ export default {
     },
     searchedParts () {
       if (this.search) {
-        return this.filteredParts.filter(part => part.pieceMark.match(new RegExp(this.search, 'i')))
+        return this.filteredParts.filter(this.searchParts)
       } else {
         return this.filteredParts
       }
     }
   },
   methods: {
+    searchParts (part) {
+      if (part.pieceMark && part.minorMark) {
+        let pieceMarkMatch = part.pieceMark.match(new RegExp(this.search, 'i'))
+        let minorMarkMatch = part.minorMark.match(new RegExp(this.search, 'i'))
+
+        if (pieceMarkMatch && minorMarkMatch) {
+          return true
+        } else {
+          return false
+        }
+      }
+
+      else if (!part.minorMark) {
+        return part.pieceMark.match(new RegExp(this.search, 'i'))
+      }
+
+      else {
+        return part.minorMark.match(new RegExp(this.search, 'i'))
+      }
+    },
     filterParts (part) {
       let _ = this.filter
       if (_.shape && _.shape != part.shape) {

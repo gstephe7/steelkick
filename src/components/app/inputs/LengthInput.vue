@@ -39,10 +39,10 @@ export default {
   },
   created () {
     if (this.edit) {
-      this.feet = method.getFeet(this.edit)
-      this.inches = method.getInches(this.edit)
-      this.numerator = method.getNumerator(this.edit)
-      this.denominator = method.getDenominator(this.edit)
+      this.feet = method.getFeet(this.edit.length)
+      this.inches = method.getInches(this.edit.length)
+      this.numerator = method.getNumerator(this.edit.length)
+      this.denominator = method.getDenominator(this.edit.length)
     }
   }
 }

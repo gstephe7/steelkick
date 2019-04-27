@@ -6,7 +6,7 @@
       <div>
         <div row>
           <input v-model="part.pieceMark" placeholder="Piece Mark" :highlight="errors.pieceMark" class="autotab" id="autofocus">
-          <input v-model="part.minorMark" placeholder="Minor Mark" class="autotab">
+          <input v-model="part.minorMark" placeholder="Minor Mark" :highlight="errors.pieceMark" class="autotab">
         </div>
         <div row>
           <select v-model="part.shape" class="autotab" @change="autoSetGrade" :highlight="errors.shape">
@@ -26,7 +26,7 @@
 
       <div>
         <div row>
-          <LengthInput v-model="part.length" :edit="edit.length" :highlight="errors.length"></LengthInput>
+          <LengthInput v-model="part.length" :edit="edit" :highlight="errors.length"></LengthInput>
           <select v-model="part.grade" class="autotab">
             <option selected disabled :value="undefined">
               Grade
@@ -102,7 +102,7 @@
         <br>
         <icon small click class="red" icon="trash-alt" @click="removeMinorMember(index)"></icon>
         <input tiny v-model.number="member.quantity" placeholder="Quant">
-        <input small v-model="member.pieceMark" placeholder="Piece Mark">
+        <input small v-model="member.minorMark" placeholder="Minor Mark">
       </div>
 
     </div>
@@ -127,7 +127,7 @@
 
     <div errors>
       <p v-if="errors.pieceMark">
-        Please enter a piece mark for this part
+        Please enter a piece mark or minor mark for this part
       </p>
       <p v-if="errors.shape">
         Please enter a shape for this part
@@ -227,7 +227,7 @@ export default {
     addMinorMember () {
       this.part.minorMembers.push({
         quantity: null,
-        pieceMark: ''
+        minorMark: ''
       })
     },
     removeMinorMember (index) {
@@ -236,6 +236,10 @@ export default {
     autoCompleteForm () {
       if (!this.part.quantity) {
         this.part.quantity = 1
+      }
+
+      if (!this.part.minorMark) {
+        this.part.minorMark = this.part.pieceMark
       }
 
       let weightPerFoot = null
@@ -256,7 +260,7 @@ export default {
     checkForm () {
       this.autoCompleteForm()
 
-      if (!this.part.pieceMark) {
+      if (!this.part.pieceMark && !this.part.minorMark) {
         this.errors.pieceMark = true
       } else {
         this.errors.pieceMark = false

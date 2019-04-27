@@ -4,7 +4,7 @@
     <span v-if="details">
       <img :src="action.image"/>
     </span>
-    <span>
+    <span v-if="!edit">
       {{ action.completed }}/{{ action.total }}
     </span>
     <span>
@@ -15,7 +15,7 @@
 
 <script>
 export default {
-  props: ['action', 'details'],
+  props: ['action', 'details', 'edit'],
   computed: {
     percentComplete () {
       let percent = this.action.completed / this.action.total
@@ -24,7 +24,7 @@ export default {
     color () {
       if (this.percentComplete < 50 && this.percentComplete > 0) {
         return 'orange'
-      } else if (this.percentComplete > 50 && this.percentComplete < 100) {
+      } else if (this.percentComplete >= 50 && this.percentComplete < 100) {
         return 'yellow'
       } else if (this.percentComplete == 100) {
         return 'green'
@@ -64,6 +64,7 @@ export default {
     opacity: .3;
     position: absolute;
     left: 0;
+    transition: 500ms all;
   }
 
   .red {

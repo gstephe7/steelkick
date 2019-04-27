@@ -4,9 +4,19 @@
     <!-- Part Information -->
     <div>
       <div between>
-        <h3>
-          {{ part.pieceMark }}
-        </h3>
+        <div row>
+          <h3>
+            <span v-if="part.minorMark">
+              {{ part.minorMark }}
+            </span>
+            <span v-else>
+              {{ part.pieceMark }}
+            </span>
+          </h3>
+          <sup v-if="part.pieceMark">
+            {{ part.pieceMark }}
+          </sup>
+        </div>
 
         <span>
           Seq {{ part.sequence.number }}
@@ -91,5 +101,9 @@ export default {
 
   [card] {
     margin: 10px auto;
+  }
+
+  sup {
+    margin: 2px 5px;
   }
 </style>
