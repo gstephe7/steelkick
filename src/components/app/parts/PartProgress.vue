@@ -1,5 +1,5 @@
 <template>
-  <span col center class="progress-container" :class="{ details : details }">
+  <span col center class="progress-container" :class="{ details : details, edit : edit }">
     <span class="progress-bar" :style="{ width: percentComplete + '%' }" :class="color"></span>
     <span v-if="details">
       <img :src="action.image"/>
@@ -57,6 +57,10 @@ export default {
     img {
       width: 30px;
     }
+  }
+
+  .edit {
+    height: 60px;
   }
 
   .progress-bar {

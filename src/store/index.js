@@ -65,13 +65,13 @@ export default new Vuex.Store({
 
   actions: {
     login ({commit, dispatch}, payload) {
-      $cookies.set('token', payload, '14d')
+      $cookies.set('sk-user', payload, '14d')
       commit('login', payload)
       dispatch('getNotifications')
       dispatch('validateAddress')
     },
     logout ({commit}) {
-      $cookies.remove('token')
+      $cookies.remove('sk-user')
       commit('logout')
     },
     loading ({commit}) {
@@ -131,6 +131,49 @@ export default new Vuex.Store({
     adminLogout ({commit}) {
       $cookies.remove('adminToken')
       commit('adminLogout')
+    },
+    action ({getters}, payload) {
+      let date = new Date()
+      let year = date.getFullYear()
+      let month = date.getMonth() + 1
+      let day = date.getDate()
+      let hour = date.getHours()
+      let minute = date.getMinutes()
+
+      function time () {
+        if (hour > 12) {
+          return `${hour - 12}:${minute}pm`
+        } else if (hour == 0) {
+          return `12:${minute}am`
+        } else if (hour == 12) {
+          return `12:${minute}pm`
+        } else {
+          return `${hour}:${minute}am`
+        }
+      }
+
+      function nowDate () {
+        return `${month}/${day}/${year}`
+      }
+
+      api.axios.post(`${api.baseUrl}/actions/new-action`, {
+        action: {
+          company: getters.companyId,
+          user: getters.userId,
+          job: payload.job || null,
+          sequence: payload.sequence || null,
+          part: payload.part || null,
+          material: payload.material || null,
+          action: payload.action,
+          description: payload.description,
+          quantity: payload.quantity,
+          date: nowDate(),
+          time: time()
+        }
+      })
+      .then(res => {
+        console.log(res)
+      })
     }
   },
 
@@ -145,7 +188,7 @@ export default new Vuex.Store({
       return state.user.companyId
     },
     userId: (state) => {
-      return state.user.id
+      return state.user._id
     },
     loading: (state) => {
       return state.loading

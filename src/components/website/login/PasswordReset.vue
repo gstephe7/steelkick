@@ -52,7 +52,7 @@ export default {
         })
         .then(() => {
           this.$store.dispatch('complete')
-          this.$router.push({ name: 'DashboardHome' })
+          this.$router.push({ name: 'Login' })
         })
         .catch(() => {
           this.$store.dispatch('complete')

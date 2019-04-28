@@ -39,7 +39,7 @@ export default {
   },
   beforeCreate () {
     if (this.$store.getters.loggedIn == false) {
-      const token = this.$cookies.get('token')
+      const token = this.$cookies.get('sk-user')
       if (token) {
         this.$store.dispatch('login', {
           user: token.user,

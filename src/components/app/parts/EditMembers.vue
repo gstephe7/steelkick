@@ -1,6 +1,6 @@
 <template>
-  <div col center modal>
-    <div card class="modal-box">
+  <div align center modal>
+    <div basis card class="modal-box">
 
       <div between align>
         <h2>Edit Minor Members</h2>
@@ -86,6 +86,7 @@ export default {
   .modal-box {
     min-width: 290px;
     max-width: 500px;
+    max-height: 500px;
     background-color: white;
     margin: 5px;
     overflow-y: scroll;

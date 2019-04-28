@@ -377,7 +377,7 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    const token = $cookies.get('token')
+    const token = $cookies.get('sk-user')
     if (token) {
       next()
     } else {

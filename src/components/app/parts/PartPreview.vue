@@ -47,6 +47,7 @@
     <!-- Part Progress -->
     <div wrap>
       <PartProgress v-for="action in progress"
+                    :key="action.action"
                     :action="action">
       </PartProgress>
     </div>

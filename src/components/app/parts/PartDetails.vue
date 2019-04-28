@@ -106,6 +106,7 @@
         <hr>
         <div wrap center>
           <PartProgress v-for="action in progress"
+                        :key="action.action"
                         :action="action"
                         :details="true">
           </PartProgress>

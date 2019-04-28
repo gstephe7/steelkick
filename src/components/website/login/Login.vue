@@ -83,12 +83,7 @@ export default {
             } else if (res.status === 200) {
               this.$store.dispatch('login', {
                 token: res.data.token,
-                user: {
-                  id: res.data.user._id,
-                  admin: res.data.user.admin,
-                  company: res.data.user.company.name,
-                  companyId: res.data.user.companyId
-                }
+                user: res.data.user
               })
               this.$router.push({
                 name: 'Dashboard'

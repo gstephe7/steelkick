@@ -76,7 +76,6 @@
 </template>
 
 <script>
-import material from '@/assets/data/material.js'
 import api from '@/api/api'
 import PartFilter from '@/components/app/parts/PartFilter'
 import PartPreview from '@/components/app/parts/PartPreview'
