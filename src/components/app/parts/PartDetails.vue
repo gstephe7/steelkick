@@ -121,7 +121,11 @@
       <section grow card>
         <h2>Action Feed</h2>
         <hr>
-
+        <Action v-for="action in actions"
+                :key="action._id"
+                :action="action"
+                :part="part">
+        </Action>
       </section>
     </div>
 
@@ -135,18 +139,21 @@ import PartProgress from './PartProgress'
 import EditPart from './EditPart'
 import EditMembers from './EditMembers'
 import EditProgress from './EditProgress'
+import Action from '@/components/app/actions/Action'
 
 export default {
   components: {
     PartProgress,
     EditPart,
     EditMembers,
-    EditProgress
+    EditProgress,
+    Action
   },
   data () {
     return {
       part: {},
       workflow: [],
+      actions: [],
       loaded: false,
       editingPart: false,
       editingMembers: false,
@@ -202,6 +209,15 @@ export default {
     })
     .then(res => {
       this.workflow = res.data.workflow
+    })
+
+    api.axios.get(`${api.baseUrl}/actions/part-actions`, {
+      params: {
+        part: this.$route.query.part
+      }
+    })
+    .then(res => {
+      this.actions = res.data.actions.reverse()
     })
   },
   methods: {

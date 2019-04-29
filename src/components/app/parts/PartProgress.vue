@@ -1,5 +1,5 @@
 <template>
-  <span col center class="progress-container" :class="{ details : details, edit : edit }">
+  <span col center class="progress-container" :class="{ details : details, edit : edit, list : list }">
     <span class="progress-bar" :style="{ width: percentComplete + '%' }" :class="color"></span>
     <span v-if="details">
       <img :src="action.image"/>
@@ -15,7 +15,7 @@
 
 <script>
 export default {
-  props: ['action', 'details', 'edit'],
+  props: ['action', 'details', 'edit', 'list'],
   computed: {
     percentComplete () {
       let percent = this.action.completed / this.action.total
@@ -61,6 +61,14 @@ export default {
 
   .edit {
     height: 60px;
+  }
+
+  .list {
+    font-size: 12px;
+    height: 28px;
+    min-width: 50px;
+    max-width: 50px;
+    overflow: hidden;
   }
 
   .progress-bar {

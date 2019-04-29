@@ -95,7 +95,7 @@ export default {
           quantity: item.quantity
         })
       })
-      // location.reload(true)
+      location.reload(true)
     }
   },
   created () {

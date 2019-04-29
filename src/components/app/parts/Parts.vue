@@ -56,12 +56,29 @@
           <br>
         </div>
 
+        <div around>
+          <span>
+            <input click type="radio" id="card" :value="true" v-model="displayCard">
+            <label click for="card">Display Cards</label>
+          </span>
+          <span>
+            <input click type="radio" id="list" :value="false" v-model="displayCard">
+            <label click for="list">Display List</label>
+          </span>
+        </div>
+
+        <br>
+
         <div v-if="searchedParts.length > 0">
-          <div v-for="part in searchedParts" @click="viewPart(part._id)">
-            <PartPreview :key="part._id"
+          <div v-for="part in searchedParts" :key="part._id" @click="viewPart(part._id)">
+            <PartPreview v-if="displayCard"
                          :part="part"
                          :workflow="workflow">
             </PartPreview>
+            <PartListEntry v-else
+                           :part="part"
+                           :workflow="workflow">
+            </PartListEntry>
           </div>
         </div>
 
@@ -79,17 +96,20 @@
 import api from '@/api/api'
 import PartFilter from '@/components/app/parts/PartFilter'
 import PartPreview from '@/components/app/parts/PartPreview'
+import PartListEntry from '@/components/app/parts/PartListEntry'
 
 export default {
   components: {
     PartFilter,
-    PartPreview
+    PartPreview,
+    PartListEntry
   },
   data () {
     return {
       parts: [],
       filter: {},
       workflow: [],
+      displayCard: true,
       loaded: false,
       search: '',
       showFilter: this.$route.query.updated || false
@@ -113,7 +133,7 @@ export default {
         let pieceMarkMatch = part.pieceMark.match(new RegExp(this.search, 'i'))
         let minorMarkMatch = part.minorMark.match(new RegExp(this.search, 'i'))
 
-        if (pieceMarkMatch && minorMarkMatch) {
+        if (pieceMarkMatch || minorMarkMatch) {
           return true
         } else {
           return false
@@ -251,5 +271,9 @@ export default {
     border: none;
     outline: none;
     margin: 0;
+  }
+
+  input[type="radio"] {
+    width: 10px;
   }
 </style>
