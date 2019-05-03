@@ -16,6 +16,7 @@ import ContactConfirmation from '@/components/website/contact/ContactConfirmatio
 // APP ROUTES
 import App from '@/components/app/App'
 import Dashboard from '@/components/app/dashboard/Dashboard'
+import Working from '@/components/app/working/Working'
 
 // jobs
 import Jobs from '@/components/app/jobs/Jobs'
@@ -26,7 +27,7 @@ import SequenceDetails from '@/components/app/jobs/SequenceDetails'
 
 // parts
 import CreatePart from '@/components/app/parts/CreatePart'
-import Parts from '@/components/app/parts/Parts'
+import PartsPage from '@/components/app/parts/PartsPage'
 import PartConfirmation from '@/components/app/parts/PartConfirmation'
 import PartDetails from '@/components/app/parts/PartDetails'
 
@@ -36,7 +37,11 @@ import Purchasing from '@/components/app/purchasing/Purchasing'
 // schedule
 import Schedule from '@/components/app/schedule/Schedule'
 
+// Tasks
+import Tasks from '@/components/app/tasks/Tasks'
+
 // users
+import Users from '@/components/app/users/Users'
 import ManageUsers from '@/components/app/users/ManageUsers'
 import UserEdit from '@/components/app/users/UserEdit'
 import NewUser from '@/components/app/users/NewUser'
@@ -49,6 +54,7 @@ import MaterialEdit from '@/components/app/inventory/MaterialEdit'
 import MaterialConfirmation from '@/components/app/inventory/MaterialConfirmation'
 
 // marketplace routes
+import Marketplace from '@/components/app/marketplace/Marketplace'
 import Company from '@/components/app/marketplace/company/Company'
 import AdvancedSearch from '@/components/app/search/AdvancedSearch'
 import Listings from '@/components/app/marketplace/listings/Listings'
@@ -140,7 +146,7 @@ const router = new Router({
         {
           path: 'parts',
           name: 'Parts',
-          component: Parts
+          component: PartsPage
         },
         {
           path: 'part-details',
@@ -158,6 +164,21 @@ const router = new Router({
           component: Schedule
         },
         {
+          path: 'tasks',
+          name: 'Tasks',
+          component: Tasks
+        },
+        {
+          path: 'working',
+          name: 'Working',
+          component: Working
+        },
+        {
+          path: 'users',
+          name: 'Users',
+          component: Users
+        },
+        {
           path: 'add-material',
           name: 'AddMaterial',
           component: AddMaterial
@@ -171,6 +192,11 @@ const router = new Router({
           path: 'inventory',
           name: 'Inventory',
           component: Inventory
+        },
+        {
+          path: 'marketplace',
+          name: 'Marketplace',
+          component: Marketplace
         },
         {
           path: 'edit-material',

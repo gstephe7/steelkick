@@ -5,25 +5,25 @@
         <router-link :to="{ name: 'Dashboard' }">Dashboard</router-link>
       </li>
       <li>
-        <router-link :to="{ name: 'AddMaterial' }">Start Working</router-link>
+        <router-link :to="{ name: 'Working' }">Start Working</router-link>
       </li>
       <li>
         <router-link :to="{ name: 'Jobs' }">Jobs</router-link>
       </li>
       <li>
-        <router-link :to="{ name: 'EditProfile' }">Schedule</router-link>
+        <router-link :to="{ name: 'Schedule' }">Schedule</router-link>
       </li>
       <li>
-        <router-link :to="{ name: 'Cart' }">Tasks</router-link>
+        <router-link :to="{ name: 'Tasks' }">Tasks</router-link>
       </li>
       <li>
-        <router-link :to="{ name: 'OrderPage' }">Inventory</router-link>
+        <router-link :to="{ name: 'Inventory' }">Inventory</router-link>
       </li>
       <li>
-        <router-link :to="{ name: 'Transactions' }">Users</router-link>
+        <router-link :to="{ name: 'Users' }">Users</router-link>
       </li>
       <li>
-        <router-link :to="{ name: 'SetPrices' }">Marketplace</router-link>
+        <router-link :to="{ name: 'Marketplace' }">Marketplace</router-link>
       </li>
       <li>
         <router-link :to="{ name: 'Settings' }">Settings</router-link>

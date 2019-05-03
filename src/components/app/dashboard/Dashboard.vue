@@ -8,27 +8,27 @@
     <div center wrap>
 
       <div around wrap>
-        <section col center card click @click="$router.push('add-material')">
-          <icon icon="plus-circle" class="green"></icon>
-          <h3>Add New Material</h3>
+        <section col center card click @click="$router.push({name: 'Working'})">
+          <icon big icon="hammer" class="red"></icon>
+          <h2>Start Working</h2>
         </section>
-        <section col center card click @click="$router.push('inventory')">
-          <icon icon="list" class="burgundy"></icon>
-          <h3>Manage Inventory</h3>
+        <section col center card click @click="$router.push({name: 'Jobs'})">
+          <icon big icon="briefcase" class="green"></icon>
+          <h2>Jobs</h2>
         </section>
       </div>
 
       <div around wrap v-if="$store.getters.isAdmin">
-        <section col center card click @click="$router.push('cart')">
-          <icon icon="shopping-cart" class="orange"></icon>
-          <h3>Checkout Cart</h3>
+        <section col center card click @click="$router.push({name: 'Schedule'})">
+          <icon big :icon="{ prefix: 'far', iconName: 'calendar-alt' }" class="orange"></icon>
+          <h2>Schedule</h2>
         </section>
-        <section col center card click @click="$router.push('pending-orders')">
+        <section col center card click @click="$router.push({name: 'Tasks'})">
           <span class="notify-container">
             <New class="notify" :orders="true"></New>
           </span>
-          <icon icon="clock" class="red"></icon>
-          <h3>Pending Orders</h3>
+          <icon big icon="tasks" class="blue"></icon>
+          <h2>Tasks</h2>
         </section>
       </div>
 
@@ -37,27 +37,24 @@
     <div center wrap>
 
       <div around wrap v-if="$store.getters.isAdmin">
-        <section col center card click @click="$router.push('transactions')">
-          <span class="notify-container">
-            <New class="notify" :transactions="true"></New>
-          </span>
-          <icon icon="history" class="gold"></icon>
-          <h3>Transaction History</h3>
+        <section col center card click @click="$router.push({name: 'Inventory'})">
+          <icon big icon="boxes" class="gold"></icon>
+          <h2>Inventory</h2>
         </section>
-        <section col center card click @click="$router.push('set-prices')">
-          <icon icon="chart-line" class="blue-green"></icon>
-          <h3>Set Prices</h3>
+        <section col center card click @click="$router.push({name: 'Users'})" v-if="$store.getters.isAdmin">
+          <icon big icon="users" class="purple"></icon>
+          <h2>Users</h2>
         </section>
       </div>
 
       <div around wrap>
-        <section col center card click @click="$router.push('manage-users')" v-if="$store.getters.isAdmin">
-          <icon icon="users" class="purple"></icon>
-          <h3>Manage Company Users</h3>
+        <section col center card click @click="$router.push({name: 'Marketplace'})">
+          <icon big icon="dollar-sign" class="blue-green"></icon>
+          <h2>Marketplace</h2>
         </section>
-        <section col center card click @click="$router.push('edit-profile')">
-          <icon icon="cog" class="blue"></icon>
-          <h3>Edit Profile</h3>
+        <section col center card click @click="$router.push({name: 'Settings'})">
+          <icon big icon="cog" class="burgundy"></icon>
+          <h2>Settings</h2>
         </section>
       </div>
 
@@ -85,10 +82,6 @@ export default {
   [card] {
     height: 230px;
     width: 230px;
-  }
-
-  svg {
-    font-size: 75px;
   }
 
   .notify-container {

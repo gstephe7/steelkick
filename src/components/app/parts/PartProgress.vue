@@ -2,7 +2,7 @@
   <span col center class="progress-container" :class="{ details : details, edit : edit, list : list }">
     <span class="progress-bar" :style="{ width: percentComplete + '%' }" :class="color"></span>
     <span v-if="details">
-      <img :src="action.image"/>
+      <img :src="require(`@/assets/img/actions/${action.description}.png`)"/>
     </span>
     <span v-if="!edit">
       {{ action.completed }}/{{ action.total }}

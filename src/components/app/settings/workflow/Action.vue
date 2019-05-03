@@ -1,7 +1,7 @@
 <template>
   <section col center card click :class="{ selected : workflow }">
 
-    <img :src="action.image" draggable="false">
+    <img :src="require(`@/assets/img/actions/${action.description}.png`)" draggable="false">
 
     <h3>{{ action.action }}</h3>
 

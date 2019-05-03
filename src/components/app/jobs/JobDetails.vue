@@ -96,6 +96,13 @@
     <div card>
       <h2>Job Activity</h2>
       <hr>
+      <div>
+        <Action v-for="action in actions"
+                :key="action._id"
+                :action="action"
+                :part="action.part">
+        </Action>
+      </div>
     </div>
 
     <br>
@@ -114,15 +121,18 @@
 <script>
 import api from '@/api/api'
 import ProgressBar from '@/components/app/outputs/ProgressBar'
+import Action from '@/components/app/actions/Action'
 
 export default {
   components: {
-    ProgressBar
+    ProgressBar,
+    Action
   },
   data () {
     return {
       job: {},
-      progress: {}
+      progress: {},
+      actions: []
     }
   },
   beforeCreate () {
@@ -136,6 +146,17 @@ export default {
       this.$store.dispatch('complete')
       this.job = res.data.job
       this.progress = res.data.progress
+    })
+  },
+  created () {
+    api.axios.get(`${api.baseUrl}/actions/job-actions`, {
+      params: {
+        job: this.$route.query.job,
+        limit: 10
+      }
+    })
+    .then(res => {
+      this.actions = res.data.actions
     })
   }
 }

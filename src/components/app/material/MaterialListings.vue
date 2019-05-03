@@ -18,6 +18,12 @@
       <h1 v-if="buying">Your Search Results</h1>
       <h1 v-if="inventory">Company Inventory</h1>
 
+      <hr>
+
+      <div col v-if="inventory">
+        <button green @click="$router.push({name: 'AddMaterial'})">+ Add New Material</button>
+      </div>
+
       <div id="mobile">
         <div card class="mobile-filter" :class="{ show : showFilter }">
           <h3 v-if="buying">Refine Your Search</h3>

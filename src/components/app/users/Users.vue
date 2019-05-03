@@ -3,7 +3,7 @@
 
     <Back route="Dashboard">Back to dashboard</Back>
 
-    <h1>Schedule</h1>
+    <h1>Users</h1>
 
     <hr>
 

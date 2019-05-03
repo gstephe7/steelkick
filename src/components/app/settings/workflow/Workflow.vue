@@ -101,21 +101,7 @@
 
 <script>
 import api from '@/api/api'
-import weld from '@/assets/img/weld.png'
-import drill from '@/assets/img/drill.png'
-import order from '@/assets/img/order.png'
-import scan from '@/assets/img/scan.png'
-import saw from '@/assets/img/saw.png'
-import sheet from '@/assets/img/sheet.png'
-import hammer from '@/assets/img/hammer.png'
-import measure from '@/assets/img/measure.png'
-import inspect from '@/assets/img/inspect.png'
-import grind from '@/assets/img/grind.png'
-import paint from '@/assets/img/paint.png'
-import ship from '@/assets/img/ship.png'
-import delivery from '@/assets/img/delivery.png'
-import erect from '@/assets/img/erect.png'
-import Action from '@/components/app/settings/workflow/Action'
+import Action from './Action'
 import ToolTip from '@/components/app/popups/ToolTip'
 
 export default {
@@ -127,20 +113,20 @@ export default {
     return {
       workflow: [],
       actions: [
-        { action: 'Ordering', description: 'Ordered', image: order },
-        { action: 'Receiving', description: 'Received', image: scan },
-        { action: 'Cutting', description: 'Cut', image: saw },
-        { action: 'Punching', description: 'Punched', image: drill },
-        { action: 'Forming', description: 'Formed', image: sheet },
-        { action: 'Fitting', description: 'Fitted', image: hammer },
-        { action: 'Checking', description: 'Checked', image: measure },
-        { action: 'Welding', description: 'Welded', image: weld },
-        { action: 'Grinding', description: 'Grinded', image: grind },
-        { action: 'Inspecting', description: 'Inspected', image: inspect },
-        { action: 'Painting', description: 'Painted', image: paint },
-        { action: 'Shipping', description: 'Shipped', image: ship },
-        { action: 'Delivery', description: 'Delivered', image: delivery },
-        { action: 'Erecting', description: 'Erected', image: erect }
+        { action: 'Ordering', description: 'Ordered' },
+        { action: 'Receiving', description: 'Received' },
+        { action: 'Cutting', description: 'Cut' },
+        { action: 'Punching', description: 'Punched' },
+        { action: 'Forming', description: 'Formed' },
+        { action: 'Fitting', description: 'Fitted' },
+        { action: 'Checking', description: 'Checked' },
+        { action: 'Welding', description: 'Welded' },
+        { action: 'Grinding', description: 'Grinded' },
+        { action: 'Inspecting', description: 'Inspected' },
+        { action: 'Painting', description: 'Painted' },
+        { action: 'Shipping', description: 'Shipped' },
+        { action: 'Delivery', description: 'Delivered' },
+        { action: 'Erecting', description: 'Erected' }
       ],
       dragging: {},
       dropZone: false

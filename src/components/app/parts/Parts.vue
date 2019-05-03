@@ -1,40 +1,28 @@
 <template>
-  <div main>
+  <div row>
 
-    <Back route="JobDetails">Back to job</Back>
+    <aside card class="desktop">
+      <PartFilter :filter="filter"
+                  v-on:reset="resetFilter">
+      </PartFilter>
+      <br>
+      <div row align class="search-bar">
+        <icon icon="search"></icon>
+        <input grow id="search-input" v-model="search" placeholder="Search for parts" autocomplete="off">
+      </div>
+    </aside>
 
-    <h1>
-      {{ $route.query.jobName }} <br>
-      Parts
-    </h1>
+    <div grow id="part-div" v-if="loaded">
+      <div col v-if="!working">
+        <button green @click="createNewPart">
+          + Create New Part
+        </button>
+      </div>
 
-    <hr>
+      <br>
 
-    <br>
-
-    <div row>
-
-      <aside card class="desktop">
-        <PartFilter :filter="filter"
-                    v-on:reset="resetFilter">
-        </PartFilter>
-        <br>
-        <div row align class="search-bar">
-          <icon icon="search"></icon>
-          <input grow id="search-input" v-model="search" placeholder="Search for parts" autocomplete="off">
-        </div>
-      </aside>
-
-      <div grow id="part-div" v-if="loaded">
-        <div col>
-          <button green @click="createNewPart">
-            + Create New Part
-          </button>
-        </div>
-
-        <br>
-
-        <div class="mobile">
+      <div class="mobile">
+        <div v-if="!working">
           <PartFilter card
                       v-show="showFilter"
                       :filter="filter"
@@ -49,44 +37,43 @@
             </span>
           </div>
           <br>
-          <div row align class="search-bar">
-            <icon icon="search"></icon>
-            <input grow id="search-input" v-model="search" placeholder="Search for parts" autocomplete="off">
-          </div>
-          <br>
         </div>
-
-        <div around>
-          <span>
-            <input click type="radio" id="card" :value="true" v-model="displayCard">
-            <label click for="card">Display Cards</label>
-          </span>
-          <span>
-            <input click type="radio" id="list" :value="false" v-model="displayCard">
-            <label click for="list">Display List</label>
-          </span>
+        <div row align class="search-bar">
+          <icon icon="search"></icon>
+          <input grow id="search-input" v-model="search" placeholder="Search for parts" autocomplete="off" @input="autoScroll">
         </div>
-
         <br>
+      </div>
 
-        <div v-if="searchedParts.length > 0">
-          <div v-for="part in searchedParts" :key="part._id" @click="viewPart(part._id)">
-            <PartPreview v-if="displayCard"
+      <div around v-if="!working">
+        <span>
+          <input click type="radio" id="card" :value="true" v-model="displayCard">
+          <label click for="card">Display Cards</label>
+        </span>
+        <span>
+          <input click type="radio" id="list" :value="false" v-model="displayCard">
+          <label click for="list">Display List</label>
+        </span>
+      </div>
+
+      <br v-if="!working">
+
+      <div v-if="searchedParts.length > 0">
+        <div v-for="part in searchedParts" :key="part._id" @click="viewPart(part)">
+          <PartPreview v-if="displayCard"
+                       :part="part"
+                       :workflow="workflow">
+          </PartPreview>
+          <PartListEntry v-else
                          :part="part"
                          :workflow="workflow">
-            </PartPreview>
-            <PartListEntry v-else
-                           :part="part"
-                           :workflow="workflow">
-            </PartListEntry>
-          </div>
-        </div>
-
-        <div col v-else>
-          <p>No parts found</p>
+          </PartListEntry>
         </div>
       </div>
 
+      <div col v-else>
+        <p>No parts found</p>
+      </div>
     </div>
 
   </div>
@@ -99,6 +86,7 @@ import PartPreview from '@/components/app/parts/PartPreview'
 import PartListEntry from '@/components/app/parts/PartListEntry'
 
 export default {
+  props: ['job', 'working'],
   components: {
     PartFilter,
     PartPreview,
@@ -173,26 +161,29 @@ export default {
         }
       })
     },
-    viewPart (id) {
-      this.$router.push({
-        name: 'PartDetails',
-        query: {
-          job: this.$route.query.job,
-          jobName: this.$route.query.jobName,
-          part: id
-        }
-      })
+    viewPart (part) {
+      if (this.working) {
+        this.$emit('updatePart', part)
+      } else {
+        this.$router.push({
+          name: 'PartDetails',
+          query: {
+            job: this.$route.query.job,
+            jobName: this.$route.query.jobName,
+            part: part._id
+          }
+        })
+      }
+    },
+    autoScroll () {
+      document.getElementById('part-div').scrollIntoView()
     }
   },
-  beforeCreate () {
+  created () {
     this.$store.dispatch('loading')
     api.axios.get(`${api.baseUrl}/jobs/parts`, {
       params: {
-        job: this.$route.query.job,
-        shape: this.$route.query.shape,
-        dimension: this.$route.query.dimension,
-        sequence: this.$route.query.sequence,
-        complete: this.$route.query.complete
+        job: this.job
       }
     })
     .then(res => {
@@ -203,8 +194,7 @@ export default {
     .catch(() => {
       this.$store.dispatch('complete')
     })
-  },
-  created () {
+
     api.axios.get(`${api.baseUrl}/users/workflow`, {
       params: {
         id: this.$store.getters.companyId

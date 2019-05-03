@@ -1,5 +1,6 @@
 <template>
-  <div row>
+  <div row align>
+    <img :src="require(`@/assets/img/actions/${action.description}.png`)">
     <p>
       {{ name }}
       {{ action.action }}
@@ -38,4 +39,9 @@ export default {
 
 <style lang="scss" scoped>
   @import '@/assets/scss/variables.scss';
+
+  img {
+    height: 20px;
+    margin-right: 10px;
+  }
 </style>
