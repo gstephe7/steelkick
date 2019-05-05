@@ -1,31 +1,27 @@
 <template>
-  <main>
+  <div card>
 
-    <header>
-      <h3>Companies</h3>
-    </header>
+    <div>
+      <h2>Companies</h2>
+    </div>
 
-    <article v-if="loaded">
+    <hr>
+
+    <div v-if="loaded">
       <div v-for="company in companies">
-        <h4>
-          {{ company.name }}
-        </h4>
-        <menu>
-          <router-link :to="{ name: 'Company', query: { id: company._id } }">
-            View
-          </router-link>
-          <router-link :to="{ name: 'CompanyEdit', query: { id: company._id } }">
-            Edit
-          </router-link>
-        </menu>
+        <router-link :to="{ name: 'CompanyAdmin', query: { companyId: company._id } }">
+          <h3>
+            {{ company.name }}
+          </h3>
+        </router-link>
       </div>
-    </article>
+    </div>
 
-    <article v-else>
+    <div v-else>
       <p>... loading</p>
-    </article>
+    </div>
 
-  </main>
+  </div>
 </template>
 
 <script>
@@ -51,16 +47,4 @@ export default {
 
 <style lang="scss" scoped>
   @import '@/assets/scss/variables.scss';
-
-  article {
-    height: 200px;
-    overflow-y: scroll;
-  }
-
-  div {
-    box-shadow: $box-shadow;
-    padding: 10px;
-    margin: 5px 0;
-    width: 100%;
-  }
 </style>

@@ -24,9 +24,6 @@
           <h2>Schedule</h2>
         </section>
         <section col center card click @click="$router.push({name: 'Tasks'})">
-          <span class="notify-container">
-            <New class="notify" :orders="true"></New>
-          </span>
           <icon big icon="tasks" class="blue"></icon>
           <h2>Tasks</h2>
         </section>
@@ -64,12 +61,7 @@
 </template>
 
 <script>
-import New from '@/components/app/notifications/New'
-
 export default {
-  components: {
-    New
-  }
 }
 </script>
 
@@ -82,15 +74,5 @@ export default {
   [card] {
     height: 230px;
     width: 230px;
-  }
-
-  .notify-container {
-    position: relative;
-  }
-
-  .notify {
-    position: absolute;
-    top: -40px;
-    right: -140px;
   }
 </style>

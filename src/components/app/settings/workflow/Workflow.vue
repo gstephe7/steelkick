@@ -136,7 +136,7 @@ export default {
     this.$store.dispatch('loading')
     api.axios.get(`${api.baseUrl}/users/workflow`, {
       params: {
-        id: this.$store.getters.companyId
+        companyId: this.$store.getters.companyId
       }
     })
     .then(res => {

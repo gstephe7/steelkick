@@ -1,13 +1,13 @@
 <template>
   <div>
-    <nav  @click="toggleAdminMenu">
+    <nav row @click="toggleAdminMenu">
 
-      <div class="mobile">
+      <div row align>
         <button class="menu-button">
           <icon v-if="showMenu" icon="times"></icon>
           <icon v-else icon="bars"></icon>
         </button>
-        <p>Admin Navigation</p>
+        <span>Admin Navigation</span>
       </div>
 
     </nav>
@@ -44,17 +44,9 @@ export default {
   @import '@/assets/scss/variables.scss';
 
   nav {
-    height: 25px;
     background-color: $accent;
-    display: flex;
-    align-items: center;
     box-shadow: $box-shadow;
     cursor: pointer;
-  }
-
-  .mobile {
-    display: flex;
-    align-items: center;
   }
 
   .menu-button {

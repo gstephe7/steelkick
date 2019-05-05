@@ -17,8 +17,6 @@ export default new Vuex.Store({
     user: {},
     currentRole: null,
     currentJob: null,
-    notifications: [],
-    addressValid: false,
     admin: {
       auth: false,
       email: '',
@@ -61,18 +59,6 @@ export default new Vuex.Store({
     updateCurrentRole (state, payload) {
       state.currentRole = payload
     },
-    addressValid (state) {
-      state.addressValid = true
-    },
-    addressInvalid (state) {
-      state.addressValid = false
-    },
-    newNotifications (state, payload) {
-      state.notifications = payload
-    },
-    noNotifications (state, payload) {
-      state.notifications = []
-    },
     adminLogin (state, payload) {
       state.admin.auth = true
       state.admin.email = payload.email
@@ -89,8 +75,6 @@ export default new Vuex.Store({
     login ({commit, dispatch}, payload) {
       $cookies.set('sk-user', payload, '14d')
       commit('login', payload)
-      dispatch('getNotifications')
-      dispatch('validateAddress')
     },
     logout ({commit}) {
       $cookies.remove('sk-user')
@@ -121,54 +105,6 @@ export default new Vuex.Store({
     updateCurrentJob ({commit}, payload) {
       localStorage.currentJob = JSON.stringify(payload)
       commit('updateCurrentJob', payload)
-    },
-    validateAddress ({commit, getters}) {
-      api.axios.get(`${api.baseUrl}/users/validate-address`, {
-        params: {
-          id: getters.companyId
-        }
-      })
-      .then(res => {
-        if (res.data.valid == true) {
-          commit('addressValid')
-        } else {
-          commit('addressInvalid')
-        }
-      })
-      .catch(() => {
-        commit('addressInvalid')
-      })
-    },
-    getNotifications ({commit, dispatch, getters}) {
-      api.axios.get(`${api.baseUrl}/users/notifications`, {
-        params: {
-          companyId: getters.companyId
-        }
-      })
-      .then(res => {
-        if (res.data.notifications.length > 0) {
-          commit('newNotifications', res.data.notifications)
-        } else {
-          commit('noNotifications')
-        }
-      })
-      .catch(() => {
-        commit('noNotifications')
-      })
-    },
-    notificationViewed ({commit, dispatch, getters}, payload) {
-      api.axios.post(`${api.baseUrl}/users/notification-viewed`, {
-        companyId: getters.companyId,
-        subjectId: payload
-      })
-      .then(() => {
-        dispatch('getNotifications')
-      })
-      .catch(() => {})
-    },
-    adminLogin ({commit}, payload) {
-      $cookies.set('adminToken', payload, '3d')
-      commit('adminLogin', payload)
     },
     adminLogout ({commit}) {
       $cookies.remove('adminToken')
@@ -258,12 +194,6 @@ export default new Vuex.Store({
     },
     isAdmin: (state) => {
       return state.user.admin
-    },
-    addressValid: (state) => {
-      return state.addressValid
-    },
-    notifications: (state) => {
-      return state.notifications
     }
   }
 

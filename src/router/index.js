@@ -76,7 +76,7 @@ import WorkflowConfirmation from '@/components/app/settings/workflow/WorkflowCon
 import Admin from '@/components/admin/Admin'
 import AdminLogin from '@/components/admin/AdminLogin'
 import AdminHome from '@/components/admin/AdminHome'
-import CompanyEdit from '@/components/admin/components/companies/CompanyEdit'
+import CompanyAdmin from '@/components/admin/components/companies/Company'
 
 // misc routes
 import Logo from '@/components/logo/LogoImg'
@@ -377,9 +377,9 @@ const router = new Router({
           component: AdminHome
         },
         {
-          path: 'company-edit',
-          name: 'CompanyEdit',
-          component: CompanyEdit
+          path: 'company-admin',
+          name: 'CompanyAdmin',
+          component: CompanyAdmin
         }
       ]
     }

@@ -57,21 +57,21 @@ export default {
       }
     },
     newTransaction () {
-      if (this.$store.getters.notifications.length > 0) {
-
-        let isNew = false
-
-        this.$store.getters.notifications.forEach(item => {
-          if (item.subject == this.item._id) {
-            isNew = true
-          }
-        })
-
-        return isNew
-
-      } else {
+      // if (this.$store.getters.notifications.length > 0) {
+      //
+      //   let isNew = false
+      //
+      //   this.$store.getters.notifications.forEach(item => {
+      //     if (item.subject == this.item._id) {
+      //       isNew = true
+      //     }
+      //   })
+      //
+      //   return isNew
+      //
+      // } else {
         return false
-      }
+      // }
     }
   },
   methods: {

@@ -1,11 +1,11 @@
 <template>
-  <main>
+  <div main>
 
-    <h3>Edit Company - {{ company.name }}</h3>
+    <h1>{{ company.name }}</h1>
 
     <hr>
 
-    <div v-if="companyLoaded">
+    <div card v-if="companyLoaded">
       <EditCompany v-if="editing"
                    :company="company"
                    @close="editing = false">
@@ -18,36 +18,56 @@
       </ViewCompany>
     </div>
 
-    <menu>
-      <button red @click="showDelete = !showDelete">Delete Company</button>
-    </menu>
+    <div card>
+      <div>
+        <h2>Material</h2>
+        <hr>
+      </div>
+      <div v-if="material.length > 0">
+        <MaterialPreview v-for="item in material"
+                         :key="item._id"
+                         :item="item">
+        </MaterialPreview>
+      </div>
 
-    <article v-if="showDelete">
-      <header>
+      <div v-else>
+        <p>No material for this company</p>
+      </div>
+    </div>
+
+    <div col>
+      <button red @click="showDelete = !showDelete">Delete Company</button>
+    </div>
+
+    <div v-if="showDelete">
+      <p>
         Are you sure you want to delete this company?
-      </header>
-      <menu>
+      </p>
+      <div around>
         <button @click="showDelete = false">Cancel</button>
         <button red @click="deleteCompany">Delete</button>
-      </menu>
-    </article>
+      </div>
+    </div>
 
-  </main>
+  </div>
 </template>
 
 <script>
 import api from '@/api/api'
 import ViewCompany from '@/components/app/marketplace/editProfile/ViewCompany'
 import EditCompany from '@/components/app/marketplace/editProfile/EditCompany'
+import MaterialPreview from '@/components/app/material/MaterialPreview'
 
 export default {
   components: {
     ViewCompany,
-    EditCompany
+    EditCompany,
+    MaterialPreview
   },
   data () {
     return {
       company: {},
+      material: [],
       companyLoaded: false,
       editing: false,
       showDelete: false
@@ -58,7 +78,7 @@ export default {
     api.axios
       .get(`${api.baseUrl}/users/company`, {
         params: {
-          id: this.$route.query.id
+          companyId: this.$route.query.companyId
         }
       })
       .then(res => {
@@ -68,6 +88,16 @@ export default {
       })
       .catch(() => {
         this.$store.dispatch('complete')
+      })
+
+    api.axios
+      .get(`${api.baseUrl}/admin/company-material`, {
+        params: {
+          companyId: this.$route.query.companyId
+        }
+      })
+      .then(res => {
+        this.material = res.data.material
       })
   },
   methods: {

@@ -113,21 +113,21 @@ export default {
   props: ['order', 'received', 'placed'],
   computed: {
     newOrder () {
-      if (this.$store.getters.notifications.length > 0) {
-
-        let isNew = false
-
-        this.$store.getters.notifications.forEach(item => {
-          if (item.subject == this.order._id) {
-            isNew = true
-          }
-        })
-
-        return isNew
-
-      } else {
+      // if (this.$store.getters.notifications.length > 0) {
+      //
+      //   let isNew = false
+      //
+      //   this.$store.getters.notifications.forEach(item => {
+      //     if (item.subject == this.order._id) {
+      //       isNew = true
+      //     }
+      //   })
+      //
+      //   return isNew
+      //
+      // } else {
         return false
-      }
+      // }
     }
   },
   methods: {
