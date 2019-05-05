@@ -59,11 +59,13 @@ export default {
         })
         .then(res => {
           this.$store.dispatch('complete')
+          this.$store.dispatch('updateCurrentJob', {
+            _id: res.data.jobId,
+            name: this.name,
+            number: this.number
+          })
           this.$router.push({
-            name: 'JobDetails',
-            query: {
-              id: res.data.job
-            }
+            name: 'JobDetails'
           })
         })
       }

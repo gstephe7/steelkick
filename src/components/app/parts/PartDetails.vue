@@ -11,7 +11,7 @@
         <span v-else>{{ part.pieceMark }}</span>
       </h1>
       <h2>
-        {{ $route.query.jobName }}
+        {{ part.job.name }}
       </h2>
       <h3>
         Sequence {{ part.sequence.number }}
@@ -192,7 +192,7 @@ export default {
     this.$store.dispatch('loading')
     api.axios.get(`${api.baseUrl}/jobs/part-details`, {
       params: {
-        id: this.$route.query.part
+        partId: this.$route.query.partId
       }
     })
     .then(res => {
@@ -204,7 +204,7 @@ export default {
   created () {
     api.axios.get(`${api.baseUrl}/users/workflow`, {
       params: {
-        id: this.$store.getters.companyId
+        companyId: this.$store.getters.companyId
       }
     })
     .then(res => {
@@ -213,7 +213,7 @@ export default {
 
     api.axios.get(`${api.baseUrl}/actions/part-actions`, {
       params: {
-        part: this.$route.query.part
+        partId: this.$route.query.partId
       }
     })
     .then(res => {
@@ -225,9 +225,7 @@ export default {
       this.$router.push({
         name: 'PartDetails',
         query: {
-          part: id,
-          job: this.$route.query.job,
-          jobName: this.$route.query.jobName
+          partId: id
         }
       })
       location.reload(true)

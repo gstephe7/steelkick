@@ -63,25 +63,19 @@
     <div center wrap>
 
       <!-- Parts -->
-      <section col center card click @click="$router.push({name: 'Parts', query: {job: job._id, jobName: job.name}})">
+      <section col center card click @click="$router.push({name: 'Parts'})">
         <icon big class="red" icon="cubes"></icon>
         <h2>Parts</h2>
       </section>
 
-      <!-- Sequences -->
-      <section col center card click @click="$router.push({name: 'Sequences', query: {id: job._id, job: job.name}})">
-        <icon big class="orange" icon="sitemap"></icon>
-        <h2>Sequences</h2>
-      </section>
-
       <!-- Nesting/Purchasing -->
-      <section col center card click @click="$router.push({name: 'Purchasing', query: {id: job._id}})">
+      <section col center card click @click="$router.push({name: 'Purchasing'})">
         <icon big class="blue-green" icon="credit-card"></icon>
         <h2>Nesting/Purchasing</h2>
       </section>
 
       <!-- Scheduling -->
-      <section col center card click @click="$router.push({name: 'Schedule', query: {id: job._id}})">
+      <section col center card click @click="$router.push({name: 'Schedule'})">
         <icon big class="green" :icon="['far', 'calendar-alt']"></icon>
         <h2>Schedule</h2>
       </section>
@@ -139,7 +133,7 @@ export default {
     this.$store.dispatch('loading')
     api.axios.get(`${api.baseUrl}/jobs/job-details`, {
       params: {
-        id: this.$route.query.job
+        jobId: this.$store.getters.currentJob._id
       }
     })
     .then(res => {
@@ -151,7 +145,7 @@ export default {
   created () {
     api.axios.get(`${api.baseUrl}/actions/job-actions`, {
       params: {
-        job: this.$route.query.job,
+        jobId: this.$store.getters.currentJob._id,
         limit: 10
       }
     })

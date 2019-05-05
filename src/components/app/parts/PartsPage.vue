@@ -4,7 +4,7 @@
     <Back route="JobDetails">Back to job</Back>
 
     <h1>
-      {{ $route.query.jobName }} <br>
+      {{ $store.getters.currentJob.name }} <br>
       Parts
     </h1>
 
@@ -12,7 +12,7 @@
 
     <br>
 
-    <Parts :job="$route.query.job"></Parts>
+    <Parts :job="$store.getters.currentJob._id"></Parts>
 
   </div>
 </template>

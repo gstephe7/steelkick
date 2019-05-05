@@ -6,22 +6,22 @@
     <div wrap center>
 
       <div row>
-        <select v-model="filter.shape">
+        <select v-model="filter.shape" @change="$emit('autoScroll')">
           <option disabled selected :value="undefined">Shape</option>
           <option v-for="shape in shapes" :value="shape">{{ shape }}</option>
         </select>
-        <select v-model="filter.dimension">
+        <select v-model="filter.dimension" @change="$emit('autoScroll')">
           <option disabled selected :value="undefined">Dimension</option>
           <option v-for="dimension in dimensions" :value="dimension">{{ dimension }}</option>
         </select>
       </div>
 
       <div row>
-        <select v-model="filter.sequence">
+        <select v-model="filter.sequence" @change="$emit('autoScroll')">
           <option disabled selected :value="undefined">Sequence</option>
           <option v-for="sequence in sequences" :value="sequence._id">Sequence {{ sequence.number }}</option>
         </select>
-        <select>
+        <select @change="$emit('autoScroll')">
           <option disabled selected :value="undefined">Completed?</option>
           <option :value="true">Complete</option>
           <option :value="false">Incomplete</option>
@@ -73,12 +73,12 @@ export default {
   methods: {
     reset () {
       this.$emit('reset')
-    }
+    },
   },
   beforeCreate () {
     api.axios.get(`${api.baseUrl}/jobs/sequences`, {
       params: {
-        id: this.$route.query.job
+        jobId: this.$store.getters.currentJob._id
       }
     })
     .then(res => {

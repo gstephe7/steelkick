@@ -8,7 +8,7 @@
     <hr>
 
     <div col>
-      <h2>{{ $route.query.jobName }}</h2>
+      <h2>{{ $store.getters.currentJob.name }}</h2>
     </div>
 
     <br>

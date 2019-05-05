@@ -303,19 +303,13 @@ export default {
           this.$store.dispatch('loading')
           api.axios.post(`${api.baseUrl}/jobs/create-part`, {
             part: this.part,
-            job: this.$route.query.job,
+            jobId: this.$store.getters.currentJob._id,
             sequences: this.sequences
           })
           .then(res => {
             this.$store.dispatch('complete')
             this.$router.push({
-              name: 'PartConfirmation',
-              query: {
-                job: this.$route.query.job,
-                jobName: this.$route.query.jobName,
-                sequence: this.sequences[0].id,
-                new: true
-              }
+              name: 'PartConfirmation'
             })
           })
           .catch(err => {
@@ -344,7 +338,7 @@ export default {
       this.$store.dispatch('loading')
       api.axios.get(`${api.baseUrl}/jobs/sequences`, {
         params: {
-          id: this.$route.query.job
+          jobId: this.$store.getters.currentJob._id
         }
       })
       .then(res => {

@@ -94,8 +94,6 @@ export default new Vuex.Store({
     },
     logout ({commit}) {
       $cookies.remove('sk-user')
-      $cookies.remove('sk-role')
-      $cookies.remove('sk-job')
       commit('logout')
     },
     loading ({commit}) {
@@ -117,11 +115,11 @@ export default new Vuex.Store({
       commit('successComplete')
     },
     updateCurrentRole ({commit}, payload) {
-      $cookies.set('sk-role', payload, '14d')
+      localStorage.currentRole = JSON.stringify(payload)
       commit('updateCurrentRole', payload)
     },
     updateCurrentJob ({commit}, payload) {
-      $cookies.set('sk-job', payload, '14d')
+      localStorage.currentJob = JSON.stringify(payload)
       commit('updateCurrentJob', payload)
     },
     validateAddress ({commit, getters}) {

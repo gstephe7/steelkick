@@ -26,7 +26,8 @@
           <PartFilter card
                       v-show="showFilter"
                       :filter="filter"
-                      v-on:reset="resetFilter">
+                      v-on:reset="resetFilter"
+                      @autoScroll="autoScroll">
           </PartFilter>
           <br>
           <div col end>
@@ -154,11 +155,7 @@ export default {
     },
     createNewPart () {
       this.$router.push({
-        name: 'CreatePart',
-        query: {
-          job: this.$route.query.job,
-          jobName: this.$route.query.jobName
-        }
+        name: 'CreatePart'
       })
     },
     viewPart (part) {
@@ -168,9 +165,7 @@ export default {
         this.$router.push({
           name: 'PartDetails',
           query: {
-            job: this.$route.query.job,
-            jobName: this.$route.query.jobName,
-            part: part._id
+            partId: part._id
           }
         })
       }
@@ -183,7 +178,7 @@ export default {
     this.$store.dispatch('loading')
     api.axios.get(`${api.baseUrl}/jobs/parts`, {
       params: {
-        job: this.job
+        jobId: this.job
       }
     })
     .then(res => {
@@ -197,7 +192,7 @@ export default {
 
     api.axios.get(`${api.baseUrl}/users/workflow`, {
       params: {
-        id: this.$store.getters.companyId
+        companyId: this.$store.getters.companyId
       }
     })
     .then(res => {

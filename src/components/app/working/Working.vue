@@ -93,14 +93,6 @@ export default {
     }
   },
   created () {
-    const role = this.$cookies.get('sk-role')
-    const job = this.$cookies.get('sk-job')
-    if (role) {
-      this.$store.dispatch('updateCurrentRole', role)
-    }
-    if (job) {
-      this.$store.dispatch('updateCurrentJob', job)
-    }
     this.nextOption()
   }
 }

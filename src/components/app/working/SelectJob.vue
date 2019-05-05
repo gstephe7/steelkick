@@ -44,7 +44,7 @@ export default {
     this.$store.dispatch('loading')
     api.axios.get(`${api.baseUrl}/jobs/jobs`, {
       params: {
-        company: this.$store.getters.companyId
+        companyId: this.$store.getters.companyId
       }
     })
     .then(res => {
@@ -70,6 +70,7 @@ export default {
     h3 {
       text-decoration: underline;
       color: royalblue;
+      margin: 10px 0;
     }
   }
 </style>

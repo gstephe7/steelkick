@@ -27,13 +27,17 @@ export default {
     Sidebar,
     Footer
   },
-  data () {
-    return {
-      company: ''
-    }
-  },
   created () {
-    this.company = this.$store.getters.companyName
+    const currentJob = localStorage.getItem('currentJob')
+    const currentRole = localStorage.getItem('currentRole')
+
+    if (currentJob) {
+      this.$store.dispatch('updateCurrentJob', JSON.parse(currentJob))
+    }
+
+    if (currentRole) {
+      this.$store.dispatch('updateCurrentRole', JSON.parse(currentRole))
+    }
   }
 }
 </script>

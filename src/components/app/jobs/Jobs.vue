@@ -12,8 +12,8 @@
       <br>
 
       <div v-if="jobs.length > 0">
-        <h2 click v-for="job in jobs">
-          <router-link :to="{ name: 'JobDetails', query: { job: job._id } }">
+        <h2 click v-for="job in jobs" :key="job._id" @click="updateCurrentJob(job)">
+          <router-link :to="{ name: 'JobDetails' }">
             {{ job.name }}
           </router-link>
         </h2>
@@ -44,13 +44,16 @@ export default {
       this.$router.push({
         name: 'CreateJob'
       })
+    },
+    updateCurrentJob (job) {
+      this.$store.dispatch('updateCurrentJob', job)
     }
   },
   beforeCreate () {
     this.$store.dispatch('loading')
     api.axios.get(`${api.baseUrl}/jobs/jobs`, {
       params: {
-        company: this.$store.getters.companyId
+        companyId: this.$store.getters.companyId
       }
     })
     .then(res => {

@@ -22,8 +22,6 @@ import Working from '@/components/app/working/Working'
 import Jobs from '@/components/app/jobs/Jobs'
 import CreateJob from '@/components/app/jobs/CreateJob'
 import JobDetails from '@/components/app/jobs/JobDetails'
-import Sequences from '@/components/app/jobs/Sequences'
-import SequenceDetails from '@/components/app/jobs/SequenceDetails'
 
 // parts
 import CreatePart from '@/components/app/parts/CreatePart'
@@ -122,16 +120,6 @@ const router = new Router({
           path: 'job-details',
           name: 'JobDetails',
           component: JobDetails
-        },
-        {
-          path: 'sequences',
-          name: 'Sequences',
-          component: Sequences
-        },
-        {
-          path: 'sequence-details',
-          name: 'SequenceDetails',
-          component: SequenceDetails
         },
         {
           path: 'create-part',
