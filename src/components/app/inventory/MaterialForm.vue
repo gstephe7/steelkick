@@ -3,60 +3,57 @@
 
     <div center wrap>
 
-      <div col fieldset>
+      <div col>
 
         <div center>
-          <select @change="autoSetGrade" class="autotab" v-model="shape" :highlight="errors.shape" autofocus>
-            <option disabled selected :value="null">
+          <select @change="autoSetGrade" class="autotab" v-model="material.shape" :highlight="errors.shape" id="autofocus">
+            <option disabled selected :value="undefined">
               Shape
             </option>
             <option v-for="shape in shapes" :value="shape" :key="shape">
               {{ shape }}
             </option>
           </select>
-          <select v-model="dimension" class="autotab" :highlight="errors.dimension">
-            <option disabled selected :value="null">Dimension</option>
+          <select v-model="material.dimension" class="autotab" :highlight="errors.dimension">
+            <option disabled selected :value="undefined">Dimension</option>
             <option v-for="dimension in dimensions" :value="dimension" :key="dimension">{{ dimension }}</option>
           </select>
         </div>
 
         <div center>
-          <span length :highlight="errors.length">
-            <input length class="autotab" type="number" placeholder="11" maxlength="2" v-model="feet">'
-            <input length class="autotab" type="number" placeholder="9" maxlength="2" v-model="inches">"
-            <input length class="autotab" type="number" maxlength="2" v-model="numerator"> /
-            <input length denominator class="autotab" type="number" maxlength="2" v-model="denominator">
-          </span>
-          <input type="number" class="autotab" v-model="quantity" placeholder="Quantity" maxlength="4">
+          <LengthInput v-model="material.length" :edit="material" :highlight="errors.length"></LengthInput>
+          <input type="number" class="autotab" v-model="material.quantity" placeholder="Quantity" maxlength="4">
         </div>
 
         <div center>
-          <select v-model="primed" class="autotab" @change="autoSetPrice">
-            <option :value="false">Not Primed</option>
+          <select v-model="material.primed" class="autotab" @change="autoSetPrice">
+            <option :value="undefined">Not Primed</option>
             <option :value="true">Primed</option>
           </select>
-          <select v-model="galvanized" class="autotab" @change="autoSetPrice">
-            <option :value="false">Not Galvanized</option>
+          <select v-model="material.galvanized" class="autotab" @change="autoSetPrice">
+            <option :value="undefined">Not Galvanized</option>
             <option :value="true">Galvanized</option>
           </select>
         </div>
 
         <div center>
-          <textarea placeholder="Location in shop (for internal use)" v-model="location" class="autotab"></textarea>
+          <textarea placeholder="Location in shop (for internal use)" v-model="material.location" class="autotab"></textarea>
         </div>
+
+        <br>
 
       </div>
 
-      <div col fieldset>
+      <div col>
 
         <div center>
-          <select v-model="domestic" class="autotab" :highlight="errors.domestic">
-            <option disabled selected :value="null">Steel Origin</option>
+          <select v-model="material.domestic" class="autotab" :highlight="errors.domestic">
+            <option disabled selected :value="undefined">Steel Origin</option>
             <option :value="true">Domestic</option>
             <option :value="false">Foreign</option>
           </select>
-          <select v-model="condition" class="autotab">
-            <option selected disabled :value="null">
+          <select v-model="material.condition" class="autotab">
+            <option selected disabled :value="undefined">
               Condition
             </option>
             <option value="Excellent">Excellent</option>
@@ -67,30 +64,30 @@
         </div>
 
         <div center>
-          <select v-model="grade" class="autotab">
-            <option selected disabled :value="null">
+          <select v-model="material.grade" class="autotab">
+            <option selected disabled :value="undefined">
               Grade
             </option>
             <option value="A36">A36</option>
             <option value="A992">A992</option>
             <option value="A500">A500</option>
           </select>
-          <input type="text" class="autotab" placeholder="Heat #" v-model="heat">
+          <input type="text" class="autotab" placeholder="Heat #" v-model="material.heat">
         </div>
 
         <div center>
-          <select v-model="forSale" class="autotab" @change="checkAddressValid" :highlight="errors.addressInvalid">
-            <option selected disabled :value="null">
+          <select v-model="material.forSale" class="autotab" @change="checkAddressValid" :highlight="errors.addressInvalid">
+            <option selected disabled :value="undefined">
               For Sale?
             </option>
             <option :value="true">For Sale</option>
             <option :value="false">Not For Sale</option>
           </select>
-          <input class="autotab" placeholder="$ Cwt (ex: 42)" v-model="cwt" type="number" step="0.01">
+          <input class="autotab" placeholder="$ Cwt (ex: 42)" v-model="material.cwt" type="number" step="0.01">
         </div>
 
         <div center>
-          <textarea placeholder="Additional remarks" v-model="remarks" class="autotab"></textarea>
+          <textarea placeholder="Additional remarks" v-model="material.remarks" class="autotab"></textarea>
         </div>
 
       </div>
@@ -144,33 +141,18 @@
 import api from '@/api/api'
 import material from '@/assets/data/material.js'
 import ConfirmationPopup from '@/components/app/popups/ConfirmationPopup'
+import LengthInput from '@/components/app/inputs/LengthInput'
 
 export default {
-  props: ['btnText', 'edit', 'item'],
+  props: ['btnText', 'edit'],
   components: {
-    ConfirmationPopup
+    ConfirmationPopup,
+    LengthInput
   },
   data () {
     return {
       showDeletePopup: false,
-      _id: null,
-      shape: null,
-      dimension: null,
-      feet: null,
-      inches: null,
-      numerator: null,
-      denominator: null,
-      quantity: null,
-      location: null,
-      domestic: null,
-      primed: false,
-      galvanized: false,
-      condition: null,
-      grade: null,
-      heat: null,
-      forSale: null,
-      cwt: null,
-      remarks: null,
+      material: {},
       errors: {
         shape: false,
         dimension: false,
@@ -193,7 +175,7 @@ export default {
     dimensions () {
       let newDimensions = []
       material.forEach(item => {
-        if (item.shape == this.shape) {
+        if (item.shape == this.material.shape) {
           item.dimensions.forEach(value => {
             newDimensions.push(value.dimension)
           })
@@ -203,14 +185,14 @@ export default {
     },
     weightPerFoot () {
 
-      if (this.shape && this.dimension) {
+      if (this.material.shape && this.material.dimension) {
 
         let weight = null
 
         material.forEach(item => {
-          if (item.shape == this.shape) {
+          if (item.shape == this.material.shape) {
             item.dimensions.forEach(value => {
-              if (value.dimension == this.dimension) {
+              if (value.dimension == this.material.dimension) {
                 weight = value.weight
               }
             })
@@ -230,7 +212,7 @@ export default {
       if (this.$store.getters.addressValid) {
         return
       } else {
-        this.forSale = false
+        this.material.forSale = false
         this.errors.addressInvalid = true
       }
     },
@@ -243,33 +225,37 @@ export default {
       })
     },
     checkForm () {
+      // set the company for the material
+      this.material.company = this.$store.getters.companyId
+      this.material.weightPerFoot = this.weightPerFoot
+
       // form error messages
-      if (!this.shape) {
+      if (!this.material.shape) {
         this.errors.shape = true
       } else {
         this.errors.shape = false
       }
 
-      if (!this.dimension) {
+      if (!this.material.dimension) {
         this.errors.dimension = true
       } else {
         this.errors.dimension = false
       }
 
-      if (!this.feet && !this.inches && !this.numerator) {
+      if (!this.material.length) {
         this.errors.length = true
       } else {
         this.errors.length = false
       }
 
-      if (this.domestic == null) {
+      if (!this.material.domestic) {
         this.errors.domestic = true
       } else {
         this.errors.domestic = false
       }
 
       // resort to default values
-      if (!this.quantity) {
+      if (!this.material.quantity) {
         this.quantity = 1
       }
 
@@ -278,34 +264,34 @@ export default {
       }
     },
     autoSetGrade () {
-      if (this.shape === 'W' || this.shape === 'S' || this.shape === 'M' || this.shape === 'HP') {
-        this.grade = 'A992'
+      if (this.material.shape === 'W' || this.material.shape === 'S' || this.material.shape === 'M' || this.material.shape === 'HP') {
+        this.material.grade = 'A992'
       }
-      if (this.shape === 'HSS' || this.shape === 'PIPE') {
-        this.grade = 'A500'
+      if (this.material.shape === 'HSS' || this.material.shape === 'PIPE') {
+        this.material.grade = 'A500'
       }
-      if (this.shape === 'C' || this.shape === 'L' || this.shape === 'FB' || this.shape === 'RB' || this.shape === 'SB' || this.shape === 'MC' || this.shape === 'PL') {
+      if (this.material.shape === 'C' || this.material.shape === 'L' || this.material.shape === 'FB' || this.material.shape === 'RB' || this.material.shape === 'SB' || this.material.shape === 'MC' || this.material.shape === 'PL') {
         this.grade = 'A36'
       }
       this.autoSetPrice()
     },
     autoSetPrice () {
-      if (this.shape) {
+      if (this.material.shape) {
         let matched = false
         this.prices.forEach(item => {
-          if (item.shape == this.shape) {
+          if (item.shape == this.material.shape) {
             matched = true
-            if (this.galvanized) {
-              this.cwt = item.galvanized
-            } else if (this.primed) {
-              this.cwt = item.primed
+            if (this.material.galvanized) {
+              this.material.cwt = item.galvanized
+            } else if (this.material.primed) {
+              this.material.cwt = item.primed
             } else {
-              this.cwt = item.standard
+              this.material.cwt = item.standard
             }
           }
         })
         if (matched == false) {
-          this.cwt = null
+          this.material.cwt = null
         }
       }
     },
@@ -314,35 +300,17 @@ export default {
 
       if (this.verified) {
         if (this.edit) {
+          console.log(this.material)
           this.$store.dispatch('loading')
           api.axios.put(`${api.baseUrl}/material/edit-material`, {
-            _id: this._id,
-            shape: this.shape,
-            dimension: this.dimension,
-            feet: this.feet,
-            inches: this.inches,
-            numerator: this.numerator,
-            denominator: this.denominator,
-            quantity: this.quantity,
-            location: this.location,
-            domestic: this.domestic,
-            primed: this.primed,
-            galvanized: this.galvanized,
-            condition: this.condition,
-            grade: this.grade,
-            heat: this.heat,
-            forSale: this.forSale,
-            cwt: this.cwt,
-            remarks: this.remarks,
-            weightPerFoot: this.weightPerFoot
+            material: this.material
           })
           .then(() => {
             this.$store.dispatch('complete')
-            this.$router.push({
-              path: 'material-confirmation',
-              query: {
-                edit: true
-              }
+            this.$emit('close')
+            this.$store.dispatch('success', 'Successfully updated material!')
+            .then(() => {
+              location.reload(true)
             })
           })
           .catch(() => {
@@ -352,25 +320,7 @@ export default {
         } else {
           this.$store.dispatch('loading')
           api.axios.post(`${api.baseUrl}/material/new-material`, {
-            shape: this.shape,
-            dimension: this.dimension,
-            feet: this.feet,
-            inches: this.inches,
-            numerator: this.numerator,
-            denominator: this.denominator,
-            quantity: this.quantity,
-            location: this.location,
-            domestic: this.domestic,
-            primed: this.primed,
-            galvanized: this.galvanized,
-            condition: this.condition,
-            grade: this.grade,
-            heat: this.heat,
-            forSale: this.forSale,
-            cwt: this.cwt,
-            remarks: this.remarks,
-            weightPerFoot: this.weightPerFoot,
-            company: this.$store.getters.companyId
+            material: this.material
           })
           .then(() => {
             this.$store.dispatch('complete')
@@ -394,7 +344,7 @@ export default {
       this.$store.dispatch('loading')
       api.axios.delete(`${api.baseUrl}/material/delete-material`, {
         params: {
-          _id: this._id
+          _id: this.material._id
         }
       })
       .then(() => {
@@ -408,36 +358,8 @@ export default {
   },
   created () {
     if (this.edit) {
-      this.$store.dispatch('loading')
-      api.axios.get(`${api.baseUrl}/material/item`, {
-        params: {
-          id: this.$route.query.id
-        }
-      })
-      .then(res => {
-        this.$store.dispatch('complete')
-        this._id = res.data.material._id
-        this.shape = res.data.material.shape
-        this.dimension = res.data.material.dimension
-        this.feet = res.data.material.feet
-        this.inches = res.data.material.inches
-        this.numerator = res.data.material.numerator
-        this.denominator = res.data.material.denominator
-        this.domestic = res.data.material.domestic
-        this.primed = res.data.material.primed
-        this.galvanized = res.data.material.galvanized
-        this.quantity = res.data.material.quantity
-        this.location = res.data.material.location
-        this.condition = res.data.material.condition
-        this.grade = res.data.material.grade
-        this.heat = res.data.material.heat
-        this.forSale = res.data.material.forSale
-        this.cwt = res.data.material.cwt
-        this.remarks = res.data.material.remarks
-      })
-      .catch(() => {
-        this.store.dispatch('complete')
-      })
+      this.material = this.edit
+      console.log(this.edit)
     }
   },
   beforeMount () {
@@ -449,8 +371,9 @@ export default {
     .then(res => {
       this.prices = res.data.prices
     })
-    .catch(() => {
-    })
+  },
+  mounted () {
+    document.getElementById('autofocus').focus()
   }
 }
 </script>

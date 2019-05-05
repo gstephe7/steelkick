@@ -48,7 +48,7 @@ import NewUserConfirmation from '@/components/app/users/NewUserConfirmation'
 // inventory
 import AddMaterial from '@/components/app/inventory/AddMaterial'
 import Inventory from '@/components/app/inventory/Inventory'
-import MaterialEdit from '@/components/app/inventory/MaterialEdit'
+import MaterialPage from '@/components/app/inventory/MaterialPage'
 import MaterialConfirmation from '@/components/app/inventory/MaterialConfirmation'
 
 // marketplace routes
@@ -187,9 +187,9 @@ const router = new Router({
           component: Marketplace
         },
         {
-          path: 'edit-material',
-          name: 'MaterialEdit',
-          component: MaterialEdit
+          path: 'material-page',
+          name: 'MaterialPage',
+          component: MaterialPage
         },
         {
           path: 'pending-orders',

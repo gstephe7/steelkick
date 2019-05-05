@@ -18,17 +18,17 @@
 
       <!-- Length -->
       <span>
-        <span v-if="item.feet">
-          {{ item.feet }}'
+        <span v-if="this.feet">
+          {{ this.feet }}'
         </span>
-        <span v-if="item.inches">
-          {{ item.inches }}"
+        <span v-if="this.inches">
+          {{ this.inches }}"
         </span>
         <span v-else>
           0"
         </span>
-        <span v-if="item.numerator">
-          {{ item.numerator }}/{{ item.denominator }}
+        <span v-if="this.fraction">
+          {{ this.fraction }}
         </span>
       </span>
 
@@ -212,16 +212,28 @@
 </template>
 
 <script>
+import method from '@/global/methods.js'
+
 export default {
   props: ['item', 'order', 'cartId', 'cartItem', 'checkout', 'transaction', 'buying', 'inventory'],
+  computed: {
+    feet () {
+      return method.getFeet(this.item.length)
+    },
+    inches () {
+      return method.getInches(this.item.length)
+    },
+    fraction () {
+      return method.getFraction(this.item.length)
+    }
+  },
   methods: {
     viewDetails () {
       if (this.inventory) {
         this.$router.push({
-          path: 'edit-material',
+          name: 'MaterialPage',
           query: {
-            edit: true,
-            id: this.item._id
+            materialId: this.item._id
           }
         })
       } else if (this.buying) {

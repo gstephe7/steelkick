@@ -3,17 +3,17 @@
 
     <h1>Add New Material</h1>
 
-    <NewMaterial btnText="Add Material"></NewMaterial>
+    <MaterialForm btnText="Add Material"></MaterialForm>
 
   </div>
 </template>
 
 <script>
-import NewMaterial from '@/components/app/inventory/NewMaterial'
+import MaterialForm from '@/components/app/inventory/MaterialForm'
 
 export default {
   components: {
-    NewMaterial
+    MaterialForm
   }
 }
 </script>

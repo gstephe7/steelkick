@@ -1,33 +1,43 @@
 <template>
-  <div main>
+  <div col center modal>
+    <div card class="modal-box">
 
-    <router-link back :to="{ name: 'Inventory' }">&lt; Back to Inventory</router-link>
+      <div between align>
+        <h2>Edit Material</h2>
+        <icon click small icon="times" @click="$emit('close')">
+        </icon>
+      </div>
 
-    <h1>Edit Material</h1>
+      <hr>
 
-    <NewMaterial btnText="Update"
-                 :edit="true"
-                 :item="item">
-    </NewMaterial>
+      <MaterialForm btnText="Update"
+                   :edit="material"
+                   @close="$emit('close')">
+      </MaterialForm>
 
+    </div>
   </div>
 </template>
 
 <script>
-import api from '@/api/api'
-import NewMaterial from '@/components/app/inventory/NewMaterial'
+import MaterialForm from '@/components/app/inventory/MaterialForm'
 
 export default {
   components: {
-    NewMaterial
+    MaterialForm
   },
-  data () {
-    return {
-      item: ''
-    }
-  }
+  props: ['material']
 }
 </script>
 
 <style lang="scss" scoped>
+  .modal-box {
+    background-color: white;
+    margin: 5px;
+    max-height: 80%;
+    overflow-y: scroll;
+    h2 {
+      margin: 5px 0;
+    }
+  }
 </style>
