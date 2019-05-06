@@ -32,11 +32,7 @@ export default {
   },
   methods: {
     selectJob (job) {
-      this.$store.dispatch('updateCurrentJob', {
-        _id: job._id,
-        name: job.name,
-        number: job.number
-      })
+      this.$store.dispatch('updateCurrentJob', job)
       this.$emit('close')
     }
   },

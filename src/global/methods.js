@@ -61,6 +61,14 @@ export default {
 
     if (numerator > 0) return denominator
     else return null
+  },
+
+  getSequences (number) {
+    let sequences = []
+    for (var i = 0; i < parseFloat(number); i++) {
+      sequences.push(i + 1)
+    }
+    return sequences
   }
 
 }

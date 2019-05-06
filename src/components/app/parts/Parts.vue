@@ -73,7 +73,7 @@
       </div>
 
       <div col v-else>
-        <p>No parts found</p>
+        <h3>No parts found</h3>
       </div>
     </div>
 
@@ -178,7 +178,7 @@ export default {
     this.$store.dispatch('loading')
     api.axios.get(`${api.baseUrl}/jobs/parts`, {
       params: {
-        jobId: this.job
+        jobId: this.$store.getters.currentJob._id
       }
     })
     .then(res => {

@@ -72,13 +72,15 @@
       </p>
 
       <div row v-for="(sequence, index) in sequences">
-        <select v-model="sequences[index].id" class="autotab" :highlight="sequences[index].error">
-          <option v-for="item in sequenceList" :value="item._id">Sequence {{ item.number }}</option>
+        <select v-model="sequences[index].number" class="autotab" :highlight="sequences[index].error">
+          <option v-for="item in sequenceList" :value="item">Sequence {{ item }}</option>
         </select>
-        <input v-model="sequences[index].quantity" placeholder="Quantity" class="autotab" :highlight="sequences[index].error">
+        <input v-model="sequences[index].quantity" placeholder="Quantity" class="autotab" :highlight="errors.quantity">
       </div>
 
-      <button type="button" @click="addSequence">+ Add to Another Seq.</button>
+      <button type="button" @click="addSequence">
+        + Add to Another Seq.
+      </button>
 
     </div>
 
@@ -138,9 +140,12 @@
       <p v-if="errors.length">
         Please enter a length for this part
       </p>
+      <p v-if="errors.quantity">
+        Please enter a quantity for at least one sequence
+      </p>
       <span v-if="errors.repeat">
-        <p v-for="item in errors.messages">
-          {{ item }}
+        <p v-for="item in errors.repeats">
+          This part has already been created for Sequence {{ item }}
         </p>
       </span>
     </div>
@@ -151,6 +156,7 @@
 <script>
 import api from '@/api/api'
 import material from '@/assets/data/material.js'
+import method from '@/global/methods.js'
 import LengthInput from '@/components/app/inputs/LengthInput'
 import ToolTip from '@/components/app/popups/ToolTip'
 
@@ -166,14 +172,15 @@ export default {
         minorMembers: []
       },
       sequences: [],
-      sequenceList: [],
+      existingParts: [],
       errors: {
         pieceMark: false,
         shape: false,
         dimension: false,
         length: false,
+        quantity: false,
         repeat: false,
-        messages: []
+        repeats: []
       }
     }
   },
@@ -196,8 +203,18 @@ export default {
       })
       return newDimensions
     },
+    sequenceList () {
+      return method.getSequences(this.$store.getters.currentJob.sequences)
+    },
+    totalQuantity () {
+      let quant = 0
+      this.sequences.forEach(item => {
+        quant += item.quantity
+      })
+      return quant
+    },
     formValid () {
-      if (this.errors.pieceMark || this.errors.shape || this.errors.dimension || this.errors.length) {
+      if (this.errors.pieceMark || this.errors.shape || this.errors.dimension || this.errors.length || this.errors.quantity || this.errors.repeat) {
         return false
       } else {
         return true
@@ -217,12 +234,14 @@ export default {
       }
     },
     addSequence () {
-      let index = this.sequences.length
-      this.sequences.push({
-        id: this.sequenceList[index]._id,
-        number: this.sequenceList[index].number,
-        quantity: null
-      })
+      let index = this.sequences.length + 1
+
+      if (this.sequences.length < this.sequenceList.length) {
+        this.sequences.push({
+          number: index,
+          quantity: null
+        })
+      }
     },
     addMinorMember () {
       this.part.minorMembers.push({
@@ -234,7 +253,7 @@ export default {
       this.part.minorMembers.splice(index, 1)
     },
     autoCompleteForm () {
-      if (!this.part.quantity) {
+      if (this.edit && !this.part.quantity) {
         this.part.quantity = 1
       }
 
@@ -283,6 +302,36 @@ export default {
       } else {
         this.errors.length = false
       }
+
+      if (this.totalQuantity == 0) {
+        this.errors.quantity = true
+      } else {
+        this.errors.quantity = false
+      }
+
+      // check existing parts for this job to see if part was already made for this sequence
+      this.errors.repeats = []
+      this.sequences.forEach((sequence, index) => {
+        sequence.error = false
+        if (sequence.quantity > 0) {
+          this.existingParts.forEach(part => {
+            if (sequence.number == part.sequence && part.minorMark == this.part.minorMark) {
+              sequence.error = true
+              this.errors.repeats.push(sequence.number)
+            }
+          })
+        } else {
+          if (this.sequences.length > 1) {
+            this.sequences.splice(index, 1)
+          }
+        }
+      })
+
+      if (this.errors.repeats.length > 0) {
+        this.errors.repeat = true
+      } else {
+        this.errors.repeat = false
+      }
     },
     submit () {
       this.checkForm()
@@ -312,18 +361,6 @@ export default {
               name: 'PartConfirmation'
             })
           })
-          .catch(err => {
-            this.$store.dispatch('complete')
-            this.errors.repeat = true
-            this.errors.messages = err.response.data.messages
-            err.response.data.sequences.forEach(item => {
-              this.sequences.forEach(value => {
-                if (item == value.id) {
-                  value.error = true
-                }
-              })
-            })
-          })
         }
 
       }
@@ -332,40 +369,14 @@ export default {
   created () {
     if (this.edit) {
       this.part = this.edit
-    }
-
-    else {
-      this.$store.dispatch('loading')
-      api.axios.get(`${api.baseUrl}/jobs/sequences`, {
-        params: {
-          jobId: this.$store.getters.currentJob._id
-        }
+    } else {
+      api.get('/jobs/parts', {
+        jobId: this.$store.getters.currentJob._id,
+        select: 'minorMark sequence'
+      }, (res) => {
+        this.existingParts = res.data.parts
       })
-      .then(res => {
-        this.$store.dispatch('complete')
-        this.sequenceList = res.data.sequences
-
-        if (this.$route.query.sequence) {
-          res.data.sequences.forEach(item => {
-            if (item._id == this.$route.query.sequence) {
-              this.sequences.push({
-                id: item._id,
-                number: item.number,
-                quantity: null
-              })
-            }
-          })
-        } else {
-          this.sequences.push({
-            id: res.data.sequences[0]._id,
-            number: res.data.sequences[0].number,
-            quantity: null
-          })
-        }
-      })
-      .catch(() => {
-        this.$store.dispatch('complete')
-      })
+      this.addSequence()
     }
   },
   mounted () {

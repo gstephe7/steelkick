@@ -10,7 +10,7 @@
       <input big v-model="name" placeholder="Job Name" :highlight="errors.name">
       <input big v-model="number" placeholder="Job ID #">
       <input big v-model="customer" placeholder="Customer">
-      <input big v-model="sequences" placeholder="# of Sequences">
+      <input big v-model.number="sequences" placeholder="# of Sequences">
 
       <button green type="submit">Create Job</button>
 
@@ -40,6 +40,10 @@ export default {
   },
   methods: {
     checkForm () {
+      if (!this.sequences) {
+        this.sequences = 1
+      }
+
       if (!this.name) {
         this.errors.name = true
       } else {
@@ -59,11 +63,7 @@ export default {
         })
         .then(res => {
           this.$store.dispatch('complete')
-          this.$store.dispatch('updateCurrentJob', {
-            _id: res.data.jobId,
-            name: this.name,
-            number: this.number
-          })
+          this.$store.dispatch('updateCurrentJob', res.data.job)
           this.$router.push({
             name: 'JobDetails'
           })

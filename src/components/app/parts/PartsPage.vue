@@ -12,7 +12,7 @@
 
     <br>
 
-    <Parts :job="$store.getters.currentJob._id"></Parts>
+    <Parts></Parts>
 
   </div>
 </template>

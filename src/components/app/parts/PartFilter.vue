@@ -19,7 +19,7 @@
       <div row>
         <select v-model="filter.sequence" @change="$emit('autoScroll')">
           <option disabled selected :value="undefined">Sequence</option>
-          <option v-for="sequence in sequences" :value="sequence._id">Sequence {{ sequence.number }}</option>
+          <option v-for="sequence in sequences" :value="sequence">Sequence {{ sequence }}</option>
         </select>
         <select @change="$emit('autoScroll')">
           <option disabled selected :value="undefined">Completed?</option>
@@ -38,16 +38,12 @@
 </template>
 
 <script>
+import method from '@/global/methods'
 import material from '@/assets/data/material.js'
 import api from '@/api/api'
 
 export default {
   props: ['filter'],
-  data () {
-    return {
-      sequences: []
-    }
-  },
   computed: {
     shapes () {
       let shapeList = []
@@ -68,22 +64,15 @@ export default {
       }
 
       return dimensionList
+    },
+    sequences () {
+      return method.getSequences(this.$store.getters.currentJob.sequences)
     }
   },
   methods: {
     reset () {
       this.$emit('reset')
-    },
-  },
-  beforeCreate () {
-    api.axios.get(`${api.baseUrl}/jobs/sequences`, {
-      params: {
-        jobId: this.$store.getters.currentJob._id
-      }
-    })
-    .then(res => {
-      this.sequences = res.data.sequences
-    })
+    }
   }
 }
 </script>

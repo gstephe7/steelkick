@@ -19,7 +19,7 @@
         </div>
 
         <span>
-          Seq {{ part.sequence.number }}
+          Seq {{ part.sequence }}
         </span>
       </div>
 
