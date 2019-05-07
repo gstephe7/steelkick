@@ -1,22 +1,22 @@
 <template>
-  <div main col>
+  <div main col center>
 
     <icon confirm icon="check-circle"></icon>
 
     <p v-if="$route.query.newEntry">You have successfully added new material!</p>
     <p v-if="$route.query.edit">You have successfully updated your material!</p>
 
-    <router-link v-if="$route.query.newEntry" :to="{ name: 'AddMaterial' }">
-      Add another entry
-    </router-link>
+    <button @click="$router.push({name: 'AddMaterial'})">
+      + Add Another Entry
+    </button>
 
-    <router-link :to="{ name: 'Inventory' }">
-      View your inventory
-    </router-link>
+    <button @click="$router.push({name: 'Inventory'})">
+      View Your Inventory
+    </button>
 
-    <router-link :to="{ name: 'Dashboard' }">
-      Return to the dashboard
-    </router-link>
+    <button @click="$router.push({name: 'Dashboard'})">
+      Return to Dashboard
+    </button>
 
   </div>
 </template>

@@ -15,6 +15,9 @@
         <CreateAccount></CreateAccount>
       </section>
     </div>
+    <div class="spacer">
+
+    </div>
   </div>
 </template>
 
@@ -39,5 +42,9 @@ export default {
   section {
     max-width: 400px;
     min-width: 290px;
+  }
+
+  .spacer {
+    height: 200px;
   }
 </style>

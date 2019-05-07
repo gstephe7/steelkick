@@ -95,8 +95,11 @@
 
         <div v-if="inventory">
           <span>
-            Location: {{ item.location }}
+            Location: {{ item.location || 'N/A' }}
           </span>
+          <div v-if="item.condition">
+            Condition: {{ item.condition }}
+          </div>
         </div>
 
         <div v-if="buying">
@@ -203,7 +206,7 @@
 
     <!-- Click Message -->
     <div col>
-      <em v-if="inventory">Click to edit material</em>
+      <em v-if="inventory">Click to edit/use material</em>
       <em v-if="buying">Click for information/to place order</em>
       <em v-if="cartItem">Click to edit this item/remove item from cart</em>
     </div>

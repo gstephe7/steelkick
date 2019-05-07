@@ -20,10 +20,6 @@
 
     <br>
 
-    <em col>
-      Click to edit
-    </em>
-
   </section>
 </template>
 
@@ -33,9 +29,9 @@ export default {
   methods: {
     viewUser () {
       this.$router.push({
-        path: 'edit-user',
+        path: 'user-details',
         query: {
-          id: this.user._id
+          userId: this.user._id
         }
       })
     }

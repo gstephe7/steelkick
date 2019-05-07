@@ -58,7 +58,7 @@
         </div>
         <div col v-if="inventory">
           <h3>No material found</h3>
-          <button @click="$router.push('/dashboard/home')">Back to Dashboard</button>
+          <button @click="$router.push({name: 'Dashboard'})">Back to Dashboard</button>
         </div>
       </div>
 
@@ -121,7 +121,7 @@ export default {
   }
 
   [main] {
-    padding: 25px 5px;
+    padding: 25px 5px 200px;
     max-width: 600px;
   }
 

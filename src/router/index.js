@@ -40,7 +40,7 @@ import Tasks from '@/components/app/tasks/Tasks'
 
 // users
 import Users from '@/components/app/users/Users'
-import ManageUsers from '@/components/app/users/ManageUsers'
+import UserDetails from '@/components/app/users/UserDetails'
 import UserEdit from '@/components/app/users/UserEdit'
 import NewUser from '@/components/app/users/NewUser'
 import NewUserConfirmation from '@/components/app/users/NewUserConfirmation'
@@ -167,6 +167,11 @@ const router = new Router({
           component: Users
         },
         {
+          path: 'user-details',
+          name: 'UserDetails',
+          component: UserDetails
+        },
+        {
           path: 'add-material',
           name: 'AddMaterial',
           component: AddMaterial
@@ -215,11 +220,6 @@ const router = new Router({
           path: 'set-prices',
           name: 'SetPrices',
           component: SetPrices
-        },
-        {
-          path: 'manage-users',
-          name: 'ManageUsers',
-          component: ManageUsers
         },
         {
           path: 'edit-user',

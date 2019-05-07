@@ -1,75 +1,75 @@
 <template>
-  <div main>
+  <div col center modal>
+    <div card class="modal-box">
 
-    <h1>Edit User</h1>
-
-    <dl>
-
-      <div row>
-        <dt>
-          First Name:
-        </dt>
-        <dd grow>
-          {{ user.firstName }}
-        </dd>
+      <div between align>
+        <h2>Edit User</h2>
+        <icon small click icon="times" @click="$emit('close')">
+        </icon>
       </div>
 
-      <div row>
-        <dt>
-          Last Name:
-        </dt>
-        <dd grow>
-          {{ user.lastName }}
-        </dd>
+      <hr>
+
+      <div>
+        <dl>
+          <div row>
+            <dt>
+              First Name:
+            </dt>
+            <dd grow>
+              {{ user.firstName }}
+            </dd>
+          </div>
+          <div row>
+            <dt>
+              Last Name:
+            </dt>
+            <dd grow>
+              {{ user.lastName }}
+            </dd>
+          </div>
+          <div row>
+            <dt>
+              Email:
+            </dt>
+            <dd grow>
+              {{ user.email }}
+            </dd>
+          </div>
+        </dl>
       </div>
 
-      <div row>
-        <dt>
-          Email:
-        </dt>
-        <dd grow>
-          {{ user.email }}
-        </dd>
+      <div>
+        <label between align>
+          Admin:
+          <select v-if="user.owner">
+            <option selected>Yes</option>
+          </select>
+          <select v-else v-model="user.admin">
+            <option :value="false">No</option>
+            <option :value="true">Yes</option>
+          </select>
+        </label>
       </div>
 
-    </dl>
+      <br>
 
-    <div>
-      <label between align>
-        Admin:
-        <select v-if="user.owner">
-          <option selected>Yes</option>
-        </select>
-        <select v-else v-model="user.admin">
-          <option :value="false">No</option>
-          <option :value="true">Yes</option>
-        </select>
-      </label>
+      <div col>
+          <button green @click="updateUser">Update User</button>
+          <button red @click="toggleDelete">Delete User</button>
+      </div>
+
+      <br>
+
+      <div col center v-if="showDelete">
+        <p>Are you sure you want to delete this user?</p>
+        <div around>
+          <button small @click="toggleDelete">No</button>
+          <button small @click="deleteUser">Yes</button>
+        </div>
+      </div>
+
     </div>
-
-    <br>
-
-    <div center>
-      <div box around>
-        <button small @click="$router.push('manage-users')">Cancel</button>
-        <button small green @click="updateUser">Update User</button>
-      </div>
-    </div>
-
-    <br>
-
-    <div center>
-      <button red @click="toggleDelete">Delete User</button>
-    </div>
-
-    <div col center v-if="showDelete">
-      <p>Are you sure you want to delete this user?</p>
-      <div around>
-        <button small @click="toggleDelete">No</button>
-        <button small @click="deleteUser">Yes</button>
-      </div>
-    </div>
-
   </div>
 </template>
 
@@ -77,27 +77,11 @@
 import api from '@/api/api'
 
 export default {
+  props: ['user'],
   data () {
     return {
-      user: {},
       showDelete: false
     }
-  },
-  created () {
-    this.$store.dispatch('loading')
-    api.axios
-      .get(`${api.baseUrl}/users/user`, {
-        params: {
-          id: this.$route.query.id
-        }
-      })
-      .then(res => {
-        this.$store.dispatch('complete')
-        this.user = res.data.user
-      })
-      .catch(() => {
-        this.$store.dispatch('complete')
-      })
   },
   methods: {
     toggleDelete () {
@@ -137,7 +121,19 @@ export default {
 
 <style lang="scss" scoped>
 
+  dl {
+    text-align: left;
+  }
+
   dt {
-    width: 100px;
+    width: 90px;
+  }
+
+  .modal-box {
+    background-color: white;
+    margin: 5px;
+    h2 {
+      margin: 5px 0;
+    }
   }
 </style>

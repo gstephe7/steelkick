@@ -5,7 +5,7 @@
 
     <p>New user successfully added! An email invite has been sent.</p>
 
-    <router-link :to="{ name: 'ManageUsers' }">
+    <router-link :to="{ name: 'Users' }">
       Back to user management
     </router-link>
 

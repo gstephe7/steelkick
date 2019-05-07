@@ -3,15 +3,15 @@
 
     <h1>Add New User</h1>
 
-    <form col @submit.prevent="submit">
+    <form col @submit.prevent="submit" autocomplete="off">
 
       <input big v-model="user.firstName" placeholder="First Name" :highlight="errors.firstName">
 
       <input big v-model="user.lastName" placeholder="Last Name" :highlight="errors.lastName">
 
-      <input big v-model="user.email" placeholder="Email" :highlight="errors.email">
+      <input big v-model="user.email" placeholder="Email" :highlight="errors.email" autocomplete="off">
 
-      <input big v-model="user.password" placeholder="Password" type="password" :highlight="errors.password">
+      <input big v-model="user.password" placeholder="Password" type="password" :highlight="errors.password" autocomplete="off">
 
       <select big v-model="user.admin" :highlight="errors.admin">
         <option :value="null" selected disabled>Admin?</option>
@@ -60,6 +60,7 @@ export default {
   data () {
     return {
       user: {
+        company: this.$store.getters.companyId,
         firstName: '',
         lastName: '',
         email: '',
@@ -119,9 +120,7 @@ export default {
       if (this.verified) {
         this.$store.dispatch('loading')
         api.axios.post(`${api.baseUrl}/users/new-user`, {
-          user: this.user,
-          company: this.$store.getters.companyName,
-          companyId: this.$store.getters.companyId
+          user: this.user
         })
         .then(res => {
           this.$store.dispatch('complete')
@@ -133,7 +132,7 @@ export default {
       }
     },
     cancel () {
-      this.$router.push('manage-users')
+      this.$router.push('users')
     }
   }
 }

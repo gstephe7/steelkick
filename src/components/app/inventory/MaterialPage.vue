@@ -21,6 +21,27 @@
 
     <div wrap>
 
+      <!-- Use Material 'quick pick' -->
+      <section grow box card>
+        <div between align>
+          <h2>Use Material</h2>
+        </div>
+        <hr>
+        <div center>
+          <button tiny @click="updateQuantityUsed(-1)">-</button>
+          <input tiny id="input" v-model.number="quantityUsed" type="number" @blur="checkNumber">
+          <button tiny @click="updateQuantityUsed(+1)">+</button>
+        </div>
+        <div col>
+          <button green @click="useMaterial">
+            Use {{ quantityUsed }}
+            <span v-if="quantityUsed == 1">Piece</span>
+            <span v-else>Pieces</span>
+          </button>
+        </div>
+        <br>
+      </section>
+
       <!-- Material Specs -->
       <section grow box card>
         <div between align>
@@ -84,17 +105,26 @@
         <MaterialEdit v-if="editing" :material="material" @close="editing = false"></MaterialEdit>
       </section>
 
+    </div>
+
+    <div>
+
       <!-- Actions -->
       <section grow box card>
         <div between align>
           <h2>Action Feed</h2>
         </div>
         <hr>
-        <Action v-for="action in actions"
-                :key="action._id"
-                :action="action"
-                :material="material">
-        </Action>
+        <div v-if="actions.length > 0">
+          <Action v-for="action in actions"
+                  :key="action._id"
+                  :action="action"
+                  :material="material">
+          </Action>
+        </div>
+        <div v-else>
+          <p col>No actions associated with this part yet</p>
+        </div>
       </section>
 
     </div>
@@ -117,6 +147,7 @@ export default {
     return {
       material: {},
       actions: [],
+      quantityUsed: 1,
       loaded: false,
       editing: false,
     }
@@ -134,6 +165,35 @@ export default {
     weight () {
       let lengthInFeet = parseFloat(this.material.length / 12)
       return parseFloat(this.material.weightPerFoot) * lengthInFeet
+    }
+  },
+  methods: {
+    updateQuantityUsed (number) {
+      this.quantityUsed += number
+      if (this.quantityUsed > this.material.quantity) {
+        this.quantityUsed = this.material.quantity
+      }
+      if (this.quantityUsed == 0) {
+        this.quantityUsed = 1
+      }
+    },
+    checkNumber () {
+      if (typeof this.quantityUsed != 'number') {
+        this.quantityUsed = 1
+      }
+    },
+    useMaterial () {
+      api.post('/material/use-material', {
+        materialId: this.material._id,
+        quantityUsed: this.quantityUsed
+      }, (res) => {
+        this.$store.dispatch('success', `You have successfully removed ${this.quantityUsed} piece(s) out of your inventory!`)
+        .then(() => {
+          this.$router.push({
+            name: 'Inventory'
+          })
+        })
+      }, 'load')
     }
   },
   beforeCreate () {
@@ -173,5 +233,18 @@ export default {
 
   dd {
     flex: 1;
+  }
+
+  button[tiny] {
+    border-radius: 10px;
+    width: 60px;
+    height: 60px;
+    font-size: 40px;
+    margin: 15px;
+  }
+  input[tiny] {
+    margin: 15px 10px;
+    width: 40px;
+    font-size: 24px;
   }
 </style>
