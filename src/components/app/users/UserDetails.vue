@@ -40,8 +40,7 @@
         <div v-if="actions.length > 0">
           <Action v-for="action in actions"
                   :key="action._id"
-                  :action="action"
-                  :part="action.part">
+                  :action="action">
           </Action>
         </div>
         <div v-else>

@@ -300,7 +300,6 @@ export default {
 
       if (this.verified) {
         if (this.edit) {
-          console.log(this.material)
           this.$store.dispatch('loading')
           api.axios.put(`${api.baseUrl}/material/edit-material`, {
             material: this.material
@@ -308,6 +307,12 @@ export default {
           .then(() => {
             this.$store.dispatch('complete')
             this.$emit('close')
+            this.$store.dispatch('action', {
+              material: this.material._id,
+              action: 'edited',
+              description: 'in the inventory',
+              quantity: this.material.quantity
+            })
             this.$store.dispatch('success', 'Successfully updated material!')
             .then(() => {
               location.reload(true)
@@ -322,8 +327,14 @@ export default {
           api.axios.post(`${api.baseUrl}/material/new-material`, {
             material: this.material
           })
-          .then(() => {
+          .then(res => {
             this.$store.dispatch('complete')
+            this.$store.dispatch('action', {
+              material: res.data.material._id,
+              action: 'added',
+              description: 'to the inventory',
+              quantity: res.data.material.quantity
+            })
             this.$router.push({
               path: 'material-confirmation',
               query: {
@@ -349,6 +360,12 @@ export default {
       })
       .then(() => {
         this.$store.dispatch('complete')
+        this.$store.dispatch('action', {
+          materialDescription: `${this.material.shape} ${this.material.dimension} ${this.material.length}"`,
+          action: 'deleted',
+          description: 'from the inventory',
+          quantity: this.material.quantity
+        })
         this.$router.push('inventory')
       })
       .catch(() => {
@@ -359,7 +376,6 @@ export default {
   created () {
     if (this.edit) {
       this.material = this.edit
-      console.log(this.edit)
     }
   },
   beforeMount () {

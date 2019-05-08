@@ -149,6 +149,7 @@ export default new Vuex.Store({
             sequence: payload.sequence || null,
             part: payload.part || null,
             material: payload.material || null,
+            materialDescription: payload.materialDescription || null,
             action: payload.action,
             description: payload.description,
             quantity: payload.quantity,

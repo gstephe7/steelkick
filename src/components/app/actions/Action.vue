@@ -1,6 +1,6 @@
 <template>
   <div row align>
-    <img :src="require(`@/assets/img/actions/${action.description}.png`)">
+    <img v-if="action.part" :src="require(`@/assets/img/actions/${action.description}.png`)">
     <p>
       {{ name }}
       {{ action.action }}
@@ -14,8 +14,10 @@
 </template>
 
 <script>
+import method from '@/global/methods'
+
 export default {
-  props: ['action', 'part'],
+  props: ['action'],
   computed: {
     name () {
       if (this.action.user.firstName && this.action.user.lastName) {
@@ -27,10 +29,21 @@ export default {
       }
     },
     target () {
-      if (this.part) {
-        return this.part.minorMark
-      } else {
-        return `${this.action.material.shape} ${this.action.material.dimension}`
+      if (this.action.part) {
+        return this.action.part.minorMark
+      } else if (this.action.material) {
+        return `${this.action.material.shape} ${this.action.material.dimension} ${this.length}`
+      } else if (this.action.materialDescription) {
+        return this.action.materialDescription
+      }
+    },
+    length () {
+      if (this.action.material) {
+        let feet = method.getFeet(this.action.material.length) || '0'
+        let inches = method.getInches(this.action.material.length) || '0'
+        let fraction = method.getFraction(this.action.material.length) || ''
+
+        return `${feet}'-${inches}" ${fraction}`
       }
     }
   }
