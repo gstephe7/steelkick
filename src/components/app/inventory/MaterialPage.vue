@@ -186,6 +186,13 @@ export default {
         materialId: this.material._id,
         quantityUsed: this.quantityUsed
       }, (res) => {
+        this.$store.dispatch('action', {
+          material: this.material._id,
+          materialDescription: `${this.material.shape} ${this.material.dimension} ${this.material.length}"`,
+          action: 'picked',
+          description: 'from the inventory',
+          quantity: this.quantityUsed
+        })
         this.$store.dispatch('success', `You have successfully removed ${this.quantityUsed} piece(s) out of your inventory!`)
         .then(() => {
           this.$router.push({
@@ -215,7 +222,7 @@ export default {
       }
     })
     .then(res => {
-      this.actions = res.data.actions.reverse()
+      this.actions = res.data.actions
     })
   }
 }

@@ -20,7 +20,7 @@ body {
 [main] {
   max-width: 800px;
   min-height: 400px;
-  padding: 25px 10px 200px 10px;
+  padding: 10px 10px 200px 10px;
   margin: auto;
 }
 
@@ -445,6 +445,10 @@ svg[confirm] {
 
 svg[big] {
   font-size: 100px;
+}
+
+svg[medium] {
+  font-size: 50px;
 }
 
 svg[small] {

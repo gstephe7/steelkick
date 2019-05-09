@@ -9,23 +9,23 @@
 
       <div around wrap>
         <section col center card click @click="$router.push({name: 'Working'})">
-          <icon big icon="hammer" class="red"></icon>
-          <h2>Start Working</h2>
+          <icon medium icon="hammer" class="red"></icon>
+          <h4>Start Working</h4>
         </section>
         <section col center card click @click="$router.push({name: 'Jobs'})">
-          <icon big icon="briefcase" class="green"></icon>
-          <h2>Jobs</h2>
+          <icon medium icon="briefcase" class="green"></icon>
+          <h4>Jobs</h4>
         </section>
       </div>
 
       <div around wrap v-if="$store.getters.isAdmin">
         <section col center card click @click="$router.push({name: 'Schedule'})">
-          <icon big :icon="{ prefix: 'far', iconName: 'calendar-alt' }" class="orange"></icon>
-          <h2>Schedule</h2>
+          <icon medium :icon="{ prefix: 'far', iconName: 'calendar-alt' }" class="orange"></icon>
+          <h4>Schedule</h4>
         </section>
         <section col center card click @click="$router.push({name: 'Tasks'})">
-          <icon big icon="tasks" class="blue"></icon>
-          <h2>Tasks</h2>
+          <icon medium icon="tasks" class="blue"></icon>
+          <h4>Tasks</h4>
         </section>
       </div>
 
@@ -35,23 +35,23 @@
 
       <div around wrap v-if="$store.getters.isAdmin">
         <section col center card click @click="$router.push({name: 'Inventory'})">
-          <icon big icon="boxes" class="gold"></icon>
-          <h2>Inventory</h2>
+          <icon medium icon="boxes" class="gold"></icon>
+          <h4>Inventory</h4>
         </section>
         <section col center card click @click="$router.push({name: 'Users'})" v-if="$store.getters.isAdmin">
-          <icon big icon="users" class="purple"></icon>
-          <h2>Users</h2>
+          <icon medium icon="users" class="purple"></icon>
+          <h4>Users</h4>
         </section>
       </div>
 
       <div around wrap>
         <section col center card click @click="$router.push({name: 'Marketplace'})">
-          <icon big icon="dollar-sign" class="blue-green"></icon>
-          <h2>Marketplace</h2>
+          <icon medium icon="dollar-sign" class="blue-green"></icon>
+          <h4>Marketplace</h4>
         </section>
         <section col center card click @click="$router.push({name: 'Settings'})">
-          <icon big icon="cog" class="burgundy"></icon>
-          <h2>Settings</h2>
+          <icon medium icon="cog" class="burgundy"></icon>
+          <h4>Settings</h4>
         </section>
       </div>
 
@@ -72,7 +72,13 @@ export default {
   }
 
   [card] {
-    height: 230px;
-    width: 230px;
+    height: 120px;
+    width: 120px;
+    h4 {
+      margin: 5px;
+    }
+    svg {
+      margin: 5px;
+    }
   }
 </style>
