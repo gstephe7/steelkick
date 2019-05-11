@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import store from '../store'
 
 // WEBSITE ROUTES
 import Website from '@/components/website/App'
@@ -415,5 +416,7 @@ router.beforeEach((to, from, next) => {
     next()
   }
 })
+
+// material design branch
 
 export default router
