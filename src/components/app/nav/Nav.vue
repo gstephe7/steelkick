@@ -1,5 +1,5 @@
 <template>
-  <nav @click="closeMenu" :class="{ desktop : desktop }">
+  <nav @click="$emit('closeMenu')">
     <ul>
       <li>
         <router-link :to="{ name: 'Dashboard' }">Dashboard</router-link>
@@ -34,17 +34,15 @@
 
 <script>
 export default {
-  props: ['desktop'],
-  methods: {
-    closeMenu () {
-      this.$emit('closeMenu')
-    }
-  }
 }
 </script>
 
 <style lang="scss" scoped>
   @import '@/assets/scss/variables.scss';
+
+  nav {
+    margin: 10px;
+  }
 
   li {
     transition: 250ms all;
@@ -55,27 +53,15 @@ export default {
   }
 
   a {
-    color: $accent;
+    color: $primary;
     text-decoration: none;
-    font-size: 24px;
+    font-size: 18px;
+    line-height: 1.5;
     transition: 250ms all;
   }
 
   a:hover {
     color: $secondary;
-  }
-
-  .desktop {
-    li {
-      justify-content: flex-start;
-      padding: 5px 5px;
-    }
-    li:hover {
-      transform: scale(1.05);
-    }
-    a {
-      font-size: 22px;
-    }
   }
 
   .notify-container {

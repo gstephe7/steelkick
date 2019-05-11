@@ -1,10 +1,6 @@
 <template>
   <div main>
 
-    <h1>{{ $store.getters.companyName }} Dashboard</h1>
-
-    <hr>
-
     <div center wrap>
 
       <div around wrap>

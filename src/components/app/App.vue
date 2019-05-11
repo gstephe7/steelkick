@@ -1,17 +1,21 @@
 <template>
   <div>
 
-    <Header id="mobile"></Header>
+    <Header :showMenu="showMenu"
+            @toggleMenu="showMenu = !showMenu"
+            @closeMenu="showMenu = false">
+    </Header>
 
-    <div between>
+    <div row>
 
-      <Sidebar id="desktop"></Sidebar>
+      <Sidebar :showMenu="showMenu" @closeMenu="showMenu = false"></Sidebar>
 
-      <router-view basis grow></router-view>
+      <div basis grow class="content" @click="showMenu = false">
+        <router-view></router-view>
+        <Footer></Footer>
+      </div>
 
     </div>
-
-    <Footer></Footer>
 
   </div>
 </template>
@@ -26,6 +30,11 @@ export default {
     Header,
     Sidebar,
     Footer
+  },
+  data () {
+    return {
+      showMenu: false
+    }
   },
   created () {
     const currentJob = localStorage.getItem('currentJob')
@@ -43,25 +52,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
-  #mobile {
-    @media screen and (max-width: 999px) {
-      display: block;
-    }
-    @media screen and (min-width: 1000px) {
-      display: none;
-    }
-  }
-
-  #desktop {
-    @media screen and (max-width: 999px) {
-      display: none;
-    }
-    @media screen and (min-width: 1000px) {
-      display: block;
-      margin-right: 5px;
-      min-width: 190px;
-      max-width: 190px;
+  .content {
+    @media screen and (min-width: 999px) {
+      margin-left: 250px;
     }
   }
 </style>

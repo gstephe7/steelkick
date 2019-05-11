@@ -1,15 +1,13 @@
 <template>
-  <aside>
+  <aside id="sidebar" :class="{ show : showMenu }">
 
-    <div id="logo">
-      <router-link :to="{ name: 'Home' }">
-        <Logo></Logo>
-      </router-link>
+    <div class="logo" align>
+      <Logo></Logo>
     </div>
 
     <hr>
 
-    <Nav :desktop="true"></Nav>
+    <Nav @closeMenu="$emit('closeMenu')"></Nav>
 
   </aside>
 </template>
@@ -19,6 +17,7 @@ import Logo from '@/components/logo/Logo'
 import Nav from '@/components/app/nav/Nav'
 
 export default {
+  props: ['showMenu'],
   components: {
     Logo,
     Nav
@@ -29,19 +28,35 @@ export default {
 <style lang="scss" scoped>
   @import '@/assets/scss/variables.scss';
 
-  #logo {
-    display: flex;
-    margin: 10px;
-  }
-
   aside {
-    background-color: $primary;
+    z-index: 3;
+    background: #fff;
     width: 250px;
-    padding: 5px;
+    position: fixed;
+    height: 100%;
+    padding: 0;
+    left: 0;
+    box-shadow: 0px 2px 4px rgba(0,0,0,.5);
+    @media screen and (max-width: 999px) {
+      left: -250px;
+      position: fixed;
+      height: 100vh;
+      transition: 250ms all;
+    }
   }
 
-  a {
-    text-decoration: none;
+  .show {
+    left: 0;
+  }
+
+  .logo {
+    height: 72px;
+    padding-left: 20px;
+  }
+
+  hr {
+    margin: 0 auto;
+    width: 90%;
   }
 
 </style>

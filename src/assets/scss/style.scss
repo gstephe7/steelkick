@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto:300,700');
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,700');
 @import 'variables';
 
 
@@ -10,7 +10,7 @@ body {
   overflow-x: hidden;
   color: $primary;
   font-family: 'Roboto', sans-serif;
-  font-weight: 300;
+  font-weight: 400;
 }
 
 
@@ -20,7 +20,7 @@ body {
 [main] {
   max-width: 800px;
   min-height: 400px;
-  padding: 10px 10px 200px 10px;
+  padding: 100px 10px 200px 10px;
   margin: auto;
 }
 
@@ -103,6 +103,27 @@ body {
 
 
 
+// media query displays
+[mobile] {
+  @media screen and (max-width: 999px) {
+    display: block;
+  }
+  @media screen and (min-width: 1000px) {
+    display: none;
+  }
+}
+
+[desktop] {
+  @media screen and (max-width: 999px) {
+    display: none;
+  }
+  @media screen and (min-width: 1000px) {
+    display: display;
+  }
+}
+
+
+
 
 // CUSTOM STYLED CONTAINERS
 [card] {
@@ -162,20 +183,20 @@ section {
 }
 
 header {
-  height: 40px;
+  height: 72px;
   background-color: $primary;
+  color: $accent;
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  padding: 5px 10px;
+  align-items: center;
+  box-shadow: 0px 2px 4px rgba(0,0,0,.5);
+  z-index: 10;
 }
 
 nav {
-  background-color: $primary;
+  color: $primary;
   display: flex;
   flex-direction: column;
-  text-align: right;
-  padding: 0 5px;
   ul {
     margin: 0;
     padding: 0;
@@ -184,7 +205,6 @@ nav {
   li {
     padding: 5px 10px;
     display: flex;
-    justify-content: flex-end;
   }
 }
 

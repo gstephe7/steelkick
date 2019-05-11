@@ -1,13 +1,21 @@
 <template>
   <div>
-    <h1 v-if="footer" class="footer">STEELKICK</h1>
-    <h1 v-else class="title-a">STEEL<span class="title-b">KICK</span></h1>
+    <span v-if="small">
+      <h1 class="title-a small">
+        S<span class="title-b">K</span>
+      </h1>
+    </span>
+    <span v-else>
+      <h1 class="title-a">
+        STEEL<span class="title-b">KICK</span>
+      </h1>
+    </span>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['footer']
+  props: ['small']
 }
 </script>
 
@@ -28,13 +36,7 @@ export default {
     color: $accent;
   }
 
-  .footer {
-    color: $accent;
-    opacity: .5;
-    margin: 0 5px 0 0;
-    padding: 0;
-    font-style: italic;
-    letter-spacing: -3px;
-    font-weight: 700;
+  .small {
+    font-size: 30px;
   }
 </style>
