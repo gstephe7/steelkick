@@ -8,7 +8,9 @@
 
     <div row>
 
-      <Sidebar :showMenu="showMenu" @closeMenu="showMenu = false"></Sidebar>
+      <div :class="{ mobileMenu : showMenu }" @click="showMenu = false">
+        <Sidebar :showMenu="showMenu" @closeMenu="showMenu = false"></Sidebar>
+      </div>
 
       <div basis grow class="content" @click="showMenu = false">
         <router-view></router-view>
@@ -53,8 +55,18 @@ export default {
 
 <style lang="scss" scoped>
   .content {
-    @media screen and (min-width: 999px) {
+    @media screen and (min-width: 1000px) {
       margin-left: 250px;
+    }
+  }
+
+  .mobileMenu {
+    @media screen and (max-width: 999px) {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      z-index: 9;
+      background-color: rgba(0,0,0,.5);
     }
   }
 </style>

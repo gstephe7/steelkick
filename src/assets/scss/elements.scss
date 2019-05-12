@@ -1,0 +1,400 @@
+// STYLES FOR ELEMENTS - including basic html elements and "custom" created elements
+
+@import 'variables';
+
+
+
+// HTML ELEMENTS
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  color: $primary;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+}
+
+section {
+  padding: 10px;
+  margin: 10px;
+}
+
+header {
+  height: 72px;
+  background-color: $primary;
+  color: $accent;
+  box-shadow: $box-shadow-dark;
+  z-index: 10;
+  position: fixed;
+  width: 100%;
+  max-width: 100%;
+  top: 0px;
+  transition: 250ms all;
+  button {
+    background-color: rgba(0,0,0,0);
+    outline: none;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    height: 72px;
+    width: 72px;
+    margin: 0;
+    cursor: pointer;
+    font-size: 20px;
+  }
+  [title] {
+    font-size: 20px;
+    margin: 0;
+  }
+}
+
+nav {
+  color: $primary;
+  display: flex;
+  flex-direction: column;
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+  }
+  li {
+    display: flex;
+  }
+}
+
+aside {
+  width: 320px;
+  padding: 35px 5px;
+}
+
+footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: space-around;
+  height: 300px;
+  padding: 10px;
+  text-align: center;
+  background-color: $primary;
+  color: $accent;
+  a, h5, small {
+    opacity: .5;
+  }
+  a {
+    font-size: 18px;
+  }
+}
+
+form {
+  width: 100%;
+}
+
+label {
+  width: 280px;
+}
+
+button {
+  width: 175px;
+  height: 44px;
+  margin: 10px;
+  padding: 5px;
+  background-color: $secondary;
+  border-radius: 5px;
+  border: none;
+  color: #fff;
+  font-family: 'Roboto', sans-serif;
+  font-size: 18px;
+  transition: 250ms all;
+  cursor: pointer;
+  box-shadow: $box-shadow-dark;
+  svg {
+    font-size: 24px;
+    color: $accent;
+  }
+}
+
+button:hover {
+  transform: scale(1.01);
+  filter: brightness(105%);
+}
+
+button:active {
+  transform: translateY(1px);
+}
+
+button[grey] {
+  background-color: $accent;
+}
+
+button[green] {
+  background-color: $success;
+}
+
+button[red] {
+  background-color: $red;
+}
+
+button[blue] {
+  background-color: $blue;
+}
+
+button[white] {
+  background-color: #fff;
+  color: $primary;
+  border: .5px solid $accent;
+}
+
+button[small] {
+  width: 100px;
+  height: 36px;
+  font-size: 16px;
+}
+
+button[tiny] {
+  width: 50px;
+  height: 50px;
+}
+
+button[fab] {
+  height: 75px;
+  width: 75px;
+  border-radius: 50%;
+  box-shadow: 2px 6px 12px rgba(0,0,0,.5);
+  font-size: 32px;
+  z-index: 3;
+}
+
+input {
+  width: 118px;
+  padding: 10px;
+  margin: 5px;
+  border-radius: 5px;
+  border: 1px solid $input-border;
+  font-size: 18px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+}
+
+input[big] {
+  width: 178px;
+}
+
+input[small] {
+  width: 100px;
+  margin: 5px 10px;
+}
+
+input[tiny] {
+  width: 30px;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance:textfield;
+}
+
+input[length] {
+  width: 20px;
+  border-radius: 0;
+  box-shadow: none;
+  border: none;
+  text-align: right;
+  padding: 0;
+  margin: 0;
+}
+
+input[denominator] {
+  text-align: left;
+}
+
+span[length] {
+  padding: 10px;
+  margin: 5px;
+  background-color: #fff;
+  border-radius: 5px;
+  border: 1px solid $input-border;
+  width: 118px;
+  display: flex;
+  justify-content: space-between;
+}
+
+select {
+  width: 140px;
+  padding: 10px;
+  margin: 5px;
+  border-radius: 5px;
+  border: 1px solid $input-border;
+  font-size: 18px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+}
+
+select[big] {
+  width: 200px;
+}
+
+textarea {
+  width: 268px;
+  padding: 10px;
+  margin: 5px;
+  border-radius: 5px;
+  border: 1px solid $input-border;
+  font-size: 18px;
+  font-family: 'Roboto', sans-serif;
+}
+
+h1 {
+  font-size: 32px;
+  margin: 0 0 10px 0;
+  font-weight: normal;
+  line-height: normal;
+}
+
+h2 {
+  font-size: 28px;
+  font-weight: normal;
+  margin: 0 0 10px 0;
+}
+
+h3 {
+  font-size: 24px;
+  font-weight: normal;
+  margin: 0 0 5px 0;
+}
+
+h4 {
+  font-size: 20px;
+  font-weight: normal;
+  margin: 0;
+}
+
+h5 {
+  font-size: 18px;
+  margin: 0;
+}
+
+h6 {
+  font-size: 16px;
+  margin: 0;
+}
+
+p {
+  width: 100%;
+  line-height: 1.5;
+}
+
+strong {
+  font-weight: 300;
+  text-decoration: underline;
+}
+
+em {
+  text-decoration: underline;
+  color: $secondary;
+}
+
+small {
+  font-size: 12px;
+  line-height: 1.25;
+}
+
+dt {
+  width: 140px;
+}
+
+dd {
+  width: 115px;
+  margin: 0;
+  word-wrap: break-word;
+}
+
+li {
+  line-height: 1.5;
+}
+
+hr {
+  margin: 15px 0;
+  opacity: .25;
+}
+
+svg[confirm] {
+  font-size: 75px;
+  color: $success;
+}
+
+svg[big] {
+  font-size: 100px;
+}
+
+svg[medium] {
+  font-size: 48px;
+}
+
+svg[small] {
+  font-size: 24px;
+  margin: 5px;
+}
+
+
+
+// CUSTOM ELEMENTS
+[card] {
+  box-shadow: $box-shadow-light;
+  border-radius: 5px;
+  [header] {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: .5px solid rgba(0,0,0,.25);
+  }
+  [content] {
+    padding: 10px;
+  }
+  [actions] {
+    padding: 10px;
+  }
+}
+
+[click] {
+  cursor: pointer;
+  transition: 250ms all;
+}
+
+[click]:hover {
+  transform: scale(1.02);
+}
+
+[hover] {
+  transition: 250ms all;
+  cursor: pointer;
+}
+
+[hover]:hover {
+  box-shadow: $box-shadow-light;
+}
+
+[modal] {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 99;
+  background-color: rgba(0,0,0,.5);
+}
+
+[header] {
+  h1 {
+    margin: 0;
+  }
+  h2 {
+    margin: 0;
+    font-size: 18px;
+  }
+}

@@ -4,24 +4,44 @@
     <div center wrap>
 
       <div around wrap>
-        <section col center card click @click="$router.push({name: 'Working'})">
-          <icon medium icon="hammer" class="red"></icon>
-          <h4>Start Working</h4>
+        <section col center card click @click="$router.push('/working')">
+          <div half>
+            <icon medium icon="hammer" class="red"></icon>
+          </div>
+          <div grow col>
+            <b>Start Working</b>
+            <small>Begin working on a job</small>
+          </div>
         </section>
-        <section col center card click @click="$router.push({name: 'Jobs'})">
-          <icon medium icon="briefcase" class="green"></icon>
-          <h4>Jobs</h4>
+        <section col center card click @click="$router.push('/jobs')">
+          <div half>
+            <icon medium icon="briefcase" class="green"></icon>
+          </div>
+          <div grow col>
+            <b>Jobs</b>
+            <small>View/Manage jobs</small>
+          </div>
         </section>
       </div>
 
       <div around wrap v-if="$store.getters.isAdmin">
-        <section col center card click @click="$router.push({name: 'Schedule'})">
-          <icon medium :icon="{ prefix: 'far', iconName: 'calendar-alt' }" class="orange"></icon>
-          <h4>Schedule</h4>
+        <section col center card click @click="$router.push('/schedule')">
+          <div half>
+            <icon medium :icon="{ prefix: 'far', iconName: 'calendar-alt' }" class="orange"></icon>
+          </div>
+          <div grow col>
+            <b>Schedule</b>
+            <small>View upcoming dates</small>
+          </div>
         </section>
-        <section col center card click @click="$router.push({name: 'Tasks'})">
-          <icon medium icon="tasks" class="blue"></icon>
-          <h4>Tasks</h4>
+        <section col center card click @click="$router.push('/tasks')">
+          <div half>
+            <icon medium icon="tasks" class="blue"></icon>
+          </div>
+          <div grow col>
+            <b>Tasks</b>
+            <small>Accept/assign tasks with users</small>
+          </div>
         </section>
       </div>
 
@@ -30,24 +50,44 @@
     <div center wrap>
 
       <div around wrap v-if="$store.getters.isAdmin">
-        <section col center card click @click="$router.push({name: 'Inventory'})">
-          <icon medium icon="boxes" class="gold"></icon>
-          <h4>Inventory</h4>
+        <section col center card click @click="$router.push('/inventory')">
+          <div half>
+            <icon medium icon="boxes" class="gold"></icon>
+          </div>
+          <div grow col>
+            <b>Inventory</b>
+            <small>Manage/Add to inventory</small>
+          </div>
         </section>
-        <section col center card click @click="$router.push({name: 'Users'})" v-if="$store.getters.isAdmin">
-          <icon medium icon="users" class="purple"></icon>
-          <h4>Users</h4>
+        <section col center card click @click="$router.push('/users')" v-if="$store.getters.isAdmin">
+          <div half>
+            <icon medium icon="users" class="purple"></icon>
+          </div>
+          <div grow col>
+            <b>Users</b>
+            <small>Add/View users</small>
+          </div>
         </section>
       </div>
 
       <div around wrap>
-        <section col center card click @click="$router.push({name: 'Marketplace'})">
-          <icon medium icon="dollar-sign" class="blue-green"></icon>
-          <h4>Marketplace</h4>
+        <section col center card click @click="$router.push('/marketplace')">
+          <div half>
+            <icon medium icon="dollar-sign" class="blue-green"></icon>
+          </div>
+          <div grow col>
+            <b>Marketplace</b>
+            <small>Buy/Sell excess steel</small>
+          </div>
         </section>
-        <section col center card click @click="$router.push({name: 'Settings'})">
-          <icon medium icon="cog" class="burgundy"></icon>
-          <h4>Settings</h4>
+        <section col center card click @click="$router.push('/settings')">
+          <div half>
+            <icon medium icon="cog" class="burgundy"></icon>
+          </div>
+          <div grow col>
+            <b>Settings</b>
+            <small>Edit profile and company settings</small>
+          </div>
         </section>
       </div>
 
@@ -63,18 +103,8 @@ export default {
 
 <style lang="scss" scoped>
 
-  [main] {
-    max-width: 1200px;
-  }
-
   [card] {
-    height: 120px;
-    width: 120px;
-    h4 {
-      margin: 5px;
-    }
-    svg {
-      margin: 5px;
-    }
+    height: 110px;
+    width: 110px;
   }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div id="social">
 
-    <h3>Connect with SteelKick</h3>
+    <h5>Connect with SteelKick</h5>
 
     <hr>
 

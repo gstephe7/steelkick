@@ -1,10 +1,6 @@
 <template>
   <div main>
 
-    <h1>All Jobs</h1>
-
-    <hr>
-
     <div col>
 
       <button green @click="createJob">+ Create New Job</button>
@@ -13,7 +9,7 @@
 
       <div v-if="jobs.length > 0">
         <h2 click v-for="job in jobs" :key="job._id" @click="updateCurrentJob(job)">
-          <router-link :to="{ name: 'JobDetails' }">
+          <router-link to="job-details">
             {{ job.name }}
           </router-link>
         </h2>

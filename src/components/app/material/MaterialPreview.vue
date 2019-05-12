@@ -1,16 +1,16 @@
 <template>
-  <div card click @click="viewDetails">
+  <section card click @click="viewDetails">
 
     <div between>
 
       <!-- Shape and Dimension -->
-      <h4>
+      <h6>
         {{ item.shape.toUpperCase() }} {{ item.dimension }}
-      </h4>
+      </h6>
 
       <!-- Hundred Weight Price -->
-      <h4 v-if="item.forSale">${{ item.cwt }} Cwt</h4>
-      <h4 v-else>Not For Sale</h4>
+      <h6 v-if="item.forSale">${{ item.cwt }} Cwt</h6>
+      <h6 v-else>Not For Sale</h6>
 
     </div>
 
@@ -211,7 +211,7 @@
       <em v-if="cartItem">Click to edit this item/remove item from cart</em>
     </div>
 
-  </div>
+  </section>
 </template>
 
 <script>
@@ -234,7 +234,7 @@ export default {
     viewDetails () {
       if (this.inventory) {
         this.$router.push({
-          name: 'MaterialPage',
+          path: '/material-page',
           query: {
             materialId: this.item._id
           }
@@ -265,7 +265,7 @@ export default {
 
 <style lang="scss" scoped>
 
-  h4 {
+  h6 {
     @media screen and (min-width: 500px) {
       font-size: 22px;
     }
@@ -273,5 +273,9 @@ export default {
 
   p {
     margin: 0;
+  }
+
+  section {
+    margin: 10px 0;
   }
 </style>

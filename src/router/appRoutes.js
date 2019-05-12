@@ -45,12 +45,13 @@ import OrderDetails from '@/components/app/marketplace/orders/OrderDetails'
 import Transactions from '@/components/app/marketplace/transactions/Transactions'
 import TransactionDetails from '@/components/app/marketplace/transactions/TransactionDetails'
 import SetPrices from '@/components/app/marketplace/SetPrices'
-import EditProfile from '@/components/app/marketplace/editProfile/EditProfile'
+import EditCompany from '@/components/app/marketplace/editProfile/EditProfile'
 
 // company settings
 import Settings from '@/components/app/settings/Settings'
 import Workflow from '@/components/app/settings/workflow/Workflow'
 import WorkflowConfirmation from '@/components/app/settings/workflow/WorkflowConfirmation'
+import EditProfile from '@/components/app/settings/profile/EditProfile'
 
 
 
@@ -62,27 +63,27 @@ export default [
   },
   {
     path: 'jobs',
-    name: 'Jobs',
+    name: 'All Jobs',
     component: Jobs
   },
   {
     path: 'create-job',
-    name: 'CreateJob',
+    name: 'Create New Job',
     component: CreateJob
   },
   {
     path: 'job-details',
-    name: 'JobDetails',
+    name: 'Job Details',
     component: JobDetails
   },
   {
     path: 'create-part',
-    name: 'CreatePart',
+    name: 'Create New Part',
     component: CreatePart
   },
   {
     path: 'part-confirmation',
-    name: 'PartConfirmation',
+    name: 'Part Confirmation',
     component: PartConfirmation
   },
   {
@@ -92,7 +93,7 @@ export default [
   },
   {
     path: 'part-details',
-    name: 'PartDetails',
+    name: 'Part Details',
     component: PartDetails
   },
   {
@@ -122,17 +123,17 @@ export default [
   },
   {
     path: 'user-details',
-    name: 'UserDetails',
+    name: 'User Details',
     component: UserDetails
   },
   {
     path: 'add-material',
-    name: 'AddMaterial',
+    name: 'Add Material',
     component: AddMaterial
   },
   {
     path: 'material-confirmation',
-    name: 'MaterialConfirmation',
+    name: 'Material Confirmation',
     component: MaterialConfirmation
   },
   {
@@ -147,17 +148,17 @@ export default [
   },
   {
     path: 'material-page',
-    name: 'MaterialPage',
+    name: 'Material Page',
     component: MaterialPage
   },
   {
     path: 'pending-orders',
-    name: 'OrderPage',
+    name: 'Order Page',
     component: OrderPage
   },
   {
     path: 'order-details',
-    name: 'OrderDetails',
+    name: 'Order Details',
     component: OrderDetails
   },
   {
@@ -167,33 +168,33 @@ export default [
   },
   {
     path: 'transaction-details',
-    name: 'TransactionDetails',
+    name: 'Transaction Details',
     component: TransactionDetails
   },
   {
     path: 'set-prices',
-    name: 'SetPrices',
+    name: 'Set Prices',
     component: SetPrices
   },
   {
     path: 'edit-user',
-    name: 'EditUser',
+    name: 'Edit User',
     component: UserEdit
   },
   {
     path: 'new-user',
-    name: 'NewUser',
+    name: 'Add New User',
     component: NewUser
   },
   {
     path: 'new-user-confirmed',
-    name: 'NewUserConfirmation',
+    name: 'New User Confirmation',
     component: NewUserConfirmation
   },
   {
-    path: 'edit-profile',
-    name: 'EditProfile',
-    component: EditProfile
+    path: 'edit-company',
+    name: 'Edit Company',
+    component: EditCompany
   },
   {
     path: 'cart',
@@ -207,7 +208,7 @@ export default [
   },
   {
     path: 'checkout-confirmation',
-    name: 'CheckoutConfirmation',
+    name: 'Checkout Confirmation',
     component: CheckoutConfirmation
   },
   {
@@ -222,7 +223,12 @@ export default [
   },
   {
     path: 'workflow-confirmation',
-    name: 'WorkflowConfirmation',
+    name: 'Workflow Confirmation',
     component: WorkflowConfirmation
+  },
+  {
+    path: 'edit-profile',
+    name: 'Edit Profile',
+    component: EditProfile
   }
 ]

@@ -3,6 +3,8 @@
 
     <div col center class="layer">
 
+      <br>
+
       <h1>Search For Steel Near You</h1>
 
       <Search :quick="true"
@@ -27,7 +29,7 @@ export default {
   @import '@/assets/scss/variables.scss';
 
   #quick-search {
-    height: 400px;
+    height: 450px;
     background-image: url('../../../assets/img/background-min.jpg');
     background-position: center;
     background-size: cover;

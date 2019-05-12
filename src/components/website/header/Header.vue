@@ -1,10 +1,10 @@
 <template>
   <div>
 
-    <header>
+    <header between align id="header">
       <div @click="closeMobileMenu">
         <router-link :to="{ name: 'Home' }">
-          <Logo></Logo>
+          <Logo class="logo"></Logo>
         </router-link>
       </div>
 
@@ -48,6 +48,20 @@ export default {
     closeMobileMenu () {
       this.showMenu = false
     }
+  },
+  mounted () {
+    const header = document.getElementById('header')
+    let prevScroll = window.pageYOffset
+
+    window.onscroll = () => {
+      let currentScroll = window.pageYOffset
+      if (prevScroll > currentScroll) {
+        header.style.top = '0'
+      } else {
+        header.style.top = '-80px'
+      }
+      prevScroll = currentScroll
+    }
   }
 }
 </script>
@@ -72,17 +86,6 @@ export default {
     }
   }
 
-  button {
-    background-color: rgba(0,0,0,0);
-    outline: none;
-    border: none;
-    box-shadow: none;
-    width: 40px;
-    margin: 0;
-    cursor: pointer;
-    font-size: 24px;
-  }
-
   .hide {
     height: 0;
     opacity: 0;
@@ -94,9 +97,14 @@ export default {
     height: 200px;
     visibility: visible;
     opacity: 1;
+    padding-top: 80px;
   }
 
   a {
     text-decoration: none;
+  }
+
+  .logo {
+    padding: 15px;
   }
 </style>

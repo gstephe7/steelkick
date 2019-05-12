@@ -41,7 +41,8 @@ import {
   faCubes,
   faProjectDiagram,
   faHammer,
-  faBriefcase
+  faBriefcase,
+  faUserEdit
 } from '@fortawesome/free-solid-svg-icons'
 
 import {
@@ -85,7 +86,8 @@ library.add({
   faCubes,
   faProjectDiagram,
   faHammer,
-  faBriefcase
+  faBriefcase,
+  faUserEdit
 })
 
 // register components

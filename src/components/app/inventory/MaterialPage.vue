@@ -1,11 +1,7 @@
 <template>
   <div main v-if="loaded">
 
-    <Back route="Inventory">Back to inventory</Back>
-
-    <br>
-
-    <div col class="title">
+    <div header col>
       <h1>
         {{ material.shape }} {{ material.dimension }}
       </h1>
@@ -23,85 +19,86 @@
 
       <!-- Use Material 'quick pick' -->
       <section grow box card>
-        <div between align>
-          <h2>Use Material</h2>
+        <div header>
+          <h4>Use Material</h4>
         </div>
-        <hr>
-        <div center>
-          <button tiny @click="updateQuantityUsed(-1)">-</button>
-          <input tiny id="input" v-model.number="quantityUsed" type="number" @blur="checkNumber">
-          <button tiny @click="updateQuantityUsed(+1)">+</button>
+        <div content>
+          <div center>
+            <button tiny @click="updateQuantityUsed(-1)">-</button>
+            <input tiny id="input" v-model.number="quantityUsed" type="number" @blur="checkNumber">
+            <button tiny @click="updateQuantityUsed(+1)">+</button>
+          </div>
+          <div col>
+            <button green @click="useMaterial">
+              Use {{ quantityUsed }}
+              <span v-if="quantityUsed == 1">Piece</span>
+              <span v-else>Pieces</span>
+            </button>
+          </div>
         </div>
-        <div col>
-          <button green @click="useMaterial">
-            Use {{ quantityUsed }}
-            <span v-if="quantityUsed == 1">Piece</span>
-            <span v-else>Pieces</span>
-          </button>
-        </div>
-        <br>
       </section>
 
       <!-- Material Specs -->
       <section grow box card>
-        <div between align>
-          <h2>Material</h2>
-          <icon small click icon="edit" class="blue" @click="editing = !editing">
+        <div header between>
+          <h4>Material</h4>
+          <icon small click icon="edit" @click="editing = !editing">
           </icon>
         </div>
-        <hr>
-        <dl>
-          <div row>
-            <dt>Shape:</dt>
-            <dd>{{ material.shape }}</dd>
-          </div>
-          <div row>
-            <dt>Dimension</dt>
-            <dd>{{ material.dimension }}</dd>
-          </div>
-          <div row>
-            <dt>Quantity:</dt>
-            <dd>{{ material.quantity }}</dd>
-          </div>
-          <div row>
-            <dt>Length:</dt>
-            <dd>
-              <span v-if="feet">{{ feet }}' </span>
-              <span v-if="inches">{{ inches }}" </span>
-              <span v-else>0"</span>
-              <span v-if="fraction">{{ fraction }}</span>
-            </dd>
-          </div>
-          <div row>
-            <dt>Origin:</dt>
-            <dd>
-              <span v-if="material.domestic">Domestic</span>
-              <span v-else>Foreign</span>
-            </dd>
-          </div>
-          <div row>
-            <dt>Condition:</dt>
-            <dd>{{ material.condition }}</dd>
-          </div>
-          <div row>
-            <dt>Location:</dt>
-            <dd>{{ material.location }}</dd>
-          </div>
-          <div row>
-            <dt>Weight:</dt>
-            <dd grow>{{ weight.toFixed(0) }} lbs (per unit)</dd>
-          </div>
-          <div row>
-            <dt>Remarks:</dt>
-            <dd col start>
-              <span v-if="material.galvanized">Galv.</span>
-              <span v-if="material.primed">Prime</span>
-              <div v-if="material.remarks">
-                {{ material.remarks }}
-              </div>
-            </dd>
-          </div>
-        </dl>
+        <div content>
+          <dl>
+            <div row>
+              <dt>Shape:</dt>
+              <dd>{{ material.shape }}</dd>
+            </div>
+            <div row>
+              <dt>Dimension</dt>
+              <dd>{{ material.dimension }}</dd>
+            </div>
+            <div row>
+              <dt>Quantity:</dt>
+              <dd>{{ material.quantity }}</dd>
+            </div>
+            <div row>
+              <dt>Length:</dt>
+              <dd>
+                <span v-if="feet">{{ feet }}' </span>
+                <span v-if="inches">{{ inches }}" </span>
+                <span v-else>0"</span>
+                <span v-if="fraction">{{ fraction }}</span>
+              </dd>
+            </div>
+            <div row>
+              <dt>Origin:</dt>
+              <dd>
+                <span v-if="material.domestic">Domestic</span>
+                <span v-else>Foreign</span>
+              </dd>
+            </div>
+            <div row>
+              <dt>Condition:</dt>
+              <dd>{{ material.condition }}</dd>
+            </div>
+            <div row>
+              <dt>Location:</dt>
+              <dd>{{ material.location }}</dd>
+            </div>
+            <div row>
+              <dt>Weight:</dt>
+              <dd grow>{{ weight.toFixed(0) }} lbs (per unit)</dd>
+            </div>
+            <div row>
+              <dt>Remarks:</dt>
+              <dd col start>
+                <span v-if="material.galvanized">Galv.</span>
+                <span v-if="material.primed">Prime</span>
+                <div v-if="material.remarks">
+                  {{ material.remarks }}
+                </div>
+              </dd>
+            </div>
+          </dl>
+        </div>
         <MaterialEdit v-if="editing" :material="material" @close="editing = false"></MaterialEdit>
       </section>
 
@@ -111,11 +108,10 @@
 
       <!-- Actions -->
       <section grow box card>
-        <div between align>
-          <h2>Action Feed</h2>
+        <div header>
+          <h4>Action Feed</h4>
         </div>
-        <hr>
-        <div v-if="actions.length > 0">
+        <div content v-if="actions.length > 0">
           <Action v-for="action in actions"
                   :key="action._id"
                   :action="action">
@@ -231,25 +227,13 @@ export default {
 <style lang="scss" scoped>
   @import '@/assets/scss/variables.scss';
 
-  .title {
-    h1, h2, h3 {
-      margin: 0;
-    }
-  }
-
   dd {
     flex: 1;
   }
 
   button[tiny] {
-    border-radius: 10px;
-    width: 60px;
-    height: 60px;
-    font-size: 40px;
-    margin: 15px;
   }
   input[tiny] {
-    margin: 15px 10px;
     width: 40px;
     font-size: 24px;
   }

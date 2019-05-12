@@ -1,32 +1,28 @@
 <template>
-  <div>
+  <header row align id="header">
 
-    <header id="header">
-
-      <div row align>
-        <!-- show if mobile screen -->
-        <div mobile>
-          <button @click="$emit('toggleMenu')">
-            <icon v-if="showMenu" icon="times"></icon>
-            <icon v-else icon="bars"></icon>
-          </button>
-        </div>
-
-        <div @click="$emit('closeMenu')">
-          <router-link :to="{ name: 'Home' }">
-            <Logo mobile :small="true"></Logo>
-            <Logo desktop class="logo"></Logo>
-          </router-link>
-        </div>
+    <div row align class="left">
+      <!-- show if mobile screen -->
+      <div mobile>
+        <button @click="$emit('toggleMenu')">
+          <icon v-if="showMenu" icon="times"></icon>
+          <icon v-else icon="bars"></icon>
+        </button>
       </div>
 
-      <div>
-        <span class="title">{{ $route.name }}</span>
+      <div @click="$emit('closeMenu')">
+        <router-link :to="{ name: 'Home' }">
+          <Logo mobile :small="true"></Logo>
+          <Logo desktop class="logo"></Logo>
+        </router-link>
       </div>
+    </div>
 
-    </header>
+    <div row align grow>
+      <span title>{{ $route.name }}</span>
+    </div>
 
-  </div>
+  </header>
 </template>
 
 <script>
@@ -56,34 +52,17 @@ export default {
 
 <style lang="scss" scoped>
 
-  header {
-    position: fixed;
-    width: 100%;
-    top: 0px;
-    transition: 250ms all;
-  }
-
-  button {
-    background-color: rgba(0,0,0,0);
-    outline: none;
-    border: none;
-    box-shadow: none;
-    padding: 0;
-    height: 72px;
-    width: 72px;
-    margin: 0;
-    cursor: pointer;
-    font-size: 20px;
-  }
-
-  .title {
-    font-size: 20px;
-    padding: 25px;
-    margin: 0;
-  }
-
   .logo {
     padding: 20px;
+  }
+
+  .left {
+    @media screen and (max-width: 999px) {
+      width: 150px;
+    }
+    @media screen and (min-width: 1000px) {
+      width: 280px;
+    }
   }
 
   a {

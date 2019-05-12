@@ -6,6 +6,8 @@ $highlight: #3b63ba;
 $qs-background: rgba(24, 32, 51, .85);
 $alert: #ff4d4d;
 $success: #40bf80;
+$green: #4caf50;
+$red: #ff5252;
 $gold: #e2d976;
 $yellow: #f7b733;
 $yellow-orange: #ffbb00;
@@ -13,10 +15,12 @@ $orange: #f2a63c;
 $blue-green: #2e7175;
 $purple: #4b2d56;
 $burgundy: #590a04;
-$blue: #293e70;
+$blue: #1867c0;
 $input-border: #d8d8d8;
 
 // box shadows
 $box-shadow: 0 4px 8px 0 rgba(0,0,0,.2);
+$box-shadow-light: 2px 4px 10px rgba(0,0,0,.2);
+$box-shadow-dark: 0px 2px 4px rgba(0,0,0,.5);
 $input-shadow: 0 1px 4px 0 rgba(0,0,0,.2);
 $text-shadow: 0 4px 8px rgba(0,0,0,.2);

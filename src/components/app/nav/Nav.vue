@@ -5,28 +5,28 @@
         <router-link :to="{ name: 'Dashboard' }">Dashboard</router-link>
       </li>
       <li>
-        <router-link :to="{ name: 'Working' }">Start Working</router-link>
+        <router-link to="/working">Start Working</router-link>
       </li>
       <li>
-        <router-link :to="{ name: 'Jobs' }">Jobs</router-link>
+        <router-link to="/jobs">Jobs</router-link>
       </li>
       <li>
-        <router-link :to="{ name: 'Schedule' }">Schedule</router-link>
+        <router-link to="/schedule">Schedule</router-link>
       </li>
       <li>
-        <router-link :to="{ name: 'Tasks' }">Tasks</router-link>
+        <router-link to="tasks">Tasks</router-link>
       </li>
       <li>
-        <router-link :to="{ name: 'Inventory' }">Inventory</router-link>
+        <router-link to="/inventory">Inventory</router-link>
       </li>
       <li>
-        <router-link :to="{ name: 'Users' }">Users</router-link>
+        <router-link to="/users">Users</router-link>
       </li>
       <li>
-        <router-link :to="{ name: 'Marketplace' }">Marketplace</router-link>
+        <router-link to="/marketplace">Marketplace</router-link>
       </li>
       <li>
-        <router-link :to="{ name: 'Settings' }">Settings</router-link>
+        <router-link to="/settings">Settings</router-link>
       </li>
     </ul>
   </nav>
@@ -53,15 +53,17 @@ export default {
   }
 
   a {
+    width: 100%;
     color: $primary;
     text-decoration: none;
     font-size: 18px;
     line-height: 1.5;
     transition: 250ms all;
+    padding: 5px 10px;
   }
 
   a:hover {
-    color: $secondary;
+    background-color: rgba(0,0,0,.1);
   }
 
   .notify-container {

@@ -1,28 +1,6 @@
 <template>
   <div main>
 
-    <div>
-
-      <h3>Edit Profile</h3>
-
-      <hr>
-
-      <div v-if="loaded.user">
-        <EditUser v-if="editing.user"
-                  :user="user"
-                  @close="editing.user = false">
-        </EditUser>
-
-        <ViewUser v-else
-                  :user="user"
-                  @editing="editing.user = true">
-        </ViewUser>
-      </div>
-
-    </div>
-
-    <br>
-
     <div v-if="$store.getters.isAdmin">
 
       <h3>Edit Company</h3>
@@ -51,28 +29,22 @@
 <script>
 import ViewCompany from './ViewCompany'
 import EditCompany from './EditCompany'
-import ViewUser from './ViewUser'
-import EditUser from './EditUser'
+
 import api from '@/api/api'
 
 export default {
   components: {
     ViewCompany,
-    EditCompany,
-    ViewUser,
-    EditUser
+    EditCompany
   },
   data () {
     return {
-      user: {},
       company: {},
       editing: {
-        company: false,
-        user: false
+        company: false
       },
       loaded: {
-        company: false,
-        user: false
+        company: false
       },
       addressInvalid: false,
       newAccount: false
@@ -81,20 +53,6 @@ export default {
   created () {
 
     this.$store.dispatch('loading')
-    // retrieve user profile
-    api.axios.get(`${api.baseUrl}/users/user`, {
-      params: {
-        id: this.$store.getters.userId
-      }
-    })
-    .then(res => {
-      this.$store.dispatch('complete')
-      this.user = res.data.user
-      this.loaded.user = true
-    })
-    .catch(() => {
-      this.$store.dispatch('complete')
-    })
 
     // retrieve company profile
     api.axios.get(`${api.baseUrl}/users/company`, {

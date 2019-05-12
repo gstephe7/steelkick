@@ -21,8 +21,8 @@
     <br>
 
     <div around>
-      <button @click="$emit('close')">Cancel</button>
-      <button @click="editUser">Save</button>
+      <button small @click="$emit('close')">Cancel</button>
+      <button green small @click="editUser">Save</button>
     </div>
 
   </div>

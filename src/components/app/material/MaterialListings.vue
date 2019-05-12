@@ -2,35 +2,44 @@
   <div row>
 
     <aside id="desktop">
-      <h3 v-if="buying">Refine Your Search</h3>
-      <h3 v-if="inventory">Filter Inventory</h3>
-      <Search :buying="buying"
-              :inventory="inventory">
+      <div v-if="buying">
+        <h3>Refine Your Search</h3>
+        <Search :buying="buying"
+        :inventory="filter">
       </Search>
+      </div>
+      <div v-if="inventory">
+        <h3 v-if="inventory">Filter Inventory</h3>
+        <FilterMaterial :filter="filter"
+                        @reset="filter = {}"
+                        @autoScroll="autoScroll">
+        </FilterMaterial>
+      </div>
     </aside>
 
     <div main basis>
 
-      <span back v-if="$route.query.cart" @click="$router.back()">
-        &lt; Back to cart
-      </span>
-
-      <h1 v-if="buying">Your Search Results</h1>
-      <h1 v-if="inventory">Company Inventory</h1>
-
-      <hr>
-
       <div col v-if="inventory">
-        <button green @click="$router.push({name: 'AddMaterial'})">+ Add New Material</button>
+        <button green @click="$router.push('/add-material')">+ Add New Material</button>
       </div>
+
+      <br>
 
       <div id="mobile">
         <div card class="mobile-filter" :class="{ show : showFilter }">
-          <h3 v-if="buying">Refine Your Search</h3>
-          <h3 v-if="inventory">Filter Inventory</h3>
-          <Search :buying="buying"
-                  :inventory="inventory">
+          <div v-if="buying">
+            <h3>Refine Your Search</h3>
+            <Search :buying="buying"
+            :inventory="filter">
           </Search>
+          </div>
+          <div v-if="inventory">
+            <h3 v-if="inventory" id="filter">Filter Inventory</h3>
+            <FilterMaterial :filter="filter"
+                            @reset="filter = {}"
+                            @autoScroll="autoScroll">
+            </FilterMaterial>
+          </div>
         </div>
         <p @click="toggleFilter">
           <span v-if="buying">Filter Results </span>
@@ -40,27 +49,30 @@
         </p>
       </div>
 
-      <!-- show if listings were found -->
-      <div v-if="listings.length > 0">
-        <MaterialPreview v-for="item in listings"
-                         :key="item._id"
-                         :item="item"
-                         :inventory="inventory"
-                         :buying="buying">
-        </MaterialPreview>
+      <div>
+        <!-- show if listings were found -->
+        <div v-if="listings.length > 0">
+          <MaterialPreview v-for="item in filtered"
+                           :key="item._id"
+                           :item="item"
+                           :inventory="inventory"
+                           :buying="buying">
+          </MaterialPreview>
+        </div>
+
+        <!-- show if no listings were found -->
+        <div v-else>
+          <div col v-if="buying">
+            <h3>We're sorry, we couldn't find the material you're looking for. You can try searching again with different settings.</h3>
+            <button @click="$router.push('Search')">Back to Search</button>
+          </div>
+          <div col v-if="inventory">
+            <h3>No material found</h3>
+            <button @click="$router.push({name: 'Dashboard'})">Back to Dashboard</button>
+          </div>
+        </div>
       </div>
 
-      <!-- show if no listings were found -->
-      <div v-else>
-        <div col v-if="buying">
-          <h3>We're sorry, we couldn't find the material you're looking for. You can try searching again with different settings.</h3>
-          <button @click="$router.push('Search')">Back to Search</button>
-        </div>
-        <div col v-if="inventory">
-          <h3>No material found</h3>
-          <button @click="$router.push({name: 'Dashboard'})">Back to Dashboard</button>
-        </div>
-      </div>
 
     </div>
 
@@ -69,23 +81,57 @@
 
 <script>
 import Search from '@/components/app/search/Search'
+import FilterMaterial from '@/components/app/inventory/FilterMaterial'
 import MaterialPreview from '@/components/app/material/MaterialPreview'
 
 export default {
   props: ['inventory', 'buying', 'listings'],
   components: {
     Search,
+    FilterMaterial,
     MaterialPreview
   },
   data () {
     return {
+      filter: {},
       perPage: 25,
       showFilter: false
     }
   },
+  computed: {
+    filtered () {
+      return this.listings.filter(this.filterItems)
+    }
+  },
   methods: {
+    filterItems (item) {
+      let _ = this.filter
+      if (_.shape && _.shape != item.shape) {
+        return false
+      }
+      if (_.dimension && _.dimension != item.dimension) {
+        return false
+      }
+      if (_.length && _.length > item.length) {
+        return false
+      }
+      if (_.domestic && _.domestic != item.domestic) {
+        return false
+      }
+      if (_.primed && _.primed != item.primed) {
+        return false
+      }
+      if (_.galvanized && _.galvanized != item.galvanized) {
+        return false
+      }
+      return true
+    },
     toggleFilter () {
       this.showFilter = !this.showFilter
+    },
+    autoScroll () {
+      let filter = document.getElementById('filter')
+      filter.scrollIntoView()
     }
   }
 }
@@ -112,6 +158,7 @@ export default {
   #desktop {
     text-align: center;
     box-shadow: $box-shadow;
+    padding-top: 120px;
     @media screen and (max-width: 1199px) {
       display: none;
     }
@@ -121,7 +168,6 @@ export default {
   }
 
   [main] {
-    padding: 25px 5px 200px;
     max-width: 600px;
   }
 

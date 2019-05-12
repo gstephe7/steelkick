@@ -1,13 +1,13 @@
 <template>
-  <nav @click="closeMenu">
-    <ul :row="desktop" :class="{ desktopNav : desktop, footerNav : footer }">
+  <nav end @click="closeMenu">
+    <ul :row="desktop" :class="{ footerNav : footer }">
       <li>
-        <router-link :to="{ name: 'Search' }">
+        <router-link :to="'/search'">
           Buy Steel
         </router-link>
       </li>
       <li>
-        <router-link :to="{ name: 'AddMaterial' }">
+        <router-link :to="'/add-material'">
           Sell Steel
         </router-link>
       </li>
@@ -17,15 +17,15 @@
         </router-link>
       </li>
       <li>
-        <router-link :to="{ name: 'Contact' }">
+        <router-link :to="'/contact'">
           Contact
         </router-link>
       </li>
       <li>
-        <router-link v-if="$store.getters.loggedIn" :to="{ name: 'Logout' }">
+        <router-link v-if="$store.getters.loggedIn" :to="'/logout'">
           <span @click="$store.dispatch('logout')">Logout</span>
         </router-link>
-        <router-link v-else :to="{ name: 'Login' }">
+        <router-link v-else :to="'/login'">
           Sign In
         </router-link>
       </li>
@@ -52,26 +52,28 @@ export default {
 <style lang="scss" scoped>
   @import '@/assets/scss/variables.scss';
 
-  .desktopNav {
-    a {
-      font-size: 18px;
-    }
+  nav {
+    background-color: $primary;
+  }
+
+  li {
+    justify-content: flex-end;
+    line-height: 1.5;
+    padding-right: 10px;
   }
 
   .footerNav {
     li {
       justify-content: center;
-    }
-    a {
-      font-size: 18px;
+      padding: 0;
     }
   }
 
   a {
     color: $accent;
     text-decoration: none;
-    font-size: 24px;
-    transition: 250ms all;
+    font-size: 18px;
+    padding: 5px 10px;
   }
 
   a:hover {

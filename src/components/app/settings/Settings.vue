@@ -1,15 +1,25 @@
 <template>
   <div main>
 
-    <h1>Company Settings</h1>
-
-    <hr>
-
     <div center wrap>
 
-      <section col center card click @click="$router.push({name: 'Workflow'})">
-        <icon big class="purple" icon="project-diagram"></icon>
-        <h2>Configure Workflow</h2>
+      <section col center card click @click="$router.push('/edit-profile')">
+        <div half>
+          <icon medium class="royal" icon="user-edit"></icon>
+        </div>
+        <div grow col>
+          <b>Edit Profile</b>
+          <small>Edit your user information</small>
+        </div>
+      </section>
+      <section col center card click @click="$router.push('/workflow')">
+        <div half>
+          <icon medium class="purple" icon="project-diagram"></icon>
+        </div>
+        <div grow col>
+          <b>Edit Workflow</b>
+          <small>Setup your company's workflow</small>
+        </div>
       </section>
 
     </div>
@@ -24,10 +34,7 @@ export default {
 
 <style lang="scss" scoped>
   section[card] {
-    height: 230px;
-    width: 230px;
-    h2 {
-      margin-bottom: 0;
-    }
+    height: 110px;
+    width: 110px;
   }
 </style>

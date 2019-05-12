@@ -92,7 +92,7 @@
         </div>
       </div>
 
-      <div fieldset>
+      <div fieldset v-if="!inventory">
         <div row>
           <select v-model="state" class="autotab" @change="pushCompanies">
             <option :value="null" selected disabled>State</option>

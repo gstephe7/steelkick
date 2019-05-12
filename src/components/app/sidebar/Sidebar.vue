@@ -1,5 +1,5 @@
 <template>
-  <aside id="sidebar" :class="{ show : showMenu }">
+  <aside :class="{ show : showMenu }">
 
     <div class="logo" align>
       <Logo></Logo>
@@ -36,7 +36,7 @@ export default {
     height: 100%;
     padding: 0;
     left: 0;
-    box-shadow: 0px 2px 4px rgba(0,0,0,.5);
+    box-shadow: $box-shadow-light;
     @media screen and (max-width: 999px) {
       left: -250px;
       position: fixed;
