@@ -6,15 +6,15 @@
     <p v-if="$route.query.newEntry">You have successfully added new material!</p>
     <p v-if="$route.query.edit">You have successfully updated your material!</p>
 
-    <button @click="$router.push({name: 'AddMaterial'})">
+    <button @click="$router.push('/add-material')">
       + Add Another Entry
     </button>
 
-    <button @click="$router.push({name: 'Inventory'})">
+    <button @click="$router.push('/inventory')">
       View Your Inventory
     </button>
 
-    <button @click="$router.push({name: 'Dashboard'})">
+    <button @click="$router.push('dashboard')">
       Return to Dashboard
     </button>
 
