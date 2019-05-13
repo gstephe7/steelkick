@@ -1,17 +1,14 @@
 <template>
-  <div align center modal>
-    <div basis card class="modal-box">
+  <div align center backdrop>
+    <div modal>
 
-      <div between align>
-        <Back route="Dashboard">Back</Back>
+      <div header between align>
+        <h4>What job are you working on?</h4>
         <icon small click icon="times" @click="$emit('close')"></icon>
       </div>
 
-      <div col>
-        <h2>What job are you working on?</h2>
-      </div>
-
-      <div col>
+      <div content col>
+        <br>
         <h3 click v-for="job in jobs" :key="job._id" @click="selectJob(job)">
           {{ job.name }}
         </h3>
@@ -54,19 +51,8 @@ export default {
 <style lang="scss" scoped>
   @import '@/assets/scss/variables.scss';
 
-  .modal-box {
-    max-width: 500px;
-    max-height: 90%;
-    background-color: white;
-    margin: 5px;
-    overflow-y: scroll;
-    h2 {
-      font-weight: bold;
-    }
-    h3 {
-      text-decoration: underline;
-      color: royalblue;
-      margin: 10px 0;
-    }
+  h3 {
+    color: $blue;
+    text-decoration: underline;
   }
 </style>

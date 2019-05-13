@@ -1,19 +1,15 @@
 <template>
-  <div align center modal>
-    <div basis card class="modal-box">
+  <div align center backdrop>
+    <div modal>
 
-      <div between align>
-        <Back route="Dashboard">Back</Back>
+      <div header between align>
+        <h4>What are you doing?</h4>
         <icon small click icon="times" @click="$emit('close')"></icon>
       </div>
 
-      <div col>
-        <h2>What are you doing?</h2>
-      </div>
-
-      <div>
-        <div between align card click v-for="action in actions" :key="action.description" @click="selectRole(action)">
-          <img :src="require(`@/assets/img/actions/${action.description}.png`)">
+      <div content>
+        <div item click between v-for="action in actions" :key="action.description" @click="selectRole(action)">
+          <img small :src="require(`@/assets/img/actions/${action.description}.png`)">
           <h3>{{ action.action }}</h3>
         </div>
       </div>
