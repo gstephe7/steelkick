@@ -3,19 +3,19 @@
 
     <div between>
       First Name:
-      <input big v-model="user.firstName">
+      <input v-model="user.firstName">
     </div>
     <div between>
       Last Name:
-      <input big v-model="user.lastName">
+      <input v-model="user.lastName">
     </div>
     <div between>
       Email:
-      <input big v-model="user.email">
+      <input v-model="user.email">
     </div>
     <div between>
       Password:
-      <input big v-model="user.password" type="password">
+      <input v-model="user.password" type="password">
     </div>
 
     <br>

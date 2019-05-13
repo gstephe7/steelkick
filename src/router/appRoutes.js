@@ -218,7 +218,7 @@ export default [
   },
   {
     path: 'workflow',
-    name: 'Workflow',
+    name: 'Configure Workflow',
     component: Workflow
   },
   {

@@ -1,7 +1,7 @@
 <template>
   <div main>
 
-    <Back route="JobDetails">Back to job</Back>
+    <Back>Back to job</Back>
 
     <h1>
       {{ $store.getters.currentJob.name }} <br>

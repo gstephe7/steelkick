@@ -5,6 +5,38 @@
 
 
 
+// state styles
+[click] {
+  cursor: pointer;
+  transition: 250ms all;
+}
+
+[click]:hover {
+  transform: scale(1.02);
+}
+
+[hover] {
+  transition: 250ms all;
+  cursor: pointer;
+}
+
+[hover]:hover {
+  box-shadow: $box-shadow-light;
+}
+
+
+
+// spacing
+[margin] {
+  margin: 10px;
+}
+
+[padding] {
+  padding: 10px;
+}
+
+
+
 // random styles
 [back] {
   color: royalblue;

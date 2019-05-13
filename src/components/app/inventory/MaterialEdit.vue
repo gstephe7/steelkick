@@ -1,5 +1,5 @@
 <template>
-  <div col center modal>
+  <div col center backdrop>
     <div card class="modal-box">
 
       <div between align>

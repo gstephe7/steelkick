@@ -250,7 +250,7 @@ textarea {
 
 h1 {
   font-size: 32px;
-  margin: 0 0 10px 0;
+  margin: 0 0 15px 0;
   font-weight: normal;
   line-height: normal;
 }
@@ -285,6 +285,7 @@ h6 {
 
 p {
   width: 100%;
+  margin: 0 0 10px 0;
   line-height: 1.5;
 }
 
@@ -340,9 +341,21 @@ svg[small] {
   margin: 5px;
 }
 
+img[small] {
+  width: 25px;
+  height: 25px;
+}
+
 
 
 // CUSTOM ELEMENTS
+[article] {
+  width: 60%;
+  min-width: 260px;
+  padding: 10px;
+  margin: 10px auto;
+}
+
 [card] {
   box-shadow: $box-shadow-light;
   border-radius: 5px;
@@ -361,26 +374,44 @@ svg[small] {
   }
 }
 
-[click] {
-  cursor: pointer;
-  transition: 250ms all;
-}
-
-[click]:hover {
-  transform: scale(1.02);
-}
-
-[hover] {
-  transition: 250ms all;
-  cursor: pointer;
-}
-
-[hover]:hover {
-  box-shadow: $box-shadow-light;
+[item] {
+  border: 0.5px solid rgba(0,0,0,.2);
+  height: 32px;
+  padding: 10px;
 }
 
 [modal] {
+  width: 90%;
+  min-width: 280px;
+  max-width: 500px;
+  max-height: 80%;
+  border-radius: 5px;
+  box-shadow: $box-shadow-dark;
+  overflow-y: auto;
+  [header] {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #fff;
+    background-color: $blue;
+    height: 32px;
+    padding: 10px;
+    border-radius: 5px 5px 0 0;
+  }
+  [content] {
+    background-color: #fff;
+    padding: 10px;
+    min-height: 50px;
+    border-radius: 0 0 5px 5px;
+  }
+}
+
+[backdrop] {
   position: fixed;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   top: 0;
   left: 0;
   width: 100%;

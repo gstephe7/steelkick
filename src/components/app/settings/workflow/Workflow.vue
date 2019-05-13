@@ -1,113 +1,62 @@
 <template>
   <div main>
 
-    <Back route="Settings">Back to settings</Back>
-
-    <h1>Configure Workflow</h1>
-
-    <hr>
-
-    <div class="mobile">
-
+    <div article>
+      <h1>
+        Company Workflow
+      </h1>
+      <p>
+        Your company's workflow determines each step in the steel fabrication process. SteelKick allows you to customize your company's workflow and decide when parts will be "checked off" in the app - this allows you to keep track of the progress of each part and the overall progress of each job.
+      </p>
     </div>
 
-    <div>
-      <div row>
-
-        <div grow class="workflow">
-          <div col>
-            <h2>
-              Company Workflow
-              <ToolTip>
-                Workflow determines each stage of the process at which a part will be checked off. This helps you keep track of the progress of each part and the overall progress of the job.
-              </ToolTip>
-            </h2>
+    <div article>
+      <div v-if="workflow.length > 0">
+        <div item between align v-for="(item, index) in workflow" :key="item.description">
+          <div half align>
+            <span>{{ index + 1 }}</span>
+            <img small margin :src="require(`@/assets/img/actions/${item.description}.png`)" :alt="item.action">
+            <h4>{{ item.action }}</h4>
           </div>
-          <br>
-          <div col>
-            <b class="green">&darr; START &darr;</b>
-          </div>
-          <div class="drag">
-            <div class="drag"
-                 ondragover="return false"
-                 @dragover="dragOver(0, workflow, true, $event)"
-                 @dragleave="dragLeave(0, workflow, true, $event)"
-                 @drop="drop(0, workflow, true, $event)">
-              <hr>
+          <div align>
+            <div row>
+              <icon small click icon="arrow-up" class="blue" @click="moveAction(index, -1, item)">
+              </icon>
+              <icon small click icon="arrow-down" class="blue" @click="moveAction(index, +1, item)">
+              </icon>
             </div>
-            <div v-for="(action, index) in workflow"
-                 :key="index"
-                 draggable="true"
-                 @dragstart="startDrag(index, workflow)"
-                 @dragend="endDrag(index, workflow)"
-                 ondragover="return false"
-                 @dragover="dragOver(index, workflow)"
-                 @dragleave="dragLeave(index, workflow)"
-                 @drop="drop(index, workflow)"
-                 :class="{ hover: action.hover }">
-             <Action :action="action" :workflow="true">
-             </Action>
-             <hr>
-            </div>
-          </div>
-          <div col>
-            <b class="red">&#11203; END &#11203;</b>
-          </div>
-        </div>
-
-        <div class="aside">
-          <h3 col>Available Actions</h3>
-          <br>
-          <div class="drag">
-            <div class="drag"
-                 ondragover="return false"
-                 @dragover="dragOver(0, actions, true, $event)"
-                 @dragleave="dragLeave(0, actions, true, $event)"
-                 @drop="drop(0, actions, true, $event)">
-              <hr>
-            </div>
-            <div v-for="(action, index) in actions"
-                 :key="index"
-                 draggable="true"
-                 @dragstart="startDrag(index, actions)"
-                 @dragend="endDrag(index, actions)"
-                 ondragover="return false"
-                 @dragover="dragOver(index, actions)"
-                 @dragleave="dragLeave(index, actions)"
-                 @drop="drop(index, actions)"
-                 :class="{ hover: action.hover }">
-              <Action :action="action">
-              </Action>
-              <hr>
+            <div row>
+              <icon small click icon="times" class="red" @click="removeItem(index)">
+              </icon>
             </div>
           </div>
         </div>
-
+      </div>
+      <div v-else>
+        <p col>Add a workflow step to begin tracking job and part progress</p>
+      </div>
+      <div col>
+        <button blue @click="showModal = true">+ Add Step</button>
       </div>
     </div>
 
-    <br>
-    <br>
+    <ActionList v-if="showModal" @close="showModal = false" :actions="remainingActions" @select="addAction">
+    </ActionList>
 
-    <div center wrap>
-      <button @click="$router.push({name: 'Settings'})">
-        Cancel
-      </button>
-      <button green @click="submit">Save</button>
-    </div>
+    <Save :changed="changed"></Save>
 
   </div>
 </template>
 
 <script>
 import api from '@/api/api'
-import Action from './Action'
-import ToolTip from '@/components/app/popups/ToolTip'
+import ActionList from './ActionList'
+import Save from '@/components/app/popups/Save'
 
 export default {
   components: {
-    Action,
-    ToolTip
+    ActionList,
+    Save
   },
   data () {
     return {
@@ -128,8 +77,27 @@ export default {
         { action: 'Delivery', description: 'Delivered' },
         { action: 'Erecting', description: 'Erected' }
       ],
-      dragging: {},
-      dropZone: false
+      showModal: false,
+      changed: false
+    }
+  },
+  computed: {
+    remainingActions () {
+      let actions = []
+
+      this.actions.forEach(item => {
+        let used = false
+        this.workflow.forEach(value => {
+          if (item.description == value.description) {
+            used = true
+          }
+        })
+        if (used == false) {
+          actions.push(item)
+        }
+      })
+
+      return actions
     }
   },
   beforeCreate () {
@@ -152,41 +120,26 @@ export default {
     })
   },
   methods: {
-    startDrag (index, array) {
-      this.dragging = array[index]
-      array.splice(index, 1)
-    },
-    endDrag (index, array) {
-      if (!this.dropZone) {
-        array.splice(index, 0, this.dragging)
-      }
-    },
-    dragOver (index, array, first, event) {
-      this.dropZone = true
-      if (first) {
-        event.target.classList.add('hover')
-      } else {
-        this.$set(array[index], 'hover', true)
-      }
-    },
-    dragLeave (index, array, first, event) {
-      this.dropZone = false
-      if (first) {
-        event.target.classList.remove('hover')
-      } else {
-        this.$set(array[index], 'hover', false)
-      }
-    },
-    drop (index, array, first, event) {
-      if (this.dropZone) {
-        if (first) {
-          event.target.classList.remove('hover')
-          array.splice(index, 0, this.dragging)
-        } else {
-          this.$set(array[index], 'hover', false)
-          array.splice(index + 1, 0, this.dragging)
+    addAction (action) {
+      this.workflow.push(action)
+      this.actions.forEach((item, index) => {
+        if (item.description == action.description) {
+          this.actions.splice(index, 1)
         }
+      })
+    },
+    moveAction (index, number, item) {
+      let newIndex = index + number
+      let array = this.workflow
+      if (newIndex >= 0 && newIndex < this.workflow.length) {
+        array.splice(index, 1)
+        array.splice(newIndex, 0, item)
+        this.workflow = array
       }
+    },
+    removeItem (index) {
+      this.actions.push(this.workflow[index])
+      this.workflow.splice(index, 1)
     },
     submit () {
       this.$store.dispatch('loading')
@@ -207,41 +160,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '@/assets/scss/style.scss';
-
-  .workflow {
-    max-width: 400px;
-    padding-right: 10px;
-    margin: 0 auto;
-  }
-
-  .aside {
-    max-width: 200px;
-    padding-left: 10px;
-    border-left: 1px solid $accent;
-  }
-
-  b {
-    font-size: 24px;
-  }
-
-  .drag {
-    padding-top: 5px;
-    padding-bottom: 5px;
-    hr {
-      opacity: 0;
-      margin: 0;
-      font-size: 0;
-      height: 0;
-      transition: 250ms all;
-    }
-  }
-
-  .hover {
-    hr {
-      opacity: 1;
-      font-size: 50px;
-      font-weight: bold;
-    }
-  }
 </style>

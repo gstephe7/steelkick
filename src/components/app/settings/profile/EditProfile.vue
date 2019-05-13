@@ -1,16 +1,22 @@
 <template>
   <div main>
-    <div v-if="loaded">
+    <div article v-if="loaded">
 
-      <EditUser v-if="editing.user"
-                :user="user"
-                @close="editing.user = false">
-      </EditUser>
+      <h1>Edit Your Profile</h1>
 
-      <ViewUser v-else
-                :user="user"
-                @editing="editing.user = true">
-      </ViewUser>
+      <br>
+
+      <div>
+        <EditUser v-if="editing.user"
+                  :user="user"
+                  @close="editing.user = false">
+        </EditUser>
+
+        <ViewUser v-else
+                  :user="user"
+                  @editing="editing.user = true">
+        </ViewUser>
+      </div>
 
     </div>
   </div>
@@ -48,6 +54,6 @@ export default {
 
 <style lang="scss" scoped>
   [main] {
-    max-width: 600px;
+    max-width: 800px;
   }
 </style>
