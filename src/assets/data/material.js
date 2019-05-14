@@ -65,6 +65,7 @@ export default [
       { dimension: '18x55', weight: 55 },
       { dimension: '18x60', weight: 60 },
       { dimension: '21x44', weight: 44 },
+      { dimension: '21x55', weight: 55 },
       { dimension: '21x57', weight: 57 },
       { dimension: '21x62', weight: 62 },
       { dimension: '21x68', weight: 68 },

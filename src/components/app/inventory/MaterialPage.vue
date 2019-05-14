@@ -227,12 +227,17 @@ export default {
 <style lang="scss" scoped>
   @import '@/assets/scss/variables.scss';
 
+  section[box] {
+    max-width: 260px;
+  }
+
   dd {
     flex: 1;
   }
 
   button[tiny] {
   }
+
   input[tiny] {
     width: 40px;
     font-size: 24px;

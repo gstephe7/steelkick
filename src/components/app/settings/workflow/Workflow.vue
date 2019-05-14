@@ -12,8 +12,8 @@
 
     <div article>
       <div v-if="workflow.length > 0">
-        <div item between align v-for="(item, index) in workflow" :key="item.description">
-          <div half align>
+        <Item v-for="(item, index) in workflow" :key="item.description">
+          <div align>
             <span>{{ index + 1 }}</span>
             <img small margin :src="require(`@/assets/img/actions/${item.description}.png`)" :alt="item.action">
             <h4>{{ item.action }}</h4>
@@ -30,7 +30,7 @@
               </icon>
             </div>
           </div>
-        </div>
+        </Item>
       </div>
       <div v-else>
         <p col>Add a workflow step to begin tracking job and part progress</p>
@@ -40,23 +40,35 @@
       </div>
     </div>
 
-    <ActionList v-if="showModal" @close="showModal = false" :actions="remainingActions" @select="addAction">
-    </ActionList>
+    <Modal v-if="showModal" @close="showModal = false">
 
-    <Save :changed="changed"></Save>
+      <template v-slot:header>
+        <h4>Select a New Action</h4>
+      </template>
+
+      <template v-slot:main>
+        <div v-for="item in remainingActions" :key="item.description" @click="addAction(item)">
+          <Item click>
+            <img small :src="require(`@/assets/img/actions/${item.description}.png`)" :alt="item.action">
+            <h4>{{ item.action }}</h4>
+          </Item>
+        </div>
+      </template>
+
+    </Modal>
 
   </div>
 </template>
 
 <script>
 import api from '@/api/api'
-import ActionList from './ActionList'
-import Save from '@/components/app/popups/Save'
+import Modal from '@/components/modals/Modal'
+import Item from '@/components/lists/Item'
 
 export default {
   components: {
-    ActionList,
-    Save
+    Modal,
+    Item
   },
   data () {
     return {
@@ -77,8 +89,7 @@ export default {
         { action: 'Delivery', description: 'Delivered' },
         { action: 'Erecting', description: 'Erected' }
       ],
-      showModal: false,
-      changed: false
+      showModal: false
     }
   },
   computed: {
@@ -121,6 +132,7 @@ export default {
   },
   methods: {
     addAction (action) {
+      this.showModal = false
       this.workflow.push(action)
       this.actions.forEach((item, index) => {
         if (item.description == action.description) {
