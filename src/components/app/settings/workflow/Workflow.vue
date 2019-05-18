@@ -1,7 +1,10 @@
 <template>
   <div main>
 
-    <div article>
+
+
+    <!-- Title -->
+    <div class="title">
       <h1>
         Company Workflow
       </h1>
@@ -10,68 +13,94 @@
       </p>
     </div>
 
-    <div article>
-      <div v-if="workflow.length > 0">
-        <Item v-for="(item, index) in workflow" :key="item.description">
-          <div align>
-            <span>{{ index + 1 }}</span>
-            <img small margin :src="require(`@/assets/img/actions/${item.description}.png`)" :alt="item.action">
-            <h4>{{ item.action }}</h4>
-          </div>
-          <div align>
-            <div row>
-              <icon small click icon="arrow-up" class="blue" @click="moveAction(index, -1, item)">
-              </icon>
-              <icon small click icon="arrow-down" class="blue" @click="moveAction(index, +1, item)">
-              </icon>
-            </div>
-            <div row>
-              <icon small click icon="times" class="red" @click="removeItem(index)">
-              </icon>
-            </div>
-          </div>
-        </Item>
-      </div>
-      <div v-else>
-        <p col>Add a workflow step to begin tracking job and part progress</p>
-      </div>
-      <div col>
-        <button blue @click="showModal = true">+ Add Step</button>
-      </div>
-    </div>
 
+
+    <!-- List -->
+    <List>
+
+      <template v-slot:header>
+        Company Workflow
+      </template>
+
+      <template v-slot:actions>
+        <button class="blue" @click="showModal = true">
+          + Add a Step
+        </button>
+      </template>
+
+      <template v-slot:content>
+
+        <div v-if="workflow.length > 0">
+          <Item v-for="(item, index) in workflow" :key="item.description">
+
+            <template v-slot:img>
+              <img :src="require(`@/assets/img/actions/${item.description}.png`)" :alt="item.action">
+            </template>
+
+            <template v-slot:first>
+              <div>
+                <span>{{ item.action }}</span>
+              </div>
+              <div>
+                <icon class="small click blue" icon="arrow-up" @click="moveAction(index, -1, item)">
+                </icon>
+                <icon class="small click blue" icon="arrow-down" @click="moveAction(index, +1, item)">
+                </icon>
+                <icon class="small click red" icon="times" @click="removeItem(index)">
+                </icon>
+              </div>
+            </template>
+
+            <template v-slot:index>
+              {{ index + 1 }}
+            </template>
+
+          </Item>
+        </div>
+
+        <div v-else>
+          <p col>Add a workflow step to begin tracking job and part progress</p>
+        </div>
+
+      </template>
+    </List>
+
+
+
+    <!-- Modal -->
     <Modal v-if="showModal" @close="showModal = false">
-
       <template v-slot:header>
         <h4>Select a New Action</h4>
       </template>
-
-      <template v-slot:main>
+      <template v-slot:content>
         <div v-for="item in remainingActions" :key="item.description" @click="addAction(item)">
-          <Item click>
-            <img small :src="require(`@/assets/img/actions/${item.description}.png`)" :alt="item.action">
-            <h4>{{ item.action }}</h4>
+          <Item class="click">
+            <template v-slot:img>
+              <img :src="require(`@/assets/img/actions/${item.description}.png`)" :alt="item.action">
+            </template>
+            <template v-slot:first>
+              {{ item.action }}
+            </template>
           </Item>
         </div>
       </template>
-
     </Modal>
+
+
+
+    <!-- Save Changes -->
+    <Banner v-if="changed" @save="submit"></Banner>
 
   </div>
 </template>
 
 <script>
 import api from '@/api/api'
-import Modal from '@/components/modals/Modal'
-import Item from '@/components/lists/Item'
 
 export default {
-  components: {
-    Modal,
-    Item
-  },
   data () {
     return {
+      original: [],
       workflow: [],
       actions: [
         { action: 'Ordering', description: 'Ordered' },
@@ -89,10 +118,25 @@ export default {
         { action: 'Delivery', description: 'Delivered' },
         { action: 'Erecting', description: 'Erected' }
       ],
-      showModal: false
+      showModal: false,
     }
   },
   computed: {
+    changed () {
+      let changes = false
+
+      if (this.workflow.length != this.original.length) {
+        changes = true
+      } else {
+        this.workflow.forEach((item, index) => {
+          if (item.description != this.original[index].description) {
+            changes = true
+          }
+        })
+      }
+
+      return changes
+    },
     remainingActions () {
       let actions = []
 
@@ -122,6 +166,7 @@ export default {
       this.$store.dispatch('complete')
       res.data.workflow.forEach(item => {
         this.workflow.push(item)
+        this.original.push(item)
         this.actions.forEach((action, index) => {
           if (action.action == item.action) {
             this.actions.splice(index, 1)
@@ -164,7 +209,7 @@ export default {
       })
       .then(() => {
         this.$store.dispatch('complete')
-        this.$router.push({ name: 'WorkflowConfirmation' })
+        this.$router.push('/workflow-confirmation')
       })
     }
   }
