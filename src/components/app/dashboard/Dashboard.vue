@@ -1,94 +1,110 @@
 <template>
-  <div main>
+  <div class="main">
 
-    <div center wrap>
+    <div class="center wrap">
 
-      <div around wrap>
-        <section col center card click @click="$router.push('/working')">
-          <div half>
-            <icon medium icon="hammer" class="red"></icon>
-          </div>
-          <div grow col>
-            <b>Start Working</b>
-            <small>Begin working on a job</small>
-          </div>
-        </section>
-        <section col center card click @click="$router.push('/jobs')">
-          <div half>
-            <icon medium icon="briefcase" class="green"></icon>
-          </div>
-          <div grow col>
-            <b>Jobs</b>
-            <small>View/Manage jobs</small>
-          </div>
-        </section>
+      <div class="around wrap">
+        <DashboardCard route="/working">
+          <template v-slot:thumbnail>
+            <icon class="red" icon="hammer"></icon>
+          </template>
+          <template v-slot:title>
+            Start Working
+          </template>
+          <template v-slot:content>
+            Begin working on a job
+          </template>
+        </DashboardCard>
+        <DashboardCard route="/jobs">
+          <template v-slot:thumbnail>
+            <icon class="green" icon="briefcase"></icon>
+          </template>
+          <template v-slot:title>
+            Jobs
+          </template>
+          <template v-slot:content>
+            View/Manage Jobs
+          </template>
+        </DashboardCard>
       </div>
 
-      <div around wrap v-if="$store.getters.isAdmin">
-        <section col center card click @click="$router.push('/schedule')">
-          <div half>
-            <icon medium :icon="{ prefix: 'far', iconName: 'calendar-alt' }" class="orange"></icon>
-          </div>
-          <div grow col>
-            <b>Schedule</b>
-            <small>View upcoming dates</small>
-          </div>
-        </section>
-        <section col center card click @click="$router.push('/tasks')">
-          <div half>
-            <icon medium icon="tasks" class="blue"></icon>
-          </div>
-          <div grow col>
-            <b>Tasks</b>
-            <small>Accept/assign tasks with users</small>
-          </div>
-        </section>
+      <div class="around wrap" v-if="$store.getters.isAdmin">
+        <DashboardCard route="/schedule">
+          <template v-slot:thumbnail>
+            <icon class="orange" :icon="{ prefix: 'far', iconName: 'calendar-alt' }"></icon>
+          </template>
+          <template v-slot:title>
+            Schedule
+          </template>
+          <template v-slot:content>
+            View Upcoming Dates
+          </template>
+        </DashboardCard>
+        <DashboardCard route="/tasks">
+          <template v-slot:thumbnail>
+            <icon class="blue" icon="tasks"></icon>
+          </template>
+          <template v-slot:title>
+            Tasks
+          </template>
+          <template v-slot:content>
+            Accept/Assign Tasks with Users
+          </template>
+        </DashboardCard>
       </div>
 
     </div>
 
-    <div center wrap>
+    <div class="center wrap">
 
-      <div around wrap v-if="$store.getters.isAdmin">
-        <section col center card click @click="$router.push('/inventory')">
-          <div half>
-            <icon medium icon="boxes" class="gold"></icon>
-          </div>
-          <div grow col>
-            <b>Inventory</b>
-            <small>Manage/Add to inventory</small>
-          </div>
-        </section>
-        <section col center card click @click="$router.push('/users')" v-if="$store.getters.isAdmin">
-          <div half>
-            <icon medium icon="users" class="purple"></icon>
-          </div>
-          <div grow col>
-            <b>Users</b>
-            <small>Add/View users</small>
-          </div>
-        </section>
+      <div class="around wrap" v-if="$store.getters.isAdmin">
+        <DashboardCard route="/inventory">
+          <template v-slot:thumbnail>
+            <icon class="gold" icon="boxes"></icon>
+          </template>
+          <template v-slot:title>
+            Inventory
+          </template>
+          <template v-slot:content>
+            Manage/Add to Inventory
+          </template>
+        </DashboardCard>
+        <DashboardCard route="/users">
+          <template v-slot:thumbnail>
+            <icon class="purple" icon="users"></icon>
+          </template>
+          <template v-slot:title>
+            Users
+          </template>
+          <template v-slot:content>
+            Add/View Users
+          </template>
+        </DashboardCard>
       </div>
 
-      <div around wrap>
-        <section col center card click @click="$router.push('/marketplace')">
-          <div half>
-            <icon medium icon="dollar-sign" class="blue-green"></icon>
-          </div>
-          <div grow col>
-            <b>Marketplace</b>
-            <small>Buy/Sell excess steel</small>
-          </div>
-        </section>
-        <section col center card click @click="$router.push('/settings')">
-          <div half>
-            <icon medium icon="cog" class="burgundy"></icon>
-          </div>
-          <div grow col>
-            <b>Settings</b>
-            <small>Edit profile and company settings</small>
-          </div>
-        </section>
+      <div class="around wrap">
+        <DashboardCard route="/marketplace">
+          <template v-slot:thumbnail>
+            <icon class="blue-green" icon="dollar-sign"></icon>
+          </template>
+          <template v-slot:title>
+            Marketplace
+          </template>
+          <template v-slot:content>
+            Buy/Sell Excess Steel
+          </template>
+        </DashboardCard>
+        <DashboardCard route="/settings">
+          <template v-slot:thumbnail>
+            <icon class="burgundy" icon="cog"></icon>
+          </template>
+          <template v-slot:title>
+            Settings
+          </template>
+          <template v-slot:content>
+            Edit Profile and Company Settings
+          </template>
+        </DashboardCard>
       </div>
 
     </div>
@@ -102,9 +118,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
-  [card] {
-    height: 110px;
-    width: 110px;
-  }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <Header></Header>
+    <SiteHeader></SiteHeader>
 
     <router-view></router-view>
 
@@ -11,12 +11,12 @@
 </template>
 
 <script>
-import Header from '@/components/website/header/Header'
+import SiteHeader from '@/components/navigation/SiteHeader'
 import Footer from '@/components/website/footer/Footer'
 
 export default {
   components: {
-    Header,
+    SiteHeader,
     Footer
   },
   data () {

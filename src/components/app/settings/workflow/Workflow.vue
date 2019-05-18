@@ -18,7 +18,7 @@
     <!-- List -->
     <List>
 
-      <template v-slot:header>
+      <template v-slot:title>
         Company Workflow
       </template>
 
@@ -37,7 +37,7 @@
               <img :src="require(`@/assets/img/actions/${item.description}.png`)" :alt="item.action">
             </template>
 
-            <template v-slot:header>
+            <template v-slot:title>
               <div>
                 <span>{{ item.action }}</span>
               </div>
@@ -69,7 +69,7 @@
 
     <!-- Modal -->
     <Modal v-if="showModal" @close="showModal = false">
-      <template v-slot:header>
+      <template v-slot:title>
         <h4>Select a New Action</h4>
       </template>
       <template v-slot:content>
@@ -78,7 +78,7 @@
             <template v-slot:thumbnail>
               <img :src="require(`@/assets/img/actions/${item.description}.png`)" :alt="item.action">
             </template>
-            <template v-slot:header>
+            <template v-slot:title>
               {{ item.action }}
             </template>
           </Item>

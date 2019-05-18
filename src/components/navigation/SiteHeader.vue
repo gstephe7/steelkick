@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <header between align id="header">
+    <header id="header">
       <div @click="closeMobileMenu">
         <router-link :to="{ name: 'Home' }">
           <Logo class="logo"></Logo>
@@ -18,23 +18,23 @@
 
       <!-- show if desktop screen -->
       <div class="desktop">
-        <Nav :desktop="true"></Nav>
+        <SiteNav :desktop="true"></SiteNav>
       </div>
     </header>
 
-    <Nav class="hide mobile" :class="{ show: showMenu }" @closeMenu="toggleMobileMenu"></Nav>
+    <SiteNav class="hide mobile" :class="{ show: showMenu }" @closeMenu="toggleMobileMenu"></SiteNav>
 
   </div>
 </template>
 
 <script>
 import Logo from '@/components/logo/Logo'
-import Nav from '@/components/website/nav/Nav'
+import SiteNav from '@/components/navigation/SiteNav'
 
 export default {
   components: {
     Logo,
-    Nav
+    SiteNav
   },
   data () {
     return {
@@ -67,22 +67,32 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  @import '@/assets/scss/variables.scss';
 
-  .mobile {
-    @media screen and (max-width: 800px) {
-      display: block;
-    }
-    @media screen and (min-width: 801px) {
-      display: none;
-    }
-  }
-
-  .desktop {
-    @media screen and (max-width: 800px) {
-      display: none;
-    }
-    @media screen and (min-width: 801px) {
-      display: block;
+  header {
+    @include align;
+    @include between;
+    height: 72px;
+    background-color: $primary;
+    color: $accent;
+    box-shadow: $box-shadow-dark;
+    z-index: 10;
+    position: fixed;
+    width: 100%;
+    max-width: 100%;
+    top: 0px;
+    transition: 250ms all;
+    button {
+      background-color: rgba(0,0,0,0);
+      outline: none;
+      border: none;
+      box-shadow: none;
+      padding: 0;
+      height: 72px;
+      width: 72px;
+      margin: 0;
+      cursor: pointer;
+      font-size: 20px;
     }
   }
 

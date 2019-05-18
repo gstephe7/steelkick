@@ -4,7 +4,7 @@
     <div around>
 
       <section>
-        <Nav :footer="true"></Nav>
+        <SiteNav :footer="true"></SiteNav>
       </section>
 
       <section>
@@ -22,12 +22,12 @@
 
 <script>
 import Social from '@/components/website/social/Social'
-import Nav from '@/components/website/nav/Nav'
+import SiteNav from '@/components/navigation/SiteNav'
 
 export default {
   components: {
     Social,
-    Nav
+    SiteNav
   },
   computed: {
     currentYear () {

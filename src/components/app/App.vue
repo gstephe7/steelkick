@@ -1,18 +1,13 @@
 <template>
   <div>
 
-    <Header :showMenu="showMenu"
-            @toggleMenu="showMenu = !showMenu"
-            @closeMenu="showMenu = false">
-    </Header>
+    <AppHeader></AppHeader>
 
-    <div row>
+    <div class="row">
 
-      <div :class="{ mobileMenu : showMenu }" @click="showMenu = false">
-        <Sidebar :showMenu="showMenu" @closeMenu="showMenu = false"></Sidebar>
-      </div>
+      <AppDrawer class="desktop"></AppDrawer>
 
-      <div basis grow class="content" @click="showMenu = false">
+      <div class="content basis grow">
         <router-view></router-view>
         <Footer></Footer>
       </div>
@@ -23,14 +18,14 @@
 </template>
 
 <script>
-import Header from '@/components/app/header/Header'
-import Sidebar from '@/components/app/sidebar/Sidebar'
+import AppHeader from '@/components/navigation/AppHeader'
+import AppDrawer from '@/components/navigation/AppDrawer'
 import Footer from '@/components/website/footer/Footer'
 
 export default {
   components: {
-    Header,
-    Sidebar,
+    AppHeader,
+    AppDrawer,
     Footer
   },
   data () {
@@ -57,16 +52,6 @@ export default {
   .content {
     @media screen and (min-width: 1000px) {
       margin-left: 250px;
-    }
-  }
-
-  .mobileMenu {
-    @media screen and (max-width: 999px) {
-      position: fixed;
-      width: 100%;
-      height: 100%;
-      z-index: 9;
-      background-color: rgba(0,0,0,.5);
     }
   }
 </style>

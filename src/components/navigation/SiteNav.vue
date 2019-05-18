@@ -54,6 +54,16 @@ export default {
 
   nav {
     background-color: $primary;
+    display: flex;
+    flex-direction: column;
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style-type: none;
+    }
+    li {
+      display: flex;
+    }
   }
 
   li {

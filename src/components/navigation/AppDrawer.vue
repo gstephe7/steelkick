@@ -1,26 +1,28 @@
 <template>
-  <aside :class="{ show : showMenu }">
+  <div :class="{ backdrop : showMenu }" @click="$emit('closeMenu')">
+    <aside :class="{ show : showMenu }" @click.stop>
 
-    <div class="logo" align>
-      <Logo></Logo>
-    </div>
+      <div class="logo" align>
+        <Logo></Logo>
+      </div>
 
-    <hr>
+      <hr>
 
-    <Nav @closeMenu="$emit('closeMenu')"></Nav>
+      <AppNav @closeMenu="$emit('closeMenu')"></AppNav>
 
-  </aside>
+    </aside>
+  </div>
 </template>
 
 <script>
 import Logo from '@/components/logo/Logo'
-import Nav from '@/components/app/nav/Nav'
+import AppNav from './AppNav'
 
 export default {
   props: ['showMenu'],
   components: {
     Logo,
-    Nav
+    AppNav
   }
 }
 </script>
@@ -28,8 +30,18 @@ export default {
 <style lang="scss" scoped>
   @import '@/assets/scss/variables.scss';
 
+  .backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,.75);
+    z-index: 4;
+  }
+
   aside {
-    z-index: 3;
+    z-index: 5;
     background: #fff;
     width: 250px;
     position: fixed;

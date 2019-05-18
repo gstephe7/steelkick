@@ -1,24 +1,32 @@
 <template>
-  <div main>
+  <div class="main">
 
-    <h1>Create a New Job</h1>
+    <Form>
 
-    <hr>
+      <template v-slot:title>
+        Create a New Job
+      </template>
 
-    <form col @submit.prevent="submit">
+      <template v-slot:content>
+        <InputText v-model="name" size="big">
+          Job Name
+        </InputText>
+        <InputText v-model="number" size="big">
+          Job ID #
+        </InputText>
+        <InputText v-model="customer" size="big">
+          Customer
+        </InputText>
+        <InputText v-model="sequences" size="big">
+          # of Sequences
+        </InputText>
+      </template>
 
-      <input big v-model="name" placeholder="Job Name" :highlight="errors.name">
-      <input big v-model="number" placeholder="Job ID #">
-      <input big v-model="customer" placeholder="Customer">
-      <input big v-model.number="sequences" placeholder="# of Sequences">
+      <template v-slot:action>
+        Create Job
+      </template>
 
-      <button green type="submit">Create Job</button>
-
-      <div errors>
-        <p v-if="errors.name">Please enter a job name</p>
-      </div>
-
-    </form>
+    </Form>
 
   </div>
 </template>
@@ -75,7 +83,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  input[big] {
-    width: 250px;
-  }
 </style>

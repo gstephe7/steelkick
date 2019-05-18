@@ -1,6 +1,6 @@
 <template>
-  <nav @click="$emit('closeMenu')">
-    <ul>
+  <nav>
+    <ul @click="$emit('closeMenu')">
       <li>
         <router-link :to="{ name: 'Dashboard' }">Dashboard</router-link>
       </li>
@@ -42,6 +42,16 @@ export default {
 
   nav {
     margin: 10px;
+    display: flex;
+    flex-direction: column;
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style-type: none;
+    }
+    li {
+      display: flex;
+    }
   }
 
   li {
@@ -64,17 +74,5 @@ export default {
 
   a:hover {
     background-color: rgba(0,0,0,.1);
-  }
-
-  .notify-container {
-    width: 0;
-    height: 0;
-    position: relative;
-  }
-
-  .notify {
-    position: absolute;
-    left: -15px;
-    top: -5px;
   }
 </style>

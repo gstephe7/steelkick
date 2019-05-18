@@ -3,7 +3,7 @@
     <div class="modal" @click.stop>
 
       <div class="header">
-        <slot name="header"></slot>
+        <slot name="title"></slot>
         <icon class="close"
               icon="times"
               @click="$emit('close')">

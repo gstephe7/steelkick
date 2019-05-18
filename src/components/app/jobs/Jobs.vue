@@ -1,14 +1,14 @@
 <template>
-  <div main>
+  <div class="main">
 
-    <div col>
+    <div class="col">
 
-      <button green @click="createJob">+ Create New Job</button>
+      <button class="green" @click="createJob">+ Create New Job</button>
 
       <br>
 
       <div v-if="jobs.length > 0">
-        <h2 click v-for="job in jobs" :key="job._id" @click="updateCurrentJob(job)">
+        <h2 class="click" v-for="job in jobs" :key="job._id" @click="updateCurrentJob(job)">
           <router-link to="job-details">
             {{ job.name }}
           </router-link>
@@ -37,9 +37,7 @@ export default {
   },
   methods: {
     createJob () {
-      this.$router.push({
-        name: 'CreateJob'
-      })
+      this.$router.push('/create-job')
     },
     updateCurrentJob (job) {
       this.$store.dispatch('updateCurrentJob', job)

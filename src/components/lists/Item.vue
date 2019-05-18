@@ -9,8 +9,8 @@
     <!-- Main -->
     <div class="content">
       <!-- First line of item -->
-      <div class="row header">
-        <slot name="header"></slot>
+      <div class="row title">
+        <slot name="title"></slot>
       </div>
 
       <!-- Second line of item -->
@@ -72,7 +72,7 @@ export default {
     color: $grey;
   }
 
-  .header {
+  .title {
     color: $primary;
     margin-bottom: 5px;
     @media screen and (max-width: 999px) {

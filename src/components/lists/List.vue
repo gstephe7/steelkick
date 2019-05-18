@@ -1,8 +1,8 @@
 <template>
   <div class="list">
 
-    <div class="header">
-      <slot name="header"></slot>
+    <div class="title">
+      <slot name="title"></slot>
     </div>
 
     <div class="actions">

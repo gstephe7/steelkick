@@ -10,6 +10,9 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 
 // import global components
 import Banner from '@/components/dialogs/Banner'
+import DashboardCard from '@/components/cards/DashboardCard'
+import Form from '@/components/forms/Form'
+import InputText from '@/components/forms/InputText'
 import Item from '@/components/lists/Item'
 import List from '@/components/lists/List'
 import Modal from '@/components/dialogs/Modal'
@@ -100,6 +103,9 @@ library.add({
 
 // register components
 Vue.component('Banner', Banner)
+Vue.component('DashboardCard', DashboardCard)
+Vue.component('Form', Form)
+Vue.component('InputText', InputText)
 Vue.component('Item', Item)
 Vue.component('List', List)
 Vue.component('Modal', Modal)
