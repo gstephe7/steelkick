@@ -9,6 +9,10 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
 
 // import global components
+import Banner from '@/components/dialogs/Banner'
+import Item from '@/components/lists/Item'
+import List from '@/components/lists/List'
+import Modal from '@/components/dialogs/Modal'
 import Back from '@/components/app/nav/Back.vue'
 
 // import icons
@@ -95,6 +99,10 @@ library.add({
 })
 
 // register components
+Vue.component('Banner', Banner)
+Vue.component('Item', Item)
+Vue.component('List', List)
+Vue.component('Modal', Modal)
 Vue.component('Back', Back)
 Vue.component('icon', FontAwesomeIcon)
 

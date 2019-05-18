@@ -102,6 +102,7 @@ export default {
 
   [card] {
     margin: 10px auto;
+    padding: 10px;
   }
 
   sup {
