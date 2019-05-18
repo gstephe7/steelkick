@@ -2,15 +2,15 @@
   <div class="item">
 
     <!-- Aside -->
-    <div class="img">
-      <slot name="img"></slot>
+    <div class="thumbnail">
+      <slot name="thumbnail"></slot>
     </div>
 
     <!-- Main -->
     <div class="content">
       <!-- First line of item -->
       <div class="row header">
-        <slot name="first"></slot>
+        <slot name="header"></slot>
       </div>
 
       <!-- Second line of item -->
@@ -25,8 +25,8 @@
     </div>
 
     <!-- Index -->
-    <div class="index">
-      <slot name="index"></slot>
+    <div class="metadata">
+      <slot name="metadata"></slot>
     </div>
 
   </div>
@@ -46,13 +46,13 @@ export default {
     @include between
   }
 
-  .img {
+  .thumbnail {
     @include center;
     @include align;
     margin-right: 15px;
     border-radius: 50%;
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     background-color: $accent;
     overflow: hidden;
     img {
@@ -63,25 +63,30 @@ export default {
 
   .content {
     @include grow;
-    margin-right: 10px;
+    margin-right: 15px;
   }
 
   .row {
     @include between;
+    font-size: 14px;
+    color: $grey;
   }
 
   .header {
+    color: $primary;
+    margin-bottom: 5px;
     @media screen and (max-width: 999px) {
       font-size: 16px;
     }
     @media screen and (min-width: 1000px) {
-      font-size: 24px;
+      font-size: 20px;
     }
   }
 
-  .index {
+  .metadata {
     @include last;
     width: 25px;
-    color: rgba(0,0,0,.5);
+    color: $grey;
+    font-size: 14px;
   }
 </style>

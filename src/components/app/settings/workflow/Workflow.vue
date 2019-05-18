@@ -33,11 +33,11 @@
         <div v-if="workflow.length > 0">
           <Item v-for="(item, index) in workflow" :key="item.description">
 
-            <template v-slot:img>
+            <template v-slot:thumbnail>
               <img :src="require(`@/assets/img/actions/${item.description}.png`)" :alt="item.action">
             </template>
 
-            <template v-slot:first>
+            <template v-slot:header>
               <div>
                 <span>{{ item.action }}</span>
               </div>
@@ -51,7 +51,7 @@
               </div>
             </template>
 
-            <template v-slot:index>
+            <template v-slot:metadata>
               {{ index + 1 }}
             </template>
 
@@ -75,10 +75,10 @@
       <template v-slot:content>
         <div v-for="item in remainingActions" :key="item.description" @click="addAction(item)">
           <Item class="click">
-            <template v-slot:img>
+            <template v-slot:thumbnail>
               <img :src="require(`@/assets/img/actions/${item.description}.png`)" :alt="item.action">
             </template>
-            <template v-slot:first>
+            <template v-slot:header>
               {{ item.action }}
             </template>
           </Item>

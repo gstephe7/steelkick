@@ -5,7 +5,7 @@ export default {
 
   // variables
   axios: axios,
-  baseUrl: 'https://steelkick-backend.appspot.com',
+  baseUrl: 'http://localhost:8080',
 
 
 
