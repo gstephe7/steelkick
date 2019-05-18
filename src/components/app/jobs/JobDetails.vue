@@ -1,8 +1,6 @@
 <template>
   <div main>
 
-    <Back>Back to all jobs</Back>
-
     <h1>{{ job.name }}</h1>
 
     <hr>
@@ -71,7 +69,7 @@
       <!-- Nesting/Purchasing -->
       <section col center card click @click="$router.push({name: 'Purchasing'})">
         <icon big class="blue-green" icon="credit-card"></icon>
-        <h2>Nesting/Purchasing</h2>
+        <h2>Nesting</h2>
       </section>
 
       <!-- Scheduling -->

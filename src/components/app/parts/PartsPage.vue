@@ -1,8 +1,6 @@
 <template>
   <div main>
 
-    <Back>Back to job</Back>
-
     <h1>
       {{ $store.getters.currentJob.name }} <br>
       Parts
@@ -29,9 +27,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '@/assets/scss/variables.scss';
-
-  [main] {
-    max-width: 1200px;
-  }
 </style>

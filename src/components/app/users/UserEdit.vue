@@ -94,7 +94,7 @@ export default {
       })
       .then(() => {
         this.$store.dispatch('complete')
-        this.$router.push('manage-users')
+        this.$router.push('users')
       })
       .catch(() => {
         this.$store.dispatch('complete')

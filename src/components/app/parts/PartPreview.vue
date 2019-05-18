@@ -1,5 +1,5 @@
 <template>
-  <div card click>
+  <div card padding click>
 
     <!-- Part Information -->
     <div>
