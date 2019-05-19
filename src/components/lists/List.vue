@@ -1,7 +1,7 @@
 <template>
   <div class="list">
 
-    <div class="title">
+    <div class="list-title">
       <slot name="title"></slot>
     </div>
 
@@ -39,7 +39,7 @@ export default {
     @include center;
   }
 
-  .header {
+  .list-title {
     margin-bottom: 10px;
   }
 </style>

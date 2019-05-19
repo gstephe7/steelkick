@@ -1,11 +1,11 @@
 <template>
-  <form @submit.prevent="submit">
+  <form @submit.prevent="$emit('submit')">
 
     <div class="form-title">
       <slot name="title"></slot>
     </div>
 
-    <div class="content">
+    <div id="inputs" class="content">
       <slot name="content"></slot>
     </div>
 
@@ -22,6 +22,11 @@
 
 <script>
 export default {
+  mounted () {
+    let firstElement = document.getElementById('inputs').firstChild
+    let firstInput = firstElement.lastChild
+    firstInput.focus()
+  }
 }
 </script>
 
@@ -31,15 +36,15 @@ export default {
   form {
     max-width: 500px;
     margin: auto;
+    @include col;
   }
 
   .content {
     @include wrap;
-    @include around;
+    @include center;
   }
 
   .form-title {
     margin: 0 15px 15px 15px;
-    text-align: center;
   }
 </style>

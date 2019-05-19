@@ -1,6 +1,7 @@
 <template>
-  <div main>
-    <div article v-if="loaded">
+  <div class="main">
+
+    <div v-if="loaded">
 
       <h1>Edit Your Profile</h1>
 
@@ -19,6 +20,7 @@
       </div>
 
     </div>
+
   </div>
 </template>
 
@@ -53,7 +55,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  [main] {
-    max-width: 800px;
+  .main {
+    max-width: 600px;
   }
 </style>

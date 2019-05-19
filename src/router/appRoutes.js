@@ -50,7 +50,6 @@ import EditCompany from '@/components/app/marketplace/editProfile/EditProfile'
 // company settings
 import Settings from '@/components/app/settings/Settings'
 import Workflow from '@/components/app/settings/workflow/Workflow'
-import WorkflowConfirmation from '@/components/app/settings/workflow/WorkflowConfirmation'
 import EditProfile from '@/components/app/settings/profile/EditProfile'
 
 
@@ -64,22 +63,46 @@ export default [
   {
     path: 'jobs',
     name: 'All Jobs',
-    component: Jobs
+    component: Jobs,
+    meta: {
+      parent: {
+        path: '/',
+        name: 'Dashboard'
+      }
+    }
   },
   {
     path: 'create-job',
     name: 'Create New Job',
-    component: CreateJob
+    component: CreateJob,
+    meta: {
+      parent: {
+        path: '/jobs',
+        name: 'All Jobs'
+      }
+    }
   },
   {
     path: 'job-details',
     name: 'Job Details',
-    component: JobDetails
+    component: JobDetails,
+    meta: {
+      parent: {
+        path: '/jobs',
+        name: 'All Jobs'
+      }
+    }
   },
   {
     path: 'create-part',
     name: 'Create New Part',
-    component: CreatePart
+    component: CreatePart,
+    meta: {
+      parent: {
+        path: '/parts',
+        name: 'Parts'
+      }
+    }
   },
   {
     path: 'part-confirmation',
@@ -89,47 +112,101 @@ export default [
   {
     path: 'parts',
     name: 'Parts',
-    component: PartsPage
+    component: PartsPage,
+    meta: {
+      parent: {
+        path: '/job-details',
+        name: 'Job Details'
+      }
+    }
   },
   {
     path: 'part-details',
     name: 'Part Details',
-    component: PartDetails
+    component: PartDetails,
+    meta: {
+      parent: {
+        path: '/parts',
+        name: 'Parts'
+      }
+    }
   },
   {
     path: 'purchasing',
     name: 'Purchasing',
-    component: Purchasing
+    component: Purchasing,
+    meta: {
+      parent: {
+        path: '/',
+        name: 'Dashboard'
+      }
+    }
   },
   {
     path: 'schedule',
     name: 'Schedule',
-    component: Schedule
+    component: Schedule,
+    meta: {
+      parent: {
+        path: '/',
+        name: 'Dashboard'
+      }
+    }
   },
   {
     path: 'tasks',
     name: 'Tasks',
-    component: Tasks
+    component: Tasks,
+    meta: {
+      parent: {
+        path: '/',
+        name: 'Dashboard'
+      }
+    }
   },
   {
     path: 'working',
     name: 'Working',
-    component: Working
+    component: Working,
+    meta: {
+      parent: {
+        path: '/',
+        name: 'Dashboard'
+      }
+    }
   },
   {
     path: 'users',
     name: 'Users',
-    component: Users
+    component: Users,
+    meta: {
+      parent: {
+        path: '/',
+        name: 'Dashboard'
+      }
+    }
   },
   {
     path: 'user-details',
     name: 'User Details',
-    component: UserDetails
+    component: UserDetails,
+    meta: {
+      parent: {
+        path: '/users',
+        name: 'Users'
+      }
+    }
   },
   {
     path: 'add-material',
     name: 'Add Material',
-    component: AddMaterial
+    component: AddMaterial,
+    meta: {
+      parent: {
+        path: '/inventory',
+        name: 'Inventory'
+      }
+    }
   },
   {
     path: 'material-confirmation',
@@ -139,17 +216,35 @@ export default [
   {
     path: 'inventory',
     name: 'Inventory',
-    component: Inventory
+    component: Inventory,
+    meta: {
+      parent: {
+        path: '/',
+        name: 'Dashboard'
+      }
+    }
   },
   {
     path: 'marketplace',
     name: 'Marketplace',
-    component: Marketplace
+    component: Marketplace,
+    meta: {
+      parent: {
+        path: '/',
+        name: 'Dashboard'
+      }
+    }
   },
   {
     path: 'material-page',
     name: 'Material Page',
-    component: MaterialPage
+    component: MaterialPage,
+    meta: {
+      parent: {
+        path: '/inventory',
+        name: 'Inventory'
+      }
+    }
   },
   {
     path: 'pending-orders',
@@ -214,21 +309,34 @@ export default [
   {
     path: 'settings',
     name: 'Settings',
-    component: Settings
+    component: Settings,
+    meta: {
+      parent: {
+        path: '/',
+        name: 'Dashboard'
+      }
+    }
   },
   {
     path: 'workflow',
     name: 'Configure Workflow',
-    component: Workflow
-  },
-  {
-    path: 'workflow-confirmation',
-    name: 'Workflow Confirmation',
-    component: WorkflowConfirmation
+    component: Workflow,
+    meta: {
+      parent: {
+        path: '/settings',
+        name: 'Settings'
+      }
+    }
   },
   {
     path: 'edit-profile',
     name: 'Edit Profile',
-    component: EditProfile
+    component: EditProfile,
+    meta: {
+      parent: {
+        path: '/settings',
+        name: 'Settings'
+      }
+    }
   }
 ]

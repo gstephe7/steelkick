@@ -20,8 +20,21 @@
         </div>
       </div>
 
-      <div>
-        <span class="header-title">{{ $route.name }}</span>
+      <!-- Breadcrumbs -->
+      <div class="breadcrumbs align">
+        <span v-if="$route.meta.parent">
+          <span @click="navBack"
+                class="breadcrumb click">
+            {{ $route.meta.parent.name }}
+          </span>
+          <icon v-if="$route.meta.parent"
+                icon="angle-right"
+                class="breadcrumb">
+          </icon>
+        </span>
+        <span class="breadcrumb">
+          {{ $route.name }}
+        </span>
       </div>
 
     </header>
@@ -48,6 +61,12 @@ export default {
       showMenu: false
     }
   },
+  methods: {
+    navBack () {
+      this.$router.push(this.$route.meta.parent.path)
+      this.showMenu = false
+    }
+  },
   mounted () {
     const header = document.getElementById('header')
     let prevScroll = window.pageYOffset
@@ -57,7 +76,7 @@ export default {
       if (prevScroll > currentScroll) {
         header.style.top = '0'
       } else {
-        header.style.top = '-80px'
+        header.style.top = '-150px'
       }
       prevScroll = currentScroll
     }
@@ -70,7 +89,7 @@ export default {
 
   header {
     @include align;
-    height: 72px;
+    @include wrap;
     background-color: $primary;
     color: $accent;
     box-shadow: $box-shadow-dark;
@@ -86,9 +105,9 @@ export default {
       border: none;
       box-shadow: none;
       padding: 0;
-      height: 72px;
-      width: 72px;
-      margin: 0;
+      height: 50px;
+      width: 50px;
+      margin: 10px;
       cursor: pointer;
       font-size: 20px;
     }
@@ -104,7 +123,25 @@ export default {
       width: 150px;
     }
     @media screen and (min-width: 1000px) {
-      width: 280px;
+      width: 250px;
+    }
+  }
+
+  .breadcrumbs {
+    margin-left: 25px;
+    height: 35px;
+    @media screen and (max-width: 999px) {
+      @include start
+      @include basis
+    }
+  }
+
+  .breadcrumb {
+    margin-right: 10px;
+    font-size: 16px;
+    color: $accent;
+    @media screen and (min-width: 1000px) {
+      font-size: 18px;
     }
   }
 

@@ -1,19 +1,16 @@
 <template>
   <div>
     <Loading v-if="$store.getters.loading"></Loading>
-    <Success v-if="$store.getters.success.show"></Success>
     <router-view></router-view>
   </div>
 </template>
 
 <script>
 import Loading from '@/components/app/popups/Loading'
-import Success from '@/components/app/popups/Success'
 
 export default {
   components: {
-    Loading,
-    Success
+    Loading
   },
   methods: {
     // handles autotab on forms. Use class "autotab" to make an input element autotab on change or when maxlength is met

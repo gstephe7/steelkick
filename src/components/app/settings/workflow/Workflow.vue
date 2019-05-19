@@ -1,5 +1,5 @@
 <template>
-  <div main>
+  <div class="main">
 
 
 
@@ -209,7 +209,8 @@ export default {
       })
       .then(() => {
         this.$store.dispatch('complete')
-        this.$router.push('/workflow-confirmation')
+        this.$router.push('/settings')
+        this.$store.dispatch('snackbar', 'Successfully updated your workflow!')
       })
     }
   }

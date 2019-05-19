@@ -64,6 +64,9 @@ export default {
   .logo {
     height: 72px;
     padding-left: 20px;
+    @media screen and (max-width: 999px) {
+      height: 100px;
+    }
   }
 
   hr {

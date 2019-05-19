@@ -3,15 +3,18 @@
         :style="style">
 
     <label class="label"
-           :class="{ move : targeted }"
-           for="input">
+           :class="{ move : targeted }">
       <slot></slot>
     </label>
 
+    <span v-if="type == 'password'" class="password" @click="hidePassword = !hidePassword">
+      <icon v-if="hidePassword" icon="eye-slash"></icon>
+      <icon v-else icon="eye"></icon>
+    </span>
+
     <input
-      id="input"
       class="input"
-      type="text"
+      :type="getType"
       :value="value"
       @input="$emit('input', $event.target.value)"
       @focus="targeted = true"
@@ -23,10 +26,11 @@
 
 <script>
 export default {
-  props: ['value', 'size'],
+  props: ['value', 'size', 'type'],
   data () {
     return {
-      targeted: this.value
+      targeted: this.value,
+      hidePassword: false
     }
   },
   computed: {
@@ -42,6 +46,18 @@ export default {
       }
 
       return newStyle
+    },
+    getType () {
+      if (this.type == 'password' && this.hidePassword == true) {
+        return 'password'
+      } else {
+        return 'text'
+      }
+    }
+  },
+  mounted () {
+    if (this.type == 'password') {
+      this.hidePassword = true
     }
   }
 }
@@ -95,5 +111,15 @@ export default {
   .input:focus {
     border: 2px solid $secondary;
     outline: none;
+  }
+
+  .password {
+    position: absolute;
+    right: 15px;
+    top: 0;
+    bottom: 0;
+    @include align;
+    color: $grey;
+    cursor: pointer;
   }
 </style>

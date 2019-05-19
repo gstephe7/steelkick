@@ -48,7 +48,7 @@ export default {
     height: 45%;
     margin-bottom: 10px;
     @media screen and (min-width: 1000px) {
-      font-size: 65px;
+      font-size: 60px;
     }
   }
 

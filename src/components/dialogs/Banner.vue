@@ -1,30 +1,22 @@
 <template>
-  <div class="banner hide" :class="{ show : loaded }">
-    <div class="content">
-      <div class="message">
-        <span>Save your changes</span>
-      </div>
-      <div>
-        <button class="green small" @click="$emit('save')">
-          Save
-        </button>
+  <transition appear name="slide">
+    <div class="banner">
+      <div class="content">
+        <div class="message">
+          <span>Save your changes</span>
+        </div>
+        <div>
+          <button class="green small" @click="$emit('save')">
+            Save
+          </button>
+        </div>
       </div>
     </div>
-  </div>
+  </transition>
 </template>
 
 <script>
 export default {
-  data () {
-    return {
-      loaded: false
-    }
-  },
-  mounted () {
-    setTimeout(() => {
-      this.loaded = true
-    }, 1000)
-  }
 }
 </script>
 
@@ -57,11 +49,7 @@ export default {
     padding: 10px;
   }
 
-  .hide {
-    bottom: -120px;
-  }
-
-  .show {
-    bottom: 0;
+  .slide-enter, .slide-leave-to {
+    bottom: -100px;
   }
 </style>

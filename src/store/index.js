@@ -8,9 +8,9 @@ export default new Vuex.Store({
 
   state: {
     loading: false,
-    success: {
+    snackbar: {
       show: false,
-      msg: ''
+      message: ''
     },
     auth: false,
     token: null,
@@ -45,13 +45,13 @@ export default new Vuex.Store({
     complete (state) {
       state.loading = false
     },
-    success (state, payload) {
-      state.success.show = true
-      state.success.msg = payload
+    snackbar (state, payload) {
+      state.snackbar.show = true
+      state.snackbar.message = payload
     },
-    successComplete (state) {
-      state.success.show = false
-      state.success.msg = ''
+    hideSnackbar (state) {
+      state.snackbar.show = false
+      state.snackbar.message = ''
     },
     updateCurrentJob (state, payload) {
       state.currentJob = payload
@@ -86,17 +86,17 @@ export default new Vuex.Store({
     complete ({commit}) {
       commit('complete')
     },
-    success ({commit, dispatch}, payload) {
-      commit('success', payload)
+    snackbar ({commit, dispatch}, payload) {
+      commit('snackbar', payload)
       return new Promise((resolve, reject) => {
         setTimeout(() => {
-          dispatch('successComplete')
+          dispatch('hideSnackbar')
           resolve()
-        }, 2000)
+        }, 5000)
       })
     },
-    successComplete ({commit}) {
-      commit('successComplete')
+    hideSnackbar ({commit}) {
+      commit('hideSnackbar')
     },
     updateCurrentRole ({commit}, payload) {
       localStorage.currentRole = JSON.stringify(payload)
@@ -184,8 +184,11 @@ export default new Vuex.Store({
     loading: (state) => {
       return state.loading
     },
-    success: (state) => {
-      return state.success
+    snackbarShow: (state) => {
+      return state.snackbar.show
+    },
+    snackbarMessage: (state) => {
+      return state.snackbar.message
     },
     currentRole: (state) => {
       return state.currentRole

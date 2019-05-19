@@ -16,6 +16,7 @@ import InputText from '@/components/forms/InputText'
 import Item from '@/components/lists/Item'
 import List from '@/components/lists/List'
 import Modal from '@/components/dialogs/Modal'
+import SnackBar from '@/components/dialogs/SnackBar'
 import Back from '@/components/app/nav/Back.vue'
 
 // import icons
@@ -37,6 +38,7 @@ import {
   faCheckCircle,
   faAngleUp,
   faAngleDown,
+  faAngleRight,
   faSpinner,
   faEnvelope,
   faSitemap,
@@ -51,7 +53,9 @@ import {
   faBriefcase,
   faUserEdit,
   faArrowUp,
-  faArrowDown
+  faArrowDown,
+  faEye,
+  faEyeSlash
 } from '@fortawesome/free-solid-svg-icons'
 
 import {
@@ -81,6 +85,7 @@ library.add({
   faCheckCircle,
   faAngleUp,
   faAngleDown,
+  faAngleRight,
   faSpinner,
   faEnvelope,
   faFacebook,
@@ -98,7 +103,9 @@ library.add({
   faBriefcase,
   faUserEdit,
   faArrowUp,
-  faArrowDown
+  faArrowDown,
+  faEye,
+  faEyeSlash
 })
 
 // register components
@@ -109,6 +116,7 @@ Vue.component('InputText', InputText)
 Vue.component('Item', Item)
 Vue.component('List', List)
 Vue.component('Modal', Modal)
+Vue.component('SnackBar', SnackBar)
 Vue.component('Back', Back)
 Vue.component('icon', FontAwesomeIcon)
 

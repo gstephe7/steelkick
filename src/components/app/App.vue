@@ -14,6 +14,8 @@
 
     </div>
 
+    <SnackBar v-if="$store.getters.snackbarShow"></SnackBar>
+
   </div>
 </template>
 

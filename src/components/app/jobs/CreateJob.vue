@@ -1,7 +1,7 @@
 <template>
   <div class="main">
 
-    <Form>
+    <Form @submit="submit">
 
       <template v-slot:title>
         Create a New Job
@@ -72,9 +72,8 @@ export default {
         .then(res => {
           this.$store.dispatch('complete')
           this.$store.dispatch('updateCurrentJob', res.data.job)
-          this.$router.push({
-            name: 'JobDetails'
-          })
+          this.$store.dispatch('snackbar', 'Successfully created a new job!')
+          this.$router.push('job-details')
         })
       }
     }

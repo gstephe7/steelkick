@@ -1,7 +1,7 @@
 <template>
-  <div main>
+  <div class="main">
 
-    <div center wrap>
+    <div class="center wrap">
 
       <DashboardCard route="/edit-profile">
         <template v-slot:thumbnail>
