@@ -1,104 +1,51 @@
 <template>
-  <div row>
+  <List>
 
-    <aside card class="desktop">
-      <PartFilter :filter="filter"
-                  v-on:reset="resetFilter">
-      </PartFilter>
-      <br>
-      <div row align class="search-bar">
-        <icon icon="search"></icon>
-        <input grow id="search-input" v-model="search" placeholder="Search for parts" autocomplete="off">
-      </div>
-    </aside>
+    <template v-slot:title>
+      {{ $store.getters.currentJob.name }} Parts
+    </template>
 
-    <div grow id="part-div" v-if="loaded">
-      <div col v-if="!working">
-        <button green @click="createNewPart">
-          + Create New Part
-        </button>
-      </div>
+    <template v-slot:actions>
+      <button v-if="!working"
+              class="green"
+              @click="createNewPart">
+        + Create New Part
+      </button>
+      <InputSearch v-model="search"
+                   id="part-div"
+                   @input="autoScroll">
+      </InputSearch>
+    </template>
 
-      <br>
-
-      <div class="mobile">
-        <div v-if="!working">
-          <PartFilter card
-                      v-show="showFilter"
-                      :filter="filter"
-                      v-on:reset="resetFilter"
-                      @autoScroll="autoScroll">
-          </PartFilter>
-          <br>
-          <div col end>
-            <span class="royal" click @click="showFilter = !showFilter">
-              <icon v-if="showFilter" icon="angle-up"></icon>
-              <icon v-else icon="angle-down"></icon>
-              Filter Parts
-            </span>
-          </div>
-          <br>
-        </div>
-        <div row align class="search-bar">
-          <icon icon="search"></icon>
-          <input grow id="search-input" v-model="search" placeholder="Search for parts" autocomplete="off" @input="autoScroll">
-        </div>
-        <br>
-      </div>
-
-      <div around v-if="!working">
-        <span>
-          <input click type="radio" id="card" :value="true" v-model="displayCard">
-          <label click for="card">Display Cards</label>
-        </span>
-        <span>
-          <input click type="radio" id="list" :value="false" v-model="displayCard">
-          <label click for="list">Display List</label>
-        </span>
-      </div>
-
-      <br v-if="!working">
-
+    <template v-slot:content>
       <div v-if="searchedParts.length > 0">
         <div v-for="part in searchedParts" :key="part._id" @click="viewPart(part)">
-          <PartPreview v-if="displayCard"
-                       :part="part"
-                       :workflow="workflow">
-          </PartPreview>
-          <PartListEntry v-else
-                         :part="part"
-                         :workflow="workflow">
-          </PartListEntry>
+          <PartItem :part="part"></PartItem>
         </div>
       </div>
 
-      <div col v-else>
+      <div v-else class="col">
         <h3>No parts found</h3>
       </div>
-    </div>
+    </template>
 
-  </div>
+  </List>
 </template>
 
 <script>
 import api from '@/api/api'
-import PartFilter from '@/components/app/parts/PartFilter'
-import PartPreview from '@/components/app/parts/PartPreview'
-import PartListEntry from '@/components/app/parts/PartListEntry'
+import PartItem from './PartItem'
 
 export default {
   props: ['job', 'working'],
   components: {
-    PartFilter,
-    PartPreview,
-    PartListEntry
+    PartItem
   },
   data () {
     return {
       parts: [],
       filter: {},
       workflow: [],
-      displayCard: true,
       loaded: false,
       search: '',
       showFilter: this.$route.query.updated || false
@@ -154,16 +101,14 @@ export default {
       this.filter = {}
     },
     createNewPart () {
-      this.$router.push({
-        name: 'CreatePart'
-      })
+      this.$router.push('/create-part')
     },
     viewPart (part) {
       if (this.working) {
         this.$emit('updatePart', part)
       } else {
         this.$router.push({
-          name: 'PartDetails',
+          path: '/part-details',
           query: {
             partId: part._id
           }
@@ -198,67 +143,10 @@ export default {
     .then(res => {
       this.workflow = res.data.workflow
     })
-  },
-  mounted () {
-    document.getElementById('search-input').focus()
   }
 }
 </script>
 
 <style lang="scss" scoped>
   @import '@/assets/scss/variables.scss';
-
-  [main] {
-    max-width: 1200px;
-  }
-
-  .desktop {
-    @media screen and (min-width: 1000px) {
-      display: block;
-    }
-    @media screen and (max-width: 999px) {
-      display: none;
-    }
-  }
-
-  .mobile {
-    @media screen and (min-width: 1000px) {
-      display: none;
-    }
-    @media screen and (max-width: 999px) {
-      display: block;
-    }
-  }
-
-  aside {
-    width: 300px;
-    margin-right: 10px;
-  }
-
-  #part-div {
-    max-width: 600px;
-    margin: 0 auto;
-  }
-
-  button[green] {
-    margin: 0;
-  }
-
-  .search-bar {
-    max-width: 260px;
-    border: 1px solid $accent;
-    border-radius: 20px;
-    padding: 0px 10px;
-    margin: auto;
-  }
-
-  #search-input {
-    border: none;
-    outline: none;
-    margin: 0;
-  }
-
-  input[type="radio"] {
-    width: 10px;
-  }
 </style>

@@ -42,7 +42,7 @@ export default {
 
   .item {
     border-bottom: 0.5px solid rgba(0,0,0,.2);
-    padding: 15px 10px;
+    padding: 15px 5px;
     @include between
   }
 
@@ -57,7 +57,6 @@ export default {
     overflow: hidden;
     img {
       width: 100%;
-      height: 100%;
     }
   }
 
@@ -85,8 +84,9 @@ export default {
 
   .metadata {
     @include last;
+    text-align: right;
     width: 25px;
     color: $grey;
-    font-size: 14px;
+    font-size: 12px;
   }
 </style>

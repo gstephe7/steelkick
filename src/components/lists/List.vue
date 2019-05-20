@@ -36,7 +36,8 @@ export default {
   }
 
   .actions {
-    @include center;
+    @include around;
+    @include wrap;
   }
 
   .list-title {

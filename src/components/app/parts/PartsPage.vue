@@ -1,14 +1,5 @@
 <template>
-  <div main>
-
-    <h1>
-      {{ $store.getters.currentJob.name }} <br>
-      Parts
-    </h1>
-
-    <hr>
-
-    <br>
+  <div class="main">
 
     <Parts></Parts>
 

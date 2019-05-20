@@ -357,9 +357,8 @@ export default {
           })
           .then(res => {
             this.$store.dispatch('complete')
-            this.$router.push({
-              name: 'PartConfirmation'
-            })
+            this.$router.push('/parts')
+            this.$store.dispatch('snackbar', 'Part created successfully!')
           })
         }
 

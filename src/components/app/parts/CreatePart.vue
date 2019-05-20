@@ -1,15 +1,8 @@
 <template>
-  <div main>
-
-    <Back route="Parts">Back to all parts</Back>
+  <div class="main">
 
     <h1>Create New Part</h1>
-
-    <hr>
-
-    <div col>
-      <h2>{{ $store.getters.currentJob.name }}</h2>
-    </div>
+    <h2>{{ $store.getters.currentJob.name }}</h2>
 
     <br>
 

@@ -1,14 +1,14 @@
 <template>
-  <div main>
+  <div class="main">
 
     <h1>{{ job.name }}</h1>
 
     <hr>
 
     <!-- Basic Info -->
-    <div col start>
-      <span>Job ID: {{ job.number }}</span>
-      <span>Customer: {{ job.customer }}</span>
+    <div>
+      <div>Job ID: {{ job.number }}</div>
+      <div>Customer: {{ job.customer }}</div>
     </div>
 
     <br>
@@ -20,7 +20,7 @@
       <!-- Progress Bar -->
       <ProgressBar :numerator="job.weightComplete"
                    :denominator="job.weightTotal"
-                   col>
+                   class="col">
       </ProgressBar>
 
       <br>
@@ -58,25 +58,47 @@
     <br>
 
     <!-- Menu -->
-    <div center wrap>
+    <div class="center wrap">
 
       <!-- Parts -->
-      <section col center card click @click="$router.push({name: 'Parts'})">
-        <icon big class="red" icon="cubes"></icon>
-        <h2>Parts</h2>
-      </section>
+      <DashboardCard route="/parts">
+        <template v-slot:thumbnail>
+          <icon class="red" icon="cubes"></icon>
+        </template>
+        <template v-slot:title>
+          Parts
+        </template>
+        <template v-slot:content>
+          View/Manage parts for this job
+        </template>
+      </DashboardCard>
 
       <!-- Nesting/Purchasing -->
-      <section col center card click @click="$router.push({name: 'Purchasing'})">
-        <icon big class="blue-green" icon="credit-card"></icon>
-        <h2>Nesting</h2>
-      </section>
+      <DashboardCard route="/purchasing">
+        <template v-slot:thumbnail>
+          <icon class="blue-green" icon="credit-card"></icon>
+        </template>
+        <template v-slot:title>
+          Nesting
+        </template>
+        <template v-slot:content>
+          Nest parts/create part lists and POs
+        </template>
+      </DashboardCard>
 
       <!-- Scheduling -->
-      <section col center card click @click="$router.push({name: 'Schedule'})">
-        <icon big class="green" :icon="['far', 'calendar-alt']"></icon>
-        <h2>Schedule</h2>
-      </section>
+      <DashboardCard route="/schedule">
+        <template v-slot:thumbnail>
+          <icon class="green" :icon="['far', 'calendar-alt']">
+          </icon>
+        </template>
+        <template v-slot:title>
+          Schedule
+        </template>
+        <template v-slot:content>
+          Set the schedule for this job
+        </template>
+      </DashboardCard>
 
     </div>
 
