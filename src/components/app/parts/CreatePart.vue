@@ -1,11 +1,6 @@
 <template>
   <div class="main">
 
-    <h1>Create New Part</h1>
-    <h2>{{ $store.getters.currentJob.name }}</h2>
-
-    <br>
-
     <PartForm></PartForm>
 
   </div>

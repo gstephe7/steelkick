@@ -149,6 +149,10 @@ input {
   font-weight: 300;
 }
 
+input::placeholder {
+  color: rgba(0,0,0,.4);
+}
+
 input[big] {
   width: 178px;
 }

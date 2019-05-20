@@ -12,7 +12,9 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import Banner from '@/components/dialogs/Banner'
 import DashboardCard from '@/components/cards/DashboardCard'
 import Form from '@/components/forms/Form'
+import InputLength from '@/components/forms/InputLength'
 import InputSearch from '@/components/forms/InputSearch'
+import InputSelect from '@/components/forms/InputSelect'
 import InputText from '@/components/forms/InputText'
 import Item from '@/components/lists/Item'
 import List from '@/components/lists/List'
@@ -113,7 +115,9 @@ library.add({
 Vue.component('Banner', Banner)
 Vue.component('DashboardCard', DashboardCard)
 Vue.component('Form', Form)
+Vue.component('InputLength', InputLength)
 Vue.component('InputSearch', InputSearch)
+Vue.component('InputSelect', InputSelect)
 Vue.component('InputText', InputText)
 Vue.component('Item', Item)
 Vue.component('List', List)
