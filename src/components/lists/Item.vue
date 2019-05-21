@@ -2,14 +2,14 @@
   <div class="item">
 
     <!-- Aside -->
-    <div class="thumbnail">
+    <div v-if="$slots.thumbnail" class="thumbnail">
       <slot name="thumbnail"></slot>
     </div>
 
     <!-- Main -->
     <div class="content">
       <!-- First line of item -->
-      <div class="row title">
+      <div class="row item-title">
         <slot name="title"></slot>
       </div>
 
@@ -25,7 +25,7 @@
     </div>
 
     <!-- Index -->
-    <div class="metadata">
+    <div v-if="$slots.metadata" class="metadata">
       <slot name="metadata"></slot>
     </div>
 
@@ -42,7 +42,8 @@ export default {
 
   .item {
     border-bottom: 0.5px solid rgba(0,0,0,.2);
-    padding: 15px 5px;
+    padding: 15px 10px;
+    line-height: 1.5;
     @include between
   }
 
@@ -67,15 +68,15 @@ export default {
 
   .row {
     @include between;
-    font-size: 14px;
+    font-size: 16px;
     color: $grey;
   }
 
-  .title {
+  .item-title {
     color: $primary;
-    margin-bottom: 5px;
+    font-weight: bold;
     @media screen and (max-width: 999px) {
-      font-size: 16px;
+      font-size: 18px;
     }
     @media screen and (min-width: 1000px) {
       font-size: 20px;
@@ -85,8 +86,8 @@ export default {
   .metadata {
     @include last;
     text-align: right;
-    width: 25px;
+    width: 35px;
     color: $grey;
-    font-size: 12px;
+    font-size: 16px;
   }
 </style>

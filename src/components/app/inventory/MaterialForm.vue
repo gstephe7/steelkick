@@ -313,10 +313,8 @@ export default {
               description: 'in the inventory',
               quantity: this.material.quantity
             })
-            this.$store.dispatch('success', 'Successfully updated material!')
-            .then(() => {
-              location.reload(true)
-            })
+            this.$router.push('/inventory')
+            this.$store.dispatch('snackbar', 'Successfully updated material!')
           })
           .catch(() => {
             this.$store.dispatch('complete')
@@ -335,12 +333,8 @@ export default {
               description: 'to the inventory',
               quantity: res.data.material.quantity
             })
-            this.$router.push({
-              path: 'material-confirmation',
-              query: {
-                newEntry: true
-              }
-            })
+            this.$router.push('/inventory')
+            this.$store.dispatch('snackbar', 'New material added!')
           })
           .catch(() => {
             this.$store.dispatch('complete')

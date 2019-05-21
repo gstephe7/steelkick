@@ -72,9 +72,9 @@
           </template>
         </InputSelect>
 
-        <div class="basis">
-          <span>Sequences</span>
-
+        <div class="basis" v-if="!edit">
+          <hr>
+          <p>Sequences</p>
           <div class="center"
                v-for="(sequence, index) in sequences">
             <InputSelect v-model="sequences[index].number" size="small">
@@ -87,167 +87,43 @@
               Quantity
             </InputText>
           </div>
+
+          <div class="col">
+            <button @click="addSequence" type="button">
+              + Sequence
+            </button>
+          </div>
         </div>
+
+        <div class="basis" v-if="!edit">
+          <hr>
+          <p>Minor Members</p>
+
+          <div>
+            <button type="button" @click="addMinorMember" class="autotab">
+              + Minor Member
+            </button>
+          </div>
+
+          <br>
+
+          <div class="align center" v-for="(member, index) in part.minorMembers">
+            <icon class="small click red" icon="trash-alt" @click="removeMinorMember(index)"></icon>
+            <InputText v-model="member.quantity" size="tiny">
+              Quant
+            </InputText>
+            <InputText v-model="member.minorMark" size="small">
+              Minor Mark
+            </InputText>
+          </div>
+          <hr>
+        </div>
+
       </template>
 
       <template v-slot:action>Create Part</template>
 
     </Form>
-
-
-
-    <form @submit.prevent="submit">
-
-      <div center wrap>
-
-        <div>
-          <div row>
-            <input v-model="part.pieceMark" placeholder="Piece Mark" :highlight="errors.pieceMark" class="autotab" id="autofocus">
-            <input v-model="part.minorMark" placeholder="Minor Mark" :highlight="errors.pieceMark" class="autotab">
-          </div>
-          <div row>
-            <select v-model="part.shape" class="autotab" @change="autoSetGrade" :highlight="errors.shape">
-              <option disabled selected :value="undefined">
-                Shape
-              </option>
-              <option v-for="shape in shapes" :value="shape" :key="shape">
-                {{ shape }}
-              </option>
-            </select>
-            <select v-model="part.dimension" class="autotab" :highlight="errors.dimension">
-              <option disabled selected :value="undefined">Dimension</option>
-              <option v-for="dimension in dimensions" :value="dimension" :key="dimension">{{ dimension }}</option>
-            </select>
-          </div>
-        </div>
-
-        <div>
-          <div row>
-            <LengthInput v-model="part.length" :edit="edit" :highlight="errors.length"></LengthInput>
-            <select v-model="part.grade" class="autotab">
-              <option selected disabled :value="undefined">
-                Grade
-              </option>
-              <option value="A36">A36</option>
-              <option value="A992">A992</option>
-              <option value="A500">A500</option>
-            </select>
-          </div>
-          <div row>
-            <select v-model="part.primed" class="autotab">
-              <option selected disabled :value="undefined">Primed?</option>
-              <option :value="false">Not Primed</option>
-              <option :value="true">Primed</option>
-            </select>
-            <select v-model="part.galvanized" class="autotab">
-              <option selected disabled :value="undefined">Galvanized?</option>
-              <option :value="false">Not Galvanized</option>
-              <option :value="true">Galvanized</option>
-            </select>
-          </div>
-        </div>
-
-      </div>
-
-      <div center v-if="edit">
-        <div row>
-          <label>
-            Seq. {{ part.sequence.number }} Quantity:
-          </label>
-          <input v-model="part.quantity" class="autotab">
-        </div>
-      </div>
-
-      <!-- Sequences -->
-      <div col v-if="!edit">
-
-        <p>
-          Sequences
-          <ToolTip>
-            Add this part to different sequences within the job.
-          </ToolTip>
-        </p>
-
-        <div row v-for="(sequence, index) in sequences">
-          <select v-model="sequences[index].number" class="autotab" :highlight="sequences[index].error">
-            <option v-for="item in sequenceList" :value="item">Sequence {{ item }}</option>
-          </select>
-          <input v-model="sequences[index].quantity" placeholder="Quantity" class="autotab" :highlight="errors.quantity">
-        </div>
-
-        <button type="button" @click="addSequence">
-          + Add to Another Seq.
-        </button>
-
-      </div>
-
-      <br>
-
-      <!-- Minor Members -->
-      <div col v-if="!edit">
-
-        <p>
-          Minor Members
-          <ToolTip>
-            Add the piece marks of minor members associated with this part.
-          </ToolTip>
-        </p>
-
-        <button type="button" @click="addMinorMember" class="autotab">
-          + Add Minor Member
-        </button>
-
-        <div align v-for="(member, index) in part.minorMembers">
-          <br>
-          <icon small click class="red" icon="trash-alt" @click="removeMinorMember(index)"></icon>
-          <input tiny v-model.number="member.quantity" placeholder="Quant">
-          <input small v-model="member.minorMark" placeholder="Minor Mark">
-        </div>
-
-      </div>
-
-      <div center v-if="edit">
-        <button small type="button" @click="$emit('close')">
-          Cancel
-        </button>
-        <button small green type="submit">
-          Save
-        </button>
-      </div>
-
-      <div v-else>
-        <br>
-        <hr>
-        <br>
-        <div col>
-          <button green type="submit">Create Part</button>
-        </div>
-      </div>
-
-      <div errors>
-        <p v-if="errors.pieceMark">
-          Please enter a piece mark or minor mark for this part
-        </p>
-        <p v-if="errors.shape">
-          Please enter a shape for this part
-        </p>
-        <p v-if="errors.dimension">
-          Please enter a dimension for this part
-        </p>
-        <p v-if="errors.length">
-          Please enter a length for this part
-        </p>
-        <p v-if="errors.quantity">
-          Please enter a quantity for at least one sequence
-        </p>
-        <span v-if="errors.repeat">
-          <p v-for="item in errors.repeats">
-            This part has already been created for Sequence {{ item }}
-          </p>
-        </span>
-      </div>
-
-    </form>
 
   </div>
 </template>
@@ -256,13 +132,11 @@
 import api from '@/api/api'
 import material from '@/assets/data/material.js'
 import method from '@/global/methods.js'
-import LengthInput from '@/components/app/inputs/LengthInput'
 import ToolTip from '@/components/app/popups/ToolTip'
 
 export default {
   props: ['edit'],
   components: {
-    LengthInput,
     ToolTip
   },
   data () {
@@ -476,9 +350,6 @@ export default {
       })
       this.addSequence()
     }
-  },
-  mounted () {
-    document.getElementById('autofocus').focus()
   }
 }
 </script>

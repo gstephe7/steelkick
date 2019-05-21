@@ -88,6 +88,7 @@ export default {
     height: 52px;
     width: 100%;
     font-size: 16px;
+    background-color: #fff;
   }
 
   .input:focus {

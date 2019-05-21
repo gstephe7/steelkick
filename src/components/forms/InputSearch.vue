@@ -12,10 +12,7 @@
 
 <script>
 export default {
-  props: ['value'],
-  mounted () {
-    document.getElementById('search-input').focus()
-  }
+  props: ['value']
 }
 </script>
 

@@ -1,16 +1,8 @@
 <template>
   <Item class="click">
 
-    <template v-slot:thumbnail>
-      <img :src="require(`@/assets/img/shapes/${part.shape}.png`)"/>
-    </template>
-
     <template v-slot:title>
-      <span>
-        <b>
-          {{ part.minorMark }}
-        </b>
-      </span>
+      {{ part.minorMark }}
     </template>
 
     <template v-slot:second>
@@ -53,13 +45,4 @@ export default {
 
 <style lang="scss" scoped>
   @import '@/assets/scss/variables.scss';
-
-  b {
-    font-weight: bold;
-  }
-
-  sup {
-    font-size: 12px;
-    color: $grey;
-  }
 </style>

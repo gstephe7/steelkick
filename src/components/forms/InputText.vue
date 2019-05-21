@@ -41,6 +41,8 @@ export default {
         newStyle.width = '270px'
       } else if (this.size == 'small') {
         newStyle.width = '140px'
+      } else if (this.size == 'tiny') {
+        newStyle.width = '72px'
       } else {
         newStyle.width = '200px;'
       }

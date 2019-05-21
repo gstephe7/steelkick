@@ -34,7 +34,7 @@ export default {
   @import '@/assets/scss/variables.scss';
 
   form {
-    max-width: 500px;
+    max-width: 400px;
     margin: auto;
     @include col;
   }

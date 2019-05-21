@@ -17,7 +17,7 @@
       </div>
     </aside>
 
-    <div main basis>
+    <div class="main basis">
 
       <div col v-if="inventory">
         <button green @click="$router.push('/add-material')">+ Add New Material</button>
