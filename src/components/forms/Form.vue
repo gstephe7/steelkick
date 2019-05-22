@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="$emit('submit')">
+  <form @submit.prevent="$emit('submitForm')">
 
     <div class="form-title">
       <slot name="title"></slot>
@@ -11,8 +11,7 @@
 
     <div class="col">
       <button class="green"
-              type="submit"
-              @click="$emit('submit')">
+              type="submit">
         <slot name="action"></slot>
       </button>
     </div>

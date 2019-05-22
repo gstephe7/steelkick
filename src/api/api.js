@@ -56,6 +56,22 @@ export default {
       callback(err)
     })
 
+  },
+
+
+
+  delete (endpoint, data, callback) {
+
+    axios.delete(`${this.baseUrl}${endpoint}`, {
+      params: data
+    })
+    .then(res => {
+      callback(res)
+    })
+    .catch(err => {
+      callback(err)
+    })
+
   }
 
 }

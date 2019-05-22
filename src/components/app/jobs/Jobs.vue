@@ -9,9 +9,7 @@
 
       <div v-if="jobs.length > 0">
         <h2 class="click" v-for="job in jobs" :key="job._id" @click="updateCurrentJob(job)">
-          <router-link to="job-details">
-            {{ job.name }}
-          </router-link>
+          {{ job.name }}
         </h2>
       </div>
 
@@ -41,6 +39,9 @@ export default {
     },
     updateCurrentJob (job) {
       this.$store.dispatch('updateCurrentJob', job)
+      .then(() => {
+        this.$router.push('job-details')
+      })
     }
   },
   beforeCreate () {
@@ -59,7 +60,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  a {
+  h2 {
     color: #0000ee;
+    text-decoration: underline;
   }
 </style>

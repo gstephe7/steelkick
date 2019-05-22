@@ -124,10 +124,32 @@
     <br>
 
     <!-- Edit and Delete -->
-    <div center>
-      <button small>Edit Job</button>
-      <button small red>Delete Job</button>
+    <div class="center">
+      <button class="small">
+        Edit Job
+      </button>
+      <button class="small red" @click="showDelete = true">
+        Delete Job
+      </button>
     </div>
+
+    <!-- Delete Modal -->
+    <Modal v-if="showDelete" @close="showDelete = false">
+      <template v-slot:title>
+        Delete Job
+      </template>
+      <template v-slot:content>
+        Are you sure you want to delete this job?
+      </template>
+      <template v-slot:actions>
+        <button class="small" @click="showDelete = false">
+          Cancel
+        </button>
+        <button class="red small" @click="deleteJob">
+          Delete Job
+        </button>
+      </template>
+    </Modal>
 
   </div>
 </template>
@@ -146,7 +168,18 @@ export default {
     return {
       job: {},
       progress: {},
-      actions: []
+      actions: [],
+      showDelete: false
+    }
+  },
+  methods: {
+    deleteJob () {
+      api.delete('/jobs/delete-job', {
+        jobId: this.job._id
+      }, (res) => {
+        this.$router.push('/jobs')
+        this.$store.dispatch('snackbar', 'Job successfully deleted')
+      })
     }
   },
   beforeCreate () {
@@ -178,9 +211,4 @@ export default {
 
 <style lang="scss" scoped>
   @import '@/assets/scss/variables.scss';
-
-  section {
-    width: 230px;
-    height: 230px;
-  }
 </style>

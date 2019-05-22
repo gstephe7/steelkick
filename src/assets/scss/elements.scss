@@ -88,6 +88,11 @@ button[red] {
   background-color: $red;
 }
 
+button.red {
+  background-color: $red;
+  color: #fff;
+}
+
 button[blue] {
   background-color: $blue;
 }

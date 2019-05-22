@@ -1,7 +1,7 @@
 <template>
   <div class="main">
 
-    <Form @submit="submit">
+    <Form @submitForm="submit">
 
       <template v-slot:title>
         Create a New Job

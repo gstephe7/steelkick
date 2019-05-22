@@ -103,8 +103,13 @@ export default new Vuex.Store({
       commit('updateCurrentRole', payload)
     },
     updateCurrentJob ({commit}, payload) {
-      localStorage.currentJob = JSON.stringify(payload)
-      commit('updateCurrentJob', payload)
+      return new Promise((resolve, reject) => {
+        localStorage.currentJob = JSON.stringify(payload)
+        commit('updateCurrentJob', payload)
+        setTimeout(() => {
+          resolve()
+        }, 250)
+      })
     },
     adminLogout ({commit}) {
       $cookies.remove('adminToken')

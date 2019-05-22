@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <Form @submit="submit">
+    <Form @submitForm="submit">
 
       <template v-slot:title>
         <div>
