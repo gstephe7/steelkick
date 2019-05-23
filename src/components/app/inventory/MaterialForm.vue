@@ -1,154 +1,210 @@
 <template>
-  <form @submit.prevent="completeEntry">
+  <Form @submitForm="submit">
 
-    <div center wrap>
+    <template v-slot:title>
+      <span v-if="edit">Edit Material</span>
+      <span v-else>Add New Material</span>
+    </template>
 
-      <div col>
+    <template v-slot:content>
 
-        <div center>
-          <select @change="autoSetGrade" class="autotab" v-model="material.shape" :highlight="errors.shape" id="autofocus">
-            <option disabled selected :value="undefined">
+      <div>
+
+        <div class="center">
+          <!-- Shape -->
+          <InputSelect v-model="material.shape"
+                       @input="autoSetGrade"
+                       size="small"
+                       :auto="true"
+                       :highlight="errors.shape">
+            <template v-slot:label>
               Shape
-            </option>
-            <option v-for="shape in shapes" :value="shape" :key="shape">
-              {{ shape }}
-            </option>
-          </select>
-          <select v-model="material.dimension" class="autotab" :highlight="errors.dimension">
-            <option disabled selected :value="undefined">Dimension</option>
-            <option v-for="dimension in dimensions" :value="dimension" :key="dimension">{{ dimension }}</option>
-          </select>
+            </template>
+            <template v-slot:options>
+              <option v-for="shape in shapes" :key="shape" :value="shape">
+                {{ shape }}
+              </option>
+            </template>
+          </InputSelect>
+
+          <!-- Dimension -->
+          <InputSelect v-model="material.dimension"
+                       :auto="true"
+                       :highlight="errors.dimension">
+            <template v-slot:label>
+              Dimension
+            </template>
+            <template v-slot:options>
+              <option v-for="dimension in dimensions" :key="dimension" :value="dimension">
+                {{ dimension }}
+              </option>
+            </template>
+          </InputSelect>
         </div>
 
-        <div center>
-          <LengthInput v-model="material.length" :edit="material" :highlight="errors.length"></LengthInput>
-          <input type="number" class="autotab" v-model="material.quantity" placeholder="Quantity" maxlength="4">
+        <div class="center">
+          <!-- Length -->
+          <InputLength v-model="material.length" :highlight="errors.length">
+            Length
+          </InputLength>
+
+          <!-- Quantity -->
+          <InputText v-model="material.quantity"
+                     type="number"
+                     :auto="true">
+            Quantity
+          </InputText>
         </div>
 
-        <div center>
-          <select v-model="material.primed" class="autotab" @change="autoSetPrice">
-            <option :value="undefined">Not Primed</option>
-            <option :value="true">Primed</option>
-          </select>
-          <select v-model="material.galvanized" class="autotab" @change="autoSetPrice">
-            <option :value="undefined">Not Galvanized</option>
-            <option :value="true">Galvanized</option>
-          </select>
+        <div class="center">
+          <!-- Primed -->
+          <InputSelect v-model="material.primed" :auto="true">
+            <template v-slot:label>
+              Primed?
+            </template>
+            <template v-slot:options>
+              <option :value="false">
+                Not Primed
+              </option>
+              <option :value="true">
+                Primed
+              </option>
+            </template>
+          </InputSelect>
+
+          <!-- Galvanized -->
+          <InputSelect v-model="material.galvanized" :auto="true">
+            <template v-slot:label>
+              Galvanized?
+            </template>
+            <template v-slot:options>
+              <option :value="false">
+                Not Galvanized
+              </option>
+              <option :value="true">
+                Galvanized
+              </option>
+            </template>
+          </InputSelect>
         </div>
 
-        <div center>
-          <textarea placeholder="Location in shop (for internal use)" v-model="material.location" class="autotab"></textarea>
+        <div class="center">
+          <!-- Location -->
+          <InputTextArea v-model="material.location" :auto="true">
+            Location
+          </InputTextArea>
         </div>
-
-        <br>
 
       </div>
 
-      <div col>
+      <div>
 
-        <div center>
-          <select v-model="material.domestic" class="autotab" :highlight="errors.domestic">
-            <option disabled selected :value="undefined">Steel Origin</option>
-            <option :value="true">Domestic</option>
-            <option :value="false">Foreign</option>
-          </select>
-          <select v-model="material.condition" class="autotab">
-            <option selected disabled :value="undefined">
+        <div class="center">
+          <!-- Origin -->
+          <InputSelect v-model="material.domestic" :auto="true" :highlight="errors.domestic">
+            <template v-slot:label>
+              Steel Origin
+            </template>
+            <template v-slot:options>
+              <option :value="true">
+                Domestic
+              </option>
+              <option :value="false">
+                Foreign
+              </option>
+            </template>
+          </InputSelect>
+
+          <!-- Condition -->
+          <InputSelect v-model="material.condition" :auto="true">
+            <template v-slot:label>
               Condition
-            </option>
-            <option value="Excellent">Excellent</option>
-            <option value="Good">Good</option>
-            <option value="Fair">Fair</option>
-            <option value="Poor">Poor</option>
-          </select>
+            </template>
+            <template v-slot:options>
+              <option value="Excellent">Excellent</option>
+              <option value="Good">Good</option>
+              <option value="Fair">Fair</option>
+              <option value="Poor">Poor</option>
+            </template>
+          </InputSelect>
         </div>
 
-        <div center>
-          <select v-model="material.grade" class="autotab">
-            <option selected disabled :value="undefined">
+        <div class="center">
+          <!-- Grade -->
+          <InputSelect v-model="material.grade" :auto="true">
+            <template v-slot:label>
               Grade
-            </option>
-            <option value="A36">A36</option>
-            <option value="A992">A992</option>
-            <option value="A500">A500</option>
-          </select>
-          <input type="text" class="autotab" placeholder="Heat #" v-model="material.heat">
+            </template>
+            <template v-slot:options>
+              <option value="A36">A36</option>
+              <option value="A992">A992</option>
+              <option value="A500">A500</option>
+            </template>
+          </InputSelect>
+
+          <!-- Heat Number -->
+          <InputText v-model="material.heat" :auto="true">
+            Heat #
+          </InputText>
         </div>
 
-        <div center>
-          <select v-model="material.forSale" class="autotab" @change="checkAddressValid" :highlight="errors.addressInvalid">
-            <option selected disabled :value="undefined">
+        <div class="center">
+          <!-- For Sale -->
+          <InputSelect v-model="material.forSale" :auto="true">
+            <template v-slot:label>
               For Sale?
-            </option>
-            <option :value="true">For Sale</option>
-            <option :value="false">Not For Sale</option>
-          </select>
-          <input class="autotab" placeholder="$ Cwt (ex: 42)" v-model="material.cwt" type="number" step="0.01">
+            </template>
+            <template v-slot:options>
+              <option :value="false">Not For Sale</option>
+              <option :value="true">For Sale</option>
+            </template>
+          </InputSelect>
+
+          <!-- CWT Price -->
+          <InputText v-model="material.cwt" :auto="true">
+            $CWT Price
+          </InputText>
         </div>
 
-        <div center>
-          <textarea placeholder="Additional remarks" v-model="material.remarks" class="autotab"></textarea>
+        <div class="center">
+          <!-- Remarks -->
+          <InputTextArea v-model="material.remarks" :auto="true">
+            Remarks
+          </InputTextArea>
         </div>
 
       </div>
 
-    </div>
+    </template>
 
-    <div errors v-if="errors.addressInvalid">
-      <p>
-        Please enter a valid address before listing steel for sale
-        <br>
-        <a @click="editAddress">Click here to edit your address</a>
-      </p>
-    </div>
+    <template v-slot:action>
+      Add Material
+    </template>
 
-    <div col>
-      <button green class="autotab">
-        {{ btnText }}
-      </button>
-      <button red type="button" v-if="edit" @click="deletePopup">
-        Delete
-      </button>
-    </div>
+    <template v-slot:errors>
+      <span v-if="errors.shape">
+        Please enter a shape
+      </span>
+      <span v-if="errors.dimension">
+        Please enter a dimension
+      </span>
+      <span v-if="errors.length">
+        Please enter a length
+      </span>
+      <span v-if="errors.domestic">
+        Please enter origin of material
+      </span>
+    </template>
 
-    <div errors>
-      <p v-if="errors.shape">
-        Please enter material shape
-      </p>
-      <p v-if="errors.dimension">
-        Please enter material dimension
-      </p>
-      <p v-if="errors.length">
-        Please enter material length
-      </p>
-      <p v-if="errors.domestic">
-        Please enter material origin
-      </p>
-    </div>
-
-    <ConfirmationPopup msg="Are you sure you want to delete this item?"
-                       btnText="Delete"
-                       class="popup"
-                       :class="{ show : showDeletePopup }"
-                       @cancel="deletePopup"
-                       @confirm="deleteItem">
-    </ConfirmationPopup>
-
-  </form>
+  </Form>
 </template>
 
 <script>
 import api from '@/api/api'
 import material from '@/assets/data/material.js'
-import ConfirmationPopup from '@/components/app/popups/ConfirmationPopup'
-import LengthInput from '@/components/app/inputs/LengthInput'
 
 export default {
   props: ['btnText', 'edit'],
-  components: {
-    ConfirmationPopup,
-    LengthInput
-  },
   data () {
     return {
       showDeletePopup: false,
@@ -248,7 +304,7 @@ export default {
         this.errors.length = false
       }
 
-      if (!this.material.domestic) {
+      if (this.material.domestic == undefined) {
         this.errors.domestic = true
       } else {
         this.errors.domestic = false
@@ -256,10 +312,10 @@ export default {
 
       // resort to default values
       if (!this.material.quantity) {
-        this.quantity = 1
+        this.material.quantity = 1
       }
 
-      if (!this.errors.shape && !this.errors.dimension && !this.errors.length && !this.errors.domestic) {
+      if (!this.errors.shape && !this.errors.dimension && !this.errors.length) {
         this.verified = true
       }
     },
@@ -271,7 +327,7 @@ export default {
         this.material.grade = 'A500'
       }
       if (this.material.shape === 'C' || this.material.shape === 'L' || this.material.shape === 'FB' || this.material.shape === 'RB' || this.material.shape === 'SB' || this.material.shape === 'MC' || this.material.shape === 'PL') {
-        this.grade = 'A36'
+        this.material.grade = 'A36'
       }
       this.autoSetPrice()
     },
@@ -295,7 +351,7 @@ export default {
         }
       }
     },
-    completeEntry () {
+    submit () {
       this.checkForm()
 
       if (this.verified) {
@@ -381,25 +437,9 @@ export default {
     .then(res => {
       this.prices = res.data.prices
     })
-  },
-  mounted () {
-    document.getElementById('autofocus').focus()
   }
 }
 </script>
 
 <style lang="scss" scoped>
-
-  .popup {
-    height: 0;
-    visibility: hidden;
-    opacity: 0;
-    transition: 250ms all;
-  }
-
-  .show {
-    height: 310px;
-    opacity: 1;
-    visibility: visible;
-  }
 </style>

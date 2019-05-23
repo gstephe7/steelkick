@@ -16,15 +16,19 @@
       </button>
     </div>
 
+    <div class="errors col">
+      <slot name="errors"></slot>
+    </div>
+
   </form>
 </template>
 
 <script>
 export default {
   mounted () {
-    let firstElement = document.getElementById('inputs').firstChild
-    let firstInput = firstElement.lastChild
-    firstInput.focus()
+    let inputs = document.querySelectorAll('.input')
+    inputs[0].focus()
+    inputs[0].click()
   }
 }
 </script>
@@ -33,7 +37,7 @@ export default {
   @import '@/assets/scss/variables.scss';
 
   form {
-    max-width: 400px;
+    max-width: 600px;
     margin: auto;
     @include col;
   }
@@ -45,5 +49,9 @@ export default {
 
   .form-title {
     margin: 0 15px 15px 15px;
+  }
+
+  .errors {
+    color: $red;
   }
 </style>

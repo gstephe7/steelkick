@@ -1,5 +1,5 @@
 <template>
-  <div main>
+  <div class="main">
     <SelectRole v-if="select.role" @close="nextOption">
     </SelectRole>
     <SelectJob v-if="select.job" @close="nextOption">

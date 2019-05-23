@@ -1,5 +1,5 @@
 <template>
-  <div main>
+  <div class="main">
 
     <MaterialForm btnText="Add Material"></MaterialForm>
 

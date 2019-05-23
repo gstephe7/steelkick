@@ -6,7 +6,7 @@
       Length
     </label>
 
-    <span class="length-span">
+    <span class="length-span" :class="{ error : highlight }">
       <input class="length autotab"
              type="number"
              placeholder="11"
@@ -49,7 +49,7 @@
 import method from '@/global/methods'
 
 export default {
-  props: ['edit'],
+  props: ['edit', 'highlight'],
   data () {
     return {
       feet: null,
@@ -152,5 +152,9 @@ export default {
 
   .denominator {
     text-align: left;
+  }
+
+  .error {
+    outline: 1px solid $red;
   }
 </style>

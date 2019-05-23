@@ -1,7 +1,5 @@
 <template>
-  <div main>
-
-    <Back route="Dashboard">Back to dashboard</Back>
+  <div class="main">
 
     <h1>Marketplace Dashboard</h1>
 

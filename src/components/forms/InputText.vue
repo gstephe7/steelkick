@@ -19,6 +19,7 @@
       @input="$emit('input', $event.target.value)"
       @focus="targeted = true"
       @blur="targeted = value"
+      :class="{ autotab : auto }"
     >
 
   </span>
@@ -26,7 +27,7 @@
 
 <script>
 export default {
-  props: ['value', 'size', 'type'],
+  props: ['value', 'size', 'type', 'auto'],
   data () {
     return {
       targeted: this.value,
@@ -44,7 +45,7 @@ export default {
       } else if (this.size == 'tiny') {
         newStyle.width = '72px'
       } else {
-        newStyle.width = '200px;'
+        newStyle.width = '140px'
       }
 
       return newStyle
@@ -52,6 +53,8 @@ export default {
     getType () {
       if (this.type == 'password' && this.hidePassword == true) {
         return 'password'
+      } else if (this.type == 'number') {
+        return 'number'
       } else {
         return 'text'
       }

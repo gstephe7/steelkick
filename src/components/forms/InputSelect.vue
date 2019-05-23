@@ -3,7 +3,7 @@
         :style="style">
 
     <label class="label"
-           :class="{ move : targeted }">
+           :class="{ move : valueSelected }">
       <slot name="label"></slot>
     </label>
 
@@ -11,7 +11,8 @@
             :value="value"
             @input="$emit('input', $event.target.value)"
             @focus="targeted = true"
-            @blur="targeted = value">
+            @blur="targeted = value"
+            :class="{ autotab : auto, error : highlight }">
       <option :value="undefined" disabled selected></option>
       <slot name="options"></slot>
     </select>
@@ -21,13 +22,16 @@
 
 <script>
 export default {
-  props: ['value', 'size'],
+  props: ['value', 'size', 'auto', 'highlight'],
   data () {
     return {
       targeted: this.value
     }
   },
   computed: {
+    valueSelected () {
+      return this.value
+    },
     style () {
       let newStyle = {}
 
@@ -36,7 +40,7 @@ export default {
       } else if (this.size == 'small') {
         newStyle.width = '140px'
       } else {
-        newStyle.width = '200px;'
+        newStyle.width = '140px'
       }
 
       return newStyle
@@ -94,5 +98,9 @@ export default {
   .input:focus {
     border: 2px solid $secondary;
     outline: none;
+  }
+
+  .error {
+    outline: 1px solid $red;
   }
 </style>

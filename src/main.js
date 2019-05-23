@@ -16,6 +16,7 @@ import InputLength from '@/components/forms/InputLength'
 import InputSearch from '@/components/forms/InputSearch'
 import InputSelect from '@/components/forms/InputSelect'
 import InputText from '@/components/forms/InputText'
+import InputTextArea from '@/components/forms/InputTextArea'
 import Item from '@/components/lists/Item'
 import List from '@/components/lists/List'
 import Modal from '@/components/dialogs/Modal'
@@ -119,6 +120,7 @@ Vue.component('InputLength', InputLength)
 Vue.component('InputSearch', InputSearch)
 Vue.component('InputSelect', InputSelect)
 Vue.component('InputText', InputText)
+Vue.component('InputTextArea', InputTextArea)
 Vue.component('Item', Item)
 Vue.component('List', List)
 Vue.component('Modal', Modal)
