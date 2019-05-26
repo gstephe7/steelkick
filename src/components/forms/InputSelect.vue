@@ -38,7 +38,7 @@ export default {
       if (this.size == 'big') {
         newStyle.width = '270px'
       } else if (this.size == 'small') {
-        newStyle.width = '140px'
+        newStyle.width = '120px'
       } else {
         newStyle.width = '140px'
       }

@@ -41,7 +41,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
   section {
     max-width: 180px;
   }

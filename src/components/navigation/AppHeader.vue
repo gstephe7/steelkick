@@ -98,7 +98,7 @@ export default {
     width: 100%;
     max-width: 100%;
     top: 0px;
-    transition: 250ms all;
+    transition: 350ms all ease;
     button {
       background-color: rgba(0,0,0,0);
       outline: none;

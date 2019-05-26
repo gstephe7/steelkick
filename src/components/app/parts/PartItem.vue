@@ -17,8 +17,7 @@
     </template>
 
     <template v-slot:metadata>
-      Seq
-      {{ part.sequence }}
+      Seq {{ part.sequence }}
     </template>
 
   </Item>

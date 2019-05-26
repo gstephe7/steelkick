@@ -2,7 +2,7 @@
   <div>
     <span v-if="small">
       <h1 class="title-a small">
-        S<span class="title-b">K</span>
+        STEEL<span class="title-b">KICK</span>
       </h1>
     </span>
     <span v-else>

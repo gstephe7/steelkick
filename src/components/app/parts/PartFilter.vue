@@ -1,37 +1,53 @@
 <template>
-  <div col>
+  <div>
 
-    <h3>Filter Parts</h3>
+    <div class="center wrap">
 
-    <div wrap center>
+      <InputSelect v-model="filter.shape" size="small" @input="updateFilter">
+        <template #label>Shape</template>
+        <template #options>
+          <option v-for="shape in shapes"
+                  :value="shape"
+                  :key="shape">
+            {{ shape }}
+          </option>
+        </template>
+      </InputSelect>
 
-      <div row>
-        <select v-model="filter.shape" @change="$emit('autoScroll')">
-          <option disabled selected :value="undefined">Shape</option>
-          <option v-for="shape in shapes" :value="shape">{{ shape }}</option>
-        </select>
-        <select v-model="filter.dimension" @change="$emit('autoScroll')">
-          <option disabled selected :value="undefined">Dimension</option>
-          <option v-for="dimension in dimensions" :value="dimension">{{ dimension }}</option>
-        </select>
-      </div>
+      <InputSelect v-model="filter.dimension" size="small" @input="updateFilter">
+        <template #label>Dimension</template>
+        <template #options>
+          <option v-for="dimension in dimensions"
+                  :value="dimension"
+                  :key="dimension">
+            {{ dimension }}
+          </option>
+        </template>
+      </InputSelect>
 
-      <div row>
-        <select v-model="filter.sequence" @change="$emit('autoScroll')">
-          <option disabled selected :value="undefined">Sequence</option>
-          <option v-for="sequence in sequences" :value="sequence">Sequence {{ sequence }}</option>
-        </select>
-        <select @change="$emit('autoScroll')">
-          <option disabled selected :value="undefined">Completed?</option>
-          <option :value="true">Complete</option>
-          <option :value="false">Incomplete</option>
-        </select>
-      </div>
+      <InputSelect v-model="filter.sequence" size="small" @input="updateFilter">
+        <template #label>Sequence</template>
+        <template #options>
+          <option v-for="sequence in sequences"
+                  :value="sequence"
+                  :key="sequence">
+            Sequence {{ sequence }}
+          </option>
+        </template>
+      </InputSelect>
 
-    </div>
+      <InputSelect v-model="filter.complete" size="small" @input="updateFilter">
+        <template #label>Completed?</template>
+        <template #options>
+          <option :value="true">
+            Completed
+          </option>
+          <option :value="false">
+            Not Completed
+          </option>
+        </template>
+      </InputSelect>
 
-    <div col>
-      <button @click="reset">Reset Filter</button>
     </div>
 
   </div>
@@ -43,7 +59,11 @@ import material from '@/assets/data/material.js'
 import api from '@/api/api'
 
 export default {
-  props: ['filter'],
+  data () {
+    return {
+      filter: {}
+    }
+  },
   computed: {
     shapes () {
       let shapeList = []
@@ -70,15 +90,12 @@ export default {
     }
   },
   methods: {
-    reset () {
-      this.$emit('reset')
+    updateFilter () {
+      this.$emit('input', this.filter)
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-  [card] {
-    padding: 5px 0;
-  }
 </style>

@@ -1,11 +1,11 @@
 <template>
   <List>
 
-    <template v-slot:title>
+    <template #title>
       {{ $store.getters.currentJob.name }} Parts
     </template>
 
-    <template v-slot:actions>
+    <template #actions>
       <button v-if="!working"
               class="green"
               @click="createNewPart">
@@ -17,7 +17,7 @@
       </InputSearch>
     </template>
 
-    <template v-slot:content>
+    <template #content>
       <div v-if="searchedParts.length > 0">
         <div v-for="part in searchedParts" :key="part._id" @click="viewPart(part)">
           <PartItem :part="part"></PartItem>
@@ -25,8 +25,22 @@
       </div>
 
       <div v-else class="col">
+        <br>
         <h3>No parts found</h3>
       </div>
+    </template>
+
+    <!-- Side Sheet Filter -->
+    <template #asideTitle>
+      Filter
+    </template>
+
+    <template #asideContent>
+      <PartFilter v-model="filter"></PartFilter>
+    </template>
+
+    <template #asideAction>
+      Filter
     </template>
 
   </List>
@@ -35,11 +49,13 @@
 <script>
 import api from '@/api/api'
 import PartItem from './PartItem'
+import PartFilter from './PartFilter'
 
 export default {
   props: ['job', 'working'],
   components: {
-    PartItem
+    PartItem,
+    PartFilter
   },
   data () {
     return {
@@ -92,13 +108,10 @@ export default {
       if (_.dimension && _.dimension != part.dimension) {
         return false
       }
-      if (_.sequence && _.sequence != part.sequence._id) {
+      if (_.sequence && _.sequence != part.sequence) {
         return false
       }
       return true
-    },
-    resetFilter () {
-      this.filter = {}
     },
     createNewPart () {
       this.$router.push('/create-part')

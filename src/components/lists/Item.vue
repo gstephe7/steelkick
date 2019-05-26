@@ -88,6 +88,6 @@ export default {
     text-align: right;
     width: 35px;
     color: $grey;
-    font-size: 16px;
+    font-size: 14px;
   }
 </style>
