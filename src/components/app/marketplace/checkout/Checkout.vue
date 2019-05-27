@@ -5,14 +5,6 @@
 
     <h2>Order from {{ order.seller.name }}</h2>
 
-    <MaterialPreview v-for="item in order.order"
-                     :key="item._id"
-                     :item="item.material"
-                     :order="item"
-                     :cartId="order._id"
-                     :transaction="true">
-    </MaterialPreview>
-
     <br>
     <br>
 
@@ -82,12 +74,8 @@
 
 <script>
 import api from '@/api/api'
-import MaterialPreview from '@/components/app/material/MaterialPreview'
 
 export default {
-  components: {
-    MaterialPreview
-  },
   data () {
     return {
       order: {},

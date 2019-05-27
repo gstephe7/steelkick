@@ -1,21 +1,20 @@
 <template>
-  <div>
+  <div class="main">
 
-    <MaterialListings :inventory="true"
-                      :listings="material"
-                      v-if="loaded">
-    </MaterialListings>
+    <MaterialList :material="material"
+                  v-if="loaded">
+    </MaterialList>
 
   </div>
 </template>
 
 <script>
 import api from '@/api/api'
-import MaterialListings from '@/components/app/material/MaterialListings'
+import MaterialList from './MaterialList'
 
 export default {
   components: {
-    MaterialListings
+    MaterialList
   },
   data () {
     return {

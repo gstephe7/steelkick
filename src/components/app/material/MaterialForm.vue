@@ -14,7 +14,6 @@
           <!-- Shape -->
           <InputSelect v-model="material.shape"
                        @input="autoSetGrade"
-                       size="small"
                        :auto="true"
                        :highlight="errors.shape">
             <template v-slot:label>

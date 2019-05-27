@@ -12,14 +12,7 @@
 
     <!-- Items ordered from seller -->
     <div>
-      <MaterialPreview v-for="item in order.order"
-                       :key="item._id"
-                       :item="item.material"
-                       :order="item"
-                       :cartId="order._id"
-                       :cartItem="true"
-                       :transaction="true">
-      </MaterialPreview>
+
     </div>
 
     <br>
@@ -122,12 +115,8 @@
 
 <script>
 import api from '@/api/api'
-import MaterialPreview from '@/components/app/material/MaterialPreview'
 
 export default {
-  components: {
-    MaterialPreview
-  },
   props: ['order'],
   data () {
     return {

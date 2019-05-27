@@ -1,22 +1,15 @@
 <template>
   <div>
 
-    <MaterialListings :buying="true"
-                      :listings="listings"
-                      v-if="loaded">
-    </MaterialListings>
+
 
   </div>
 </template>
 
 <script>
 import api from '@/api/api'
-import MaterialListings from '@/components/app/material/MaterialListings'
 
 export default {
-  components: {
-    MaterialListings
-  },
   data () {
     return {
       perPage: 25,

@@ -19,7 +19,7 @@
       </div>
 
       <!-- Third line of item -->
-      <div class="row">
+      <div class="row third">
         <slot name="third"></slot>
       </div>
     </div>
@@ -41,9 +41,8 @@ export default {
   @import '@/assets/scss/variables.scss';
 
   .item {
-    border-bottom: 0.5px solid rgba(0,0,0,.2);
-    padding: 15px 10px;
-    line-height: 1.5;
+    border-bottom: 1px solid rgba(0,0,0,.12);
+    padding: 15px 5px;
     @include between
   }
 
@@ -63,7 +62,6 @@ export default {
 
   .content {
     @include grow;
-    margin-right: 15px;
   }
 
   .row {
@@ -75,12 +73,8 @@ export default {
   .item-title {
     color: $primary;
     font-weight: bold;
-    @media screen and (max-width: 999px) {
-      font-size: 18px;
-    }
-    @media screen and (min-width: 1000px) {
-      font-size: 20px;
-    }
+    font-size: 20px;
+    margin-bottom: 5px;
   }
 
   .metadata {
@@ -89,5 +83,6 @@ export default {
     width: 35px;
     color: $grey;
     font-size: 14px;
+    margin-left: 15px;
   }
 </style>

@@ -11,6 +11,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 // import global components
 import Banner from '@/components/dialogs/Banner'
 import DashboardCard from '@/components/cards/DashboardCard'
+import Details from '@/components/lists/Details'
 import Form from '@/components/forms/Form'
 import InputLength from '@/components/forms/InputLength'
 import InputSearch from '@/components/forms/InputSearch'
@@ -43,6 +44,7 @@ import {
   faAngleUp,
   faAngleDown,
   faAngleRight,
+  faAngleLeft,
   faSpinner,
   faEnvelope,
   faSitemap,
@@ -90,6 +92,7 @@ library.add({
   faAngleUp,
   faAngleDown,
   faAngleRight,
+  faAngleLeft,
   faSpinner,
   faEnvelope,
   faFacebook,
@@ -115,6 +118,7 @@ library.add({
 // register components
 Vue.component('Banner', Banner)
 Vue.component('DashboardCard', DashboardCard)
+Vue.component('Details', Details)
 Vue.component('Form', Form)
 Vue.component('InputLength', InputLength)
 Vue.component('InputSearch', InputSearch)

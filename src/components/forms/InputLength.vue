@@ -101,6 +101,10 @@ export default {
     @include align;
   }
 
+  .small {
+    width: 120px;
+  }
+
   .label {
     position: absolute;
     top: 5px;

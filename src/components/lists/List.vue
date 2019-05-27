@@ -2,7 +2,7 @@
   <div class="list">
 
     <!-- Main Content in List -->
-    <div class="list-main main">
+    <div class="list-main">
 
       <div class="list-title">
         <slot name="title"></slot>
@@ -12,10 +12,11 @@
         <slot name="actions"></slot>
       </div>
 
-      <div v-if="$slots.asideContent" class="mobile col">
-        <span class="toggle-filter click"
+      <div v-if="$slots.asideContent" class="mobile end toggle-filter">
+        <span class="click"
               @click="showSheet = true">
           Show Filter
+          <icon icon="angle-right"></icon>
         </span>
       </div>
 
@@ -32,7 +33,7 @@
          class="aside"
          :class="{ show : showSheet }"
          @click="showSheet = false">
-      <div class="main sheet"
+      <div class="sheet"
            :class="{ show : showSheet }"
            @click.stop>
 
@@ -75,14 +76,14 @@ export default {
 
   .list {
     @include row;
-    @include stretch;
   }
 
   .list-main {
     @include grow;
     max-width: 600px;
-    margin: auto;
+    margin: 0 auto;
     hr {
+      color: rgba(0,0,0,.12);
       margin: 10px 0 0 0;
     }
   }
@@ -94,7 +95,7 @@ export default {
 
   .toggle-filter {
     color: royalblue;
-    text-decoration: underline;
+    margin-top: 5px;
   }
 
   .list-title {
@@ -111,19 +112,22 @@ export default {
       height: 100%;
       background-color: rgba(0,0,0,.75);
     }
-
     @media screen and (min-width: 1000px) {
+      min-height: 100vh;
       visibility: visible;
     }
   }
 
   .sheet {
-    box-shadow: $box-shadow-light;
+    border-left: 1px solid rgba(0,0,0,.12);
     background-color: #fff;
     width: 260px;
     height: 100%;
-    padding: 0 15px;
+    padding: 0 0 0 15px;
+    margin-left: 10px;
     @media screen and (max-width: 999px) {
+      box-shadow: $box-shadow-light;
+      padding: 120px 15px;
       position: fixed;
       top: 0;
       right: 0;
@@ -144,10 +148,6 @@ export default {
     @include between;
     font-size: 20px;
     margin-bottom: 15px;
-    padding-top: 100px;
-    @media screen and (max-width: 999px) {
-      padding-top: 120px;
-    }
     .icon {
       color: rgba(0,0,0,.35);
       @media screen and (min-width: 1000px) {

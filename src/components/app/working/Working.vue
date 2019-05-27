@@ -35,10 +35,10 @@
 
       <hr>
 
-      <Parts :working="true"
+      <PartList :working="true"
              :job="$store.getters.currentJob._id"
              @updatePart="displayUpdate($event)">
-      </Parts>
+      </PartList>
 
     </div>
 
@@ -48,14 +48,14 @@
 <script>
 import SelectRole from './SelectRole'
 import SelectJob from './SelectJob'
-import Parts from '@/components/app/parts/Parts'
+import PartList from '@/components/app/parts/PartList'
 import UpdatePart from './UpdatePart'
 
 export default {
   components: {
     SelectRole,
     SelectJob,
-    Parts,
+    PartList,
     UpdatePart
   },
   data () {

@@ -30,10 +30,9 @@ import NewUser from '@/components/app/users/NewUser'
 import NewUserConfirmation from '@/components/app/users/NewUserConfirmation'
 
 // inventory
-import AddMaterial from '@/components/app/inventory/AddMaterial'
-import Inventory from '@/components/app/inventory/Inventory'
-import MaterialPage from '@/components/app/inventory/MaterialPage'
-import MaterialConfirmation from '@/components/app/inventory/MaterialConfirmation'
+import AddMaterial from '@/components/app/material/AddMaterial'
+import Inventory from '@/components/app/material/Inventory'
+import MaterialPage from '@/components/app/material/MaterialPage'
 
 // marketplace routes
 import Marketplace from '@/components/app/marketplace/Marketplace'
@@ -207,11 +206,6 @@ export default [
         name: 'Inventory'
       }
     }
-  },
-  {
-    path: 'material-confirmation',
-    name: 'Material Confirmation',
-    component: MaterialConfirmation
   },
   {
     path: 'inventory',

@@ -1,18 +1,18 @@
 <template>
-  <div>
+  <div class="main">
 
-    <Parts></Parts>
+    <PartList></PartList>
 
   </div>
 </template>
 
 <script>
 import api from '@/api/api'
-import Parts from './Parts'
+import PartList from './PartList'
 
 export default {
   components: {
-    Parts
+    PartList
   }
 }
 </script>

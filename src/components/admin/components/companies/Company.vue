@@ -24,10 +24,7 @@
         <hr>
       </div>
       <div v-if="material.length > 0">
-        <MaterialPreview v-for="item in material"
-                         :key="item._id"
-                         :item="item">
-        </MaterialPreview>
+
       </div>
 
       <div v-else>
@@ -56,13 +53,11 @@
 import api from '@/api/api'
 import ViewCompany from '@/components/app/marketplace/editProfile/ViewCompany'
 import EditCompany from '@/components/app/marketplace/editProfile/EditCompany'
-import MaterialPreview from '@/components/app/material/MaterialPreview'
 
 export default {
   components: {
     ViewCompany,
-    EditCompany,
-    MaterialPreview
+    EditCompany
   },
   data () {
     return {

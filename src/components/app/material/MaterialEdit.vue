@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import MaterialForm from '@/components/app/inventory/MaterialForm'
+import MaterialForm from './MaterialForm'
 
 export default {
   components: {

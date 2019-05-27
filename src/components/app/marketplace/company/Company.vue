@@ -100,11 +100,7 @@
       <!-- Material -->
       <div>
         <h3>Listings</h3>
-          <MaterialPreview v-for="item in listings"
-                           :key="item._id"
-                           :item="item"
-                           :buying="true">
-          </MaterialPreview>
+
         </div>
       </div>
 
@@ -115,12 +111,8 @@
 
 <script>
 import api from '@/api/api'
-import MaterialPreview from '@/components/app/material/MaterialPreview'
 
 export default {
-  components: {
-    MaterialPreview
-  },
   data () {
     return {
       company: {},
