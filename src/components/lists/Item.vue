@@ -1,32 +1,51 @@
 <template>
-  <div class="item">
+  <div>
 
-    <!-- Aside -->
-    <div v-if="$slots.thumbnail" class="thumbnail">
-      <slot name="thumbnail"></slot>
+    <!-- Item Preview -->
+    <div class="item"
+         :class="{ click : click }"
+         @click="showDetails = true">
+
+      <!-- Aside -->
+      <div v-if="$slots.thumbnail" class="thumbnail">
+        <slot name="thumbnail"></slot>
+      </div>
+
+      <!-- Main -->
+      <div class="content">
+        <!-- First line of item -->
+        <div class="row item-title">
+          <slot name="title"></slot>
+        </div>
+
+        <!-- Second line of item -->
+        <div class="row">
+          <slot name="second"></slot>
+        </div>
+
+        <!-- Third line of item -->
+        <div class="row third">
+          <slot name="third"></slot>
+        </div>
+      </div>
+
+      <!-- Index -->
+      <div v-if="$slots.metadata" class="metadata">
+        <slot name="metadata"></slot>
+      </div>
+
     </div>
 
-    <!-- Main -->
-    <div class="content">
-      <!-- First line of item -->
-      <div class="row item-title">
-        <slot name="title"></slot>
-      </div>
-
-      <!-- Second line of item -->
-      <div class="row">
-        <slot name="second"></slot>
-      </div>
-
-      <!-- Third line of item -->
-      <div class="row third">
-        <slot name="third"></slot>
-      </div>
-    </div>
-
-    <!-- Index -->
-    <div v-if="$slots.metadata" class="metadata">
-      <slot name="metadata"></slot>
+    <!-- Expand Details -->
+    <div v-if="displayDetails">
+      <Details @close="showDetails = false">
+        <template #title>
+          <slot name="detailsTitle"></slot>
+        </template>
+        <template #content>
+          <slot name="detailsContent"></slot>
+        </template>
+      </Details>
     </div>
 
   </div>
@@ -34,6 +53,21 @@
 
 <script>
 export default {
+  props: ['click'],
+  data () {
+    return {
+      showDetails: false
+    }
+  },
+  computed: {
+    displayDetails () {
+      if (this.$slots.detailsTitle && this.showDetails) {
+        return true
+      } else {
+        return false
+      }
+    }
+  }
 }
 </script>
 

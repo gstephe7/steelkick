@@ -1,5 +1,5 @@
 <template>
-  <transition appear name="slide">
+  <transition appear name="expand">
     <div class="overlay">
       <div class="main details">
 
@@ -30,22 +30,17 @@ export default {
 
   .overlay {
     position: fixed;
-    z-index: 2;
-    opacity: 1;
+    z-index: 3;
     top: 0;
     left: 0;
     right: 0;
     height: 100%;
     background-color: #fff;
-    transition: 250ms all;
+    transform: scaleY(1);
+    transition: 250ms transform;
     @media screen and (min-width: 1000px) {
       left: 250px;
     }
-  }
-
-  .slide-enter, .slide-leave-to {
-    left: -5000px;
-    opacity: 0;
   }
 
   .details {
@@ -64,5 +59,9 @@ export default {
 
   .icon {
     color: rgba(0,0,0,.35);
+  }
+
+  .expand-enter, .expand-leave-to {
+    transform: scaleY(0);
   }
 </style>

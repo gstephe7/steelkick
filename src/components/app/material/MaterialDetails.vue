@@ -1,15 +1,9 @@
 <template>
-  <Details @close="$emit('close')">
+  <div class="material-details">
 
-    <template #title>
-      {{ material.shape }} {{ material.dimension }}
-    </template>
+    
 
-    <template #content>
-      
-    </template>
-
-  </Details>
+  </div>
 </template>
 
 <script>

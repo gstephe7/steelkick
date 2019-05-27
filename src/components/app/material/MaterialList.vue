@@ -1,81 +1,66 @@
 <template>
-  <div>
+  <List>
 
-    <List>
+    <!-- Main List -->
+    <template #title>
+      <span v-if="$route.name == 'Inventory'">
+        Company Inventory
+      </span>
+      <span v-else>
+        Material for Sale
+      </span>
+    </template>
 
-      <!-- Main List -->
-      <template #title>
-        <span v-if="$route.name == 'Inventory'">
-          Company Inventory
-        </span>
-        <span v-else>
-          Material for Sale
-        </span>
-      </template>
+    <template #actions>
+      <button class="green"
+              @click="$router.push('/add-material')">
+        + Add New Material
+      </button>
+    </template>
 
-      <template #actions>
-        <button class="green"
-                @click="$router.push('/add-material')">
-          + Add New Material
-        </button>
-      </template>
-
-      <template #content>
-        <div v-if="material.length > 0">
-          <div v-for="material in filtered"
-               :key="material._id"
-               @click="viewMaterial(material)">
-           <MaterialItem :material="material">
-           </MaterialItem>
-          </div>
+    <template #content>
+      <div v-if="material.length > 0">
+        <div v-for="material in filtered"
+             :key="material._id">
+          <MaterialItem :material="material">
+          </MaterialItem>
         </div>
-        <div v-else class="col">
-          <br>
-          <h3>No material found</h3>
-        </div>
-      </template>
+      </div>
+      <div v-else class="col">
+        <br>
+        <h3>No material found</h3>
+      </div>
+    </template>
 
-      <!-- Aside Sheet Filter -->
-      <template #asideTitle>
-        Filter
-      </template>
+    <!-- Aside Sheet Filter -->
+    <template #asideTitle>
+      Filter
+    </template>
 
-      <template #asideContent>
-        <MaterialFilter v-model="filter"></MaterialFilter>
-      </template>
+    <template #asideContent>
+      <MaterialFilter v-model="filter"></MaterialFilter>
+    </template>
 
-      <template #asideAction>
-        Filter
-      </template>
+    <template #asideAction>
+      Filter
+    </template>
 
-    </List>
-
-    <div v-if="showDetails">
-      <MaterialDetails :material="selectedMaterial"
-                       @close="showDetails = false">
-      </MaterialDetails>
-    </div>
-
-  </div>
+  </List>
 </template>
 
 <script>
 import MaterialItem from './MaterialItem'
 import MaterialFilter from './MaterialFilter'
-import MaterialDetails from './MaterialDetails'
 
 export default {
   components: {
     MaterialItem,
-    MaterialFilter,
-    MaterialDetails
+    MaterialFilter
   },
   props: ['material'],
   data () {
     return {
-      filter: {},
-      selectedMaterial: {},
-      showDetails: false
+      filter: {}
     }
   },
   computed: {
@@ -99,10 +84,6 @@ export default {
         return false
       }
       return true
-    },
-    viewMaterial (material) {
-      this.selectedMaterial = material
-      this.showDetails = true
     }
   }
 }

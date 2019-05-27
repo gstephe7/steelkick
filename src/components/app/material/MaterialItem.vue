@@ -1,5 +1,5 @@
 <template>
-  <Item class="click">
+  <Item :click="true">
 
     <template #title>
       <span>
@@ -28,13 +28,26 @@
       </span>
     </template>
 
+    <!-- Expanding Details -->
+    <template #detailsTitle>
+      {{ material.shape }} {{ material.dimension }}
+    </template>
+
+    <template #detailsContent>
+      <MaterialDetails :material="material"></MaterialDetails>
+    </template>
+
   </Item>
 </template>
 
 <script>
 import method from '@/global/methods.js'
+import MaterialDetails from './MaterialDetails'
 
 export default {
+  components: {
+    MaterialDetails
+  },
   props: ['material'],
   computed: {
     feet () {
