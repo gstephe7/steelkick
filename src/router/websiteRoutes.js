@@ -12,7 +12,6 @@ import ContactConfirmation from '@/components/website/contact/ContactConfirmatio
 import AdvancedSearch from '@/components/app/search/AdvancedSearch'
 import Company from '@/components/app/marketplace/company/Company'
 import Listings from '@/components/app/marketplace/listings/Listings'
-import MaterialDetails from '@/components/app/material/MaterialDetails'
 
 // admin login
 import AdminLogin from '@/components/admin/AdminLogin'
@@ -32,16 +31,6 @@ export default [
     path: '/listings',
     name: 'Listings',
     component: Listings
-  },
-  {
-    path: '/listing',
-    name: 'Listing',
-    component: MaterialDetails
-  },
-  {
-    path: '/material',
-    name: 'MaterialDetails',
-    component: MaterialDetails
   },
   {
     path: '/login',

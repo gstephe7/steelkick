@@ -1,24 +1,26 @@
 <template>
   <div class="overlay" @click="$emit('close')">
-    <div class="modal" @click.stop>
+    <transition appear name="slide">
+      <div class="modal" @click.stop>
 
-      <div class="header">
-        <slot name="title"></slot>
-        <icon class="close"
-              icon="times"
-              @click="$emit('close')">
-        </icon>
+        <div class="header">
+          <slot name="title"></slot>
+          <icon class="close"
+                icon="times"
+                @click="$emit('close')">
+          </icon>
+        </div>
+
+        <div class="content">
+          <slot name="content"></slot>
+        </div>
+
+        <div class="footer">
+          <slot name="actions"></slot>
+        </div>
+
       </div>
-
-      <div class="content">
-        <slot name="content"></slot>
-      </div>
-
-      <div class="footer">
-        <slot name="actions"></slot>
-      </div>
-
-    </div>
+    </transition>
   </div>
 </template>
 
@@ -34,8 +36,8 @@ export default {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    right: 0;
+    bottom: 0;
     @include col;
     @include center;
     background-color: rgba(0,0,0,.75);
@@ -43,12 +45,20 @@ export default {
   }
 
   .modal {
-    width: 90%;
+    width: 95%;
     min-width: 280px;
     max-width: 500px;
     border-radius: 5px;
     box-shadow: $box-shadow-dark;
     overflow-y: hidden;
+    transform: translateY(0);
+    opacity: 1;
+    transition: 250ms all;
+  }
+
+  .slide-enter, .slide-leave-to {
+    opacity: 0;
+    transform: translateY(500px);
   }
 
   .header {

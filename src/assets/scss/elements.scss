@@ -75,6 +75,11 @@ button[grey] {
   background-color: $accent;
 }
 
+button.grey {
+  background-color: $accent;
+  color: $primary;
+}
+
 button[green] {
   background-color: $success;
 }
@@ -108,6 +113,31 @@ button[white] {
   border: .5px solid $accent;
 }
 
+button.white {
+  background-color: #fff;
+  color: $primary;
+}
+
+button.text {
+  background-color: rgba(0,0,0,0);
+  margin: 0;
+  color: $blue;
+  border: none;
+  box-shadow: none;
+  transition: 250ms all;
+}
+
+button.text:hover {
+  transform: none;
+  background-color: rgba(0,0,0,.2);
+}
+
+button.medium {
+  width: 140px;
+  height: 40px;
+  font-size: 16px;
+}
+
 button[small] {
   width: 100px;
   height: 36px;
@@ -123,6 +153,14 @@ button.small {
 button[tiny] {
   width: 50px;
   height: 50px;
+}
+
+button.micro {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  padding: 0;
+  text-align: center;
 }
 
 button[fab] {

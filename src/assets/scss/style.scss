@@ -11,6 +11,10 @@
   max-width: 600px;
 }
 
+.section {
+  margin: 25px 0 25px 0;
+}
+
 
 
 // state styles
@@ -30,6 +34,10 @@
 
 .click:hover {
   transform: scale(1.02);
+}
+
+.click:focus {
+  transform: scale(1);
 }
 
 

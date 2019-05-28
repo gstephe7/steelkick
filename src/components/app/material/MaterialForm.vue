@@ -43,7 +43,7 @@
 
         <div class="center">
           <!-- Length -->
-          <InputLength v-model="material.length" :highlight="errors.length">
+          <InputLength v-model="material.length" :highlight="errors.length" :edit="edit">
             Length
           </InputLength>
 
@@ -177,7 +177,8 @@
     </template>
 
     <template v-slot:action>
-      Add Material
+      <span v-if="edit">Update Material</span>
+      <span v-else>Add Material</span>
     </template>
 
     <template v-slot:errors>
@@ -368,7 +369,6 @@ export default {
               description: 'in the inventory',
               quantity: this.material.quantity
             })
-            this.$router.push('/inventory')
             this.$store.dispatch('snackbar', 'Successfully updated material!')
           })
           .catch(() => {

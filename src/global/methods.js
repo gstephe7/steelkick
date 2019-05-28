@@ -69,6 +69,13 @@ export default {
       sequences.push(i + 1)
     }
     return sequences
+  },
+
+  getWeight (length, weightPerFoot) {
+    let lengthInFeet = parseFloat(length / 12)
+    let weight = parseFloat(weightPerFoot)
+
+    return Math.round(lengthInFeet * weight)
   }
 
 }

@@ -1,54 +1,139 @@
 <template>
-  <Item :click="true">
+  <div>
+    <Item class="click">
 
-    <template #title>
-      <span>
-        {{ material.shape }} {{ material.dimension }}
-      </span>
-    </template>
+      <template #title>
+        <span>
+          {{ material.shape }} {{ material.dimension }}
+        </span>
+      </template>
 
-    <template #second>
-       <span>
-         {{ feet }}'
-         {{ inches }}"
-         {{ fraction }}
-       </span>
-       <span>
-         {{ material.quantity }} available
-       </span>
-    </template>
+      <template #second>
+         <span>
+           {{ feet }}'
+           {{ inches }}"
+           {{ fraction }}
+         </span>
+         <span>
+           {{ material.quantity }} available
+         </span>
+      </template>
 
-    <template #third>
-      <span>
-        <span v-if="material.domestic">Domestic</span>
-        <span v-else>Foreign</span>
-      </span>
-      <span :style="`backgroundColor: ${condition.background}`">
-        {{ condition.condition }}
-      </span>
-    </template>
+      <template #third>
+        <span>
+          <span v-if="material.domestic">Domestic</span>
+          <span v-else>Foreign</span>
+        </span>
+        <span :style="`backgroundColor: ${condition.background}`">
+          {{ condition.condition }}
+        </span>
+      </template>
 
-    <!-- Expanding Details -->
-    <template #detailsTitle>
-      {{ material.shape }} {{ material.dimension }}
-    </template>
+      <template #details>
 
-    <template #detailsContent>
-      <MaterialDetails :material="material"></MaterialDetails>
-    </template>
+        <div class="between">
+          <span>{{ material.grade }}</span>
+          <span v-if="material.heat">
+            Heat #: {{ material.heat }}
+          </span>
+        </div>
 
-  </Item>
+        <div class="between">
+          <div v-if="material.remarks" class="half">
+            Remarks: {{ material.remarks }}
+          </div>
+        </div>
+
+        <div class="section center wrap" @click.stop>
+
+          <Card>
+            <template #title>Use Material</template>
+            <template #content>
+              <div class="center">
+                <InputSlider v-model="materialUsed" :max="material.quantity"></InputSlider>
+              </div>
+            </template>
+            <template #actions>
+              <div class="center">
+                <button class="blue medium" @click="useMaterial">
+                  Use {{ materialUsed }}
+                  <span v-if="materialUsed > 1">Pieces</span>
+                  <span v-else>Piece</span>
+                </button>
+              </div>
+            </template>
+          </Card>
+
+          <MaterialActionCard :materialId="material._id">
+          </MaterialActionCard>
+
+          <Card>
+            <template #title>Update Material</template>
+            <template #content>
+              <div class="around">
+                <button class="small red" @click="showDelete = true">
+                  Delete
+                </button>
+                <button class="small blue" @click="showEdit = true">
+                  Edit
+                </button>
+              </div>
+            </template>
+          </Card>
+
+        </div>
+
+      </template>
+
+    </Item>
+
+    <!-- Edit Material Modal -->
+    <Modal v-if="showEdit" @close="showEdit = false">
+      <template #title>Edit Material</template>
+      <template #content>
+        <MaterialForm :edit="material" @close="showEdit = false">
+        </MaterialForm>
+      </template>
+    </Modal>
+
+    <!-- Delete Material Modal -->
+    <Modal v-if="showDelete" @close="showDelete = false">
+      <template #title>Delete Material</template>
+      <template #content>
+        Are you sure you want to delete this material from your inventory?
+      </template>
+      <template #actions>
+        <button class="small" @click="showDelete = false">
+          Cancel
+        </button>
+        <button class="small red" @click="deleteMaterial">
+          Delete
+        </button>
+      </template>
+    </Modal>
+
+  </div>
 </template>
 
 <script>
+import api from '@/api/api'
 import method from '@/global/methods.js'
-import MaterialDetails from './MaterialDetails'
+import MaterialActionCard from './MaterialActionCard'
+import MaterialForm from './MaterialForm'
 
 export default {
   components: {
-    MaterialDetails
+    MaterialActionCard,
+    MaterialForm
   },
   props: ['material'],
+  data () {
+    return {
+      materialUsed: 1,
+      showDelete: false,
+      showEdit: false
+    }
+  },
   computed: {
     feet () {
       return method.getFeet(this.material.length)
@@ -93,6 +178,52 @@ export default {
       } else {
         return {}
       }
+    }
+  },
+  methods: {
+    useMaterial () {
+      api.post('/material/use-material', {
+        materialId: this.material._id,
+        quantityUsed: this.materialUsed
+      }, (res) => {
+        document.body.scrollTop = 0
+        document.documentElement.scrollTop = 0
+        this.$store.dispatch('action', {
+          material: this.material._id,
+          materialDescription: `${this.material.shape} ${this.material.dimension} ${this.material.length}"`,
+          action: 'picked',
+          description: 'from the inventory',
+          quantity: this.materialUsed
+        })
+        let pieces = ''
+        if (this.materialUsed > 1) {
+          pieces = 'pieces'
+        } else {
+          pieces = 'piece'
+        }
+        this.$store.dispatch('snackbar', `Successfully removed ${this.materialUsed} ${pieces}!`)
+        this.material.quantity = this.material.quantity - this.materialUsed
+      })
+    },
+    deleteMaterial () {
+      api.delete('/material/delete-material', {
+        materialId: this.material._id
+      }, res => {
+        this.showDelete = false
+        document.body.scrollTop = 0
+        document.documentElement.scrollTop = 0
+        this.$store.dispatch('action', {
+          material: this.material._id,
+          materialDescription: `${this.material.shape} ${this.material.dimension} ${this.material.length}"`,
+          action: 'deleted',
+          description: 'from the inventory',
+          quantity: this.material.quantity
+        })
+        this.$store.dispatch('snackbar', `Successfully deleted material!`)
+        .then(() => {
+          location.reload(true)
+        })
+      }, 'load')
     }
   }
 }

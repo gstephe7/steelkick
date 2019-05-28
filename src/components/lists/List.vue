@@ -76,6 +76,7 @@ export default {
 
   .list {
     @include row;
+    position: relative;
   }
 
   .list-main {

@@ -1,10 +1,8 @@
 <template>
-  <div>
+  <div class="item" @click="toggleExpand">
 
     <!-- Item Preview -->
-    <div class="item"
-         :class="{ click : click }"
-         @click="showDetails = true">
+    <div class="between">
 
       <!-- Aside -->
       <div v-if="$slots.thumbnail" class="thumbnail">
@@ -36,36 +34,41 @@
 
     </div>
 
-    <!-- Expand Details -->
-    <div v-if="displayDetails">
-      <Details @close="showDetails = false">
-        <template #title>
-          <slot name="detailsTitle"></slot>
-        </template>
-        <template #content>
-          <slot name="detailsContent"></slot>
-        </template>
-      </Details>
-    </div>
+    <!-- Expanded Details -->
+    <transition appear name="expand">
+      <div v-if="expanded" class="item-details">
+        <slot name="details"></slot>
+        <div class="col">
+          <icon icon="angle-up" class="icon"></icon>
+        </div>
+      </div>
+    </transition>
 
   </div>
 </template>
 
 <script>
 export default {
-  props: ['click'],
   data () {
     return {
-      showDetails: false
+      expand: false
     }
   },
   computed: {
-    displayDetails () {
-      if (this.$slots.detailsTitle && this.showDetails) {
+    expanded () {
+      if (this.$slots.details && this.expand) {
         return true
       } else {
         return false
       }
+    }
+  },
+  methods: {
+    toggleExpand (event) {
+      if (this.expand == false) {
+        event.currentTarget.scrollIntoView()
+      }
+      this.expand = !this.expand
     }
   }
 }
@@ -77,7 +80,6 @@ export default {
   .item {
     border-bottom: 1px solid rgba(0,0,0,.12);
     padding: 15px 5px;
-    @include between
   }
 
   .thumbnail {
@@ -118,5 +120,25 @@ export default {
     color: $grey;
     font-size: 14px;
     margin-left: 15px;
+  }
+
+  .item-details {
+    position: relative;
+    margin-top: 10px;
+    color: $grey;
+    height: 850px;
+    opacity: 1;
+    transition: 250ms all;
+  }
+
+  .icon {
+    position: absolute;
+    bottom: 0;
+    font-size: 20px;
+  }
+
+  .expand-enter, .expand-leave-to {
+    height: 0px;
+    opacity: 0;
   }
 </style>

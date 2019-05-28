@@ -1,5 +1,5 @@
 <template>
-  <Item :click="true">
+  <Item class="click">
 
     <template v-slot:title>
       {{ part.minorMark }}
