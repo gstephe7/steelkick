@@ -41,7 +41,6 @@ export default {
   @import '@/assets/scss/variables.scss';
 
   nav {
-    margin: 20px 10px;
     display: flex;
     flex-direction: column;
     ul {
@@ -69,7 +68,7 @@ export default {
     font-size: 18px;
     line-height: 1.5;
     transition: 250ms all;
-    padding: 5px 15px;
+    padding: 8px 16px;
   }
 
   a:hover {

@@ -14,9 +14,9 @@ import DashboardCard from '@/components/cards/DashboardCard'
 import Card from '@/components/cards/Card'
 import Form from '@/components/forms/Form'
 import InputLength from '@/components/forms/InputLength'
+import InputNumber from '@/components/forms/InputNumber'
 import InputSearch from '@/components/forms/InputSearch'
 import InputSelect from '@/components/forms/InputSelect'
-import InputSlider from '@/components/forms/InputSlider'
 import InputText from '@/components/forms/InputText'
 import InputTextArea from '@/components/forms/InputTextArea'
 import Item from '@/components/lists/Item'
@@ -122,9 +122,9 @@ Vue.component('Card', Card)
 Vue.component('DashboardCard', DashboardCard)
 Vue.component('Form', Form)
 Vue.component('InputLength', InputLength)
+Vue.component('InputNumber', InputNumber)
 Vue.component('InputSearch', InputSearch)
 Vue.component('InputSelect', InputSelect)
-Vue.component('InputSlider', InputSlider)
 Vue.component('InputText', InputText)
 Vue.component('InputTextArea', InputTextArea)
 Vue.component('Item', Item)

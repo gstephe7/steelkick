@@ -30,10 +30,10 @@ export default {
 
   .dashboard-card {
     @include col;
-    height: 100px;
-    width: 100px;
-    padding: 15px;
-    margin: 10px;
+    height: 112px;
+    width: 112px;
+    padding: 8px;
+    margin: 8px;
     border-radius: 5px;
     box-shadow: $box-shadow-light;
     @media screen and (min-width: 1000px) {
@@ -44,7 +44,7 @@ export default {
 
   .card-thumbnail {
     @include align;
-    font-size: 44px;
+    font-size: 40px;
     height: 45%;
     margin-bottom: 10px;
     @media screen and (min-width: 1000px) {

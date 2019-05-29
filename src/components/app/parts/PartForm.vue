@@ -23,7 +23,7 @@
           Minor Mark
         </InputText>
 
-        <InputSelect v-model="part.shape" size="small">
+        <InputSelect v-model="part.shape">
           <template v-slot:label>Shape</template>
           <template v-slot:options>
             <option v-for="shape in shapes"
@@ -34,7 +34,7 @@
           </template>
         </InputSelect>
 
-        <InputSelect v-model="part.dimension" size="small">
+        <InputSelect v-model="part.dimension">
           <template v-slot:label>Dimension</template>
           <template v-slot:options>
             <option v-for="dimension in dimensions"
@@ -47,7 +47,7 @@
 
         <InputLength v-model="part.length"></InputLength>
 
-        <InputSelect v-model="part.grade" size="small">
+        <InputSelect v-model="part.grade">
           <template v-slot:label>Grade</template>
           <template v-slot:options>
             <option value="A36">A36</option>
@@ -56,7 +56,7 @@
           </template>
         </InputSelect>
 
-        <InputSelect v-model="part.primed" size="small">
+        <InputSelect v-model="part.primed">
           <template v-slot:label>Primed?</template>
           <template v-slot:options>
             <option :value="false">Not Primed</option>
@@ -64,7 +64,7 @@
           </template>
         </InputSelect>
 
-        <InputSelect v-model="part.galvanized" size="small">
+        <InputSelect v-model="part.galvanized">
           <template v-slot:label>Galvanized?</template>
           <template v-slot:options>
             <option :value="false">Not Galvanized</option>
@@ -77,13 +77,13 @@
           <p>Sequences</p>
           <div class="center"
                v-for="(sequence, index) in sequences">
-            <InputSelect v-model="sequences[index].number" size="small">
+            <InputSelect v-model="sequences[index].number">
               <template v-slot:label>Sequence</template>
               <template v-slot:options>
                 <option v-for="item in sequenceList" :value="item">Sequence {{ item }}</option>
               </template>
             </InputSelect>
-            <InputText v-model="sequences[index].quantity" size="small">
+            <InputText v-model="sequences[index].quantity">
               Quantity
             </InputText>
           </div>

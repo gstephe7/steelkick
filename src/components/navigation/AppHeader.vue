@@ -14,8 +14,10 @@
 
         <div @click="showMenu = false">
           <router-link :to="{ name: 'Home' }">
-            <Logo class="mobile" :small="true"></Logo>
-            <Logo class="desktop logo"></Logo>
+            <Logo v-if="!$route.meta.parent" class="mobile small-logo" :small="true">
+            </Logo>
+            <Logo class="desktop logo">
+            </Logo>
           </router-link>
         </div>
       </div>
@@ -66,20 +68,6 @@ export default {
       this.$router.push(this.$route.meta.parent.path)
       this.showMenu = false
     }
-  },
-  mounted () {
-    const header = document.getElementById('header')
-    let prevScroll = window.pageYOffset
-
-    window.onscroll = () => {
-      let currentScroll = window.pageYOffset
-      if (prevScroll > currentScroll) {
-        header.style.top = '0'
-      } else {
-        header.style.top = '-150px'
-      }
-      prevScroll = currentScroll
-    }
   }
 }
 </script>
@@ -97,6 +85,7 @@ export default {
     position: fixed;
     width: 100%;
     max-width: 100%;
+    height: 56px;
     top: 0px;
     transition: 350ms all ease;
     button {
@@ -105,44 +94,37 @@ export default {
       border: none;
       box-shadow: none;
       padding: 0;
-      height: 50px;
-      width: 50px;
-      margin: 10px;
+      margin: 0;
+      height: 56px;
+      width: 56px;
       cursor: pointer;
       font-size: 20px;
     }
   }
 
   .logo {
-    padding: 20px;
+    padding: 0px 16px;
+  }
+
+  .small-logo {
+    padding: 0 8px;
   }
 
   .left {
     @include align;
-    @media screen and (max-width: 999px) {
-      width: 150px;
-    }
     @media screen and (min-width: 1000px) {
-      width: 250px;
+      width: 240px;
     }
   }
 
   .breadcrumbs {
-    margin-left: 25px;
-    height: 35px;
-    @media screen and (max-width: 999px) {
-      @include start
-      @include basis
-    }
+    padding-left: 16px;
   }
 
   .breadcrumb {
-    margin-right: 10px;
+    padding-right: 8px;
     font-size: 16px;
     color: $accent;
-    @media screen and (min-width: 1000px) {
-      font-size: 18px;
-    }
   }
 
   a {

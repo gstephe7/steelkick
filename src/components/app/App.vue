@@ -53,7 +53,7 @@ export default {
 <style lang="scss" scoped>
   .content {
     @media screen and (min-width: 1000px) {
-      margin-left: 250px;
+      margin-left: 240px;
     }
   }
 </style>

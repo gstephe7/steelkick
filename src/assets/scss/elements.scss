@@ -43,10 +43,10 @@ footer {
 }
 
 button {
-  width: 175px;
-  height: 44px;
-  margin: 10px;
-  padding: 5px;
+  width: 176px;
+  height: 48px;
+  margin: 8px;
+  padding: 0 8px;
   background-color: $secondary;
   border-radius: 5px;
   border: none;
@@ -121,6 +121,7 @@ button.white {
 button.text {
   background-color: rgba(0,0,0,0);
   margin: 0;
+  width: auto;
   color: $blue;
   border: none;
   box-shadow: none;
@@ -133,8 +134,8 @@ button.text:hover {
 }
 
 button.medium {
-  width: 140px;
-  height: 40px;
+  width: 120px;
+  height: 48px;
   font-size: 16px;
 }
 
@@ -145,8 +146,8 @@ button[small] {
 }
 
 button.small {
-  width: 100px;
-  height: 36px;
+  width: 88px;
+  height: 48px;
   font-size: 16px;
 }
 
@@ -156,11 +157,9 @@ button[tiny] {
 }
 
 button.micro {
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
+  width: 32px;
+  height: 32px;
   padding: 0;
-  text-align: center;
 }
 
 button[fab] {
@@ -203,6 +202,10 @@ input[big] {
 input[small] {
   width: 100px;
   margin: 5px 10px;
+}
+
+input.small {
+  width: 40px;
 }
 
 input[tiny] {
@@ -364,6 +367,12 @@ svg[small] {
 svg.small {
   font-size: 24px;
   margin: 0 5px;
+}
+
+svg.medium {
+  font-size: 24px;
+  padding: 16px;
+  margin: 0 4px 4px;
 }
 
 img[small] {

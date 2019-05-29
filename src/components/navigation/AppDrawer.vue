@@ -2,12 +2,6 @@
   <div :class="{ backdrop : showMenu }" @click="$emit('closeMenu')">
     <aside :class="{ show : showMenu }" @click.stop>
 
-      <div class="logo" align>
-        <Logo></Logo>
-      </div>
-
-      <hr>
-
       <AppNav @closeMenu="$emit('closeMenu')"></AppNav>
 
     </aside>
@@ -43,15 +37,14 @@ export default {
   aside {
     z-index: 5;
     background: #fff;
-    width: 250px;
+    width: 240px;
     position: fixed;
     height: 100%;
-    padding: 0;
+    padding: 72px 0 0 0;
     left: 0;
     box-shadow: $box-shadow-light;
     @media screen and (max-width: 999px) {
-      left: -250px;
-      position: fixed;
+      left: -240px;
       height: 100vh;
       transition: 250ms all;
     }
@@ -59,19 +52,6 @@ export default {
 
   .show {
     left: 0;
-  }
-
-  .logo {
-    height: 72px;
-    padding-left: 20px;
-    @media screen and (max-width: 999px) {
-      height: 100px;
-    }
-  }
-
-  hr {
-    margin: 0 auto;
-    width: 90%;
   }
 
 </style>

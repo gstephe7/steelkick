@@ -142,12 +142,19 @@
 .main {
   max-width: 1200px;
   min-height: 400px;
-  margin: auto;
-  @media screen and (max-width: 999px) {
-    padding: 120px 10px 200px 10px;
-  }
-  @media screen and (min-width: 1000px) {
-    padding: 100px 10px 200px 10px;
+  margin: 0 auto;
+  padding: 80px 0 240px 0;
+}
+
+.section {
+  padding: 80px 16px 0px 16px;
+}
+
+.container {
+  margin: 0 auto;
+  padding: 32px 16px 0px 16px;
+  .title {
+    margin-bottom: 8px;
   }
 }
 

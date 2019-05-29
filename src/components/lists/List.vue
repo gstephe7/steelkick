@@ -39,10 +39,9 @@
 
         <div class="sheet-title">
           <slot name="asideTitle"></slot>
-          <icon class="icon click"
-                icon="times"
-                @click="showSheet = false">
-          </icon>
+          <button class="text micro" @click="showSheet = false">
+            <icon class="icon click" icon="times"></icon>
+          </button>
         </div>
 
         <div class="sheet-content">
@@ -83,24 +82,26 @@ export default {
     @include grow;
     max-width: 600px;
     margin: 0 auto;
+    padding: 0 16px;
     hr {
       color: rgba(0,0,0,.12);
-      margin: 10px 0 0 0;
+      margin: 0;
     }
   }
 
   .actions {
     @include around;
     @include wrap;
+    padding-bottom: 16px;
   }
 
   .toggle-filter {
     color: royalblue;
-    margin-top: 5px;
+    padding-bottom: 16px;
   }
 
   .list-title {
-    margin-bottom: 10px;
+    padding-bottom: 16px;
   }
 
   .aside {
@@ -122,13 +123,12 @@ export default {
   .sheet {
     border-left: 1px solid rgba(0,0,0,.12);
     background-color: #fff;
-    width: 260px;
+    width: 264px;
     height: 100%;
-    padding: 0 0 0 15px;
-    margin-left: 10px;
+    padding: 0 16px;
     @media screen and (max-width: 999px) {
       box-shadow: $box-shadow-light;
-      padding: 120px 15px;
+      padding: 80px 16px;
       position: fixed;
       top: 0;
       right: 0;
@@ -148,8 +148,9 @@ export default {
     @include align;
     @include between;
     font-size: 20px;
-    margin-bottom: 15px;
+    margin-bottom: 16px;
     .icon {
+      font-size: 20px;
       color: rgba(0,0,0,.35);
       @media screen and (min-width: 1000px) {
         display: none;

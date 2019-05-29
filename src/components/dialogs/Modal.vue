@@ -5,10 +5,9 @@
 
         <div class="header">
           <slot name="title"></slot>
-          <icon class="close"
-                icon="times"
-                @click="$emit('close')">
-          </icon>
+          <button class="text" @click="$emit('close')">
+            <icon class="close" icon="times"></icon>
+          </button>
         </div>
 
         <div class="content">
@@ -72,6 +71,7 @@ export default {
 
   .close {
     font-size: 20px;
+    color: #fff;
     cursor: pointer;
     transition: 250ms all;
   }

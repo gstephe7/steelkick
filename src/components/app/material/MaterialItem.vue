@@ -44,43 +44,18 @@
           </div>
         </div>
 
-        <div class="section center wrap" @click.stop>
+        <div class="container" @click.stop>
+          <h5 class="title">Use Material</h5>
+          <div class="around wrap">
+            <InputNumber v-model="materialUsed" :max="material.quantity"></InputNumber>
+            <button class="blue medium">Use {{ materialUsed }}</button>
+          </div>
+        </div>
 
-          <Card>
-            <template #title>Use Material</template>
-            <template #content>
-              <div class="center">
-                <InputSlider v-model="materialUsed" :max="material.quantity"></InputSlider>
-              </div>
-            </template>
-            <template #actions>
-              <div class="center">
-                <button class="blue medium" @click="useMaterial">
-                  Use {{ materialUsed }}
-                  <span v-if="materialUsed > 1">Pieces</span>
-                  <span v-else>Piece</span>
-                </button>
-              </div>
-            </template>
-          </Card>
-
-          <MaterialActionCard :materialId="material._id">
-          </MaterialActionCard>
-
-          <Card>
-            <template #title>Update Material</template>
-            <template #content>
-              <div class="around">
-                <button class="small red" @click="showDelete = true">
-                  Delete
-                </button>
-                <button class="small blue" @click="showEdit = true">
-                  Edit
-                </button>
-              </div>
-            </template>
-          </Card>
-
+        <div class="container center" @click.stop>
+          <button class="text" @click="showEdit = true">
+            Edit Material
+          </button>
         </div>
 
       </template>
@@ -118,12 +93,10 @@
 <script>
 import api from '@/api/api'
 import method from '@/global/methods.js'
-import MaterialActionCard from './MaterialActionCard'
 import MaterialForm from './MaterialForm'
 
 export default {
   components: {
-    MaterialActionCard,
     MaterialForm
   },
   props: ['material'],

@@ -67,6 +67,7 @@ export default {
     toggleExpand (event) {
       if (this.expand == false) {
         event.currentTarget.scrollIntoView()
+        window.scrollBy(0, -80)
       }
       this.expand = !this.expand
     }
@@ -79,13 +80,13 @@ export default {
 
   .item {
     border-bottom: 1px solid rgba(0,0,0,.12);
-    padding: 15px 5px;
+    padding: 16px 0;
   }
 
   .thumbnail {
     @include center;
     @include align;
-    margin-right: 15px;
+    margin-right: 16px;
     border-radius: 50%;
     width: 40px;
     height: 40px;
@@ -110,23 +111,23 @@ export default {
     color: $primary;
     font-weight: bold;
     font-size: 20px;
-    margin-bottom: 5px;
+    margin-bottom: 4px;
   }
 
   .metadata {
     @include last;
     text-align: right;
-    width: 35px;
+    width: 32px;
     color: $grey;
     font-size: 14px;
-    margin-left: 15px;
+    margin-left: 16px;
   }
 
   .item-details {
     position: relative;
-    margin-top: 10px;
     color: $grey;
-    height: 850px;
+    height: 320px;
+    padding-bottom: 40px;
     opacity: 1;
     transition: 250ms all;
   }
@@ -134,11 +135,13 @@ export default {
   .icon {
     position: absolute;
     bottom: 0;
+    text-align: center;
     font-size: 20px;
   }
 
   .expand-enter, .expand-leave-to {
     height: 0px;
+    padding: 0px;
     opacity: 0;
   }
 </style>

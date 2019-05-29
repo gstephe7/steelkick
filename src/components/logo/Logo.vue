@@ -2,7 +2,7 @@
   <div>
     <span v-if="small">
       <h1 class="title-a small">
-        STEEL<span class="title-b">KICK</span>
+        S<span class="title-b">K</span>
       </h1>
     </span>
     <span v-else>
@@ -29,7 +29,7 @@ export default {
     font-style: italic;
     letter-spacing: -3px;
     font-weight: 700;
-    font-size: 36px;
+    font-size: 30px;
   }
 
   .title-b {
