@@ -1,7 +1,7 @@
 <template>
   <div class="main">
 
-    <div v-if="loaded">
+    <div v-if="loaded" class="article">
 
       <h1>Edit Your Profile</h1>
 

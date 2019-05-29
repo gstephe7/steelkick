@@ -39,8 +39,8 @@
 
         <div class="sheet-title">
           <slot name="asideTitle"></slot>
-          <button class="text micro" @click="showSheet = false">
-            <icon class="icon click" icon="times"></icon>
+          <button class="icon text micro" @click="showSheet = false">
+            <icon class="click" icon="times"></icon>
           </button>
         </div>
 
@@ -81,8 +81,7 @@ export default {
   .list-main {
     @include grow;
     max-width: 600px;
-    margin: 0 auto;
-    padding: 0 16px;
+    padding: 0px 16px;
     hr {
       color: rgba(0,0,0,.12);
       margin: 0;
@@ -124,12 +123,12 @@ export default {
     border-left: 1px solid rgba(0,0,0,.12);
     background-color: #fff;
     width: 264px;
-    height: 100%;
     padding: 0 16px;
+    height: 100%;
     @media screen and (max-width: 999px) {
       box-shadow: $box-shadow-light;
-      padding: 80px 16px;
       position: fixed;
+      padding: 80px 16px;
       top: 0;
       right: 0;
       transform: translateX(300px);

@@ -1,64 +1,60 @@
 <template>
   <div class="main">
 
-    <h1>{{ job.name }}</h1>
+    <div class="article">
 
-    <hr>
+      <h1>{{ job.name }}</h1>
 
-    <!-- Basic Info -->
-    <div>
-      <div>Job ID: {{ job.number }}</div>
-      <div>Customer: {{ job.customer }}</div>
-    </div>
-
-    <br>
-
-    <!-- Progress -->
-    <div>
-      <h3>Job Progress</h3>
-
-      <!-- Progress Bar -->
-      <ProgressBar :numerator="job.weightComplete"
-                   :denominator="job.weightTotal"
-                   class="col">
-      </ProgressBar>
-
-      <br>
-
-      <!-- Completed Weight -->
+      <!-- Basic Info -->
       <div>
-        <span>
-          Weight Completed:
-        </span>
-        <span v-if="progress.weightTotal">
-          {{ progress.weightComplete.toLocaleString('en', { maximumFractionDigits: 0 }) }} lbs / {{ progress.weightTotal.toLocaleString('en', { maximumFractionDigits: 0 }) }} lbs
-        </span>
-        <span v-else>
-          0lbs / 0lbs
-        </span>
+        <div>Job ID: {{ job.number }}</div>
+        <div>Customer: {{ job.customer }}</div>
       </div>
 
-      <!-- Completed Parts -->
-      <div>
-        <span>
-          Parts Completed:
-        </span>
-        <span v-if="progress.partsTotal">
-          {{ progress.partsComplete.toLocaleString() }} / {{ progress.partsTotal.toLocaleString() }}
-        </span>
-        <span v-else>
-          0 / 0
-        </span>
+      <!-- Progress -->
+      <div class="div">
+        <h3>Job Progress</h3>
+
+        <!-- Progress Bar -->
+        <ProgressBar :numerator="job.weightComplete"
+                     :denominator="job.weightTotal"
+                     class="col">
+        </ProgressBar>
+
+        <!-- Completed Weight -->
+        <div class="div">
+          <span>
+            Weight Completed:
+          </span>
+          <span v-if="progress.weightTotal">
+            {{ progress.weightComplete.toLocaleString('en', { maximumFractionDigits: 0 }) }} lbs / {{ progress.weightTotal.toLocaleString('en', { maximumFractionDigits: 0 }) }} lbs
+          </span>
+          <span v-else>
+            0lbs / 0lbs
+          </span>
+        </div>
+
+        <!-- Completed Parts -->
+        <div>
+          <span>
+            Parts Completed:
+          </span>
+          <span v-if="progress.partsTotal">
+            {{ progress.partsComplete.toLocaleString() }} / {{ progress.partsTotal.toLocaleString() }}
+          </span>
+          <span v-else>
+            0 / 0
+          </span>
+        </div>
+
       </div>
 
     </div>
 
-    <br>
     <hr>
-    <br>
 
     <!-- Menu -->
-    <div class="center wrap">
+    <div class="center wrap div">
 
       <!-- Parts -->
       <DashboardCard route="/parts">
@@ -102,12 +98,8 @@
 
     </div>
 
-    <br>
-    <hr>
-    <br>
-
     <!-- Job Activity -->
-    <div card>
+    <div class="div article">
       <h2>Job Activity</h2>
       <hr>
       <div>
@@ -119,16 +111,14 @@
       </div>
     </div>
 
-    <br>
     <hr>
-    <br>
 
     <!-- Edit and Delete -->
-    <div class="center">
-      <button class="small">
+    <div class="center div">
+      <button class="medium">
         Edit Job
       </button>
-      <button class="small red" @click="showDelete = true">
+      <button class="medium red" @click="showDelete = true">
         Delete Job
       </button>
     </div>
@@ -146,7 +136,7 @@
           Cancel
         </button>
         <button class="red small" @click="deleteJob">
-          Delete Job
+          Delete
         </button>
       </template>
     </Modal>

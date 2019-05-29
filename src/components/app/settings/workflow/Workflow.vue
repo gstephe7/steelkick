@@ -4,7 +4,7 @@
 
 
     <!-- Title -->
-    <div class="title">
+    <div class="article">
       <h1>
         Company Workflow
       </h1>
@@ -16,7 +16,7 @@
 
 
     <!-- List -->
-    <List>
+    <List class="div">
 
       <template v-slot:title>
         Company Workflow
