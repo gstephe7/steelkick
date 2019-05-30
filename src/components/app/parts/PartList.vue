@@ -18,9 +18,11 @@
     </template>
 
     <template #content>
+      <hr>
       <div v-if="searchedParts.length > 0">
         <div v-for="part in searchedParts" :key="part._id" @click="viewPart(part)">
           <PartItem :part="part"></PartItem>
+          <hr>
         </div>
       </div>
 

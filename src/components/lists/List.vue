@@ -4,7 +4,7 @@
     <!-- Main Content in List -->
     <div class="list-main">
 
-      <div class="list-title">
+      <div v-if="$slots.title" class="list-title">
         <slot name="title"></slot>
       </div>
 
@@ -19,8 +19,6 @@
           <icon icon="angle-right"></icon>
         </span>
       </div>
-
-      <hr>
 
       <div class="content">
         <slot name="content"></slot>
@@ -81,6 +79,7 @@ export default {
   .list-main {
     @include grow;
     max-width: 600px;
+    margin: 0 auto;
     padding: 0px 16px;
     hr {
       color: rgba(0,0,0,.12);
@@ -92,6 +91,9 @@ export default {
     @include around;
     @include wrap;
     padding-bottom: 16px;
+    button {
+      margin-top: 0;
+    }
   }
 
   .toggle-filter {

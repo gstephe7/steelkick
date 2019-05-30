@@ -3,18 +3,15 @@
     <transition appear name="slide">
       <div class="modal" @click.stop>
 
-        <div class="header">
+        <div class="modal-title">
           <slot name="title"></slot>
-          <button class="text" @click="$emit('close')">
-            <icon class="close" icon="times"></icon>
-          </button>
         </div>
 
-        <div class="content">
+        <div class="modal-content">
           <slot name="content"></slot>
         </div>
 
-        <div class="footer">
+        <div v-if="$slots.actions" class="modal-actions">
           <slot name="actions"></slot>
         </div>
 
@@ -35,21 +32,22 @@ export default {
     position: fixed;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
+    width: 100%;
+    height: 100%;
     @include col;
     @include center;
     background-color: rgba(0,0,0,.75);
-    z-index: 99;
+    z-index: 999;
   }
 
   .modal {
-    width: 95%;
+    width: 80%;
     min-width: 280px;
-    max-width: 500px;
-    border-radius: 5px;
-    box-shadow: $box-shadow-dark;
+    max-width: 560px;
+    border-radius: 4px;
+    box-shadow: 0px 16px 16px 8px rgba(0,0,0,.5);
     overflow-y: hidden;
+    background-color: #fff;
     transform: translateY(0);
     opacity: 1;
     transition: 250ms all;
@@ -60,37 +58,23 @@ export default {
     transform: translateY(500px);
   }
 
-  .header {
-    @include between;
+  .modal-title {
     @include align;
-    background-color: $blue;
-    color: #fff;
-    padding: 10px;
-    border-radius: 5px 5px 0 0;
-  }
-
-  .close {
+    height: 56px;
     font-size: 20px;
-    color: #fff;
-    cursor: pointer;
-    transition: 250ms all;
+    font-weight: bold;
+    padding: 0 16px;
+    box-shadow: 0px 4px 8px -8px rgba(0,0,0,.2);
   }
 
-  .close:hover {
-    transform: scale(1.05);
-  }
-
-  .content {
-    background-color: #fff;
-    padding: 10px;
-    min-height: 50px;
-    max-height: 400px;
+  .modal-content {
+    padding: 0 16px;
+    max-height: 280px;
     overflow-y: auto;
   }
 
-  .footer {
-    background-color: #fff;
-    padding: 10px;
-    border-radius: 0 0 5px 5px;
+  .modal-actions {
+    height: 56px;
+    box-shadow: 0px -4px 8px -8px rgba(0,0,0,.2);
   }
 </style>

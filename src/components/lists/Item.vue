@@ -1,5 +1,6 @@
+
 <template>
-  <div class="item" @click="toggleExpand">
+  <div class="item" @click="expand = true">
 
     <!-- Item Preview -->
     <div class="between">
@@ -34,44 +35,11 @@
 
     </div>
 
-    <!-- Expanded Details -->
-    <transition appear name="expand">
-      <div v-if="expanded" class="item-details">
-        <slot name="details"></slot>
-        <div class="col">
-          <icon icon="angle-up" class="icon"></icon>
-        </div>
-      </div>
-    </transition>
-
   </div>
 </template>
 
 <script>
 export default {
-  data () {
-    return {
-      expand: false
-    }
-  },
-  computed: {
-    expanded () {
-      if (this.$slots.details && this.expand) {
-        return true
-      } else {
-        return false
-      }
-    }
-  },
-  methods: {
-    toggleExpand (event) {
-      if (this.expand == false) {
-        event.currentTarget.scrollIntoView()
-        window.scrollBy(0, -80)
-      }
-      this.expand = !this.expand
-    }
-  }
 }
 </script>
 
@@ -79,7 +47,6 @@ export default {
   @import '@/assets/scss/variables.scss';
 
   .item {
-    border-bottom: 1px solid rgba(0,0,0,.12);
     padding: 16px 0;
   }
 
@@ -121,27 +88,5 @@ export default {
     color: $grey;
     font-size: 14px;
     margin-left: 16px;
-  }
-
-  .item-details {
-    position: relative;
-    color: $grey;
-    height: 320px;
-    padding-bottom: 40px;
-    opacity: 1;
-    transition: 250ms all;
-  }
-
-  .icon {
-    position: absolute;
-    bottom: 0;
-    text-align: center;
-    font-size: 20px;
-  }
-
-  .expand-enter, .expand-leave-to {
-    height: 0px;
-    padding: 0px;
-    opacity: 0;
   }
 </style>

@@ -70,7 +70,7 @@
     <!-- Modal -->
     <Modal v-if="showModal" @close="showModal = false">
       <template v-slot:title>
-        <h4>Select a New Action</h4>
+        Select a New Action
       </template>
       <template v-slot:content>
         <div v-for="item in remainingActions" :key="item.description" @click="addAction(item)">

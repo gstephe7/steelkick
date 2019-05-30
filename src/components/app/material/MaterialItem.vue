@@ -1,91 +1,40 @@
 <template>
   <div>
-    <Item class="click">
 
-      <template #title>
-        <span>
-          {{ material.shape }} {{ material.dimension }}
-        </span>
-      </template>
+    <div @click="showScreen = true">
+      <Item class="click">
 
-      <template #second>
-         <span>
-           {{ feet }}'
-           {{ inches }}"
-           {{ fraction }}
-         </span>
-         <span>
-           {{ material.quantity }} available
-         </span>
-      </template>
-
-      <template #third>
-        <span>
-          <span v-if="material.domestic">Domestic</span>
-          <span v-else>Foreign</span>
-        </span>
-        <span :style="`backgroundColor: ${condition.background}`">
-          {{ condition.condition }}
-        </span>
-      </template>
-
-      <template #details>
-
-        <div class="between">
-          <span>{{ material.grade }}</span>
-          <span v-if="material.heat">
-            Heat #: {{ material.heat }}
+        <template #title>
+          <span>
+            {{ material.shape }} {{ material.dimension }}
           </span>
-        </div>
+        </template>
 
-        <div class="between">
-          <div v-if="material.remarks" class="half">
-            Remarks: {{ material.remarks }}
-          </div>
-        </div>
+        <template #second>
+           <span>
+             {{ feet }}'
+             {{ inches }}"
+             {{ fraction }}
+           </span>
+           <span>
+             {{ material.quantity }} available
+           </span>
+        </template>
 
-        <div class="container" @click.stop>
-          <h5 class="title">Use Material</h5>
-          <div class="around wrap">
-            <InputNumber v-model="materialUsed" :max="material.quantity"></InputNumber>
-            <button class="blue medium">Use {{ materialUsed }}</button>
-          </div>
-        </div>
+        <template #third>
+          <span>
+            <span v-if="material.domestic">Domestic</span>
+            <span v-else>Foreign</span>
+          </span>
+          <span :style="`backgroundColor: ${condition.background}`">
+            {{ condition.condition }}
+          </span>
+        </template>
 
-        <div class="container center" @click.stop>
-          <button class="text" @click="showEdit = true">
-            Edit Material
-          </button>
-        </div>
+      </Item>
+    </div>
 
-      </template>
-
-    </Item>
-
-    <!-- Edit Material Modal -->
-    <Modal v-if="showEdit" @close="showEdit = false">
-      <template #title>Edit Material</template>
-      <template #content>
-        <MaterialForm :edit="material" @close="showEdit = false">
-        </MaterialForm>
-      </template>
-    </Modal>
-
-    <!-- Delete Material Modal -->
-    <Modal v-if="showDelete" @close="showDelete = false">
-      <template #title>Delete Material</template>
-      <template #content>
-        Are you sure you want to delete this material from your inventory?
-      </template>
-      <template #actions>
-        <button class="small" @click="showDelete = false">
-          Cancel
-        </button>
-        <button class="small red" @click="deleteMaterial">
-          Delete
-        </button>
-      </template>
-    </Modal>
+    <MaterialScreen v-if="showScreen" :material="material" @close="showScreen = false"></MaterialScreen>
 
   </div>
 </template>
@@ -93,18 +42,16 @@
 <script>
 import api from '@/api/api'
 import method from '@/global/methods.js'
-import MaterialForm from './MaterialForm'
+import MaterialScreen from './MaterialScreen'
 
 export default {
   components: {
-    MaterialForm
+    MaterialScreen
   },
   props: ['material'],
   data () {
     return {
-      materialUsed: 1,
-      showDelete: false,
-      showEdit: false
+      showScreen: false
     }
   },
   computed: {
