@@ -2,8 +2,7 @@
   <Form @submitForm="submit">
 
     <template v-slot:title>
-      <span v-if="edit">Edit Material</span>
-      <span v-else>Add New Material</span>
+      <span v-if="!edit">Add New Material</span>
     </template>
 
     <template v-slot:content>
@@ -177,8 +176,7 @@
     </template>
 
     <template v-slot:action>
-      <span v-if="edit">Update Material</span>
-      <span v-else>Add Material</span>
+      <span v-if="!edit">Add Material</span>
     </template>
 
     <template v-slot:errors>
@@ -204,7 +202,7 @@ import api from '@/api/api'
 import material from '@/assets/data/material.js'
 
 export default {
-  props: ['btnText', 'edit'],
+  props: ['edit'],
   data () {
     return {
       showDeletePopup: false,
@@ -315,7 +313,7 @@ export default {
         this.material.quantity = 1
       }
 
-      if (!this.errors.shape && !this.errors.dimension && !this.errors.length) {
+      if (!this.errors.shape && !this.errors.dimension && !this.errors.length && !this.errors.domestic) {
         this.verified = true
       }
     },

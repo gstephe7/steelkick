@@ -68,13 +68,15 @@ export default {
   }
 
   .modal-content {
-    padding: 0 16px;
+    padding: 16px;
     max-height: 280px;
     overflow-y: auto;
   }
 
   .modal-actions {
-    height: 56px;
+    @include last;
+    @include align;
+    padding: 8px;
     box-shadow: 0px -4px 8px -8px rgba(0,0,0,.2);
   }
 </style>

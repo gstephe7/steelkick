@@ -2,7 +2,6 @@
   <List>
 
     <!-- Main List -->
-
     <template #actions>
       <button class="green"
               @click="$router.push('/add-material')">
@@ -11,13 +10,11 @@
     </template>
 
     <template #content>
-      <hr>
       <div v-if="material.length > 0">
         <div v-for="material in filtered"
              :key="material._id">
           <MaterialItem :material="material">
           </MaterialItem>
-          <hr>
         </div>
       </div>
       <div v-else class="col">

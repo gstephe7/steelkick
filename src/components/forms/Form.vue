@@ -9,7 +9,7 @@
       <slot name="content"></slot>
     </div>
 
-    <div class="col">
+    <div v-if="$slots.action" class="col">
       <button class="green"
               type="submit">
         <slot name="action"></slot>

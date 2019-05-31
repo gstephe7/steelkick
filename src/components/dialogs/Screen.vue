@@ -4,7 +4,7 @@
 
       <div class="screen-header">
         <button class="text" @click="$emit('close')">
-          <icon icon="arrow-left"></icon>
+          <icon icon="times"></icon>
         </button>
         <div class="screen-title">
           <slot name="title"></slot>
@@ -24,12 +24,6 @@
 
 <script>
 export default {
-  mounted () {
-    document.body.style.overflow = 'hidden'
-  },
-  destroyed () {
-    document.body.style.overflow = 'auto'
-  }
 }
 </script>
 
@@ -38,14 +32,13 @@ export default {
 
   .overlay {
     position: fixed;
+    overflow-y: auto;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100%;
+    width: 100vw;
     height: 100%;
     background-color: #fff;
-    z-index: 999;
+    z-index: 19;
     transform: scaleY(1);
     transition: 250ms all ease;
   }
@@ -59,10 +52,12 @@ export default {
     position: fixed;
     top: 0;
     left: 0;
+    z-index: 20;
     width: 100%;
     height: 56px;
+    background-color: #fff;
     @include align;
-    box-shadow: $box-shadow-dark;
+    box-shadow: $box-shadow-light;
 
     button.text {
       color: $primary;
@@ -84,11 +79,12 @@ export default {
     .screen-actions {
       @include grow;
       @include last;
+      padding-right: 8px;
     }
   }
 
   .screen-content {
-    overflow-y: auto;
+    padding: 80px 0;
   }
 
   .expand-enter, .expand-leave-to {

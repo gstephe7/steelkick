@@ -1,6 +1,11 @@
 
 <template>
-  <div class="item" @click="expand = true">
+  <div class="item"
+       :class="{
+         border : multiLine,
+         clickable : isClickable
+        }"
+       @click="expand = !expand">
 
     <!-- Item Preview -->
     <div class="between">
@@ -35,11 +40,53 @@
 
     </div>
 
+    <transition appear name="expand">
+      <div v-if="expanded" class="item-expanded">
+        <div class="item-details">
+          <slot name="details"></slot>
+        </div>
+        <div class="item-actions" @click.stop>
+          <slot name="actions"></slot>
+        </div>
+        <div>
+          <icon icon="angle-up" class="icon"></icon>
+        </div>
+      </div>
+    </transition>
+
   </div>
 </template>
 
 <script>
 export default {
+  data () {
+    return {
+      expand: false
+    }
+  },
+  computed: {
+    expanded () {
+      if (this.$slots.details && this.expand) {
+        return true
+      } else {
+        return false
+      }
+    },
+    multiLine () {
+      if (this.$slots.second) {
+        return true
+      } else {
+        return false
+      }
+    },
+    isClickable () {
+      if (this.$slots.details) {
+        return true
+      } else {
+        return false
+      }
+    }
+  }
 }
 </script>
 
@@ -47,7 +94,18 @@ export default {
   @import '@/assets/scss/variables.scss';
 
   .item {
+    position: relative;
     padding: 16px 0;
+    transition: 250ms all;
+    background-color: #fff;
+  }
+
+  .border {
+    border-bottom: 1px solid rgba(0,0,0,.12);
+  }
+
+  .clickable:hover {
+    cursor: pointer;
   }
 
   .thumbnail {
@@ -88,5 +146,32 @@ export default {
     color: $grey;
     font-size: 14px;
     margin-left: 16px;
+  }
+
+  .item-expanded {
+    height: 280px;
+    opacity: 1;
+    transition: all 250ms ease;
+  }
+
+  .item-details {
+    color: $grey;
+  }
+
+  .item-actions {
+    padding: 16px 16px;
+  }
+
+  .icon {
+    color: $grey;
+    position: absolute;
+    bottom: 16px;
+    left: 50%;
+    right: 50%;
+  }
+
+  .expand-enter, .expand-leave-to {
+    opacity: 0;
+    height: 0px;
   }
 </style>

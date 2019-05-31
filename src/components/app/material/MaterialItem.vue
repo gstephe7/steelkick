@@ -1,27 +1,28 @@
 <template>
   <div>
 
-    <div @click="showScreen = true">
-      <Item class="click">
+    <Item>
 
-        <template #title>
-          <span>
-            {{ material.shape }} {{ material.dimension }}
-          </span>
-        </template>
+      <template #title>
+        <span>
+          {{ material.shape }} {{ material.dimension }}
+        </span>
+      </template>
 
-        <template #second>
-           <span>
-             {{ feet }}'
-             {{ inches }}"
-             {{ fraction }}
-           </span>
-           <span>
-             {{ material.quantity }} available
-           </span>
-        </template>
+      <template #second>
+         <span>
+           {{ feet }}'
+           {{ inches }}"
+           {{ fraction }}
+         </span>
+         <span>
+           {{ material.quantity }} available
+         </span>
+      </template>
 
-        <template #third>
+      <!-- expandable details -->
+      <template #details>
+        <div class="between">
           <span>
             <span v-if="material.domestic">Domestic</span>
             <span v-else>Foreign</span>
@@ -29,12 +30,52 @@
           <span :style="`backgroundColor: ${condition.background}`">
             {{ condition.condition }}
           </span>
-        </template>
+        </div>
+        <div class="between">
+          <span v-if="material.grade">
+            {{ material.grade }}
+          </span>
+          <span v-if="material.heat">
+            Heat #: {{ material.heat }}
+          </span>
+        </div>
+        <div v-if="material.location" class="row">
+          <div class="half">
+            Location: {{ material.location }}
+          </div>
+        </div>
+        <div v-if="material.remarks" class="row">
+          <div class="half">
+            Remarks: {{ material.remarks }}
+          </div>
+        </div>
+      </template>
 
-      </Item>
-    </div>
+      <template #actions>
+        <div class="col start">
+          <button class="text" @click="showUseModal = true">
+            USE MATERIAL
+          </button>
+          <button class="text" @click="showEditScreen = true">
+            EDIT MATERIAL
+          </button>
+          <button class="text">
+            MATERIAL HISTORY
+          </button>
+        </div>
+      </template>
 
-    <MaterialScreen v-if="showScreen" :material="material" @close="showScreen = false"></MaterialScreen>
+    </Item>
+
+    <MaterialUseModal v-if="showUseModal"
+                      @close="showUseModal = false"
+                      :material="material">
+    </MaterialUseModal>
+
+    <MaterialEditScreen v-if="showEditScreen"
+                        :material="material"
+                        @close="showEditScreen = false">
+    </MaterialEditScreen>
 
   </div>
 </template>
@@ -42,16 +83,19 @@
 <script>
 import api from '@/api/api'
 import method from '@/global/methods.js'
-import MaterialScreen from './MaterialScreen'
+import MaterialUseModal from './MaterialUseModal'
+import MaterialEditScreen from './MaterialEditScreen'
 
 export default {
   components: {
-    MaterialScreen
+    MaterialUseModal,
+    MaterialEditScreen
   },
   props: ['material'],
   data () {
     return {
-      showScreen: false
+      showUseModal: false,
+      showEditScreen: false
     }
   },
   computed: {
@@ -101,30 +145,6 @@ export default {
     }
   },
   methods: {
-    useMaterial () {
-      api.post('/material/use-material', {
-        materialId: this.material._id,
-        quantityUsed: this.materialUsed
-      }, (res) => {
-        document.body.scrollTop = 0
-        document.documentElement.scrollTop = 0
-        this.$store.dispatch('action', {
-          material: this.material._id,
-          materialDescription: `${this.material.shape} ${this.material.dimension} ${this.material.length}"`,
-          action: 'picked',
-          description: 'from the inventory',
-          quantity: this.materialUsed
-        })
-        let pieces = ''
-        if (this.materialUsed > 1) {
-          pieces = 'pieces'
-        } else {
-          pieces = 'piece'
-        }
-        this.$store.dispatch('snackbar', `Successfully removed ${this.materialUsed} ${pieces}!`)
-        this.material.quantity = this.material.quantity - this.materialUsed
-      })
-    },
     deleteMaterial () {
       api.delete('/material/delete-material', {
         materialId: this.material._id
@@ -150,5 +170,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '@/assets/scss/variables.scss';
 </style>
