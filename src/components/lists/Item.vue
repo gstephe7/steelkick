@@ -159,7 +159,7 @@ export default {
   }
 
   .item-actions {
-    padding: 16px 16px;
+    padding: 16px;
   }
 
   .icon {

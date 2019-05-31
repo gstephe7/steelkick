@@ -39,13 +39,9 @@ export default {
     height: 100%;
     background-color: #fff;
     z-index: 19;
-    transform: scaleY(1);
+    transform: translateY(0);
+    opacity: 1;
     transition: 250ms all ease;
-  }
-
-  .overlay:hover {
-    transform: none;
-    cursor: default;
   }
 
   .screen-header {
@@ -88,6 +84,8 @@ export default {
   }
 
   .expand-enter, .expand-leave-to {
-    transform: scaleY(0);
+    transform: translateY(300vh);
+    opacity: 0;
+    transition: 250ms all ease;
   }
 </style>

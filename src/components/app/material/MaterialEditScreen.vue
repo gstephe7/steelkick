@@ -10,7 +10,10 @@
     </template>
 
     <template #content>
-      <MaterialForm :edit="material"></MaterialForm>
+      <MaterialForm :edit="material"
+                    ref="materialForm"
+                    @close="$emit('close')">
+      </MaterialForm>
     </template>
 
   </Screen>
@@ -32,7 +35,7 @@ export default {
   },
   methods: {
     submit () {
-      console.log(this)
+      this.$refs.materialForm.submit()
     }
   }
 }

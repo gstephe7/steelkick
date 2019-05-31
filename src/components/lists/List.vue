@@ -8,7 +8,7 @@
         <slot name="title"></slot>
       </div>
 
-      <div class="actions">
+      <div v-if="$slots.actions" class="actions">
         <slot name="actions"></slot>
       </div>
 

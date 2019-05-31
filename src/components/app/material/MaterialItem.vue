@@ -59,7 +59,7 @@
           <button class="text" @click="showEditScreen = true">
             EDIT MATERIAL
           </button>
-          <button class="text">
+          <button class="text" @click="showHistoryScreen = true">
             MATERIAL HISTORY
           </button>
         </div>
@@ -77,6 +77,11 @@
                         @close="showEditScreen = false">
     </MaterialEditScreen>
 
+    <MaterialHistoryScreen v-if="showHistoryScreen"
+                           :materialId="material._id"
+                           @close="showHistoryScreen = false">
+    </MaterialHistoryScreen>
+
   </div>
 </template>
 
@@ -85,17 +90,20 @@ import api from '@/api/api'
 import method from '@/global/methods.js'
 import MaterialUseModal from './MaterialUseModal'
 import MaterialEditScreen from './MaterialEditScreen'
+import MaterialHistoryScreen from './MaterialHistoryScreen'
 
 export default {
   components: {
     MaterialUseModal,
-    MaterialEditScreen
+    MaterialEditScreen,
+    MaterialHistoryScreen
   },
   props: ['material'],
   data () {
     return {
       showUseModal: false,
-      showEditScreen: false
+      showEditScreen: false,
+      showHistoryScreen: false
     }
   },
   computed: {

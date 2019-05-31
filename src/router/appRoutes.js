@@ -32,7 +32,6 @@ import NewUserConfirmation from '@/components/app/users/NewUserConfirmation'
 // inventory
 import AddMaterial from '@/components/app/material/AddMaterial'
 import Inventory from '@/components/app/material/Inventory'
-import MaterialPage from '@/components/app/material/MaterialPage'
 
 // marketplace routes
 import Marketplace from '@/components/app/marketplace/Marketplace'
@@ -226,17 +225,6 @@ export default [
       parent: {
         path: '/',
         name: 'Dashboard'
-      }
-    }
-  },
-  {
-    path: 'material-page',
-    name: 'Material Page',
-    component: MaterialPage,
-    meta: {
-      parent: {
-        path: '/inventory',
-        name: 'Inventory'
       }
     }
   },

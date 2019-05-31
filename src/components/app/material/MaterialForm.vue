@@ -359,8 +359,8 @@ export default {
             material: this.material
           })
           .then(() => {
-            this.$store.dispatch('complete')
             this.$emit('close')
+            this.$store.dispatch('complete')
             this.$store.dispatch('action', {
               material: this.material._id,
               action: 'edited',
