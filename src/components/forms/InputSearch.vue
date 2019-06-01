@@ -23,8 +23,8 @@ export default {
     width: 250px;
     border: 1px solid $accent;
     border-radius: 20px;
-    padding: 0px 10px;
-    margin: 15px 10px;
+    padding: 0px 8px;
+    margin: 16px 18px;
     @include align;
   }
 

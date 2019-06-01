@@ -54,9 +54,9 @@ export default {
 
   .input-container {
     position: relative;
-    height: 58px;
+    height: 56px;
     @include align;
-    margin: 0 5px 15px 5px;
+    margin: 0 4px 16px;
   }
 
   .label {
@@ -64,7 +64,7 @@ export default {
     top: 0;
     bottom: 0;
     @include align;
-    padding: 15px;
+    padding: 16px;
     color: $grey;
     pointer-events: none;
     transition: 250ms all;
@@ -77,22 +77,24 @@ export default {
   .move {
     background-color: #fff;
     font-size: 12px;
-    top: -10px;
-    left: 15px;
+    top: -8px;
+    left: 16px;
     bottom: auto;
     display: inline;
-    padding: 5px;
+    padding: 4px;
   }
 
   .input {
     margin: 0;
-    padding: 10px 15px;
+    padding: 16px;
     transition: 250ms all;
     color: rgba(0,0,0,.87);
-    height: 52px;
     width: 100%;
+    height: 52px;
     font-size: 16px;
     background-color: #fff;
+    border-radius: 4px;
+    border: 1px solid #d8d8d8;
   }
 
   .input:focus {

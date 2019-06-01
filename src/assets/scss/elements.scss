@@ -71,17 +71,9 @@ button:active {
   transform: translateY(1px);
 }
 
-button[grey] {
-  background-color: $accent;
-}
-
 button.grey {
   background-color: $accent;
   color: $primary;
-}
-
-button[green] {
-  background-color: $success;
 }
 
 button.green {
@@ -89,28 +81,14 @@ button.green {
   color: #fff;
 }
 
-button[red] {
-  background-color: $red;
-}
-
 button.red {
   background-color: $red;
   color: #fff;
 }
 
-button[blue] {
-  background-color: $blue;
-}
-
 button.blue {
   background-color: $blue;
   color: #fff;
-}
-
-button[white] {
-  background-color: #fff;
-  color: $primary;
-  border: .5px solid $accent;
 }
 
 button.white {
@@ -140,36 +118,16 @@ button.medium {
   font-size: 16px;
 }
 
-button[small] {
-  width: 100px;
-  height: 36px;
-  font-size: 16px;
-}
-
 button.small {
   width: 88px;
   height: 48px;
   font-size: 16px;
 }
 
-button[tiny] {
-  width: 50px;
-  height: 50px;
-}
-
 button.micro {
   width: 32px;
   height: 32px;
   padding: 0;
-}
-
-button[fab] {
-  height: 75px;
-  width: 75px;
-  border-radius: 50%;
-  box-shadow: 2px 6px 12px rgba(0,0,0,.5);
-  font-size: 32px;
-  z-index: 3;
 }
 
 button.fab {
@@ -181,38 +139,6 @@ button.fab {
   z-index: 3;
 }
 
-input {
-  width: 118px;
-  padding: 10px;
-  margin: 5px;
-  border-radius: 5px;
-  border: 1px solid $input-border;
-  font-size: 18px;
-  font-family: 'Roboto', sans-serif;
-  font-weight: 300;
-}
-
-input::placeholder {
-  color: rgba(0,0,0,.4);
-}
-
-input[big] {
-  width: 178px;
-}
-
-input[small] {
-  width: 100px;
-  margin: 5px 10px;
-}
-
-input.small {
-  width: 40px;
-}
-
-input[tiny] {
-  width: 30px;
-}
-
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
@@ -221,56 +147,6 @@ input[type=number]::-webkit-outer-spin-button {
 
 input[type=number] {
   -moz-appearance:textfield;
-}
-
-input[length] {
-  width: 20px;
-  border-radius: 0;
-  box-shadow: none;
-  border: none;
-  text-align: right;
-  padding: 0;
-  margin: 0;
-}
-
-input[denominator] {
-  text-align: left;
-}
-
-span[length] {
-  padding: 10px;
-  margin: 5px;
-  background-color: #fff;
-  border-radius: 5px;
-  border: 1px solid $input-border;
-  width: 118px;
-  display: flex;
-  justify-content: space-between;
-}
-
-select {
-  width: 140px;
-  padding: 10px;
-  margin: 5px;
-  border-radius: 5px;
-  border: 1px solid $input-border;
-  font-size: 18px;
-  font-family: 'Roboto', sans-serif;
-  font-weight: 300;
-}
-
-select[big] {
-  width: 200px;
-}
-
-textarea {
-  width: 268px;
-  padding: 10px;
-  margin: 5px;
-  border-radius: 5px;
-  border: 1px solid $input-border;
-  font-size: 18px;
-  font-family: 'Roboto', sans-serif;
 }
 
 h1 {

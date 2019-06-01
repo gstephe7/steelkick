@@ -13,6 +13,7 @@ import Banner from '@/components/dialogs/Banner'
 import DashboardCard from '@/components/cards/DashboardCard'
 import Card from '@/components/cards/Card'
 import Form from '@/components/forms/Form'
+import InputCheckBox from '@/components/forms/InputCheckBox'
 import InputLength from '@/components/forms/InputLength'
 import InputNumber from '@/components/forms/InputNumber'
 import InputSearch from '@/components/forms/InputSearch'
@@ -42,6 +43,7 @@ import {
   faChartLine,
   faUsers,
   faCog,
+  faCheck,
   faCheckCircle,
   faAngleUp,
   faAngleDown,
@@ -91,6 +93,7 @@ library.add({
   faChartLine,
   faUsers,
   faCog,
+  faCheck,
   faCheckCircle,
   faAngleUp,
   faAngleDown,
@@ -124,6 +127,7 @@ Vue.component('Banner', Banner)
 Vue.component('Card', Card)
 Vue.component('DashboardCard', DashboardCard)
 Vue.component('Form', Form)
+Vue.component('InputCheckBox', InputCheckBox)
 Vue.component('InputLength', InputLength)
 Vue.component('InputNumber', InputNumber)
 Vue.component('InputSearch', InputSearch)

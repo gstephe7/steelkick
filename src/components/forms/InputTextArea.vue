@@ -34,17 +34,17 @@ export default {
 
   .input-container {
     position: relative;
-    height: 80px;
+    height: 96px;
     width: 290px;
     @include align;
-    margin: 0 5px 15px 5px;
+    margin: 0 4px 16px;
   }
 
   .label {
     position: absolute;
     top: 0;
     @include align;
-    padding: 15px;
+    padding: 16px;
     color: $grey;
     pointer-events: none;
     transition: 250ms all;
@@ -57,21 +57,23 @@ export default {
   .move {
     background-color: #fff;
     font-size: 12px;
-    top: -10px;
-    left: 15px;
+    top: -8px;
+    left: 16px;
     bottom: auto;
     display: inline;
-    padding: 5px;
+    padding: 4px;
   }
 
   .input {
     margin: 0;
-    padding: 10px 15px;
+    padding: 16px;
     transition: 250ms all;
     color: rgba(0,0,0,.87);
-    height: 52px;
+    height: 56px;
     width: 100%;
     font-size: 16px;
+    border: 1px solid $input-border;
+    border-radius: 4px;
   }
 
   .input:focus {

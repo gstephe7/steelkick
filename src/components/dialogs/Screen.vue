@@ -45,11 +45,11 @@ export default {
   }
 
   .screen-header {
-    position: fixed;
+    position: sticky;
     top: 0;
     left: 0;
+    right: 0;
     z-index: 20;
-    width: 100%;
     height: 56px;
     background-color: #fff;
     @include align;
@@ -75,12 +75,12 @@ export default {
     .screen-actions {
       @include grow;
       @include last;
-      padding-right: 8px;
+      padding-right: 16px;
     }
   }
 
   .screen-content {
-    padding: 80px 0;
+    padding: 24px 0;
   }
 
   .expand-enter, .expand-leave-to {

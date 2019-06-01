@@ -55,6 +55,9 @@ export default {
     padding: 0;
     font-size: 16px;
     text-align: center;
+    border: 1px solid $input-border;
+    border-radius: 4px;
+    margin: 0 4px;
   }
 
   button.micro {

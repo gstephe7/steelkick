@@ -2,13 +2,15 @@
   <span class="input-container">
 
     <label class="label"
-           :class="{ move : targeted }">
+           :class="{ move : targeted }"
+           @click="initFocus">
       Length
     </label>
 
     <span class="length-span" :class="{ error : highlight }">
       <input class="length autotab"
              type="number"
+             ref="feet"
              placeholder="11"
              maxlength="2"
              v-model.number="feet"
@@ -77,6 +79,9 @@ export default {
       let length = feetToInches + inches + fraction
 
       this.$emit('input', length)
+    },
+    initFocus () {
+      this.$refs.feet.focus()
     }
   },
   created () {
@@ -95,8 +100,8 @@ export default {
 
   .input-container {
     position: relative;
-    margin: 0 5px 15px 5px;
-    height: 58px;
+    margin: 0 4px 16px;
+    height: 56px;
     width: 140px;
     @include align;
   }
@@ -107,14 +112,13 @@ export default {
 
   .label {
     position: absolute;
-    top: 5px;
-    bottom: 5px;
-    left: 15px;
-    right: 2px;
+    top: 4px;
+    bottom: 4px;
+    left: 16px;
+    right: 4px;
     background-color: #fff;
     @include align;
     color: $grey;
-    pointer-events: none;
     transition: 250ms all;
   }
 
@@ -125,22 +129,22 @@ export default {
   .move {
     background-color: #fff;
     font-size: 12px;
-    top: -10px;
-    left: 15px;
+    top: -8px;
+    left: 16px;
     right: auto;
     bottom: auto;
     display: inline;
-    padding: 5px;
+    padding: 4px;
   }
 
   .length-span {
     @include between;
     @include align;
-    padding: 10px 15px;
+    height: 50px;
+    padding: 0 16px;
     border: 1px solid $input-border;
-    border-radius: 5px;
+    border-radius: 4px;
     width: 100%;
-    height: 30px;
   }
 
   .length {
@@ -152,6 +156,10 @@ export default {
     margin: 0;
     font-size: 16px;
     color: rgba(0,0,0,.87);
+  }
+
+  input.length::placeholder {
+    color: rgba(0,0,0,.4);
   }
 
   .denominator {

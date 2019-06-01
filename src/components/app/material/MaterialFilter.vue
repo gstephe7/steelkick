@@ -3,7 +3,7 @@
 
     <div class="center wrap">
 
-      <InputSelect v-model="filter.shape" @input="updateFilter" size="small">
+      <InputSelect v-model="filter.shape" size="small">
         <template #label>Shape</template>
         <template #options>
           <option v-for="shape in shapes"
@@ -14,7 +14,7 @@
         </template>
       </InputSelect>
 
-      <InputSelect v-model="filter.dimension" @input="updateFilter" size="small">
+      <InputSelect v-model="filter.dimension" size="small">
         <template #label>Dimension</template>
         <template #options>
           <option v-for="dimension in dimensions"
@@ -25,29 +25,13 @@
         </template>
       </InputSelect>
 
-      <InputSelect v-model="filter.primed" @input="updateFilter" size="small">
-        <template #label>Primed?</template>
-        <template #options>
-          <option :value="true">
-            Primed
-          </option>
-          <option :value="false">
-            Not Primed
-          </option>
-        </template>
-      </InputSelect>
+      <InputCheckBox v-model="filter.primed" size="small">
+        Primed
+      </InputCheckBox>
 
-      <InputSelect v-model="filter.galvanized" @input="updateFilter" size="small">
-        <template #label>Galvanized?</template>
-        <template #options>
-          <option :value="true">
-            Galvanized
-          </option>
-          <option :value="false">
-            Not Galvanized
-          </option>
-        </template>
-      </InputSelect>
+      <InputCheckBox v-model="filter.galvanized" size="small">
+        Galv
+      </InputCheckBox>
 
     </div>
 
@@ -90,8 +74,8 @@ export default {
       return method.getSequences(this.$store.getters.currentJob.sequences)
     }
   },
-  methods: {
-    updateFilter () {
+  watch: {
+    filter () {
       this.$emit('input', this.filter)
     }
   }

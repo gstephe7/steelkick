@@ -56,34 +56,14 @@
 
         <div class="center">
           <!-- Primed -->
-          <InputSelect v-model="material.primed" :auto="true">
-            <template v-slot:label>
-              Primed?
-            </template>
-            <template v-slot:options>
-              <option :value="false">
-                Not Primed
-              </option>
-              <option :value="true">
-                Primed
-              </option>
-            </template>
-          </InputSelect>
+          <InputCheckBox v-model="material.primed" :auto="true">
+            Primed
+          </InputCheckBox>
 
           <!-- Galvanized -->
-          <InputSelect v-model="material.galvanized" :auto="true">
-            <template v-slot:label>
-              Galvanized?
-            </template>
-            <template v-slot:options>
-              <option :value="false">
-                Not Galvanized
-              </option>
-              <option :value="true">
-                Galvanized
-              </option>
-            </template>
-          </InputSelect>
+          <InputCheckBox v-model="material.galvanized" :auto="true">
+            Galvanized
+          </InputCheckBox>
         </div>
 
         <div class="center">
@@ -99,19 +79,9 @@
 
         <div class="center">
           <!-- Origin -->
-          <InputSelect v-model="material.domestic" :auto="true" :highlight="errors.domestic">
-            <template v-slot:label>
-              Steel Origin
-            </template>
-            <template v-slot:options>
-              <option :value="true">
-                Domestic
-              </option>
-              <option :value="false">
-                Foreign
-              </option>
-            </template>
-          </InputSelect>
+          <InputCheckBox v-model="material.domestic" :auto="true">
+            Domestic
+          </InputCheckBox>
 
           <!-- Condition -->
           <InputSelect v-model="material.condition" :auto="true">
@@ -148,15 +118,9 @@
 
         <div class="center">
           <!-- For Sale -->
-          <InputSelect v-model="material.forSale" :auto="true">
-            <template v-slot:label>
-              For Sale?
-            </template>
-            <template v-slot:options>
-              <option :value="false">Not For Sale</option>
-              <option :value="true">For Sale</option>
-            </template>
-          </InputSelect>
+          <InputCheckBox v-model="material.forSale" :auto="true">
+            For Sale
+          </InputCheckBox>
 
           <!-- CWT Price -->
           <InputText v-model="material.cwt" :auto="true">
@@ -189,9 +153,6 @@
       <span v-if="errors.length">
         Please enter a length
       </span>
-      <span v-if="errors.domestic">
-        Please enter origin of material
-      </span>
     </template>
 
   </Form>
@@ -211,7 +172,6 @@ export default {
         shape: false,
         dimension: false,
         length: false,
-        domestic: false,
         addressInvalid: false
       },
       verified: false,
@@ -302,18 +262,12 @@ export default {
         this.errors.length = false
       }
 
-      if (this.material.domestic == undefined) {
-        this.errors.domestic = true
-      } else {
-        this.errors.domestic = false
-      }
-
       // resort to default values
       if (!this.material.quantity) {
         this.material.quantity = 1
       }
 
-      if (!this.errors.shape && !this.errors.dimension && !this.errors.length && !this.errors.domestic) {
+      if (!this.errors.shape && !this.errors.dimension && !this.errors.length) {
         this.verified = true
       }
     },
