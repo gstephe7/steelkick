@@ -12,12 +12,13 @@
         <slot name="actions"></slot>
       </div>
 
-      <div v-if="$slots.asideContent" class="mobile end toggle-filter">
-        <span class="click"
-              @click="showSheet = true">
-          Show Filter
-          <icon icon="angle-right"></icon>
-        </span>
+      <div v-if="$slots.asideContent" class="mobile">
+        <div class="last">
+          <Button text @click="showSheet = true">
+            Show Filter &nbsp;
+            <icon icon="angle-right"></icon>
+          </Button>
+        </div>
       </div>
 
       <div class="content">
@@ -35,11 +36,13 @@
            :class="{ show : showSheet }"
            @click.stop>
 
-        <div class="sheet-title">
-          <slot name="asideTitle"></slot>
-          <button class="icon text micro" @click="showSheet = false">
-            <icon class="click" icon="times"></icon>
-          </button>
+        <div class="sheet-header">
+          <div class="sheet-title">
+            <slot name="asideTitle"></slot>
+          </div>
+          <Button @click="showSheet = false" text>
+            <icon class="icon" icon="times"></icon>
+          </Button>
         </div>
 
         <div class="sheet-content">
@@ -47,9 +50,9 @@
         </div>
 
         <div class="col">
-          <button @click="showSheet = false">
+          <Button @click="showSheet = false" text>
             <slot name="asideAction"></slot>
-          </button>
+          </Button>
         </div>
 
       </div>
@@ -80,29 +83,23 @@ export default {
     @include grow;
     max-width: 600px;
     margin: 0 auto;
-    padding: 0px 16px;
-    hr {
-      color: rgba(0,0,0,.12);
-      margin: 0;
-    }
   }
 
   .actions {
     @include around;
     @include wrap;
-    padding-bottom: 16px;
-    button {
-      margin-top: 0;
-    }
   }
 
   .toggle-filter {
-    color: royalblue;
-    padding-bottom: 16px;
+    text-align: right;
   }
 
   .list-title {
-    padding-bottom: 16px;
+    padding: 0 16px 16px;
+  }
+
+  .content {
+    padding: 0 16px;
   }
 
   .aside {
@@ -122,15 +119,14 @@ export default {
   }
 
   .sheet {
-    border-left: 1px solid rgba(0,0,0,.12);
+    border-left: 1px solid $accent;
     background-color: #fff;
-    width: 264px;
-    padding: 0 16px;
+    width: 288px;
     height: 100%;
     @media screen and (max-width: 999px) {
       box-shadow: $box-shadow-light;
       position: fixed;
-      padding: 80px 16px;
+      padding-top: 80px;
       top: 0;
       right: 0;
       transform: translateX(300px);
@@ -145,11 +141,14 @@ export default {
     }
   }
 
-  .sheet-title {
+  .sheet-header {
     @include align;
     @include between;
     font-size: 20px;
     margin-bottom: 16px;
+    .sheet-title {
+      padding: 0 16px;
+    }
     .icon {
       font-size: 20px;
       color: rgba(0,0,0,.35);
@@ -157,5 +156,9 @@ export default {
         display: none;
       }
     }
+  }
+
+  .sheet-content {
+    padding: 0 16px;
   }
 </style>

@@ -3,10 +3,9 @@
 
     <!-- Main List -->
     <template #actions>
-      <button class="green"
-              @click="$router.push('/add-material')">
+      <Button @click="$router.push('/add-material')" create>
         + Add New Material
-      </button>
+      </Button>
     </template>
 
     <template #content>

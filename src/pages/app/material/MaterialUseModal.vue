@@ -13,12 +13,12 @@
     </template>
 
     <template #actions>
-      <button class="text" @click="$emit('close')">
+      <Button text @click="$emit('close')">
         CANCEL
-      </button>
-      <button class="text" @click="useMaterial">
+      </Button>
+      <Button text @click="useMaterial">
         USE {{ materialUsed }}
-      </button>
+      </Button>
     </template>
 
   </Modal>

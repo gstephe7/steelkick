@@ -4,40 +4,33 @@
     <!-- If used in the quick search -->
     <div center wrap v-if="quick">
       <div row>
-        <select v-model="shape" class="autotab">
-          <option disabled selected :value="null">
-            Shape
-          </option>
-          <option v-for="shape in shapes" :value="shape" :key="shape">
-            {{ shape }}
-          </option>
-        </select>
-        <select v-model="dimension" class="autotab">
-          <option disabled selected :value="null">
-            Dimension
-          </option>
-          <option v-for="dimension in dimensions" :value="dimension" :key="dimension">
-            {{ dimension }}
-          </option>
-        </select>
+        <InputSelect v-model="shape" auto>
+          <template #label>Shape</template>
+          <template #options>
+            <option v-for="shape in shapes" :value="shape" :key="shape">
+              {{ shape }}
+            </option>
+          </template>
+        </InputSelect>
+        <InputSelect v-model="dimension" auto>
+          <template #label>Dimension</template>
+          <template #options>
+            <option v-for="dimension in dimensions" :value="dimension" :key="dimension">
+              {{ dimension }}
+            </option>
+          </template>
+        </InputSelect>
       </div>
       <div row>
-        <span length>
-          <legend>
-            <input length class="autotab" type="number" placeholder="11" maxlength="2" v-model="feet">'
-          </legend>
-          <legend>
-            <input length class="autotab" type="number" placeholder="9" maxlength="2" v-model="inches">"
-          </legend>
-          <legend>
-            <input length class="autotab" type="number" maxlength="2" v-model="numerator"> /
-            <input length denominator class="autotab" type="number" maxlength="2" v-model="denominator">
-          </legend>
-        </span>
-        <select v-model="state" class="autotab">
-          <option :value="null" selected disabled>State</option>
-          <option v-for="state in states" :value="state" :key="state">{{ state }}</option>
-        </select>
+        <InputLength v-model="length" auto></InputLength>
+        <InputSelect v-model="state" auto>
+          <template #label>State</template>
+          <template #options>
+            <option v-for="state in states" :value="state" :key="state">
+              {{ state }}
+            </option>
+          </template>
+        </InputSelect>
       </div>
     </div>
 
@@ -123,15 +116,11 @@
     </div>
 
     <div col center>
-      <button v-if="searching" class="autotab">
-        Search
-      </button>
-      <button v-if="buying" class="autotab">
-        Update Search
-      </button>
-      <button v-if="inventory" class="autotab">
-        Filter
-      </button>
+      <Button>
+        <span v-if="searching">Search</span>
+        <span v-if="buying">Update Search</span>
+        <span v-if="inventory">Filter</span>
+      </Button>
       <router-link v-if="quick" :to="{ name: 'Search'}">
         Advanced Search
       </router-link>
@@ -151,10 +140,7 @@ export default {
     return {
       shape: null,
       dimension: null,
-      feet: null,
-      inches: null,
-      numerator: null,
-      denominator: null,
+      length: null,
       domestic: null,
       primed: null,
       galvanized: null,
@@ -310,10 +296,6 @@ export default {
 
   a {
     color: $accent;
-    margin-bottom: 20px;
-  }
-
-  section {
-    max-width: 300px;
+    margin-top: 16px;
   }
 </style>

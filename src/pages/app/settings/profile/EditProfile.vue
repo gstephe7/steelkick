@@ -5,8 +5,6 @@
 
       <h1>Edit Your Profile</h1>
 
-      <br>
-
       <div>
         <EditUser v-if="editing.user"
                   :user="user"

@@ -1,6 +1,6 @@
 <template>
   <span class="input-container"
-        :style="style">
+        :class="classList">
 
     <label class="label"
            :class="{ move : valueSelected }">
@@ -22,7 +22,13 @@
 
 <script>
 export default {
-  props: ['value', 'size', 'auto', 'highlight'],
+  props: {
+    value: [String, Number],
+    big: Boolean,
+    small: Boolean,
+    auto: Boolean,
+    highlight: Boolean
+  },
   data () {
     return {
       targeted: this.value
@@ -32,18 +38,16 @@ export default {
     valueSelected () {
       return this.value
     },
-    style () {
-      let newStyle = {}
+    classList () {
+      let classes = []
 
-      if (this.size == 'big') {
-        newStyle.width = '270px'
-      } else if (this.size == 'small') {
-        newStyle.width = '120px'
-      } else {
-        newStyle.width = '140px'
+      for (const key in this.$props) {
+        if (this.$props[key] == true) {
+          classes.push(key)
+        }
       }
 
-      return newStyle
+      return classes
     }
   }
 }
@@ -55,6 +59,7 @@ export default {
   .input-container {
     position: relative;
     height: 56px;
+    width: 140px;
     @include align;
     margin: 0 4px 16px;
   }
@@ -65,7 +70,7 @@ export default {
     bottom: 0;
     @include align;
     padding: 16px;
-    color: $grey;
+    color: $theme;
     pointer-events: none;
     transition: 250ms all;
   }
@@ -88,13 +93,13 @@ export default {
     margin: 0;
     padding: 16px;
     transition: 250ms all;
-    color: rgba(0,0,0,.87);
+    color: $theme;
     width: 100%;
     height: 52px;
     font-size: 16px;
     background-color: #fff;
     border-radius: 4px;
-    border: 1px solid #d8d8d8;
+    border: 1px solid $accent;
   }
 
   .input:focus {
@@ -104,5 +109,13 @@ export default {
 
   .error {
     outline: 1px solid $red;
+  }
+
+  .big {
+    width: 264px;
+  }
+
+  .small {
+    width: 120px;
   }
 </style>

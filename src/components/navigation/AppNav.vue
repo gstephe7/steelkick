@@ -63,7 +63,7 @@ export default {
 
   a {
     width: 100%;
-    color: $primary;
+    color: $theme;
     text-decoration: none;
     font-size: 18px;
     line-height: 1.5;

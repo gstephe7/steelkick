@@ -10,6 +10,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 
 // import global components
 import Banner from '@/components/dialogs/Banner'
+import Button from '@/components/forms/Button'
 import DashboardCard from '@/components/cards/DashboardCard'
 import Card from '@/components/cards/Card'
 import Form from '@/components/forms/Form'
@@ -123,6 +124,7 @@ library.add({
 
 // register components
 Vue.component('Banner', Banner)
+Vue.component('Button', Button)
 Vue.component('Card', Card)
 Vue.component('DashboardCard', DashboardCard)
 Vue.component('Form', Form)

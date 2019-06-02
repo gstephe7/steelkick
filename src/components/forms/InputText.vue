@@ -1,6 +1,6 @@
 <template>
   <span class="input-container"
-        :style="style">
+        :class="classList">
 
     <label class="label"
            :class="{ move : targeted }">
@@ -27,7 +27,13 @@
 
 <script>
 export default {
-  props: ['value', 'size', 'type', 'auto'],
+  props: {
+    value: [String, Number],
+    big: Boolean,
+    small: Boolean,
+    type: String,
+    auto: Boolean
+  },
   data () {
     return {
       targeted: this.value,
@@ -35,20 +41,16 @@ export default {
     }
   },
   computed: {
-    style () {
-      let newStyle = {}
+    classList () {
+      let classes = []
 
-      if (this.size == 'big') {
-        newStyle.width = '270px'
-      } else if (this.size == 'small') {
-        newStyle.width = '140px'
-      } else if (this.size == 'tiny') {
-        newStyle.width = '72px'
-      } else {
-        newStyle.width = '140px'
+      for (const key in this.$props) {
+        if (this.$props[key] == true) {
+          classes.push(key)
+        }
       }
 
-      return newStyle
+      return classes
     },
     getType () {
       if (this.type == 'password' && this.hidePassword == true) {
@@ -74,6 +76,7 @@ export default {
   .input-container {
     position: relative;
     height: 56px;
+    width: 140px;
     @include align;
     margin: 0 4px 16px 4px;
   }
@@ -84,7 +87,7 @@ export default {
     bottom: 0;
     @include align;
     padding: 16px;
-    color: $grey;
+    color: $theme;
     pointer-events: none;
     transition: 250ms all;
   }
@@ -107,11 +110,11 @@ export default {
     margin: 0;
     padding: 16px;
     transition: 250ms all;
-    color: rgba(0,0,0,.87);
+    color: $theme;
     width: 100%;
     font-size: 16px;
     border-radius: 4px;
-    border: 1px solid #d8d8d8;
+    border: 1px solid $accent;
   }
 
   .input:focus {
@@ -125,7 +128,25 @@ export default {
     top: 0;
     bottom: 0;
     @include align;
-    color: $grey;
+    color: $dark;
     cursor: pointer;
+  }
+
+  input[type=number]::-webkit-inner-spin-button,
+  input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type=number] {
+    -moz-appearance:textfield;
+  }
+
+  .big {
+    width: 264px;
+  }
+
+  .small {
+    width: 120px;
   }
 </style>

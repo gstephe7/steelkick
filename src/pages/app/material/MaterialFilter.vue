@@ -3,7 +3,7 @@
 
     <div class="center wrap">
 
-      <InputSelect v-model="filter.shape" size="small">
+      <InputSelect v-model="filter.shape" small>
         <template #label>Shape</template>
         <template #options>
           <option v-for="shape in shapes"
@@ -14,7 +14,7 @@
         </template>
       </InputSelect>
 
-      <InputSelect v-model="filter.dimension" size="small">
+      <InputSelect v-model="filter.dimension" small>
         <template #label>Dimension</template>
         <template #options>
           <option v-for="dimension in dimensions"
@@ -25,11 +25,11 @@
         </template>
       </InputSelect>
 
-      <InputCheckBox v-model="filter.primed" size="small">
+      <InputCheckBox v-model="filter.primed" small>
         Primed
       </InputCheckBox>
 
-      <InputCheckBox v-model="filter.galvanized" size="small">
+      <InputCheckBox v-model="filter.galvanized" small>
         Galv
       </InputCheckBox>
 

@@ -1,16 +1,22 @@
 <template>
     <form col @submit.prevent="submit">
 
-        <input v-model="company" name="company" placeholder="Company Name" :highlight="errors.company">
+        <InputText v-model="company" auto big :highlight="errors.company">
+          Company Name
+        </InputText>
 
-        <input v-model="email" name="email" placeholder="Email" :highlight="errors.email">
+        <InputText v-model="email" auto big :highlight="errors.email">
+          Email
+        </InputText>
 
-        <input v-model="password" type="password" name="password" placeholder="Password" :highlight="errors.password" @keyup.enter="submit">
+        <InputText v-model="password" auto big type="password" :highlight="errors.password">
+          Password
+        </InputText>
 
         <div>
-          <button green>
+          <Button create>
             Create Account
-          </button>
+          </Button>
         </div>
 
         <div errors>
@@ -114,8 +120,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
-  input {
-    width: 250px;
-  }
 </style>

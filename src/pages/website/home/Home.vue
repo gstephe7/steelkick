@@ -9,8 +9,8 @@
         <BuyPreview></BuyPreview>
       </section>
     </div>
-    <div around wrap>
-      <section col>
+    <div class="container col">
+      <section>
         <h2>Create Your Free Account</h2>
         <CreateAccount></CreateAccount>
       </section>

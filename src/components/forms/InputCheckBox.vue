@@ -1,5 +1,5 @@
 <template>
-  <span class="input-container" :style="style">
+  <span class="input-container" :class="classList">
     <span class="input-wrapper" :class="{ checked : selected }">
 
       <input type="checkbox"
@@ -25,7 +25,11 @@
 
 <script>
 export default {
-  props: ['value', 'auto', 'size'],
+  props: {
+    value: Boolean,
+    auto: Boolean,
+    small: Boolean
+  },
   data () {
     return {
       id: this.$slots.default[0].text
@@ -35,16 +39,16 @@ export default {
     selected () {
       return this.value
     },
-    style () {
-      let newStyle = {}
+    classList () {
+      let classes = []
 
-      if (this.size == 'small') {
-        newStyle.width = '120px'
-      } else {
-        newStyle.width = '140px'
+      for (const key in this.$props) {
+        if (this.$props[key] == true) {
+          classes.push(key)
+        }
       }
 
-      return newStyle
+      return classes
     }
   },
   methods: {
@@ -65,6 +69,7 @@ export default {
   .input-container {
     position: relative;
     height: 56px;
+    width: 140px;
     @include align;
     margin: 0 4px 16px;
   }
@@ -74,7 +79,7 @@ export default {
     @include between;
     width: 100%;
     height: 50px;
-    border: 1px solid $input-border;
+    border: 1px solid $accent;
     border-radius: 4px;
     cursor: pointer;
     position: relative;
@@ -92,7 +97,7 @@ export default {
   .label {
     @include align;
     cursor: pointer;
-    color: rgba(0,0,0,.4);
+    color: $accent;
     padding: 0px 16px;
     height: 100%;
     width: 100%;
@@ -100,7 +105,7 @@ export default {
   }
 
   .icon {
-    color: $neon-blue;
+    color: $primary;
     visibility: hidden;
     width: 0;
     height: 0;
@@ -115,10 +120,10 @@ export default {
   }
 
   .input:checked + label {
-    background-color: $light-blue;
+    background-color: $light;
     .label-text {
       padding-left: 8px;
-      color: $neon-blue;
+      color: $primary;
     }
     .icon {
       width: auto;
@@ -127,5 +132,9 @@ export default {
       opacity: 1;
       transform: translateY(0);
     }
+  }
+
+  .small {
+    width: 120px;
   }
 </style>

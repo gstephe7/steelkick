@@ -1,10 +1,14 @@
 <template>
-  <div col>
+  <div class="container col">
     <h2>Sell Your Excess Steel</h2>
     <icon icon="dollar-sign"></icon>
     <p>Have excess steel sitting around your shop or at the job site? Make more money by selling it directly to other fabricators in your area.</p>
-    <button @click="$router.push('dashboard/add-material')">List New Material</button>
-    <button grey @click="$router.push('dashboard/inventory')">Manage My Inventory</button>
+    <Button outline @click="$router.push('/add-material')">
+      List New Material
+    </Button>
+    <Button text @click="$router.push('/inventory')">
+      Manage My Inventory
+    </Button>
   </div>
 </template>
 
@@ -19,5 +23,6 @@ export default {
   svg {
     font-size: 50px;
     color: $accent;
+    margin-bottom: 8px;
   }
 </style>

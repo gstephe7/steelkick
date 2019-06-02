@@ -118,7 +118,7 @@ export default {
     right: 4px;
     background-color: #fff;
     @include align;
-    color: $grey;
+    color: $theme;
     transition: 250ms all;
   }
 
@@ -142,9 +142,10 @@ export default {
     @include align;
     height: 50px;
     padding: 0 16px;
-    border: 1px solid $input-border;
+    border: 1px solid $accent;
     border-radius: 4px;
     width: 100%;
+    background-color: #fff;
   }
 
   .length {
@@ -155,11 +156,11 @@ export default {
     padding: 0;
     margin: 0;
     font-size: 16px;
-    color: rgba(0,0,0,.87);
+    color: $theme;
   }
 
   input.length::placeholder {
-    color: rgba(0,0,0,.4);
+    color: $accent;
   }
 
   .denominator {
@@ -168,5 +169,15 @@ export default {
 
   .error {
     outline: 1px solid $red;
+  }
+
+  input[type=number]::-webkit-inner-spin-button,
+  input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type=number] {
+    -moz-appearance:textfield;
   }
 </style>

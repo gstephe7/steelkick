@@ -6,23 +6,21 @@
     </template>
 
     <template #actions>
-      <button v-if="!working"
-              class="green"
+      <Button v-if="!working"
+              id="part-div"
+              create
               @click="createNewPart">
         + Create New Part
-      </button>
+      </Button>
       <InputSearch v-model="search"
-                   id="part-div"
                    @input="autoScroll">
       </InputSearch>
     </template>
 
     <template #content>
-      <hr>
       <div v-if="searchedParts.length > 0">
-        <div v-for="part in searchedParts" :key="part._id" @click="viewPart(part)">
+        <div v-for="part in searchedParts" :key="part._id">
           <PartItem :part="part"></PartItem>
-          <hr>
         </div>
       </div>
 

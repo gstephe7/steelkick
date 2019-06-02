@@ -72,8 +72,8 @@ export default {
   header {
     @include align;
     @include between;
-    height: 72px;
-    background-color: $primary;
+    height: 56px;
+    background-color: $theme;
     color: $accent;
     box-shadow: $box-shadow-dark;
     z-index: 10;
@@ -88,11 +88,14 @@ export default {
       border: none;
       box-shadow: none;
       padding: 0;
-      height: 72px;
-      width: 72px;
+      height: 56px;
+      width: 56px;
       margin: 0;
       cursor: pointer;
       font-size: 20px;
+      color: $accent;
+      @include align;
+      @include center;
     }
   }
 

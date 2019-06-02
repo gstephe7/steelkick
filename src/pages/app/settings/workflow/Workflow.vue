@@ -23,9 +23,9 @@
       </template>
 
       <template v-slot:actions>
-        <button class="blue" @click="showModal = true">
+        <Button @click="showModal = true">
           + Add a Step
-        </button>
+        </Button>
       </template>
 
       <template v-slot:content>

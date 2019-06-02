@@ -6,7 +6,7 @@
     </template>
 
     <template #actions>
-      <button class="text" @click="submit">SAVE</button>
+      <Button text @click="submit">SAVE</Button>
     </template>
 
     <template #content>

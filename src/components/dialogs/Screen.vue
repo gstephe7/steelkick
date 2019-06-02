@@ -3,9 +3,9 @@
     <div id="screen" class="overlay">
 
       <div class="screen-header">
-        <button class="text" @click="$emit('close')">
-          <icon icon="times"></icon>
-        </button>
+        <Button text @click="$emit('close')">
+          <icon class="icon" icon="times"></icon>
+        </Button>
         <div class="screen-title">
           <slot name="title"></slot>
         </div>
@@ -47,24 +47,15 @@ export default {
   .screen-header {
     position: sticky;
     top: 0;
-    left: 0;
-    right: 0;
     z-index: 20;
     height: 56px;
     background-color: #fff;
     @include align;
     box-shadow: $box-shadow-light;
 
-    button.text {
-      color: $primary;
+    .icon {
+      color: $dark;
       font-size: 20px;
-      height: 56px;
-      width: 56px;
-      margin: 0;
-    }
-
-    button.text:hover {
-      background-color: #fff;
     }
 
     .screen-title {

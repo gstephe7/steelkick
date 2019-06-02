@@ -3,7 +3,7 @@
 
     <div class="center wrap">
 
-      <InputSelect v-model="filter.shape" size="small" @input="updateFilter">
+      <InputSelect v-model="filter.shape" small @input="updateFilter">
         <template #label>Shape</template>
         <template #options>
           <option v-for="shape in shapes"
@@ -14,7 +14,7 @@
         </template>
       </InputSelect>
 
-      <InputSelect v-model="filter.dimension" size="small" @input="updateFilter">
+      <InputSelect v-model="filter.dimension" small @input="updateFilter">
         <template #label>Dimension</template>
         <template #options>
           <option v-for="dimension in dimensions"
@@ -25,7 +25,7 @@
         </template>
       </InputSelect>
 
-      <InputSelect v-model="filter.sequence" size="small" @input="updateFilter">
+      <InputSelect v-model="filter.sequence" small @input="updateFilter">
         <template #label>Sequence</template>
         <template #options>
           <option v-for="sequence in sequences"
@@ -36,7 +36,7 @@
         </template>
       </InputSelect>
 
-      <InputSelect v-model="filter.complete" size="small" @input="updateFilter">
+      <InputSelect v-model="filter.complete" small @input="updateFilter">
         <template #label>Completed?</template>
         <template #options>
           <option :value="true">

@@ -78,7 +78,7 @@ export default {
   header {
     @include align;
     @include wrap;
-    background-color: $primary;
+    background-color: $theme;
     color: $accent;
     box-shadow: $box-shadow-dark;
     z-index: 10;
@@ -99,6 +99,9 @@ export default {
       width: 56px;
       cursor: pointer;
       font-size: 20px;
+      color: $accent;
+      @include align;
+      @include center;
     }
   }
 

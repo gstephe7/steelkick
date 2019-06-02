@@ -45,7 +45,7 @@ export default {
     top: 0;
     @include align;
     padding: 16px;
-    color: $grey;
+    color: $theme;
     pointer-events: none;
     transition: 250ms all;
   }
@@ -68,12 +68,13 @@ export default {
     margin: 0;
     padding: 16px;
     transition: 250ms all;
-    color: rgba(0,0,0,.87);
+    color: $theme;
     height: 56px;
     width: 100%;
     font-size: 16px;
-    border: 1px solid $input-border;
+    border: 1px solid $accent;
     border-radius: 4px;
+    font-family: 'Roboto', sans-serif;
   }
 
   .input:focus {

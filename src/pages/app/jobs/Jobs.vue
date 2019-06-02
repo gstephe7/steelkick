@@ -3,7 +3,9 @@
 
     <div class="col">
 
-      <button class="green" @click="createJob">+ Create New Job</button>
+      <Button create @click="createJob">
+        + Create New Job
+      </Button>
 
       <br>
 

@@ -101,7 +101,7 @@ export default {
   }
 
   .border {
-    border-bottom: 1px solid rgba(0,0,0,.12);
+    border-bottom: 1px solid $accent;
   }
 
   .clickable:hover {
@@ -129,11 +129,11 @@ export default {
   .row {
     @include between;
     font-size: 16px;
-    color: $grey;
+    color: $dark;
   }
 
   .item-title {
-    color: $primary;
+    color: $theme;
     font-weight: bold;
     font-size: 20px;
     margin-bottom: 4px;
@@ -143,7 +143,7 @@ export default {
     @include last;
     text-align: right;
     width: 32px;
-    color: $grey;
+    color: $dark;
     font-size: 14px;
     margin-left: 16px;
   }
@@ -155,7 +155,7 @@ export default {
   }
 
   .item-details {
-    color: $grey;
+    color: $dark;
   }
 
   .item-actions {
@@ -163,7 +163,7 @@ export default {
   }
 
   .icon {
-    color: $grey;
+    color: $dark;
     position: absolute;
     bottom: 16px;
     left: 50%;

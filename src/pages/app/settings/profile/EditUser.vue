@@ -3,16 +3,16 @@
     <Form @submit="editUser">
 
       <template v-slot:content>
-        <InputText v-model="user.firstName" size="big">
+        <InputText v-model="user.firstName" big>
           First Name
         </InputText>
-        <InputText v-model="user.lastName" size="big">
+        <InputText v-model="user.lastName" big>
           Last Name
         </InputText>
-        <InputText v-model="user.email" size="big">
+        <InputText v-model="user.email" big>
           Email
         </InputText>
-        <InputText v-model="user.password" size="big" type="password">
+        <InputText v-model="user.password" big type="password">
           Password
         </InputText>
       </template>
@@ -24,7 +24,9 @@
     </Form>
 
     <div class="col">
-      <button type="button" @click="$emit('close')">Cancel</button>
+      <Button text @click="$emit('close')">
+        Cancel
+      </Button>
     </div>
   </div>
 </template>

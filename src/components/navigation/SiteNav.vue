@@ -48,7 +48,7 @@ export default {
   @import '@/assets/scss/variables.scss';
 
   nav {
-    background-color: $primary;
+    background-color: $theme;
     display: flex;
     flex-direction: column;
     ul {

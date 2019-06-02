@@ -5,7 +5,7 @@
     <p>Email: {{ user.email }}</p>
     <p>Password: *******</p>
     <div center>
-      <button @click="$emit('editing')">Edit Profile</button>
+      <Button @click="$emit('editing')">Edit Profile</Button>
     </div>
   </div>
 </template>

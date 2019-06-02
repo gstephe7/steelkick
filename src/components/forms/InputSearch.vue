@@ -20,17 +20,20 @@ export default {
   @import '@/assets/scss/variables.scss';
 
   .search-bar {
-    width: 250px;
+    width: 264px;
+    height: 38px;
     border: 1px solid $accent;
-    border-radius: 20px;
+    border-radius: 16px;
     padding: 0px 8px;
-    margin: 16px 18px;
+    margin: 0 16px 16px;
     @include align;
   }
 
-  #search-input {
+  input#search-input {
     border: none;
     outline: none;
-    margin: 0;
+    margin: 8px;
+    font-size: 16px;
+    color: $theme;
   }
 </style>

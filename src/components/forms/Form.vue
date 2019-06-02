@@ -10,13 +10,13 @@
     </div>
 
     <div v-if="$slots.action" class="col">
-      <button class="green"
+      <Button create
               type="submit">
         <slot name="action"></slot>
-      </button>
+      </Button>
     </div>
 
-    <div class="errors col">
+    <div v-if="$slots.errors" class="errors col">
       <slot name="errors"></slot>
     </div>
 
@@ -38,7 +38,7 @@ export default {
 
   form {
     max-width: 600px;
-    margin: auto;
+    margin: 0 auto;
     @include col;
   }
 
@@ -48,10 +48,11 @@ export default {
   }
 
   .form-title {
-    margin: 0 15px 15px 15px;
+    margin: 0 16px 16px 16px;
   }
 
   .errors {
+    padding-top: 16px;
     color: $red;
   }
 </style>

@@ -53,15 +53,15 @@
 
       <template #actions>
         <div class="col start">
-          <button class="text" @click="showUseModal = true">
+          <Button text @click="showUseModal = true">
             USE MATERIAL
-          </button>
-          <button class="text" @click="showEditScreen = true">
+          </Button>
+          <Button text @click="showEditScreen = true">
             EDIT MATERIAL
-          </button>
-          <button class="text" @click="showHistoryScreen = true">
+          </Button>
+          <Button text @click="showHistoryScreen = true">
             MATERIAL HISTORY
-          </button>
+          </Button>
         </div>
       </template>
 

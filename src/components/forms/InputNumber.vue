@@ -55,8 +55,9 @@ export default {
     padding: 0;
     font-size: 16px;
     text-align: center;
-    border: 1px solid $input-border;
+    border: 1px solid $accent;
     border-radius: 4px;
+    color: $theme;
     margin: 0 4px;
   }
 
@@ -65,5 +66,26 @@ export default {
     width: 48px;
     height: 48px;
     box-shadow: none;
+    border: none;
+    border-radius: 4px;
+    background-color: $accent;
+    color: $theme;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 250ms all;
+  }
+
+  button.micro:hover {
+    filter: brightness(1.05);
+  }
+
+  input[type=number]::-webkit-inner-spin-button,
+  input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type=number] {
+    -moz-appearance:textfield;
   }
 </style>
