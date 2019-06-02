@@ -34,13 +34,8 @@
 </template>
 
 <script>
-import Notify from '@/components/app/notifications/Notify'
-
 export default {
   props: ['desktop', 'footer'],
-  components: {
-    Notify
-  },
   methods: {
     closeMenu () {
       this.$emit('closeMenu')

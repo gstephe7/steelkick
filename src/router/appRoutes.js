@@ -1,76 +1,75 @@
 // APP ROUTES
-import Dashboard from '@/components/app/dashboard/Dashboard'
-import Working from '@/components/app/working/Working'
+import Dashboard from '@/pages/app/dashboard/Dashboard'
+import Working from '@/pages/app/working/Working'
 
 // jobs
-import Jobs from '@/components/app/jobs/Jobs'
-import CreateJob from '@/components/app/jobs/CreateJob'
-import JobDetails from '@/components/app/jobs/JobDetails'
+import Jobs from '@/pages/app/jobs/Jobs'
+import CreateJob from '@/pages/app/jobs/CreateJob'
+import JobDetails from '@/pages/app/jobs/JobDetails'
 
 // parts
-import CreatePart from '@/components/app/parts/CreatePart'
-import PartsPage from '@/components/app/parts/PartsPage'
-import PartConfirmation from '@/components/app/parts/PartConfirmation'
-import PartDetails from '@/components/app/parts/PartDetails'
+import CreatePart from '@/pages/app/parts/CreatePart'
+import PartsPage from '@/pages/app/parts/PartsPage'
+import PartDetails from '@/pages/app/parts/PartDetails'
 
 // purchasing
-import Purchasing from '@/components/app/purchasing/Purchasing'
+import Purchasing from '@/pages/app/purchasing/Purchasing'
 
 // schedule
-import Schedule from '@/components/app/schedule/Schedule'
+import Schedule from '@/pages/app/schedule/Schedule'
 
 // Tasks
-import Tasks from '@/components/app/tasks/Tasks'
+import Tasks from '@/pages/app/tasks/Tasks'
 
 // users
-import Users from '@/components/app/users/Users'
-import UserDetails from '@/components/app/users/UserDetails'
-import UserEdit from '@/components/app/users/UserEdit'
-import NewUser from '@/components/app/users/NewUser'
-import NewUserConfirmation from '@/components/app/users/NewUserConfirmation'
+import Users from '@/pages/app/users/Users'
+import UserDetails from '@/pages/app/users/UserDetails'
+import UserEdit from '@/pages/app/users/UserEdit'
+import NewUser from '@/pages/app/users/NewUser'
+import NewUserConfirmation from '@/pages/app/users/NewUserConfirmation'
 
 // inventory
-import AddMaterial from '@/components/app/material/AddMaterial'
-import Inventory from '@/components/app/material/Inventory'
+import AddMaterial from '@/pages/app/material/AddMaterial'
+import Inventory from '@/pages/app/material/Inventory'
 
 // marketplace routes
-import Marketplace from '@/components/app/marketplace/Marketplace'
-import Cart from '@/components/app/marketplace/cart/Cart'
-import Checkout from '@/components/app/marketplace/checkout/Checkout'
-import CheckoutConfirmation from '@/components/app/marketplace/checkout/CheckoutConfirmation'
-import OrderPage from '@/components/app/marketplace/orders/OrderPage'
-import OrderDetails from '@/components/app/marketplace/orders/OrderDetails'
-import Transactions from '@/components/app/marketplace/transactions/Transactions'
-import TransactionDetails from '@/components/app/marketplace/transactions/TransactionDetails'
-import SetPrices from '@/components/app/marketplace/SetPrices'
-import EditCompany from '@/components/app/marketplace/editProfile/EditProfile'
+import Marketplace from '@/pages/app/marketplace/Marketplace'
+import Cart from '@/pages/app/marketplace/cart/Cart'
+import Checkout from '@/pages/app/marketplace/checkout/Checkout'
+import CheckoutConfirmation from '@/pages/app/marketplace/checkout/CheckoutConfirmation'
+import OrderPage from '@/pages/app/marketplace/orders/OrderPage'
+import OrderDetails from '@/pages/app/marketplace/orders/OrderDetails'
+import Transactions from '@/pages/app/marketplace/transactions/Transactions'
+import TransactionDetails from '@/pages/app/marketplace/transactions/TransactionDetails'
+import SetPrices from '@/pages/app/marketplace/SetPrices'
+import EditCompany from '@/pages/app/marketplace/editProfile/EditProfile'
 
 // company settings
-import Settings from '@/components/app/settings/Settings'
-import Workflow from '@/components/app/settings/workflow/Workflow'
-import EditProfile from '@/components/app/settings/profile/EditProfile'
+import Settings from '@/pages/app/settings/Settings'
+import Workflow from '@/pages/app/settings/workflow/Workflow'
+import EditProfile from '@/pages/app/settings/profile/EditProfile'
 
 
 
 export default [
   {
-    path: '',
+    path: '/dashboard',
     name: 'Dashboard',
     component: Dashboard
   },
   {
-    path: 'jobs',
+    path: '/jobs',
     name: 'All Jobs',
     component: Jobs,
     meta: {
       parent: {
-        path: '/',
+        path: '/dashboard',
         name: 'Dashboard'
       }
     }
   },
   {
-    path: 'create-job',
+    path: '/create-job',
     name: 'Create New Job',
     component: CreateJob,
     meta: {
@@ -81,7 +80,7 @@ export default [
     }
   },
   {
-    path: 'job-details',
+    path: '/job-details',
     name: 'Job Details',
     component: JobDetails,
     meta: {
@@ -92,7 +91,7 @@ export default [
     }
   },
   {
-    path: 'create-part',
+    path: '/create-part',
     name: 'Create New Part',
     component: CreatePart,
     meta: {
@@ -103,12 +102,7 @@ export default [
     }
   },
   {
-    path: 'part-confirmation',
-    name: 'Part Confirmation',
-    component: PartConfirmation
-  },
-  {
-    path: 'parts',
+    path: '/parts',
     name: 'Parts',
     component: PartsPage,
     meta: {
@@ -119,7 +113,7 @@ export default [
     }
   },
   {
-    path: 'part-details',
+    path: '/part-details',
     name: 'Part Details',
     component: PartDetails,
     meta: {
@@ -130,62 +124,62 @@ export default [
     }
   },
   {
-    path: 'purchasing',
+    path: '/purchasing',
     name: 'Purchasing',
     component: Purchasing,
     meta: {
       parent: {
-        path: '/',
+        path: '/dashboard',
         name: 'Dashboard'
       }
     }
   },
   {
-    path: 'schedule',
+    path: '/schedule',
     name: 'Schedule',
     component: Schedule,
     meta: {
       parent: {
-        path: '/',
+        path: '/dashboard',
         name: 'Dashboard'
       }
     }
   },
   {
-    path: 'tasks',
+    path: '/tasks',
     name: 'Tasks',
     component: Tasks,
     meta: {
       parent: {
-        path: '/',
+        path: '/dashboard',
         name: 'Dashboard'
       }
     }
   },
   {
-    path: 'working',
+    path: '/working',
     name: 'Working',
     component: Working,
     meta: {
       parent: {
-        path: '/',
+        path: '/dashboard',
         name: 'Dashboard'
       }
     }
   },
   {
-    path: 'users',
+    path: '/users',
     name: 'Users',
     component: Users,
     meta: {
       parent: {
-        path: '/',
+        path: '/dashboard',
         name: 'Dashboard'
       }
     }
   },
   {
-    path: 'user-details',
+    path: '/user-details',
     name: 'User Details',
     component: UserDetails,
     meta: {
@@ -196,7 +190,7 @@ export default [
     }
   },
   {
-    path: 'add-material',
+    path: '/add-material',
     name: 'Add Material',
     component: AddMaterial,
     meta: {
@@ -207,100 +201,100 @@ export default [
     }
   },
   {
-    path: 'inventory',
+    path: '/inventory',
     name: 'Inventory',
     component: Inventory,
     meta: {
       parent: {
-        path: '/',
+        path: '/dashboard',
         name: 'Dashboard'
       }
     }
   },
   {
-    path: 'marketplace',
+    path: '/marketplace',
     name: 'Marketplace',
     component: Marketplace,
     meta: {
       parent: {
-        path: '/',
+        path: '/dashboard',
         name: 'Dashboard'
       }
     }
   },
   {
-    path: 'pending-orders',
+    path: '/pending-orders',
     name: 'Order Page',
     component: OrderPage
   },
   {
-    path: 'order-details',
+    path: '/order-details',
     name: 'Order Details',
     component: OrderDetails
   },
   {
-    path: 'transactions',
+    path: '/transactions',
     name: 'Transactions',
     component: Transactions
   },
   {
-    path: 'transaction-details',
+    path: '/transaction-details',
     name: 'Transaction Details',
     component: TransactionDetails
   },
   {
-    path: 'set-prices',
+    path: '/set-prices',
     name: 'Set Prices',
     component: SetPrices
   },
   {
-    path: 'edit-user',
+    path: '/edit-user',
     name: 'Edit User',
     component: UserEdit
   },
   {
-    path: 'new-user',
+    path: '/new-user',
     name: 'Add New User',
     component: NewUser
   },
   {
-    path: 'new-user-confirmed',
+    path: '/new-user-confirmed',
     name: 'New User Confirmation',
     component: NewUserConfirmation
   },
   {
-    path: 'edit-company',
+    path: '/edit-company',
     name: 'Edit Company',
     component: EditCompany
   },
   {
-    path: 'cart',
+    path: '/cart',
     name: 'Cart',
     component: Cart
   },
   {
-    path: 'checkout',
+    path: '/checkout',
     name: 'Checkout',
     component: Checkout
   },
   {
-    path: 'checkout-confirmation',
+    path: '/checkout-confirmation',
     name: 'Checkout Confirmation',
     component: CheckoutConfirmation
   },
   {
-    path: 'settings',
+    path: '/settings',
     name: 'Settings',
     component: Settings,
     meta: {
       parent: {
-        path: '/',
+        path: '/dashboard',
         name: 'Dashboard'
       }
     }
   },
   {
-    path: 'workflow',
+    path: '/workflow',
     name: 'Configure Workflow',
     component: Workflow,
     meta: {
@@ -311,7 +305,7 @@ export default [
     }
   },
   {
-    path: 'edit-profile',
+    path: '/edit-profile',
     name: 'Edit Profile',
     component: EditProfile,
     meta: {

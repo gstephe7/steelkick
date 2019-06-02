@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import Loading from '@/components/app/popups/Loading'
+import Loading from '@/components/progress/Loading'
 
 export default {
   components: {

@@ -1,26 +1,38 @@
-import Home from '@/components/website/home/Home'
-import Login from '@/components/website/login/Login'
-import LogoutConfirmation from '@/components/website/logout/LogoutConfirmation'
-import PasswordRecovery from '@/components/website/login/PasswordRecovery'
-import CreateAccountPage from '@/components/website/createAccount/CreateAccountPage'
-import PasswordRecoveryConfirmation from '@/components/website/login/PasswordRecoveryConfirmation'
-import PasswordReset from '@/components/website/login/PasswordReset'
-import Contact from '@/components/website/contact/Contact'
-import ContactConfirmation from '@/components/website/contact/ContactConfirmation'
+import Home from '@/pages/website/home/Home'
+import Login from '@/pages/website/login/Login'
+import LogoutConfirmation from '@/pages/website/logout/LogoutConfirmation'
+import PasswordRecovery from '@/pages/website/login/PasswordRecovery'
+import CreateAccountPage from '@/pages/website/createAccount/CreateAccountPage'
+import PasswordRecoveryConfirmation from '@/pages/website/login/PasswordRecoveryConfirmation'
+import PasswordReset from '@/pages/website/login/PasswordReset'
+import Contact from '@/pages/website/contact/Contact'
+import ContactConfirmation from '@/pages/website/contact/ContactConfirmation'
 
 // marketplace routes
-import AdvancedSearch from '@/components/app/search/AdvancedSearch'
-import Company from '@/components/app/marketplace/company/Company'
-import Listings from '@/components/app/marketplace/listings/Listings'
+import AdvancedSearch from '@/pages/app/search/AdvancedSearch'
+import Company from '@/pages/app/marketplace/company/Company'
+import Listings from '@/pages/app/marketplace/listings/Listings'
 
 // admin login
-import AdminLogin from '@/components/admin/AdminLogin'
+import AdminLogin from '@/pages/admin/AdminLogin'
 
 export default [
   {
     path: '',
     name: 'Home',
-    component: Home
+    component: Home,
+    beforeEnter: (to, from, next) => {
+      if (from.path == '/') {
+        const token = $cookies.get('sk-user')
+        if (token) {
+          next({ path: '/dashboard' })
+        } else {
+          next()
+        }
+      } else {
+        next()
+      }
+    }
   },
   {
     path: '/search',

@@ -7,12 +7,12 @@ import websiteRoutes from './websiteRoutes.js'
 import adminRoutes from './adminRoutes.js'
 
 // import base routes
-import Admin from '@/components/admin/Admin'
-import App from '@/components/app/App'
-import Website from '@/components/website/App'
+import Admin from '@/pages/admin/Admin'
+import App from '@/pages/app/App'
+import Website from '@/pages/website/App'
 
 // misc routes
-import NotFound from '@/components/notFound/NotFound'
+import NotFound from '@/pages/notFound/NotFound'
 
 Vue.use(Router)
 
@@ -25,21 +25,21 @@ const router = new Router({
       component: NotFound
     },
 
-    // app routes
+    // landing page and marketing
     {
       path: '/',
+      component: Website,
+      children: websiteRoutes
+    },
+
+    // app routes
+    {
+      path: '/app',
       component: App,
       meta: {
         requiresAuth: true
       },
       children: appRoutes
-    },
-
-    // landing page and marketing
-    {
-      path: '/welcome',
-      component: Website,
-      children: websiteRoutes
     },
 
     // admin
@@ -65,7 +65,10 @@ router.beforeEach((to, from, next) => {
       next()
     } else {
       next({
-        path: '/welcome'
+        path: '/login',
+        query: {
+          redirect: to.fullPath
+        }
       })
     }
   } else if (to.matched.some(record => record.meta.requiresAdmin)) {

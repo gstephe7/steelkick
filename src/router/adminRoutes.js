@@ -1,6 +1,6 @@
 // admin routes
-import AdminHome from '@/components/admin/AdminHome'
-import CompanyAdmin from '@/components/admin/components/companies/Company'
+import AdminHome from '@/pages/admin/AdminHome'
+import CompanyAdmin from '@/pages/admin/components/companies/Company'
 
 export default [
   {

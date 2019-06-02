@@ -25,7 +25,6 @@ import List from '@/components/lists/List'
 import Modal from '@/components/dialogs/Modal'
 import Screen from '@/components/dialogs/Screen'
 import SnackBar from '@/components/dialogs/SnackBar'
-import Back from '@/components/app/nav/Back.vue'
 
 // import icons
 import {
@@ -139,7 +138,6 @@ Vue.component('List', List)
 Vue.component('Modal', Modal)
 Vue.component('Screen', Screen)
 Vue.component('SnackBar', SnackBar)
-Vue.component('Back', Back)
 Vue.component('icon', FontAwesomeIcon)
 
 // Vue cookies
