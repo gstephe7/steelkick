@@ -56,6 +56,7 @@ export default {
     transition: 250ms all;
     font-family: 'Roboto', sans-serif;
     outline: none;
+    transform: scale(1);
     z-index: 1;
   }
 
@@ -74,8 +75,7 @@ export default {
 
   button.hide {
     visibility: hidden;
-    height: 0;
-    width: 0;
+    transform: scale(0);
     opacity: 0;
   }
 </style>

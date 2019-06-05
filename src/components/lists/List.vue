@@ -2,17 +2,19 @@
   <div class="list">
 
     <!-- List Header -->
-    <div class="list-header">
-      <div v-if="$slots.header">
-        <slot name="header"></slot>
-      </div>
+    <div v-if="showSearch"
+         class="list-header"
+         :class="{ showSearch : showSearch }">
+      <SearchHeader @close="showSearch = false"
+                    @input="searching">
+      </SearchHeader>
     </div>
 
     <!-- List Actions -->
     <span class="list-actions">
-      <span v-if="$slots.header" class="action">
-        <Button text>
-          <icon icon="search"></icon>
+      <span v-if="search" class="action">
+        <Button text @click="showSearch = true">
+          <icon icon="search" class="action"></icon>
         </Button>
       </span>
       <span v-if="$slots.asideContent" class="action mobile">
@@ -77,9 +79,18 @@
 
 <script>
 export default {
+  props: {
+    search: Boolean
+  },
   data () {
     return {
-      showSheet: false
+      showSheet: false,
+      showSearch: false
+    }
+  },
+  methods: {
+    searching (payload) {
+      this.$emit('searching', payload)
     }
   }
 }
@@ -91,14 +102,6 @@ export default {
   .list {
     @include row;
     position: relative;
-  }
-
-  .list-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 56px;
   }
 
   .list-actions {
@@ -147,6 +150,7 @@ export default {
   }
 
   .aside {
+    z-index: 3;
     @media screen and (max-width: 999px) {
       visibility: hidden;
       position: fixed;

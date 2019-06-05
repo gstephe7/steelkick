@@ -26,6 +26,7 @@ import Item from '@/components/lists/Item'
 import List from '@/components/lists/List'
 import Modal from '@/components/dialogs/Modal'
 import Screen from '@/components/dialogs/Screen'
+import SearchHeader from '@/components/forms/SearchHeader'
 import SnackBar from '@/components/dialogs/SnackBar'
 
 // import icons
@@ -143,6 +144,7 @@ Vue.component('Item', Item)
 Vue.component('List', List)
 Vue.component('Modal', Modal)
 Vue.component('Screen', Screen)
+Vue.component('SearchHeader', SearchHeader)
 Vue.component('SnackBar', SnackBar)
 Vue.component('icon', FontAwesomeIcon)
 

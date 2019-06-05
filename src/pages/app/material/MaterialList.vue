@@ -1,6 +1,6 @@
 <template>
   <div>
-    <List>
+    <List search @searching="searching">
 
       <!-- Main List -->
       <template #fab>
@@ -11,7 +11,7 @@
 
       <template #content>
         <div v-if="material.length > 0">
-          <div v-for="material in filtered"
+          <div v-for="material in searched"
                :key="material._id">
             <MaterialItem :material="material">
             </MaterialItem>
@@ -61,15 +61,37 @@ export default {
   data () {
     return {
       filter: {},
+      search: '',
       showMaterialCreateScreen: false
     }
   },
   computed: {
     filtered () {
       return this.material.filter(this.filterItems)
+    },
+    searched () {
+      if (this.search) {
+        return this.filtered.filter(this.searchItems)
+      } else {
+        return this.filtered
+      }
     }
   },
   methods: {
+    searching (payload) {
+      this.search = payload
+    },
+    searchItems (item) {
+      let itemMaterial = `${item.shape}${item.dimension}`
+      let searchString = this.search.replace(' ', '').trim()
+      let itemMatch = itemMaterial.match(new RegExp(searchString, 'i'))
+
+      if (itemMatch) {
+        return true
+      } else {
+        return false
+      }
+    },
     filterItems (item) {
       let _ = this.filter
       if (_.shape && _.shape != item.shape) {
