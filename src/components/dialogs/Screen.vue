@@ -66,12 +66,15 @@ export default {
     .screen-actions {
       @include grow;
       @include last;
-      padding-right: 16px;
+      @media screen and (min-width: 1000px) {
+        padding-right: 16px;
+      }
     }
   }
 
   .screen-content {
-    padding: 24px 0;
+    padding: 16px 0;
+    z-index: 20;
   }
 
   .expand-enter, .expand-leave-to {

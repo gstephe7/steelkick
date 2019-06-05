@@ -29,7 +29,6 @@ import NewUser from '@/pages/app/users/NewUser'
 import NewUserConfirmation from '@/pages/app/users/NewUserConfirmation'
 
 // inventory
-import AddMaterial from '@/pages/app/material/AddMaterial'
 import Inventory from '@/pages/app/material/Inventory'
 
 // marketplace routes
@@ -186,17 +185,6 @@ export default [
       parent: {
         path: '/users',
         name: 'Users'
-      }
-    }
-  },
-  {
-    path: '/add-material',
-    name: 'Add Material',
-    component: AddMaterial,
-    meta: {
-      parent: {
-        path: '/inventory',
-        name: 'Inventory'
       }
     }
   },

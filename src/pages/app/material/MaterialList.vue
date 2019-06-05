@@ -1,57 +1,67 @@
 <template>
-  <List>
+  <div>
+    <List>
 
-    <!-- Main List -->
-    <template #actions>
-      <Button @click="$router.push('/add-material')" create>
-        + Add New Material
-      </Button>
-    </template>
+      <!-- Main List -->
+      <template #fab>
+        <ButtonFab @click="showMaterialCreateScreen = true">
+          +
+        </ButtonFab>
+      </template>
 
-    <template #content>
-      <div v-if="material.length > 0">
-        <div v-for="material in filtered"
-             :key="material._id">
-          <MaterialItem :material="material">
-          </MaterialItem>
+      <template #content>
+        <div v-if="material.length > 0">
+          <div v-for="material in filtered"
+               :key="material._id">
+            <MaterialItem :material="material">
+            </MaterialItem>
+          </div>
         </div>
-      </div>
-      <div v-else class="col">
-        <br>
-        <h3>No material found</h3>
-      </div>
-    </template>
+        <div v-else class="col">
+          <br>
+          <h3>No material found</h3>
+        </div>
+      </template>
 
-    <!-- Aside Sheet Filter -->
-    <template #asideTitle>
-      Filter
-    </template>
+      <!-- Aside Sheet Filter -->
+      <template #asideTitle>
+        Filter
+      </template>
 
-    <template #asideContent>
-      <MaterialFilter v-model="filter"></MaterialFilter>
-    </template>
+      <template #asideContent>
+        <MaterialFilter v-model="filter"></MaterialFilter>
+      </template>
 
-    <template #asideAction>
-      Filter
-    </template>
+      <template #asideAction>
+        Filter
+      </template>
 
-  </List>
+    </List>
+
+    <div v-if="showMaterialCreateScreen">
+      <MaterialCreateScreen @close="updateMaterial">
+      </MaterialCreateScreen>
+    </div>
+  </div>
+
 </template>
 
 <script>
 import MaterialItem from './MaterialItem'
 import MaterialFilter from './MaterialFilter'
+import MaterialCreateScreen from './MaterialCreateScreen'
 
 export default {
   components: {
     MaterialItem,
-    MaterialFilter
+    MaterialFilter,
+    MaterialCreateScreen
   },
   props: ['material'],
   data () {
     return {
       filter: {},
-      showScreen: false
+      showMaterialCreateScreen: false
     }
   },
   computed: {
@@ -75,6 +85,12 @@ export default {
         return false
       }
       return true
+    },
+    updateMaterial (payload) {
+      if (payload) {
+        this.material.push(payload)
+      }
+      this.showMaterialCreateScreen = false
     }
   }
 }

@@ -30,6 +30,7 @@ export default {
     @include align;
     @include center;
     transition: 500ms all;
+    z-index: 5;
   }
 
   .slide-enter, .slide-leave-to {

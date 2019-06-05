@@ -24,7 +24,7 @@
 
       <!-- Breadcrumbs -->
       <div class="breadcrumbs align">
-        <span v-if="$route.meta.parent">
+        <!-- <span v-if="$route.meta.parent">
           <span @click="navBack"
                 class="breadcrumb click">
             {{ $route.meta.parent.name }}
@@ -33,7 +33,7 @@
                 icon="angle-right"
                 class="breadcrumb">
           </icon>
-        </span>
+        </span> -->
         <span class="breadcrumb">
           {{ $route.name }}
         </span>
@@ -126,7 +126,7 @@ export default {
 
   .breadcrumb {
     padding-right: 8px;
-    font-size: 16px;
+    font-size: 20px;
     color: $accent;
   }
 

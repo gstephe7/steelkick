@@ -11,6 +11,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 // import global components
 import Banner from '@/components/dialogs/Banner'
 import Button from '@/components/forms/Button'
+import ButtonFab from '@/components/forms/ButtonFab'
 import DashboardCard from '@/components/cards/DashboardCard'
 import Card from '@/components/cards/Card'
 import Form from '@/components/forms/Form'
@@ -66,7 +67,8 @@ import {
   faArrowDown,
   faArrowLeft,
   faEye,
-  faEyeSlash
+  faEyeSlash,
+  faFilter
 } from '@fortawesome/free-solid-svg-icons'
 
 import {
@@ -119,12 +121,14 @@ library.add({
   faArrowDown,
   faArrowLeft,
   faEye,
-  faEyeSlash
+  faEyeSlash,
+  faFilter
 })
 
 // register components
 Vue.component('Banner', Banner)
 Vue.component('Button', Button)
+Vue.component('ButtonFab', ButtonFab)
 Vue.component('Card', Card)
 Vue.component('DashboardCard', DashboardCard)
 Vue.component('Form', Form)

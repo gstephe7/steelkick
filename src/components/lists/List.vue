@@ -1,6 +1,27 @@
 <template>
   <div class="list">
 
+    <!-- List Header -->
+    <div class="list-header">
+      <div v-if="$slots.header">
+        <slot name="header"></slot>
+      </div>
+    </div>
+
+    <!-- List Actions -->
+    <span class="list-actions">
+      <span v-if="$slots.header" class="action">
+        <Button text>
+          <icon icon="search"></icon>
+        </Button>
+      </span>
+      <span v-if="$slots.asideContent" class="action mobile">
+        <Button text @click="showSheet = !showSheet">
+          <icon icon="filter" class="action"></icon>
+        </Button>
+      </span>
+    </span>
+
     <!-- Main Content in List -->
     <div class="list-main">
 
@@ -8,17 +29,10 @@
         <slot name="title"></slot>
       </div>
 
-      <div v-if="$slots.actions" class="actions">
-        <slot name="actions"></slot>
-      </div>
-
-      <div v-if="$slots.asideContent" class="mobile">
-        <div class="last">
-          <Button text @click="showSheet = true">
-            Show Filter &nbsp;
-            <icon icon="angle-right"></icon>
-          </Button>
-        </div>
+      <div v-if="$slots.fab">
+        <span class="fab">
+          <slot name="fab"></slot>
+        </span>
       </div>
 
       <div class="content">
@@ -50,7 +64,7 @@
         </div>
 
         <div class="col">
-          <Button @click="showSheet = false" text>
+          <Button @click="showSheet = false" outline>
             <slot name="asideAction"></slot>
           </Button>
         </div>
@@ -79,19 +93,49 @@ export default {
     position: relative;
   }
 
+  .list-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 56px;
+  }
+
+  .list-actions {
+    height: 56px;
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 12;
+    @include align;
+    @media screen and (min-width: 1000px) {
+      padding-right: 16px;
+    }
+  }
+
+  .action {
+    color: $accent;
+    font-size: 18px;
+  }
+
   .list-main {
     @include grow;
     max-width: 600px;
     margin: 0 auto;
   }
 
-  .actions {
-    @include around;
-    @include wrap;
-  }
-
   .toggle-filter {
     text-align: right;
+  }
+
+  .fab {
+    position: fixed;
+    z-index: 2;
+    right: 16px;
+    bottom: 16px;
+    @media screen and (min-width: 1000px) {
+      right: 305px;
+    }
   }
 
   .list-title {
@@ -123,6 +167,7 @@ export default {
     background-color: #fff;
     width: 288px;
     height: 100%;
+    transition: 250ms all;
     @media screen and (max-width: 999px) {
       box-shadow: $box-shadow-light;
       position: fixed;
@@ -130,14 +175,6 @@ export default {
       top: 0;
       right: 0;
       transform: translateX(300px);
-    }
-  }
-
-  .show {
-    @media screen and (max-width: 999px) {
-      visibility: visible;
-      transform: translateX(0px);
-      transition: 250ms all;
     }
   }
 
@@ -160,5 +197,13 @@ export default {
 
   .sheet-content {
     padding: 0 16px;
+  }
+
+  .show {
+    @media screen and (max-width: 999px) {
+      visibility: visible;
+      transform: translateX(0px);
+      transition: 250ms all;
+    }
   }
 </style>

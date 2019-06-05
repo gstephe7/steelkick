@@ -1,10 +1,6 @@
 <template>
   <Form @submitForm="submit">
 
-    <template v-slot:title>
-      <span v-if="!edit">Add New Material</span>
-    </template>
-
     <template v-slot:content>
 
       <div>
@@ -137,10 +133,6 @@
 
       </div>
 
-    </template>
-
-    <template v-slot:action>
-      <span v-if="!edit">Add Material</span>
     </template>
 
     <template v-slot:errors>
@@ -333,6 +325,7 @@ export default {
             material: this.material
           })
           .then(res => {
+            this.$emit('close', res.data.material)
             this.$store.dispatch('complete')
             this.$store.dispatch('action', {
               material: res.data.material._id,
@@ -340,7 +333,6 @@ export default {
               description: 'to the inventory',
               quantity: res.data.material.quantity
             })
-            this.$router.push('/inventory')
             this.$store.dispatch('snackbar', 'New material added!')
           })
           .catch(() => {
