@@ -61,8 +61,13 @@ export default {
   }
 
   button.extended {
+    position: fixed;
+    bottom: 16px;
     height: 48px;
     width: 140px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
     padding: 0 16px;
     border-radius: 32px;
     font-size: 16px;

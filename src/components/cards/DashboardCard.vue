@@ -1,5 +1,5 @@
 <template>
-  <div class="dashboard-card click" @click="$router.push(route)">
+  <div class="dashboard-card click" @click="goTo">
 
     <!-- Thumbnail -->
     <div class="card-thumbnail">
@@ -21,7 +21,16 @@
 
 <script>
 export default {
-  props: ['route']
+  props: ['route'],
+  methods: {
+    goTo () {
+      if (this.route) {
+        this.$router.push(this.route)
+      } else {
+        this.$emit('click')
+      }
+    }
+  }
 }
 </script>
 

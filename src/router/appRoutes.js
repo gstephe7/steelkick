@@ -45,8 +45,6 @@ import EditCompany from '@/pages/app/marketplace/editProfile/EditProfile'
 
 // company settings
 import Settings from '@/pages/app/settings/Settings'
-import Workflow from '@/pages/app/settings/workflow/Workflow'
-import EditProfile from '@/pages/app/settings/profile/EditProfile'
 
 
 
@@ -278,28 +276,6 @@ export default [
       parent: {
         path: '/dashboard',
         name: 'Dashboard'
-      }
-    }
-  },
-  {
-    path: '/workflow',
-    name: 'Configure Workflow',
-    component: Workflow,
-    meta: {
-      parent: {
-        path: '/settings',
-        name: 'Settings'
-      }
-    }
-  },
-  {
-    path: '/edit-profile',
-    name: 'Edit Profile',
-    component: EditProfile,
-    meta: {
-      parent: {
-        path: '/settings',
-        name: 'Settings'
       }
     }
   }

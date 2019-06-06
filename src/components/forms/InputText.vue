@@ -17,8 +17,8 @@
       :type="getType"
       :value="value"
       @input="$emit('input', $event.target.value)"
-      @focus="targeted = true"
-      @blur="targeted = value"
+      @focus="target = true"
+      @blur="target = false"
       :class="{ autotab : auto }"
     >
 
@@ -36,11 +36,18 @@ export default {
   },
   data () {
     return {
-      targeted: this.value,
+      target: false,
       hidePassword: false
     }
   },
   computed: {
+    targeted () {
+      if (this.value || this.target) {
+        return true
+      } else {
+        return false
+      }
+    },
     classList () {
       let classes = []
 

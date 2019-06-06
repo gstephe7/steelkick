@@ -32,7 +32,7 @@ export default {
 
   .overlay {
     position: fixed;
-    overflow-y: auto;
+    overflow-y: scroll;
     top: 0;
     left: 0;
     width: 100vw;
@@ -60,15 +60,13 @@ export default {
 
     .screen-title {
       font-weight: bold;
+      font-size: 18px;
       padding-left: 16px;
     }
 
     .screen-actions {
       @include grow;
       @include last;
-      @media screen and (min-width: 1000px) {
-        padding-right: 16px;
-      }
     }
   }
 

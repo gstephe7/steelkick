@@ -2,7 +2,7 @@
   <Screen @close="$emit('close')">
 
     <template #title>
-      Material History
+      Material Log
     </template>
 
     <template #content>

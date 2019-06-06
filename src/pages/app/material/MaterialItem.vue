@@ -60,7 +60,7 @@
             EDIT MATERIAL
           </Button>
           <Button text @click="showHistoryScreen = true">
-            MATERIAL HISTORY
+            MATERIAL LOG
           </Button>
         </div>
       </template>

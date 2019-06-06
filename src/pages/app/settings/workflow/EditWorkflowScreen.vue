@@ -1,97 +1,86 @@
 <template>
-  <div class="main">
+  <Screen @close="$emit('close')">
 
+    <template #title>
+      Configure Workflow
+    </template>
 
+    <template #actions>
+      <Button text @click="submit">
+        SAVE
+      </Button>
+    </template>
 
-    <!-- Title -->
-    <div class="article">
-      <h1>
-        Company Workflow
-      </h1>
-      <p>
-        Your company's workflow determines each step in the steel fabrication process. SteelKick allows you to customize your company's workflow and decide when parts will be "checked off" in the app - this allows you to keep track of the progress of each part and the overall progress of each job.
-      </p>
-    </div>
+    <template #content>
 
+      <!-- List -->
+      <List>
 
+        <template #fab>
+          <ButtonFab extended @click="showModal = true">
+            + ADD STEP
+          </ButtonFab>
+        </template>
 
-    <!-- List -->
-    <List class="div">
+        <template #content>
 
-      <template v-slot:title>
-        Company Workflow
-      </template>
+          <div v-if="workflow.length > 0">
+            <Item v-for="(item, index) in workflow" :key="item.description">
 
-      <template v-slot:actions>
-        <Button @click="showModal = true">
-          + Add a Step
-        </Button>
-      </template>
+              <template v-slot:thumbnail>
+                <img :src="require(`@/assets/img/actions/${item.description}.png`)" :alt="item.action">
+              </template>
 
-      <template v-slot:content>
+              <template v-slot:title>
+                <div>
+                  <span>{{ item.action }}</span>
+                </div>
+                <div>
+                  <icon class="small click blue" icon="arrow-up" @click="moveAction(index, -1, item)">
+                  </icon>
+                  <icon class="small click blue" icon="arrow-down" @click="moveAction(index, +1, item)">
+                  </icon>
+                  <icon class="small click red" icon="times" @click="removeItem(index)">
+                  </icon>
+                </div>
+              </template>
 
-        <div v-if="workflow.length > 0">
-          <Item v-for="(item, index) in workflow" :key="item.description">
+              <template v-slot:metadata>
+                {{ index + 1 }}
+              </template>
 
-            <template v-slot:thumbnail>
-              <img :src="require(`@/assets/img/actions/${item.description}.png`)" :alt="item.action">
-            </template>
+            </Item>
+          </div>
 
-            <template v-slot:title>
-              <div>
-                <span>{{ item.action }}</span>
-              </div>
-              <div>
-                <icon class="small click blue" icon="arrow-up" @click="moveAction(index, -1, item)">
-                </icon>
-                <icon class="small click blue" icon="arrow-down" @click="moveAction(index, +1, item)">
-                </icon>
-                <icon class="small click red" icon="times" @click="removeItem(index)">
-                </icon>
-              </div>
-            </template>
+          <div v-else>
+            <p col>Add a workflow step to begin tracking job and part progress</p>
+          </div>
 
-            <template v-slot:metadata>
-              {{ index + 1 }}
-            </template>
+        </template>
+      </List>
 
-          </Item>
-        </div>
+      <!-- Modal -->
+      <Modal v-if="showModal" @close="showModal = false">
+        <template v-slot:title>
+          Select a New Action
+        </template>
+        <template v-slot:content>
+          <div v-for="item in remainingActions" :key="item.description" @click="addAction(item)">
+            <Item class="click">
+              <template v-slot:thumbnail>
+                <img :src="require(`@/assets/img/actions/${item.description}.png`)" :alt="item.action">
+              </template>
+              <template v-slot:title>
+                {{ item.action }}
+              </template>
+            </Item>
+          </div>
+        </template>
+      </Modal>
 
-        <div v-else>
-          <p col>Add a workflow step to begin tracking job and part progress</p>
-        </div>
+    </template>
 
-      </template>
-    </List>
-
-
-
-    <!-- Modal -->
-    <Modal v-if="showModal" @close="showModal = false">
-      <template v-slot:title>
-        Select a New Action
-      </template>
-      <template v-slot:content>
-        <div v-for="item in remainingActions" :key="item.description" @click="addAction(item)">
-          <Item class="click">
-            <template v-slot:thumbnail>
-              <img :src="require(`@/assets/img/actions/${item.description}.png`)" :alt="item.action">
-            </template>
-            <template v-slot:title>
-              {{ item.action }}
-            </template>
-          </Item>
-        </div>
-      </template>
-    </Modal>
-
-
-
-    <!-- Save Changes -->
-    <Banner v-if="changed" @save="submit"></Banner>
-
-  </div>
+  </Screen>
 </template>
 
 <script>
@@ -209,6 +198,7 @@ export default {
       })
       .then(() => {
         this.$store.dispatch('complete')
+        this.$emit('close')
         this.$router.push('/settings')
         this.$store.dispatch('snackbar', 'Successfully updated your workflow!')
       })
