@@ -294,8 +294,11 @@ export default {
 <style lang="scss" scoped>
   @import '@/assets/scss/variables.scss';
 
+  form {
+    width: 100%;
+  }
+
   a {
     color: $accent;
-    margin-top: 16px;
   }
 </style>

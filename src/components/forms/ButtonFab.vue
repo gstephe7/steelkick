@@ -23,7 +23,7 @@ export default {
     window.onscroll = () => {
       setInterval(() => {
         let currentScroll = window.pageYOffset
-        if (window.scrollY > 250) {
+        if (currentScroll > 250) {
           if (currentScroll < prevScroll - 50) {
             this.toggleHide = false
           } else if (currentScroll > prevScroll + 25) {

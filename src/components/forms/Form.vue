@@ -25,10 +25,15 @@
 
 <script>
 export default {
+  props: {
+    viewFirst: Boolean
+  },
   mounted () {
-    let inputs = document.querySelectorAll('.input')
-    inputs[0].focus()
-    inputs[0].click()
+    if (!this.viewFirst) {
+      let inputs = document.querySelectorAll('.input')
+      inputs[0].focus()
+      inputs[0].click()
+    }
   }
 }
 </script>
@@ -45,6 +50,7 @@ export default {
   .content {
     @include wrap;
     @include center;
+    width: 100%;
   }
 
   .form-title {

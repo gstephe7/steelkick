@@ -3,15 +3,15 @@
         :class="classList">
 
     <label class="label"
-           :class="{ move : valueSelected }">
+           :class="{ move : targeted }">
       <slot name="label"></slot>
     </label>
 
     <select class="input"
             :value="value"
             @input="$emit('input', $event.target.value)"
-            @focus="targeted = true"
-            @blur="targeted = value"
+            @focus="target = true"
+            @blur="target = false"
             :class="{ autotab : auto, error : highlight }">
       <option :value="undefined" disabled selected></option>
       <slot name="options"></slot>
@@ -31,12 +31,16 @@ export default {
   },
   data () {
     return {
-      targeted: this.value
+      target: false
     }
   },
   computed: {
-    valueSelected () {
-      return this.value
+    targeted () {
+      if (this.value || this.target) {
+        return true
+      } else {
+        return false
+      }
     },
     classList () {
       let classes = []

@@ -123,6 +123,7 @@ export default {
 
   .list-main {
     @include grow;
+    width: 100%;
     max-width: 600px;
     margin: 0 auto;
   }

@@ -54,13 +54,19 @@ export default {
     let prevScroll = window.pageYOffset
 
     window.onscroll = () => {
-      let currentScroll = window.pageYOffset
-      if (prevScroll > currentScroll) {
-        header.style.top = '0'
-      } else {
-        header.style.top = '-80px'
-      }
-      prevScroll = currentScroll
+      setTimeout(() => {
+        let currentScroll = window.pageYOffset
+        if (currentScroll > 100) {
+          if (currentScroll < prevScroll - 50) {
+            header.style.top = '0'
+          } else if (currentScroll > prevScroll + 25) {
+            header.style.top = '-80px'
+          }
+        } else {
+          header.style.top = '0'
+        }
+        prevScroll = currentScroll
+      }, 500)
     }
   }
 }

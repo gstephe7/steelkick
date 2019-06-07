@@ -70,6 +70,7 @@ export default {
   }
 
   .card-content {
+    width: 100%;
     font-size: 12px;
     @media screen and (min-width: 1000px) {
       font-size: 14px;

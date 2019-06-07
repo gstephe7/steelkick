@@ -1,21 +1,25 @@
 <template>
   <transition appear name="expand">
-    <div id="screen" class="overlay">
+    <div class="overlay">
 
-      <div class="screen-header">
-        <Button text @click="$emit('close')">
-          <icon class="icon" icon="times"></icon>
-        </Button>
-        <div class="screen-title">
-          <slot name="title"></slot>
-        </div>
-        <div class="screen-actions">
-          <slot name="actions"></slot>
-        </div>
-      </div>
+      <div id="screen">
 
-      <div class="screen-content">
-        <slot name="content"></slot>
+        <div class="screen-header">
+          <Button text @click="$emit('close')">
+            <icon class="icon" icon="times"></icon>
+          </Button>
+          <div class="screen-title">
+            <slot name="title"></slot>
+          </div>
+          <div class="screen-actions">
+            <slot name="actions"></slot>
+          </div>
+        </div>
+
+        <div class="screen-content">
+          <slot name="content"></slot>
+        </div>
+
       </div>
 
     </div>
@@ -24,6 +28,12 @@
 
 <script>
 export default {
+  mounted () {
+    document.body.style.overflowY = 'hidden'
+  },
+  destroyed () {
+    document.body.style.overflowY = 'auto'
+  }
 }
 </script>
 
@@ -32,16 +42,22 @@ export default {
 
   .overlay {
     position: fixed;
-    overflow-y: scroll;
     top: 0;
     left: 0;
-    width: 100vw;
+    width: 100%;
     height: 100%;
+    overflow-y: hidden;
     background-color: #fff;
     z-index: 19;
     transform: translateY(0);
     opacity: 1;
     transition: 250ms all ease;
+  }
+
+  #screen {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
   }
 
   .screen-header {
@@ -71,7 +87,7 @@ export default {
   }
 
   .screen-content {
-    padding: 16px 0;
+    padding: 16px 0 160px;
     z-index: 20;
   }
 

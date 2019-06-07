@@ -1,7 +1,7 @@
 <template>
   <div>
     <QuickSearch></QuickSearch>
-    <div around wrap>
+    <div class="around wrap">
       <section>
         <SellPreview></SellPreview>
       </section>
@@ -9,10 +9,12 @@
         <BuyPreview></BuyPreview>
       </section>
     </div>
-    <div class="container col">
+    <div class="around">
       <section>
-        <h2>Create Your Free Account</h2>
-        <CreateAccount></CreateAccount>
+        <div class="container col">
+          <h2>Create Your Free Account</h2>
+          <CreateAccount></CreateAccount>
+        </div>
       </section>
     </div>
     <div class="spacer">

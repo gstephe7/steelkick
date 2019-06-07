@@ -1,29 +1,41 @@
 <template>
-  <div main col>
+  <div class="main col center">
 
     <h1>Sign In</h1>
 
-    <form col @submit.prevent="submit">
+    <Form @submitForm="submit">
 
-      <input big v-model="email" placeholder="Email" :highlight="errors.email">
+      <template #content>
+        <div class="col">
+          <InputText big v-model="email" :highlight="errors.email">
+            Email
+          </InputText>
 
-      <input big type="password" v-model="password" placeholder="Password" :highlight="errors.password">
+          <InputText big type="password" v-model="password" :highlight="errors.password">
+            Password
+          </InputText>
+        </div>
+      </template>
 
-      <button>Sign In</button>
+      <template #action>
+        Sign In
+      </template>
 
-      <div errors>
-        <p v-if="errors.email">Please enter your email</p>
-        <p v-if="errors.password">Please enter your password</p>
-        <p v-if="errors.server">{{ errors.server }}</p>
-      </div>
+      <template #errors>
+        <div errors>
+          <p v-if="errors.email">Please enter your email</p>
+          <p v-if="errors.password">Please enter your password</p>
+          <p v-if="errors.server">{{ errors.server }}</p>
+        </div>
+      </template>
 
-      <router-link :to="{ name: 'PasswordRecovery' }">
-        Forgot your password?
-      </router-link>
+    </Form>
 
-      <router-link :to="{ name: 'CreateAccount' }">Create an account</router-link>
+    <router-link :to="{ name: 'PasswordRecovery' }">
+      Forgot your password?
+    </router-link>
 
-    </form>
+    <router-link :to="{ name: 'CreateAccount' }">Create an account</router-link>
 
   </div>
 </template>
