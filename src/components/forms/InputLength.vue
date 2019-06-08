@@ -8,7 +8,7 @@
     </label>
 
     <span class="length-span" :class="{ error : highlight }">
-      <input class="length autotab"
+      <input class="length"
              type="number"
              ref="feet"
              placeholder="11"
@@ -18,7 +18,7 @@
              @focus="focused = true"
              @blur="focused = false">'
 
-      <input class="length autotab"
+      <input class="length"
              type="number"
              placeholder="9"
              maxlength="2"
@@ -27,7 +27,7 @@
              @focus="focused = true"
              @blur="focused = false">"
 
-      <input class="length autotab"
+      <input class="length"
              type="number"
              maxlength="2"
              v-model.number="numerator"
@@ -35,7 +35,7 @@
              @focus="focused = true"
              @blur="focused = false"> /
 
-      <input class="length denominator autotab"
+      <input class="length denominator"
              type="number"
              maxlength="2"
              v-model.number="denominator"

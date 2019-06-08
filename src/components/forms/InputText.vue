@@ -19,7 +19,6 @@
       @input="$emit('input', $event.target.value)"
       @focus="target = true"
       @blur="target = false"
-      :class="{ autotab : auto }"
     >
 
   </span>
@@ -31,8 +30,7 @@ export default {
     value: [String, Number],
     big: Boolean,
     small: Boolean,
-    type: String,
-    auto: Boolean
+    type: String
   },
   data () {
     return {

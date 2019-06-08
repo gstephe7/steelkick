@@ -10,7 +10,7 @@
       </template>
 
       <template #content>
-        <div v-if="material.length > 0">
+        <div v-if="searched.length > 0">
           <div v-for="material in searched"
                :key="material._id">
             <MaterialItem :material="material">

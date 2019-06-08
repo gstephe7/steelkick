@@ -17,7 +17,6 @@ export default {
     }
   },
   mounted () {
-    const fab = document.getElementById('fab')
     let prevScroll = window.pageYOffset
 
     window.onscroll = () => {
@@ -45,6 +44,7 @@ export default {
   button {
     height: 56px;
     width: 56px;
+    padding: 0;
     opacity: 1;
     font-size: 28px;
     background-color: $success;

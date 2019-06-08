@@ -12,31 +12,6 @@ export default {
   components: {
     Loading
   },
-  methods: {
-    // handles autotab on forms. Use class "autotab" to make an input element autotab on change or when maxlength is met
-    autotab () {
-      let fields = document.querySelectorAll('.autotab')
-
-      Array.prototype.forEach.call(fields, (item, index) => {
-        if (item.tagName == 'INPUT') {
-          item.addEventListener('input', () => {
-            let maxLength = item.getAttribute('maxlength')
-            if (item.value.length == maxLength) {
-              let next = index + 1
-              fields[next].focus()
-              fields[next].click()
-            }
-          })
-        } else if (item.tagName == 'SELECT') {
-          item.addEventListener('change', () => {
-            let next = index + 1
-            fields[next].focus()
-            fields[next].click()
-          })
-        }
-      })
-    },
-  },
   beforeCreate () {
     if (this.$store.getters.loggedIn == false) {
       const token = this.$cookies.get('sk-user')
@@ -49,12 +24,6 @@ export default {
         this.$store.dispatch('logout')
       }
     }
-  },
-  mounted () {
-    this.autotab()
-  },
-  updated () {
-    this.autotab()
   }
 }
 </script>

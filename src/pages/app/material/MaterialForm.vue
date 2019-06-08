@@ -9,7 +9,6 @@
           <!-- Shape -->
           <InputSelect v-model="material.shape"
                        @input="autoSetGrade"
-                       auto
                        :highlight="errors.shape">
             <template v-slot:label>
               Shape
@@ -23,7 +22,6 @@
 
           <!-- Dimension -->
           <InputSelect v-model="material.dimension"
-                       auto
                        :highlight="errors.dimension">
             <template v-slot:label>
               Dimension
@@ -44,27 +42,26 @@
 
           <!-- Quantity -->
           <InputText v-model="material.quantity"
-                     type="number"
-                     auto>
+                     type="number">
             Quantity
           </InputText>
         </div>
 
         <div class="center">
           <!-- Primed -->
-          <InputCheckBox v-model="material.primed" auto>
+          <InputCheckBox v-model="material.primed">
             Primed
           </InputCheckBox>
 
           <!-- Galvanized -->
-          <InputCheckBox v-model="material.galvanized" auto>
+          <InputCheckBox v-model="material.galvanized">
             Galvanized
           </InputCheckBox>
         </div>
 
         <div class="center">
           <!-- Location -->
-          <InputTextArea v-model="material.location" auto>
+          <InputTextArea v-model="material.location">
             Location
           </InputTextArea>
         </div>
@@ -75,12 +72,12 @@
 
         <div class="center">
           <!-- Origin -->
-          <InputCheckBox v-model="material.domestic" auto>
+          <InputCheckBox v-model="material.domestic">
             Domestic
           </InputCheckBox>
 
           <!-- Condition -->
-          <InputSelect v-model="material.condition" auto>
+          <InputSelect v-model="material.condition">
             <template v-slot:label>
               Condition
             </template>
@@ -95,7 +92,7 @@
 
         <div class="center">
           <!-- Grade -->
-          <InputSelect v-model="material.grade" auto>
+          <InputSelect v-model="material.grade">
             <template v-slot:label>
               Grade
             </template>
@@ -107,26 +104,26 @@
           </InputSelect>
 
           <!-- Heat Number -->
-          <InputText v-model="material.heat" auto>
+          <InputText v-model="material.heat">
             Heat #
           </InputText>
         </div>
 
         <div class="center">
           <!-- For Sale -->
-          <InputCheckBox v-model="material.forSale" auto>
+          <InputCheckBox v-model="material.forSale">
             For Sale
           </InputCheckBox>
 
           <!-- CWT Price -->
-          <InputText v-model="material.cwt" auto>
+          <InputText v-model="material.cwt">
             $CWT Price
           </InputText>
         </div>
 
         <div class="center">
           <!-- Remarks -->
-          <InputTextArea v-model="material.remarks" auto>
+          <InputTextArea v-model="material.remarks">
             Remarks
           </InputTextArea>
         </div>

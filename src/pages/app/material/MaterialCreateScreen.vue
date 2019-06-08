@@ -39,6 +39,10 @@ export default {
       this.material = payload
       this.$emit('close', this.material)
     }
+  },
+  destroyed () {
+    let fab = document.getElementById('fab')
+    fab.focus()
   }
 }
 </script>

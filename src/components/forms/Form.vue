@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="$emit('submitForm')">
+  <form id="form" @submit.prevent="$emit('submitForm')" @keyup.enter="$emit('submitForm')">
 
     <div class="form-title">
       <slot name="title"></slot>
@@ -29,12 +29,47 @@ export default {
     viewFirst: Boolean
   },
   mounted () {
-    if (!this.viewFirst) {
-      setTimeout(() => {
-        let inputs = document.querySelectorAll('.input')
-        inputs[0].focus()
-      }, 500)
-    }
+
+    setTimeout(() => {
+
+      let form = document.getElementById('form')
+
+      let inputs = form.querySelectorAll('input, select, textarea')
+
+      Array.prototype.forEach.call(inputs, (item, index) => {
+
+        if (index == 0 && !this.viewFirst) {
+          if (item.tagName == 'INPUT') {
+            item.focus()
+            item.select()
+          } else {
+            item.focus()
+            item.click()
+          }
+        }
+
+        if (item.tagName == 'INPUT' || item.tagName == 'TEXTAREA') {
+          item.addEventListener('input', () => {
+            let maxLength = item.getAttribute('maxlength')
+            if (item.value.length == maxLength) {
+              let next = index + 1
+              inputs[next].focus()
+              inputs[next].click()
+            }
+          })
+        }
+
+        else if (item.tagName == 'SELECT') {
+          item.addEventListener('change', () => {
+            let next = index + 1
+            inputs[next].focus()
+            inputs[next].click()
+          })
+        }
+      })
+
+    }, 500)
+
   }
 }
 </script>

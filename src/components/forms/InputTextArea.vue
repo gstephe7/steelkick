@@ -8,7 +8,6 @@
 
     <textarea
       class="input"
-      :class="{ autotab : auto }"
       :value="value"
       @input="$emit('input', $event.target.value)"
       @focus="targeted = true"
@@ -20,7 +19,7 @@
 
 <script>
 export default {
-  props: ['value', 'auto'],
+  props: ['value'],
   data () {
     return {
       targeted: this.value

@@ -1,14 +1,17 @@
 <template>
   <span class="input-container" :class="classList">
-    <span class="input-wrapper" :class="{ checked : selected }">
+    <span class="input-wrapper" :class="{ checked : selected, target : target }">
 
       <input type="checkbox"
              :id="id"
              class="input"
              :value="value"
              :checked="value"
+             @focus="target = true"
+             @blur="target = false"
              @change="toggleCheck"
-             :class="{ autotab : auto }">
+             @keyup.right="toggleCheck"
+             @keyup.left="toggleCheck">
 
       <label :for="id" class="label">
         <span class="icon">
@@ -27,12 +30,12 @@
 export default {
   props: {
     value: Boolean,
-    auto: Boolean,
     small: Boolean
   },
   data () {
     return {
-      id: this.$slots.default[0].text
+      id: this.$slots.default[0].text,
+      target: false
     }
   },
   computed: {
@@ -92,7 +95,7 @@ export default {
     padding: 0;
     height: 0;
     width: 0;
-    display: none;
+    opacity: 0;
   }
 
   .label {
@@ -137,5 +140,9 @@ export default {
 
   .small {
     width: 120px;
+  }
+
+  .target {
+    border: 2px solid $secondary;
   }
 </style>

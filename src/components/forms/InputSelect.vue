@@ -12,7 +12,7 @@
             @change="$emit('input', $event.target.value)"
             @focus="target = true"
             @blur="target = false"
-            :class="{ autotab : auto, error : highlight }">
+            :class="{ error : highlight }">
       <option :value="undefined" selected></option>
       <slot name="options"></slot>
     </select>
@@ -26,7 +26,6 @@ export default {
     value: [String, Number],
     big: Boolean,
     small: Boolean,
-    auto: Boolean,
     highlight: Boolean
   },
   data () {
