@@ -7,7 +7,7 @@
              class="input"
              :value="value"
              :checked="value"
-             @input="toggleCheck"
+             @change="toggleCheck"
              :class="{ autotab : auto }">
 
       <label :for="id" class="label">
@@ -92,6 +92,7 @@ export default {
     padding: 0;
     height: 0;
     width: 0;
+    display: none;
   }
 
   .label {

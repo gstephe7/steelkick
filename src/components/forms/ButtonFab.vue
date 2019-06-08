@@ -55,6 +55,7 @@ export default {
     cursor: pointer;
     transition: 250ms all;
     font-family: 'Roboto', sans-serif;
+    text-align: center;
     outline: none;
     transform: scale(1);
     z-index: 1;

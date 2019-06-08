@@ -30,9 +30,10 @@ export default {
   },
   mounted () {
     if (!this.viewFirst) {
-      let inputs = document.querySelectorAll('.input')
-      inputs[0].focus()
-      inputs[0].click()
+      setTimeout(() => {
+        let inputs = document.querySelectorAll('.input')
+        inputs[0].focus()
+      }, 500)
     }
   }
 }

@@ -1,5 +1,5 @@
 <template>
-  <Form @submit="editUser"viewFirst>
+  <Form @submit="editUser" viewFirst>
 
     <template v-slot:content>
       <div class="col">

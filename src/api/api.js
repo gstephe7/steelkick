@@ -4,7 +4,11 @@ import store from '../store'
 export default {
 
   // variables
-  axios: axios,
+  axios: axios.create({
+    headers: {
+      Pragma: 'no-cache'
+    }
+  }),
   baseUrl: 'http://localhost:8080',
 
 
@@ -16,7 +20,7 @@ export default {
       store.dispatch('loading')
     }
 
-    axios.get(`${this.baseUrl}${endpoint}`, {
+    this.axios.get(`${this.baseUrl}${endpoint}`, {
       params: data
     })
     .then(res => {
@@ -42,7 +46,7 @@ export default {
       store.dispatch('loading')
     }
 
-    axios.post(`${this.baseUrl}${endpoint}`, data)
+    this.axios.post(`${this.baseUrl}${endpoint}`, data)
     .then(res => {
       if (load == 'load') {
         store.dispatch('complete')
@@ -62,7 +66,7 @@ export default {
 
   delete (endpoint, data, callback) {
 
-    axios.delete(`${this.baseUrl}${endpoint}`, {
+    this.axios.delete(`${this.baseUrl}${endpoint}`, {
       params: data
     })
     .then(res => {

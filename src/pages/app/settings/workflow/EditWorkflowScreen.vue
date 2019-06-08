@@ -89,7 +89,6 @@ import api from '@/api/api'
 export default {
   data () {
     return {
-      original: [],
       workflow: [],
       actions: [
         { action: 'Ordering', description: 'Ordered' },
@@ -111,21 +110,6 @@ export default {
     }
   },
   computed: {
-    changed () {
-      let changes = false
-
-      if (this.workflow.length != this.original.length) {
-        changes = true
-      } else {
-        this.workflow.forEach((item, index) => {
-          if (item.description != this.original[index].description) {
-            changes = true
-          }
-        })
-      }
-
-      return changes
-    },
     remainingActions () {
       let actions = []
 
@@ -144,7 +128,7 @@ export default {
       return actions
     }
   },
-  beforeCreate () {
+  created () {
     this.$store.dispatch('loading')
     api.axios.get(`${api.baseUrl}/users/workflow`, {
       params: {
@@ -155,7 +139,6 @@ export default {
       this.$store.dispatch('complete')
       res.data.workflow.forEach(item => {
         this.workflow.push(item)
-        this.original.push(item)
         this.actions.forEach((action, index) => {
           if (action.action == item.action) {
             this.actions.splice(index, 1)
@@ -193,7 +176,7 @@ export default {
         item.order = index + 1
       })
       api.axios.post(`${api.baseUrl}/users/edit-workflow`, {
-        id: this.$store.getters.companyId,
+        companyId: this.$store.getters.companyId,
         workflow: this.workflow
       })
       .then(() => {

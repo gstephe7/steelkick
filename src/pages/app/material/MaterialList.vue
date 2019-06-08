@@ -83,7 +83,7 @@ export default {
     },
     searchItems (item) {
       let itemMaterial = `${item.shape}${item.dimension}`
-      let searchString = this.search.replace(' ', '').trim()
+      let searchString = this.search.replace(/ /g, '').trim()
       let itemMatch = itemMaterial.match(new RegExp(searchString, 'i'))
 
       if (itemMatch) {

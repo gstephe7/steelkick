@@ -9,11 +9,11 @@
 
     <select class="input"
             :value="value"
-            @input="$emit('input', $event.target.value)"
+            @change="$emit('input', $event.target.value)"
             @focus="target = true"
             @blur="target = false"
             :class="{ autotab : auto, error : highlight }">
-      <option :value="undefined" disabled selected></option>
+      <option :value="undefined" selected></option>
       <slot name="options"></slot>
     </select>
 

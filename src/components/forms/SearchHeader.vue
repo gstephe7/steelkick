@@ -19,7 +19,8 @@
 <script>
 export default {
   mounted () {
-    document.getElementById('search-input').focus()
+    let input = document.getElementById('search-input')
+    input.focus()
   }
 }
 </script>
@@ -46,10 +47,11 @@ export default {
   }
 
   input.input {
+    @include grow;
     margin: 0 0 0 16px;
     outline: none;
     color: $theme;
-    width: 240px;
+    padding-right: 16px;
     height: 32px;
     font-size: 18px;
     border: none;

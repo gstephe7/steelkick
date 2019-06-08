@@ -1,5 +1,5 @@
 <template>
-  <div class="dashboard-card click" @click="goTo">
+  <div class="dashboard-card" @click="goTo">
 
     <!-- Thumbnail -->
     <div class="card-thumbnail">
@@ -44,11 +44,18 @@ export default {
     padding: 8px;
     margin: 8px;
     border-radius: 5px;
+    background-color: #fff;
     box-shadow: $box-shadow-light;
+    transition: 250ms all;
     @media screen and (min-width: 1000px) {
       height: 150px;
       width: 150px;
     }
+  }
+
+  .dashboard-card:hover {
+    background-color: $light;
+    cursor: pointer;
   }
 
   .card-thumbnail {
