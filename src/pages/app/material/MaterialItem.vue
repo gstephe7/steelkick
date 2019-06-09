@@ -73,7 +73,7 @@
     </MaterialUseModal>
 
     <MaterialEditScreen v-if="showEditScreen"
-                        :material="material"
+                        :edit="material"
                         @close="showEditScreen = false">
     </MaterialEditScreen>
 

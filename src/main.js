@@ -33,6 +33,7 @@ import SnackBar from '@/components/dialogs/SnackBar'
 import {
   faBars,
   faTimes,
+  faTimesCircle,
   faEdit,
   faTrashAlt,
   faDollarSign,
@@ -84,6 +85,7 @@ import {
 library.add({
   faBars,
   faTimes,
+  faTimesCircle,
   faEdit,
   faTrashAlt,
   faDollarSign,

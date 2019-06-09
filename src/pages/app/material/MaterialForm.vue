@@ -1,5 +1,5 @@
 <template>
-  <Form @submitForm="submit">
+  <Form @submitForm="submit" ref="form">
 
     <template v-slot:content>
 
@@ -9,7 +9,7 @@
           <!-- Shape -->
           <InputSelect v-model="material.shape"
                        @input="autoSetGrade"
-                       :highlight="errors.shape">
+                       required>
             <template v-slot:label>
               Shape
             </template>
@@ -22,7 +22,7 @@
 
           <!-- Dimension -->
           <InputSelect v-model="material.dimension"
-                       :highlight="errors.dimension">
+                       required>
             <template v-slot:label>
               Dimension
             </template>
@@ -36,12 +36,14 @@
 
         <div class="center">
           <!-- Length -->
-          <InputLength v-model="material.length" :highlight="errors.length" :edit="edit">
+          <InputLength v-model="material.length"
+                       :edit="edit"
+                       required>
             Length
           </InputLength>
 
           <!-- Quantity -->
-          <InputText v-model="material.quantity"
+          <InputText v-model.number="material.quantity"
                      type="number">
             Quantity
           </InputText>
@@ -132,18 +134,6 @@
 
     </template>
 
-    <template v-slot:errors>
-      <span v-if="errors.shape">
-        Please enter a shape
-      </span>
-      <span v-if="errors.dimension">
-        Please enter a dimension
-      </span>
-      <span v-if="errors.length">
-        Please enter a length
-      </span>
-    </template>
-
   </Form>
 </template>
 
@@ -152,19 +142,14 @@ import api from '@/api/api'
 import material from '@/assets/data/material.js'
 
 export default {
-  props: ['edit'],
+  props: {
+    edit: Object
+  },
   data () {
     return {
-      showDeletePopup: false,
       material: {},
-      errors: {
-        shape: false,
-        dimension: false,
-        length: false,
-        addressInvalid: false
-      },
-      verified: false,
-      prices: []
+      prices: [],
+      showDeletePopup: false
     }
   },
   computed: {
@@ -211,53 +196,14 @@ export default {
     }
   },
   methods: {
-    checkAddressValid () {
-      if (this.$store.getters.addressValid) {
-        return
-      } else {
-        this.material.forSale = false
-        this.errors.addressInvalid = true
-      }
-    },
-    editAddress () {
-      this.$router.push({
-        name: 'EditProfile',
-        query: {
-          addressInvalid: true
-        }
-      })
-    },
     checkForm () {
       // set the company for the material
       this.material.company = this.$store.getters.companyId
       this.material.weightPerFoot = this.weightPerFoot
 
-      // form error messages
-      if (!this.material.shape) {
-        this.errors.shape = true
-      } else {
-        this.errors.shape = false
-      }
-
-      if (!this.material.dimension) {
-        this.errors.dimension = true
-      } else {
-        this.errors.dimension = false
-      }
-
-      if (!this.material.length) {
-        this.errors.length = true
-      } else {
-        this.errors.length = false
-      }
-
       // resort to default values
       if (!this.material.quantity) {
         this.material.quantity = 1
-      }
-
-      if (!this.errors.shape && !this.errors.dimension && !this.errors.length) {
-        this.verified = true
       }
     },
     autoSetGrade () {
@@ -292,50 +238,51 @@ export default {
         }
       }
     },
+    submitForm () {
+      this.$refs.form.submit()
+    },
     submit () {
       this.checkForm()
 
-      if (this.verified) {
-        if (this.edit) {
-          this.$store.dispatch('loading')
-          api.axios.put(`${api.baseUrl}/material/edit-material`, {
-            material: this.material
+      if (this.edit) {
+        this.$store.dispatch('loading')
+        api.axios.put(`${api.baseUrl}/material/edit-material`, {
+          material: this.material
+        })
+        .then(() => {
+          this.$emit('close')
+          this.$store.dispatch('complete')
+          this.$store.dispatch('action', {
+            material: this.material._id,
+            action: 'edited',
+            description: 'in the inventory',
+            quantity: this.material.quantity
           })
-          .then(() => {
-            this.$emit('close')
-            this.$store.dispatch('complete')
-            this.$store.dispatch('action', {
-              material: this.material._id,
-              action: 'edited',
-              description: 'in the inventory',
-              quantity: this.material.quantity
-            })
-            this.$store.dispatch('snackbar', 'Successfully updated material!')
-          })
-          .catch(() => {
-            this.$store.dispatch('complete')
-          })
+          this.$store.dispatch('snackbar', 'Successfully updated material!')
+        })
+        .catch(() => {
+          this.$store.dispatch('complete')
+        })
 
-        } else {
-          this.$store.dispatch('loading')
-          api.axios.post(`${api.baseUrl}/material/new-material`, {
-            material: this.material
+      } else {
+        this.$store.dispatch('loading')
+        api.axios.post(`${api.baseUrl}/material/new-material`, {
+          material: this.material
+        })
+        .then(res => {
+          this.$emit('close', res.data.material)
+          this.$store.dispatch('complete')
+          this.$store.dispatch('action', {
+            material: res.data.material._id,
+            action: 'added',
+            description: 'to the inventory',
+            quantity: res.data.material.quantity
           })
-          .then(res => {
-            this.$emit('close', res.data.material)
-            this.$store.dispatch('complete')
-            this.$store.dispatch('action', {
-              material: res.data.material._id,
-              action: 'added',
-              description: 'to the inventory',
-              quantity: res.data.material.quantity
-            })
-            this.$store.dispatch('snackbar', 'New material added!')
-          })
-          .catch(() => {
-            this.$store.dispatch('complete')
-          })
-        }
+          this.$store.dispatch('snackbar', 'New material added!')
+        })
+        .catch(() => {
+          this.$store.dispatch('complete')
+        })
       }
     },
     deletePopup () {

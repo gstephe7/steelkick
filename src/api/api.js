@@ -76,6 +76,58 @@ export default {
       callback(err)
     })
 
+  },
+
+
+
+  request ({type, endpoint, load, data, res, err}) {
+
+    let dataModified = () => {
+      if (type == 'get' || type == 'delete') {
+        return {
+          params: data
+        }
+      } else {
+        return data
+      }
+    }
+
+    let requestSelected = () => {
+      if (type == 'get') {
+        return this.axios.get(`${this.baseUrl}${endpoint}`, dataModified())
+      }
+
+      if (type == 'post') {
+        return this.axios.post(`${this.baseUrl}${endpoint}`, dataModified())
+      }
+
+      if (type == 'put') {
+        return this.axios.put(`${this.baseUrl}${endpoint}`, dataModified())
+      }
+
+      if (type == 'delete') {
+        return this.axios.delete(`${this.baseUrl}${endpoint}`, dataModified())
+      }
+    }
+
+    if (load) {
+      store.dispatch('loading')
+    }
+
+    requestSelected()
+      .then(response => {
+        if (load) {
+          store.dispatch('complete')
+        }
+        res(response)
+      })
+      .catch(error => {
+        if (load) {
+          store.dispatch('complete')
+        }
+        err(error)
+      })
+
   }
 
 }

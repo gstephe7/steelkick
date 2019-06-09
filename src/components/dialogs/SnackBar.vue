@@ -1,7 +1,14 @@
 <template>
   <transition appear name="slide">
     <div class="snackbar">
-      <icon icon="check-circle" class="icon"></icon>
+      <span v-if="$store.getters.snackbarError">
+        <icon icon="times-circle" class="icon-error">
+        </icon>
+      </span>
+      <span v-else>
+        <icon icon="check-circle" class="icon">
+        </icon>
+      </span>
       <span>{{ $store.getters.snackbarMessage }}</span>
     </div>
   </transition>
@@ -41,5 +48,11 @@ export default {
     font-size: 16px;
     margin-right: 15px;
     color: $success;
+  }
+
+  svg.icon-error {
+    font-size: 16px;
+    margin-right: 15px;
+    color: $alert;
   }
 </style>

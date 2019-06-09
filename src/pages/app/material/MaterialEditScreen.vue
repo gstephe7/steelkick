@@ -10,7 +10,7 @@
     </template>
 
     <template #content>
-      <MaterialForm :edit="material"
+      <MaterialForm :edit="edit"
                     ref="materialForm"
                     @close="$emit('close')">
       </MaterialForm>
@@ -27,7 +27,7 @@ export default {
   components: {
     MaterialForm
   },
-  props: ['material'],
+  props: ['edit'],
   data () {
     return {
       save: false

@@ -6,7 +6,7 @@
     </template>
 
     <template #actions>
-      <Button text @click="submit">SAVE</Button>
+      <Button text @click="submitForm">SAVE</Button>
     </template>
 
     <template #content>
@@ -32,8 +32,8 @@ export default {
     }
   },
   methods: {
-    submit () {
-      this.$refs.materialForm.submit()
+    submitForm () {
+      this.$refs.materialForm.submitForm()
     },
     updateMaterial (payload) {
       this.material = payload

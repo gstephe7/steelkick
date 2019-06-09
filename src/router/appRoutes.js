@@ -23,10 +23,6 @@ import Tasks from '@/pages/app/tasks/Tasks'
 
 // users
 import Users from '@/pages/app/users/Users'
-import UserDetails from '@/pages/app/users/UserDetails'
-import UserEdit from '@/pages/app/users/UserEdit'
-import NewUser from '@/pages/app/users/NewUser'
-import NewUserConfirmation from '@/pages/app/users/NewUserConfirmation'
 
 // inventory
 import Inventory from '@/pages/app/material/Inventory'
@@ -176,17 +172,6 @@ export default [
     }
   },
   {
-    path: '/user-details',
-    name: 'User Details',
-    component: UserDetails,
-    meta: {
-      parent: {
-        path: '/users',
-        name: 'Users'
-      }
-    }
-  },
-  {
     path: '/inventory',
     name: 'Inventory',
     component: Inventory,
@@ -232,21 +217,6 @@ export default [
     path: '/set-prices',
     name: 'Set Prices',
     component: SetPrices
-  },
-  {
-    path: '/edit-user',
-    name: 'Edit User',
-    component: UserEdit
-  },
-  {
-    path: '/new-user',
-    name: 'Add New User',
-    component: NewUser
-  },
-  {
-    path: '/new-user-confirmed',
-    name: 'New User Confirmation',
-    component: NewUserConfirmation
   },
   {
     path: '/edit-company',

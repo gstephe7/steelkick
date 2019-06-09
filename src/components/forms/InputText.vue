@@ -30,7 +30,8 @@ export default {
     value: [String, Number],
     big: Boolean,
     small: Boolean,
-    type: String
+    type: String,
+    required: Boolean
   },
   data () {
     return {

@@ -7,7 +7,7 @@
       Length
     </label>
 
-    <span class="length-span" :class="{ error : highlight }">
+    <span class="length-span">
       <input class="length"
              type="number"
              ref="feet"
@@ -51,9 +51,13 @@
 import method from '@/global/methods'
 
 export default {
-  props: ['edit', 'highlight'],
+  props: {
+    edit: Object,
+    required: Boolean
+  },
   data () {
     return {
+      value: null,
       feet: null,
       inches: null,
       numerator: null,
@@ -76,9 +80,10 @@ export default {
       let inches = this.inches || 0
       let fraction = (this.numerator / this.denominator) || 0
 
-      let length = feetToInches + inches + fraction
+      this.value = feetToInches + inches + fraction
 
-      this.$emit('input', length)
+      console.log(this.value)
+      this.$emit('input', this.value)
     },
     initFocus () {
       this.$refs.feet.focus()
@@ -90,6 +95,12 @@ export default {
       this.inches = method.getInches(this.edit.length)
       this.numerator = method.getNumerator(this.edit.length)
       this.denominator = method.getDenominator(this.edit.length)
+
+      let feetToInches = (this.feet * 12) || 0
+      let inches = this.inches || 0
+      let fraction = (this.numerator / this.denominator) || 0
+
+      this.value = feetToInches + inches + fraction
     }
   }
 }
@@ -165,10 +176,6 @@ export default {
 
   .denominator {
     text-align: left;
-  }
-
-  .error {
-    outline: 1px solid $red;
   }
 
   input[type=number]::-webkit-inner-spin-button,

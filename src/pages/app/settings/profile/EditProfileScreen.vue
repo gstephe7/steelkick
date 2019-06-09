@@ -6,7 +6,7 @@
     </template>
 
     <template #actions>
-      <Button text @click="$refs.edit.editUser()">
+      <Button text @click="$refs.edit.submit()">
         SAVE
       </Button>
     </template>

@@ -30,7 +30,8 @@
 export default {
   props: {
     value: Boolean,
-    small: Boolean
+    small: Boolean,
+    big: Boolean
   },
   data () {
     return {
@@ -140,6 +141,10 @@ export default {
 
   .small {
     width: 120px;
+  }
+
+  .big {
+    width: 264px;
   }
 
   .target {

@@ -11,8 +11,7 @@
             :value="value"
             @change="$emit('input', $event.target.value)"
             @focus="target = true"
-            @blur="target = false"
-            :class="{ error : highlight }">
+            @blur="target = false">
       <option :value="undefined" selected></option>
       <slot name="options"></slot>
     </select>
@@ -26,11 +25,11 @@ export default {
     value: [String, Number],
     big: Boolean,
     small: Boolean,
-    highlight: Boolean
+    required: Boolean
   },
   data () {
     return {
-      target: false
+      target: false,
     }
   },
   computed: {
@@ -108,10 +107,6 @@ export default {
   .input:focus {
     border: 2px solid $secondary;
     outline: none;
-  }
-
-  .error {
-    outline: 1px solid $red;
   }
 
   .big {

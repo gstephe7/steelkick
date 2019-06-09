@@ -1,11 +1,11 @@
 <template>
-  <form id="form" @submit.prevent="$emit('submitForm')" @keyup.enter="$emit('submitForm')">
+  <form id="form" @submit.prevent="submit" @keyup.enter="submit">
 
     <div class="form-title">
       <slot name="title"></slot>
     </div>
 
-    <div id="inputs" class="content">
+    <div id="inputs" class="form-content">
       <slot name="content"></slot>
     </div>
 
@@ -27,6 +27,40 @@
 export default {
   props: {
     viewFirst: Boolean
+  },
+  data () {
+    return {
+      errors: []
+    }
+  },
+  methods: {
+    handleErrors () {
+      this.errors = []
+      let formChildren = this.$children
+
+      formChildren.forEach((item, index) => {
+        if (item.$props.required && !item.value) {
+          item.$el.classList.add('error')
+          item.$watch('value', (value) => {
+            if (value) {
+              item.$el.classList.remove('error')
+            } else {
+              item.$el.classList.add('error')
+            }
+          })
+          this.errors.push(index)
+        } else {
+          item.$el.classList.remove('error')
+        }
+      })
+    },
+    submit () {
+      this.handleErrors()
+
+      if (this.errors.length == 0) {
+        this.$emit('submitForm')
+      }
+    }
   },
   mounted () {
 
@@ -77,13 +111,13 @@ export default {
 <style lang="scss" scoped>
   @import '@/assets/scss/variables.scss';
 
-  form {
+  #form {
     max-width: 600px;
     margin: 0 auto;
     @include col;
   }
 
-  .content {
+  .form-content {
     @include wrap;
     @include center;
     width: 100%;
@@ -93,8 +127,23 @@ export default {
     margin: 0 16px 16px 16px;
   }
 
-  .errors {
-    padding-top: 16px;
-    color: $red;
+  .error /deep/ {
+    select.input, select.input:focus, input.input, input.input:focus, textarea.input, textarea.input:focus, .length-span {
+      border: 2px solid $alert !important;
+    }
+  }
+
+  .error:after {
+    content: "Required";
+    transition: 250ms all;
+    position: absolute;
+    background-color: #fff;
+    color: $alert;
+    font-size: 12px;
+    bottom: -8px;
+    right: 16px;
+    top: auto;
+    display: inline;
+    padding: 4px;
   }
 </style>

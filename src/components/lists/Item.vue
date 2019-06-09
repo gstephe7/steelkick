@@ -66,8 +66,12 @@ export default {
   },
   computed: {
     expanded () {
-      if (this.$slots.details && this.expand) {
-        return true
+      if (this.$slots.details || this.$slots.actions) {
+        if (this.expand) {
+          return true
+        } else {
+          return false
+        }
       } else {
         return false
       }
@@ -80,7 +84,7 @@ export default {
       }
     },
     isClickable () {
-      if (this.$slots.details) {
+      if (this.$slots.details || this.$slots.actions) {
         return true
       } else {
         return false
@@ -130,6 +134,7 @@ export default {
     @include between;
     font-size: 16px;
     color: $dark;
+    overflow-x: hidden;
   }
 
   .item-title {

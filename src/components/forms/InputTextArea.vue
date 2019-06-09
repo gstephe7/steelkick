@@ -10,8 +10,8 @@
       class="input"
       :value="value"
       @input="$emit('input', $event.target.value)"
-      @focus="targeted = true"
-      @blur="targeted = value">
+      @focus="target = true"
+      @blur="target = false">
     </textarea>
 
   </span>
@@ -19,10 +19,22 @@
 
 <script>
 export default {
-  props: ['value'],
+  props: {
+    value: String,
+    required: Boolean
+  },
   data () {
     return {
-      targeted: this.value
+      target: false
+    }
+  },
+  computed: {
+    targeted () {
+      if (this.value || this.target) {
+        return true
+      } else {
+        return false
+      }
     }
   }
 }

@@ -10,7 +10,8 @@ export default new Vuex.Store({
     loading: false,
     snackbar: {
       show: false,
-      message: ''
+      message: '',
+      error: false
     },
     auth: false,
     token: null,
@@ -49,9 +50,15 @@ export default new Vuex.Store({
       state.snackbar.show = true
       state.snackbar.message = payload
     },
+    snackbarError (state, payload) {
+      state.snackbar.show = true
+      state.snackbar.message = payload
+      state.snackbar.error = true
+    },
     hideSnackbar (state) {
       state.snackbar.show = false
       state.snackbar.message = ''
+      state.snackbar.error = false
     },
     updateCurrentJob (state, payload) {
       state.currentJob = payload
@@ -88,6 +95,15 @@ export default new Vuex.Store({
     },
     snackbar ({commit, dispatch}, payload) {
       commit('snackbar', payload)
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          dispatch('hideSnackbar')
+          resolve()
+        }, 5000)
+      })
+    },
+    snackbarError ({commit, dispatch}, payload) {
+      commit('snackbarError', payload)
       return new Promise((resolve, reject) => {
         setTimeout(() => {
           dispatch('hideSnackbar')
@@ -194,6 +210,9 @@ export default new Vuex.Store({
     },
     snackbarMessage: (state) => {
       return state.snackbar.message
+    },
+    snackbarError: (state) => {
+      return state.snackbar.error
     },
     currentRole: (state) => {
       return state.currentRole
