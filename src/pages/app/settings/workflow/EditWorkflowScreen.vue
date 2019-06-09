@@ -17,7 +17,7 @@
       <List>
 
         <template #fab>
-          <ButtonFab extended @click="showModal = true">
+          <ButtonFab extended center @click="showModal = true">
             + ADD STEP
           </ButtonFab>
         </template>

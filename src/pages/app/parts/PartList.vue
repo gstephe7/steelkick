@@ -1,20 +1,10 @@
 <template>
   <List>
 
-    <template #title>
-      {{ $store.getters.currentJob.name }} Parts
-    </template>
-
-    <template #actions>
-      <Button v-if="!working"
-              id="part-div"
-              create
-              @click="createNewPart">
-        + Create New Part
-      </Button>
-      <InputSearch v-model="search"
-                   @input="autoScroll">
-      </InputSearch>
+    <template #fab>
+      <ButtonFab v-if="!working" @click="createNewPart">
+        +
+      </ButtonFab>
     </template>
 
     <template #content>

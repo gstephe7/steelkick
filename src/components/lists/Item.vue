@@ -59,6 +59,9 @@
 
 <script>
 export default {
+  props: {
+    clickable: Boolean
+  },
   data () {
     return {
       expand: false
@@ -84,7 +87,7 @@ export default {
       }
     },
     isClickable () {
-      if (this.$slots.details || this.$slots.actions) {
+      if (this.$slots.details || this.$slots.actions || this.clickable) {
         return true
       } else {
         return false

@@ -1,6 +1,8 @@
 <template>
   <button id="fab"
-          :class="{ hide : toggleHide, extended : extended }"
+          :class="{ hide : toggleHide,
+                    extended : extended,
+                    center : center }"
           @click="$emit('click')">
     <slot></slot>
   </button>
@@ -9,7 +11,8 @@
 <script>
 export default {
   props: {
-    extended: Boolean
+    extended: Boolean,
+    center: Boolean
   },
   data () {
     return {
@@ -42,6 +45,9 @@ export default {
   @import '@/assets/scss/variables.scss';
 
   button {
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
     height: 56px;
     width: 56px;
     padding: 0;
@@ -62,16 +68,22 @@ export default {
   }
 
   button.extended {
-    position: fixed;
-    bottom: 16px;
+    right: 0;
+    left: 0;
+    margin: 0 auto;
     height: 48px;
     width: 140px;
-    left: 0;
-    right: 0;
-    margin: 0 auto;
     padding: 0 16px;
     border-radius: 32px;
     font-size: 16px;
+  }
+
+  button.center {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 16px;
+    margin: 0 auto;
   }
 
   button:hover {

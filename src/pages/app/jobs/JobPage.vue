@@ -1,54 +1,14 @@
 <template>
   <div class="main">
 
-    <div class="article">
-
-      <h1>{{ job.name }}</h1>
-
-      <!-- Basic Info -->
-      <div>
-        <div>Job ID: {{ job.number }}</div>
-        <div>Customer: {{ job.customer }}</div>
-      </div>
-
-      <!-- Progress -->
-      <div class="div">
-        <h3>Job Progress</h3>
-
-        <!-- Completed Weight -->
-        <div>
-          <span>
-            Weight Completed:
-          </span>
-          <span v-if="progress.weightTotal">
-            {{ progress.weightComplete.toLocaleString('en', { maximumFractionDigits: 0 }) }} lbs / {{ progress.weightTotal.toLocaleString('en', { maximumFractionDigits: 0 }) }} lbs
-          </span>
-          <span v-else>
-            0lbs / 0lbs
-          </span>
-        </div>
-
-        <!-- Completed Parts -->
-        <div>
-          <span>
-            Parts Completed:
-          </span>
-          <span v-if="progress.partsTotal">
-            {{ progress.partsComplete.toLocaleString() }} / {{ progress.partsTotal.toLocaleString() }}
-          </span>
-          <span v-else>
-            0 / 0
-          </span>
-        </div>
-
-      </div>
-
+    <div class="col">
+      {{ job.name }} Dashboard
     </div>
 
     <hr>
 
     <!-- Menu -->
-    <div class="center wrap div">
+    <div class="center wrap">
 
       <!-- Parts -->
       <DashboardCard route="/parts">
@@ -79,7 +39,7 @@
       <!-- Scheduling -->
       <DashboardCard route="/schedule">
         <template v-slot:thumbnail>
-          <icon class="green" :icon="['far', 'calendar-alt']">
+          <icon class="orange" :icon="['far', 'calendar-alt']">
           </icon>
         </template>
         <template v-slot:title>
@@ -90,57 +50,44 @@
         </template>
       </DashboardCard>
 
+      <!-- Edit -->
+      <DashboardCard @click="showEdit = true">
+        <template v-slot:thumbnail>
+          <icon class="blue" icon="edit">
+          </icon>
+        </template>
+        <template v-slot:title>
+          Edit Job
+        </template>
+        <template v-slot:content>
+          Edit info or delete this job
+        </template>
+      </DashboardCard>
+
     </div>
 
-    <!-- Job Activity -->
-    <div class="div article">
-      <h2>Job Activity</h2>
-      <hr>
-    </div>
-
-    <hr>
-
-    <!-- Edit and Delete -->
-    <div class="center div">
-      <button class="medium">
-        Edit Job
-      </button>
-      <button class="medium red" @click="showDelete = true">
-        Delete Job
-      </button>
-    </div>
-
-    <!-- Delete Modal -->
-    <Modal v-if="showDelete" @close="showDelete = false">
-      <template v-slot:title>
-        Delete Job
-      </template>
-      <template v-slot:content>
-        Are you sure you want to delete this job?
-      </template>
-      <template v-slot:actions>
-        <button class="small" @click="showDelete = false">
-          Cancel
-        </button>
-        <button class="red small" @click="deleteJob">
-          Delete
-        </button>
-      </template>
-    </Modal>
+    <JobEditScreen v-if="showEdit"
+                   @close="showEdit = false"
+                   :job="job">
+    </JobEditScreen>
 
   </div>
 </template>
 
 <script>
 import api from '@/api/api'
+import JobEditScreen from './JobEditScreen'
 
 export default {
+  components: {
+    JobEditScreen
+  },
   data () {
     return {
       job: {},
       progress: {},
       actions: [],
-      showDelete: false
+      showEdit: false
     }
   },
   methods: {

@@ -1,44 +1,59 @@
 <template>
   <div class="main">
 
-    <div class="col">
+    <List>
 
-      <Button create @click="createJob">
-        + Create New Job
-      </Button>
+      <template #fab>
+        <ButtonFab @click="showJobCreate = true">
+          +
+        </ButtonFab>
+      </template>
 
-      <br>
+      <template #content>
 
-      <div v-if="jobs.length > 0">
-        <h2 class="click" v-for="job in jobs" :key="job._id" @click="updateCurrentJob(job)">
-          {{ job.name }}
-        </h2>
-      </div>
+        <div v-if="jobs.length > 0">
+          <div v-for="job in jobs"
+               :key="job._id"
+               @click="updateCurrentJob(job)">
+            <Item clickable>
+              <template #title>{{ job.name }}</template>
+              <template #second>{{ job.number }}</template>
+            </Item>
+          </div>
+        </div>
 
-      <div v-else>
-        <p>
-          You currently don't have any jobs saved
-        </p>
-      </div>
+        <div v-else>
+          <p>
+            You currently don't have any jobs saved
+          </p>
+        </div>
 
-    </div>
+      </template>
+
+    </List>
+
+    <JobCreateScreen v-if="showJobCreate"
+                     @close="showJobCreate = false">
+    </JobCreateScreen>
 
   </div>
 </template>
 
 <script>
 import api from '@/api/api'
+import JobCreateScreen from './JobCreateScreen'
 
 export default {
+  components: {
+    JobCreateScreen
+  },
   data () {
     return {
-      jobs: []
+      jobs: [],
+      showJobCreate: false
     }
   },
   methods: {
-    createJob () {
-      this.$router.push('/create-job')
-    },
     updateCurrentJob (job) {
       this.$store.dispatch('updateCurrentJob', job)
       .then(() => {
@@ -62,8 +77,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  h2 {
-    color: #0000ee;
-    text-decoration: underline;
-  }
 </style>

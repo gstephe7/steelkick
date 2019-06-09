@@ -24,18 +24,11 @@
 
       <!-- Breadcrumbs -->
       <div class="breadcrumbs align">
-        <!-- <span v-if="$route.meta.parent">
-          <span @click="navBack"
-                class="breadcrumb click">
-            {{ $route.meta.parent.name }}
-          </span>
-          <icon v-if="$route.meta.parent"
-                icon="angle-right"
-                class="breadcrumb">
-          </icon>
-        </span> -->
         <span class="breadcrumb">
           {{ $route.name }}
+        </span>
+        <span v-if="$route.meta.job" class="breadcrumb">
+          {{ $store.getters.currentJob.number }}
         </span>
       </div>
 

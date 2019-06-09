@@ -4,8 +4,7 @@ import Working from '@/pages/app/working/Working'
 
 // jobs
 import Jobs from '@/pages/app/jobs/Jobs'
-import CreateJob from '@/pages/app/jobs/CreateJob'
-import JobDetails from '@/pages/app/jobs/JobDetails'
+import JobPage from '@/pages/app/jobs/JobPage'
 
 // parts
 import CreatePart from '@/pages/app/parts/CreatePart'
@@ -62,21 +61,11 @@ export default [
     }
   },
   {
-    path: '/create-job',
-    name: 'Create New Job',
-    component: CreateJob,
-    meta: {
-      parent: {
-        path: '/jobs',
-        name: 'All Jobs'
-      }
-    }
-  },
-  {
     path: '/job-details',
-    name: 'Job Details',
-    component: JobDetails,
+    name: 'Job',
+    component: JobPage,
     meta: {
+      job: true,
       parent: {
         path: '/jobs',
         name: 'All Jobs'
@@ -88,6 +77,7 @@ export default [
     name: 'Create New Part',
     component: CreatePart,
     meta: {
+      job: true,
       parent: {
         path: '/parts',
         name: 'Parts'
@@ -99,6 +89,7 @@ export default [
     name: 'Parts',
     component: PartsPage,
     meta: {
+      job: true,
       parent: {
         path: '/job-details',
         name: 'Job Details'
@@ -110,6 +101,7 @@ export default [
     name: 'Part Details',
     component: PartDetails,
     meta: {
+      job: true,
       parent: {
         path: '/parts',
         name: 'Parts'

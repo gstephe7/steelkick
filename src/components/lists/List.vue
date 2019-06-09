@@ -32,7 +32,8 @@
       </div>
 
       <div v-if="$slots.fab">
-        <span class="fab">
+        <span class="fab"
+              :class="{ fabAside : $slots.asideContent }">
           <slot name="fab"></slot>
         </span>
       </div>
@@ -122,6 +123,7 @@ export default {
   }
 
   .list-main {
+    position: relative;
     @include grow;
     width: 100%;
     max-width: 600px;
@@ -134,11 +136,21 @@ export default {
 
   .fab {
     position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin: 0 auto;
+    padding: 16px;
+    max-width: 600px;
     z-index: 2;
-    right: 16px;
-    bottom: 16px;
     @media screen and (min-width: 1000px) {
-      right: 305px;
+      left: 240px;
+    }
+  }
+
+  .fabAside {
+    @media screen and (min-width: 1000px) {
+      right: 289px;
     }
   }
 
