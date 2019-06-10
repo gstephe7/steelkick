@@ -1,5 +1,5 @@
 <template>
-  <button @click="$emit('click')" :class="classList">
+  <button @click="$emit('click')" :class="classList" :type="type">
     <slot></slot>
   </button>
 </template>
@@ -8,8 +8,13 @@
 export default {
   props: {
     create: Boolean,
+    delete: Boolean,
     text: Boolean,
-    outline: Boolean
+    outline: Boolean,
+    type: {
+      type: String,
+      default: 'button'
+    }
   },
   computed: {
     classList () {
@@ -56,6 +61,10 @@ export default {
     background-color: $success;
   }
 
+  .delete {
+    background-color: $alert;
+  }
+
   .text {
     background-color: rgba(0,0,0,0);
     color: $primary;
@@ -71,6 +80,28 @@ export default {
     border: 1px solid $primary;
     text-transform: uppercase;
     box-shadow: none;
+  }
+
+  button.text.create {
+    background-color: rgba(0,0,0,0);
+    color: $success;
+  }
+
+  button.text.delete {
+    background-color: rgba(0,0,0,0);
+    color: $alert;
+  }
+
+  button.outline.create {
+    background-color: rgba(0,0,0,0);
+    color: $success;
+    border: 1px solid $success;
+  }
+
+  button.outline.delete {
+    background-color: rgba(0,0,0,0);
+    color: $alert;
+    border: 1px solid $alert;
   }
 
   button.outline:hover, button.text:hover {

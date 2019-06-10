@@ -7,9 +7,7 @@ import Jobs from '@/pages/app/jobs/Jobs'
 import JobPage from '@/pages/app/jobs/JobPage'
 
 // parts
-import CreatePart from '@/pages/app/parts/CreatePart'
 import PartsPage from '@/pages/app/parts/PartsPage'
-import PartDetails from '@/pages/app/parts/PartDetails'
 
 // purchasing
 import Purchasing from '@/pages/app/purchasing/Purchasing'
@@ -73,18 +71,6 @@ export default [
     }
   },
   {
-    path: '/create-part',
-    name: 'Create New Part',
-    component: CreatePart,
-    meta: {
-      job: true,
-      parent: {
-        path: '/parts',
-        name: 'Parts'
-      }
-    }
-  },
-  {
     path: '/parts',
     name: 'Parts',
     component: PartsPage,
@@ -93,18 +79,6 @@ export default [
       parent: {
         path: '/job-details',
         name: 'Job Details'
-      }
-    }
-  },
-  {
-    path: '/part-details',
-    name: 'Part Details',
-    component: PartDetails,
-    meta: {
-      job: true,
-      parent: {
-        path: '/parts',
-        name: 'Parts'
       }
     }
   },

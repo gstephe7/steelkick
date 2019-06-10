@@ -30,6 +30,7 @@ export default {
     value: [String, Number],
     big: Boolean,
     small: Boolean,
+    tiny: Boolean,
     type: String,
     required: Boolean
   },
@@ -94,6 +95,8 @@ export default {
     @include align;
     padding: 16px;
     color: $theme;
+    font-size: 16px;
+    font-weight: normal;
     pointer-events: none;
     transition: 250ms all;
   }
@@ -154,5 +157,9 @@ export default {
 
   .small {
     width: 120px;
+  }
+
+  .tiny {
+    width: 70px;
   }
 </style>

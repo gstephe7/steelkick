@@ -14,6 +14,8 @@ import Button from '@/components/forms/Button'
 import ButtonFab from '@/components/forms/ButtonFab'
 import DashboardCard from '@/components/cards/DashboardCard'
 import Card from '@/components/cards/Card'
+import ChipProgress from '@/components/chips/ChipProgress'
+import Chip from '@/components/chips/Chip'
 import Form from '@/components/forms/Form'
 import InputCheckBox from '@/components/forms/InputCheckBox'
 import InputLength from '@/components/forms/InputLength'
@@ -133,6 +135,8 @@ Vue.component('Banner', Banner)
 Vue.component('Button', Button)
 Vue.component('ButtonFab', ButtonFab)
 Vue.component('Card', Card)
+Vue.component('Chip', Chip)
+Vue.component('ChipProgress', ChipProgress)
 Vue.component('DashboardCard', DashboardCard)
 Vue.component('Form', Form)
 Vue.component('InputCheckBox', InputCheckBox)

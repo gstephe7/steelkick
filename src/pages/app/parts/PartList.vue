@@ -1,51 +1,66 @@
 <template>
-  <List>
+  <div>
 
-    <template #fab>
-      <ButtonFab v-if="!working" @click="createNewPart">
-        +
-      </ButtonFab>
-    </template>
+    <List search @searching="searching">
 
-    <template #content>
-      <div v-if="searchedParts.length > 0">
-        <div v-for="part in searchedParts" :key="part._id">
-          <PartItem :part="part"></PartItem>
+      <template #fab>
+        <ButtonFab v-if="!working"
+                   @click="showPartCreate = true">
+          +
+        </ButtonFab>
+      </template>
+
+      <template #content>
+        <div v-if="loaded">
+          <div v-if="searchedParts.length > 0">
+            <div v-for="part in searchedParts" :key="part._id">
+              <PartItem :part="part"
+                        :workflow="workflow">
+              </PartItem>
+            </div>
+          </div>
+
+          <div v-else class="col">
+            <br>
+            <h3>No parts found</h3>
+          </div>
         </div>
-      </div>
+      </template>
 
-      <div v-else class="col">
-        <br>
-        <h3>No parts found</h3>
-      </div>
-    </template>
+      <!-- Side Sheet Filter -->
+      <template #asideTitle>
+        Filter
+      </template>
 
-    <!-- Side Sheet Filter -->
-    <template #asideTitle>
-      Filter
-    </template>
+      <template #asideContent>
+        <PartFilter v-model="filter"></PartFilter>
+      </template>
 
-    <template #asideContent>
-      <PartFilter v-model="filter"></PartFilter>
-    </template>
+      <template #asideAction>
+        Filter
+      </template>
 
-    <template #asideAction>
-      Filter
-    </template>
+    </List>
 
-  </List>
+    <PartCreateScreen v-if="showPartCreate"
+                      @close="updateParts">
+    </PartCreateScreen>
+
+  </div>
 </template>
 
 <script>
 import api from '@/api/api'
 import PartItem from './PartItem'
 import PartFilter from './PartFilter'
+import PartCreateScreen from './PartCreateScreen'
 
 export default {
-  props: ['job', 'working'],
+  props: ['working'],
   components: {
     PartItem,
-    PartFilter
+    PartFilter,
+    PartCreateScreen
   },
   data () {
     return {
@@ -54,7 +69,7 @@ export default {
       workflow: [],
       loaded: false,
       search: '',
-      showFilter: this.$route.query.updated || false
+      showPartCreate: false
     }
   },
   computed: {
@@ -70,6 +85,9 @@ export default {
     }
   },
   methods: {
+    searching (payload) {
+      this.search = payload
+    },
     searchParts (part) {
       if (part.pieceMark && part.minorMark) {
         let pieceMarkMatch = part.pieceMark.match(new RegExp(this.search, 'i'))
@@ -103,48 +121,36 @@ export default {
       }
       return true
     },
-    createNewPart () {
-      this.$router.push('/create-part')
-    },
-    viewPart (part) {
-      if (this.working) {
-        this.$emit('updatePart', part)
-      } else {
-        this.$router.push({
-          path: '/part-details',
-          query: {
-            partId: part._id
-          }
-        })
-      }
-    },
-    autoScroll () {
-      document.getElementById('part-div').scrollIntoView()
+    updateParts (payload) {
+      payload.forEach(item => {
+        this.parts.push(item)
+      })
+      this.showPartCreate = false
     }
   },
   created () {
-    this.$store.dispatch('loading')
-    api.axios.get(`${api.baseUrl}/jobs/parts`, {
-      params: {
+    api.request({
+      type: 'get',
+      endpoint: '/jobs/parts',
+      load: true,
+      data: {
         jobId: this.$store.getters.currentJob._id
+      },
+      res: res => {
+        this.parts = res.data.parts
+        this.loaded = true
       }
-    })
-    .then(res => {
-      this.$store.dispatch('complete')
-      this.parts = res.data.parts
-      this.loaded = true
-    })
-    .catch(() => {
-      this.$store.dispatch('complete')
     })
 
-    api.axios.get(`${api.baseUrl}/users/workflow`, {
-      params: {
+    api.request({
+      type: 'get',
+      endpoint: '/users/workflow',
+      data: {
         companyId: this.$store.getters.companyId
+      },
+      res: res => {
+        this.workflow = res.data.workflow
       }
-    })
-    .then(res => {
-      this.workflow = res.data.workflow
     })
   }
 }

@@ -81,8 +81,7 @@ export default {
       let fraction = (this.numerator / this.denominator) || 0
 
       this.value = feetToInches + inches + fraction
-
-      console.log(this.value)
+      
       this.$emit('input', this.value)
     },
     initFocus () {

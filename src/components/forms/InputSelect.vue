@@ -73,6 +73,8 @@ export default {
     @include align;
     padding: 16px;
     color: $theme;
+    font-size: 16px;
+    font-weight: normal;
     pointer-events: none;
     transition: 250ms all;
   }
