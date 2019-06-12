@@ -1,6 +1,6 @@
 <template>
   <nav>
-    <ul @click="$emit('closeMenu')">
+    <ul id="menu" @click="$emit('closeMenu')">
       <li>
         <router-link :to="{ name: 'Dashboard' }">Dashboard</router-link>
       </li>
@@ -14,7 +14,7 @@
         <router-link to="/schedule">Schedule</router-link>
       </li>
       <li>
-        <router-link to="tasks">Tasks</router-link>
+        <router-link to="/tasks">Tasks</router-link>
       </li>
       <li>
         <router-link to="/inventory">Inventory</router-link>
@@ -34,6 +34,15 @@
 
 <script>
 export default {
+  mounted () {
+    let menu = document.getElementById('menu')
+    let items = menu.querySelectorAll('a')
+    items.forEach(item => {
+      if (item.href == this.$route.path) {
+        item.classList.add('currentLink')
+      }
+    })
+  }
 }
 </script>
 
@@ -53,14 +62,6 @@ export default {
     }
   }
 
-  li {
-    transition: 250ms all;
-  }
-
-  li:hover {
-    transform: scale(1.015);
-  }
-
   a {
     width: 100%;
     color: $theme;
@@ -73,5 +74,9 @@ export default {
 
   a:hover {
     background-color: rgba(0,0,0,.1);
+  }
+
+  a.router-link-active {
+    background-color: $light;
   }
 </style>

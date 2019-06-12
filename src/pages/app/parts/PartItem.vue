@@ -18,15 +18,15 @@
     </template>
 
     <template #third>
-      <div class="wrap">
-        <div v-for="action in partProgress">
-          <ChipProgress :completed="1"
+      <div class="row grow">
+        <div class="basis" v-for="action in partProgress">
+          <ChipProgress :completed="action.completed"
                         :total="action.total">
             <span>
               {{ action.completed }}/{{ action.total }}
             </span>
             <span>
-              {{ action.action }}
+              {{ action.action.substr(0, 5) }}
             </span>
           </ChipProgress>
         </div>
@@ -66,7 +66,7 @@ export default {
       this.workflow.forEach(item => {
         progress.push({
           action: item.description,
-          completed: 0,
+          completed: Math.round(Math.random() * this.part.quantity),
           total: this.part.quantity
         })
       })
@@ -74,7 +74,7 @@ export default {
       this.part.progress.forEach(item => {
         progress.forEach(value => {
           if (item.description == value.action) {
-            value.quantity = item.quantity
+            value.completed = item.quantity
           }
         })
       })
