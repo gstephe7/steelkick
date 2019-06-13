@@ -6,6 +6,7 @@
          class="list-header"
          :class="{ showSearch : showSearch }">
       <SearchHeader @close="showSearch = false"
+                    :value="searchString"
                     @input="searching">
       </SearchHeader>
     </div>
@@ -81,7 +82,8 @@
 <script>
 export default {
   props: {
-    search: Boolean
+    search: Boolean,
+    searchString: String
   },
   data () {
     return {

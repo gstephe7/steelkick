@@ -11,11 +11,11 @@
 
       <template v-slot:content>
 
-        <InputText v-model="part.pieceMark">
+        <InputText v-model="part.pieceMark" required>
           Piece Mark
         </InputText>
 
-        <InputText v-model="part.minorMark" required>
+        <InputText v-model="part.minorMark">
           Minor Mark
         </InputText>
 
@@ -43,7 +43,7 @@
           </template>
         </InputSelect>
 
-        <InputLength v-model="part.length" required>
+        <InputLength v-model="part.length" :edit="edit" required>
         </InputLength>
 
         <InputSelect v-model="part.grade">
@@ -63,13 +63,13 @@
           Galvanized
         </InputCheckBox>
 
-        <div class="basis" v-if="!edit">
+        <div class="basis">
           <hr>
           <div class="between align">
             <span class="article">
               Sequences
             </span>
-            <Button text @click="addSequence">
+            <Button text @click="addSequence" v-if="!edit">
               + ADD
             </Button>
           </div>
@@ -87,14 +87,14 @@
                          tiny>
                 Quan
               </InputText>
-              <Button outline delete @click="removeSequence(index)">
+              <Button outline delete v-if="!edit" @click="removeSequence(index)">
                 <icon icon="times"></icon>
               </Button>
             </div>
           </div>
         </div>
 
-        <div class="basis" v-if="!edit">
+        <div class="basis">
           <hr>
           <div class="between align">
             <span class="article">
@@ -134,7 +134,9 @@ import material from '@/assets/data/material.js'
 import method from '@/global/methods.js'
 
 export default {
-  props: ['edit'],
+  props: {
+    edit: Object
+  },
   data () {
     return {
       part: {
@@ -167,9 +169,11 @@ export default {
     },
     totalQuantity () {
       let quant = 0
+
       this.sequences.forEach(item => {
         quant += item.quantity
       })
+
       return quant
     }
   },
@@ -208,8 +212,12 @@ export default {
       this.part.minorMembers.splice(index, 1)
     },
     autoCompleteForm () {
-      if (this.edit && !this.part.quantity) {
-        this.part.quantity = 1
+      if (this.edit) {
+        if (this.sequences[0].quantity) {
+          this.part.quantity = this.sequences[0].quantity
+        } else {
+          this.part.quantity = 1
+        }
       }
 
       if (!this.part.minorMark) {
@@ -277,6 +285,10 @@ export default {
   created () {
     if (this.edit) {
       this.part = this.edit
+      this.sequences.push({
+        number: this.part.sequence,
+        quantity: this.part.quantity
+      })
     } else {
       this.sequences.push({
         number: this.sequenceList[0],

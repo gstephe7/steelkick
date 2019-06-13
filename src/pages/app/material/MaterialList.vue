@@ -1,6 +1,6 @@
 <template>
   <div>
-    <List search @searching="searching">
+    <List search @searching="searching" :searchString="search">
 
       <!-- Main List -->
       <template #fab>

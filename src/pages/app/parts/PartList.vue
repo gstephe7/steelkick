@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <List search @searching="searching">
+    <List search @searching="searching" :searchString="search">
 
       <template #fab>
         <ButtonFab v-if="!working"
@@ -122,9 +122,11 @@ export default {
       return true
     },
     updateParts (payload) {
-      payload.forEach(item => {
-        this.parts.push(item)
-      })
+      if (payload) {
+        payload.forEach(item => {
+          this.parts.push(item)
+        })
+      }
       this.showPartCreate = false
     }
   },

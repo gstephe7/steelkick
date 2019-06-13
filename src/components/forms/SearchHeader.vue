@@ -9,6 +9,7 @@
       <input id="search-input"
              class="input"
              type="text"
+             :value="value"
              placeholder="Search"
              @input="$emit('input', $event.target.value)">
 
@@ -18,6 +19,7 @@
 
 <script>
 export default {
+  props: ['value'],
   mounted () {
     let input = document.getElementById('search-input')
     input.focus()
