@@ -12,6 +12,13 @@
     <template #content>
       <PartForm :edit="part" ref="form" @close="$emit('close')">
       </PartForm>
+      <div class="section col">
+        <div class="">
+          <Button outline delete>
+            DELETE PART
+          </Button>
+        </div>
+      </div>
     </template>
 
   </Screen>

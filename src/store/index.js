@@ -180,7 +180,16 @@ export default new Vuex.Store({
           }
         })
         .then(() => {
-          resolve()
+          resolve({
+            description: payload.description,
+            quantity: payload.quantity,
+            user: {
+              firstName: getters.user.firstName,
+              lastName: getters.user.lastName
+            },
+            time: time(),
+            date: nowDate()
+          })
         })
         .catch(() => {
           reject()
@@ -201,6 +210,9 @@ export default new Vuex.Store({
     },
     userId: (state) => {
       return state.user._id
+    },
+    user: (state) => {
+      return state.user
     },
     loading: (state) => {
       return state.loading

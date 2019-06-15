@@ -1,18 +1,17 @@
 <template>
   <div class="input-container">
 
-    <button class="micro grey" @click="updateValue(-1)">
+    <button class="micro grey" @click="updateValue(-1)" type="button">
       -
     </button>
 
     <input type="number"
-           min="1"
            :max="max"
            v-model="newValue"
            class="input"
            @input="$emit('input', newValue)">
 
-    <button class="micro grey" @click="updateValue(+1)">
+    <button class="micro grey" @click="updateValue(+1)" type="button">
       +
     </button>
 
@@ -30,9 +29,6 @@ export default {
   methods: {
     updateValue (num) {
       this.newValue += num
-      if (this.newValue == 0) {
-        this.newValue = 1
-      }
       if (this.newValue > this.max) {
         this.newValue = this.max
       }

@@ -138,6 +138,7 @@ export default {
     font-size: 16px;
     color: $dark;
     overflow-x: hidden;
+    line-height: 1.25;
   }
 
   .item-title {
@@ -164,6 +165,7 @@ export default {
 
   .item-details {
     color: $dark;
+    line-height: 1.25;
   }
 
   .item-actions {

@@ -5,12 +5,6 @@
 
       <template #title>Part Log</template>
 
-      <template #actions>
-        <Button text @click="$emit('close')">
-          SAVE
-        </Button>
-      </template>
-
       <template #content>
 
         <List>
@@ -23,7 +17,23 @@
 
           <template #content>
             <div v-for="action in log">
-              {{ action }}
+              <Item>
+                <template #title>
+                  {{ action.description }}
+                </template>
+                <template #second>
+                  <span>
+                    Quantity: {{ action.quantity }}
+                  </span>
+                  <span>
+                    {{ action.user.firstName }} {{ action.user.lastName }}
+                  </span>
+                </template>
+                <template #third>
+                  <span>{{ action.time }}</span>
+                  <span>{{ action.date }}</span>
+                </template>
+              </Item>
             </div>
           </template>
 
@@ -36,7 +46,7 @@
     <PartLogModal v-if="showModal"
                   :workflow="workflow"
                   :part="part"
-                  @close="showModal = false">
+                  @close="updateLog">
     </PartLogModal>
 
   </div>
@@ -61,7 +71,31 @@ export default {
     }
   },
   methods: {
+    updateLog (payload) {
+      if (payload) {
+        this.log.unshift(payload)
 
+        let actionIndex = null
+
+        this.part.progress.forEach((item, index) => {
+          if (item.description == payload.description) {
+            actionIndex = index
+          }
+        })
+
+        if (actionIndex == null) {
+          this.part.progress.push({
+            description: payload.description,
+            quantity: parseFloat(payload.quantity)
+          })
+        } else {
+          this.part.progress[actionIndex].quantity += parseFloat(payload.quantity)
+        }
+
+      }
+
+      this.showModal = false
+    }
   },
   created () {
     api.request({
@@ -72,8 +106,7 @@ export default {
         partId: this.part._id
       },
       res: res => {
-        console.log(res.data)
-        this.log = res.data.actions
+        this.log = res.data.actions.reverse()
       }
     })
   }

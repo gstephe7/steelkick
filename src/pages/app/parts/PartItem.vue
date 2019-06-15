@@ -30,11 +30,25 @@
       </template>
 
       <template #details>
+        <div class="between">
+          <span v-if="part.grade">{{ part.grade }}</span>
+          <span>{{ Math.ceil(part.weight) }} lbs</span>
+        </div>
         <div>
           Remarks:
-          <span v-if="part.grade">{{ part.grade }} </span>
           <span v-if="part.galvanized">Galvanized </span>
           <span v-if="part.primed">Primed </span>
+        </div>
+        <div>
+          Progress: 
+          <div class="wrap">
+            <span v-for="action in partProgress">
+              <ChipProgress :completed="action.quantity"
+                            :total="part.quantity">
+                {{ action.quantity }}/{{ part.quantity }} {{ action.description.substring(0, 3) }}
+              </ChipProgress>
+            </span>
+          </div>
         </div>
       </template>
 
@@ -104,14 +118,14 @@ export default {
       }
     },
     complete () {
-      if (this.quantityComplete == this.part.quantity) {
+      if (this.quantityComplete >= this.part.quantity) {
         return true
       } else {
         return false
       }
     },
     quantityComplete () {
-      let quantity = 1
+      let quantity = 0
 
       this.part.progress.forEach(item => {
         if (item.description == this.targetAction) {
@@ -127,7 +141,7 @@ export default {
       this.workflow.forEach(item => {
         progress.push({
           description: item.description,
-          quantity: Math.round(Math.random() * this.part.quantity),
+          quantity: 0,
           total: this.part.quantity
         })
       })

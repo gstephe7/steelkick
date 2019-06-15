@@ -271,6 +271,7 @@ export default {
             let part = this.part
             part.sequence = item.number
             part.quantity = item.quantity
+            part.progress = []
             newParts.push(part)
           })
 

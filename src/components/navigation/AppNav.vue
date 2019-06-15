@@ -34,15 +34,6 @@
 
 <script>
 export default {
-  mounted () {
-    let menu = document.getElementById('menu')
-    let items = menu.querySelectorAll('a')
-    items.forEach(item => {
-      if (item.href == this.$route.path) {
-        item.classList.add('currentLink')
-      }
-    })
-  }
 }
 </script>
 
@@ -73,10 +64,6 @@ export default {
   }
 
   a:hover {
-    background-color: rgba(0,0,0,.1);
-  }
-
-  a.router-link-active {
     background-color: $light;
   }
 </style>

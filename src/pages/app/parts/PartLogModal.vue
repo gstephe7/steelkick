@@ -6,28 +6,31 @@
     </template>
 
     <template #content>
-      <div class="col">
+      <Form ref="form" @submitForm="submit">
+        <template #content>
+          <div class="col">
 
-        <InputSelect v-model="action" @input="viewAction">
-          <template #label>Action</template>
-          <template #options>
-            <option v-for="item in workflow" :value="item" :key="item.description">
-              {{ item.description }}
-            </option>
-          </template>
-        </InputSelect>
+            <InputSelect v-model="actionIndex" required>
+              <template #options>
+                <option v-for="(item, index) in workflow" :value="index" :key="index">
+                  {{ item.description }}
+                </option>
+              </template>
+            </InputSelect>
 
-        <InputNumber v-model="quantity">
-        </InputNumber>
+            <InputNumber v-model.number="quantity" required>
+            </InputNumber>
 
-      </div>
+          </div>
+        </template>
+      </Form>
     </template>
 
     <template #actions>
       <Button text @click="$emit('close')">
         CANCEL
       </Button>
-      <Button text @click="submit">
+      <Button text @click="submitForm">
         ADD
       </Button>
     </template>
@@ -43,25 +46,30 @@ export default {
   },
   data () {
     return {
-      action: {},
+      actionIndex: this.workflow.length - 1,
       quantity: 1
     }
   },
+  computed: {
+    selectedAction () {
+      return this.workflow[this.actionIndex]
+    }
+  },
   methods: {
-    viewAction () {
-      console.log(this.action)
+    submitForm () {
+      this.$refs.form.submit()
     },
     submit () {
       this.$store.dispatch('action', {
         job: this.part.job,
         sequence: this.part.sequence,
         part: this.part._id,
-        action: this.action.action,
-        description: this.action.description,
+        action: this.selectedAction.action,
+        description: this.selectedAction.description,
         quantity: this.quantity
       })
-      .then(() => {
-        this.$emit('close')
+      .then(res => {
+        this.$emit('close', res)
       })
     }
   }
