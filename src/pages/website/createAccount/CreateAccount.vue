@@ -1,5 +1,5 @@
 <template>
-    <form col @submit.prevent="submit">
+    <form class="col" @submit.prevent="submit">
 
         <InputText v-model="company" auto big :highlight="errors.company">
           Company Name

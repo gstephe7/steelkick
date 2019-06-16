@@ -2,7 +2,12 @@
   <Modal @close="$emit('close')">
 
     <template #title>
-      Add Action to Part Log
+      <span v-if="working">
+        Mark {{ $store.getters.currentRole.description }}
+      </span>
+      <span v-else>
+        Add Action to Part Log
+      </span>
     </template>
 
     <template #content>
@@ -10,13 +15,20 @@
         <template #content>
           <div class="col">
 
-            <InputSelect v-model="actionIndex" required>
-              <template #options>
-                <option v-for="(item, index) in workflow" :value="index" :key="index">
-                  {{ item.description }}
-                </option>
-              </template>
-            </InputSelect>
+            <div v-if="working">
+              <p>
+                Mark ({{ quantity }}) {{ part.minorMark }} {{ $store.getters.currentRole.description }}
+              </p>
+            </div>
+            <div v-else>
+              <InputSelect v-model="actionIndex" required>
+                <template #options>
+                  <option v-for="(item, index) in workflow" :value="index" :key="index">
+                    {{ item.description }}
+                  </option>
+                </template>
+              </InputSelect>
+            </div>
 
             <InputNumber v-model.number="quantity" required>
             </InputNumber>
@@ -31,7 +43,12 @@
         CANCEL
       </Button>
       <Button text @click="submitForm">
-        ADD
+        <span v-if="working">
+          MARK
+        </span>
+        <span v-else>
+          ADD
+        </span>
       </Button>
     </template>
 
@@ -41,6 +58,7 @@
 <script>
 export default {
   props: {
+    working: Boolean,
     part: Object,
     workflow: Array
   },
@@ -52,7 +70,11 @@ export default {
   },
   computed: {
     selectedAction () {
-      return this.workflow[this.actionIndex]
+      if (this.working) {
+        return this.$store.getters.currentRole
+      } else {
+        return this.workflow[this.actionIndex]
+      }
     }
   },
   methods: {
@@ -69,6 +91,7 @@ export default {
         quantity: this.quantity
       })
       .then(res => {
+        this.$store.dispatch('snackbar', `Marked (${res.quantity}) ${this.part.minorMark} ${res.description}`)
         this.$emit('close', res)
       })
     }

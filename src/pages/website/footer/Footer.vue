@@ -1,7 +1,7 @@
 <template>
   <footer>
 
-    <div around>
+    <div class="around align">
 
       <section>
         <SiteNav :footer="true"></SiteNav>
@@ -13,7 +13,7 @@
 
     </div>
 
-    <div around>
+    <div class="around">
       <small>&copy; {{ currentYear }} SteelKick, LLC. All Rights Reserved.</small>
     </div>
 

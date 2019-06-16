@@ -10,7 +10,7 @@
 
       <!-- show if mobile screen -->
       <div class="mobile">
-        <button @click="toggleMobileMenu">
+        <button @click="showMenu = !showMenu">
           <icon v-if="showMenu" icon="times"></icon>
           <icon v-else icon="bars"></icon>
         </button>
@@ -22,7 +22,7 @@
       </div>
     </header>
 
-    <SiteNav class="hide mobile" :class="{ show: showMenu }" @closeMenu="toggleMobileMenu"></SiteNav>
+    <SiteNav class="hide mobile" :class="{ show: showMenu }" @closeMenu="showMenu = false"></SiteNav>
 
   </div>
 </template>
@@ -47,26 +47,6 @@ export default {
     },
     closeMobileMenu () {
       this.showMenu = false
-    }
-  },
-  mounted () {
-    const header = document.getElementById('header')
-    let prevScroll = window.pageYOffset
-
-    window.onscroll = () => {
-      setTimeout(() => {
-        let currentScroll = window.pageYOffset
-        if (currentScroll > 100) {
-          if (currentScroll < prevScroll - 50) {
-            header.style.top = '0'
-          } else if (currentScroll > prevScroll + 25) {
-            header.style.top = '-80px'
-          }
-        } else {
-          header.style.top = '0'
-        }
-        prevScroll = currentScroll
-      }, 500)
     }
   }
 }
@@ -106,10 +86,15 @@ export default {
   }
 
   .hide {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
     height: 0;
     opacity: 0;
     visibility: hidden;
     transition: 250ms all;
+    z-index: 9;
   }
 
   .show {

@@ -1,5 +1,5 @@
 <template>
-  <div main col>
+  <div class="main col">
 
     <h1>Search for Steel</h1>
 

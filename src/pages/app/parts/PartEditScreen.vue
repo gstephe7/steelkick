@@ -68,6 +68,7 @@ export default {
           partId: this.part._id
         },
         res: res => {
+          this.$emit('delete', this.part._id)
           this.$emit('close')
           this.$store.dispatch('snackbar', `You have successfully deleted part ${this.part.minorMark}!`)
         }

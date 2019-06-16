@@ -1,7 +1,7 @@
 <template>
   <div id="quick-search">
 
-    <div col center class="layer">
+    <div class="center col layer">
 
       <br>
 

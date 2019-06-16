@@ -5,7 +5,7 @@
 
     <hr>
 
-    <div around>
+    <div class="around">
       <a href="mailto:gstephens@steelkick.com" target="_blank">
         <icon icon="envelope"></icon>
       </a>

@@ -3,6 +3,24 @@
 
     <List search @searching="searching" :searchString="search">
 
+      <template #title v-if="working">
+        <div class="between">
+          <Chip clickable @click="$emit('selectRole')">
+            <template #thumbnail>
+              <img :src="require(`@/assets/img/actions/${$store.getters.currentRole.description}.png`)" />
+            </template>
+            <template #content>
+              {{ $store.getters.currentRole.action }}
+            </template>
+          </Chip>
+          <Chip clickable @click="$emit('selectJob')">
+            <template #content>
+              {{ $store.getters.currentJob.number }} - {{ $store.getters.currentJob.name.substring(0, 12) }}
+            </template>
+          </Chip>
+        </div>
+      </template>
+
       <template #fab>
         <ButtonFab v-if="!working"
                    @click="showPartCreate = true">
@@ -15,7 +33,8 @@
           <div v-if="searchedParts.length > 0">
             <div v-for="part in searchedParts" :key="part._id">
               <PartItem :part="part"
-                        :workflow="workflow">
+                        :workflow="workflow"
+                        @delete="deletePart">
               </PartItem>
             </div>
           </div>
@@ -128,6 +147,11 @@ export default {
         })
       }
       this.showPartCreate = false
+    },
+    deletePart (payload) {
+      let partIndex = this.parts.indexOf({ _id: payload })
+
+      this.parts.splice(partIndex, 1)
     }
   },
   created () {

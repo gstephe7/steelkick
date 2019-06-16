@@ -24,9 +24,10 @@
         <span>
           Sequence {{ part.sequence }}
         </span>
-        <span>
+        <VisualLine :completed="quantityComplete"
+                    :total="part.quantity">
           {{ quantityComplete }}/{{ part.quantity }} {{ targetAction }}
-        </span>
+        </VisualLine>
       </template>
 
       <template #details>
@@ -58,12 +59,19 @@
       </template>
 
       <template #actions>
-        <Button text @click="showPartLog = true">
-          PART LOG
-        </Button>
-        <Button text @click="showPartEdit = true">
-          EDIT PART
-        </Button>
+        <div v-if="$route.name == 'Working'" class="col">
+          <Button text @click="showWorkLog = true">
+            MARK {{ $store.getters.currentRole.description }}
+          </Button>
+        </div>
+        <div v-else>
+          <Button text @click="showPartLog = true">
+            PART LOG
+          </Button>
+          <Button text @click="showPartEdit = true">
+            EDIT PART
+          </Button>
+        </div>
       </template>
 
     </Item>
@@ -76,8 +84,16 @@
 
     <PartEditScreen v-if="showPartEdit"
                     :part="part"
-                    @close="showPartEdit = false">
+                    @close="showPartEdit = false"
+                    @delete="deletePart">
     </PartEditScreen>
+
+    <PartLogModal v-if="showWorkLog"
+                  :part="part"
+                  :workflow="workflow"
+                  working
+                  @close="updatePart">
+    </PartLogModal>
 
   </div>
 </template>
@@ -86,6 +102,7 @@
 import method from '@/global/methods.js'
 import PartLogScreen from './PartLogScreen'
 import PartEditScreen from './PartEditScreen'
+import PartLogModal from './PartLogModal'
 
 export default {
   props: {
@@ -95,12 +112,14 @@ export default {
   },
   components: {
     PartLogScreen,
-    PartEditScreen
+    PartEditScreen,
+    PartLogModal
   },
   data () {
     return {
       showPartLog: false,
-      showPartEdit: false
+      showPartEdit: false,
+      showWorkLog: false
     }
   },
   computed: {
@@ -114,7 +133,7 @@ export default {
       return method.getFraction(this.part.length)
     },
     targetAction () {
-      if (this.working) {
+      if (this.$route.name == 'Working') {
         return this.$store.getters.currentRole.description
       } else if (this.workflow.length > 0) {
         return this.workflow[this.workflow.length - 1].description
@@ -160,6 +179,26 @@ export default {
       })
 
       return progress
+    }
+  },
+  methods: {
+    deletePart (payload) {
+      this.$emit('delete', payload)
+    },
+    updatePart (payload) {
+      if (payload) {
+        let progressIndex = this.part.progress.findIndex(value => {
+          return value.description == payload.description
+        })
+
+        if (progressIndex >= 0) {
+          this.part.progress[progressIndex].quantity += payload.quantity
+        } else {
+          this.part.progress.push(payload)
+        }
+      }
+
+      this.showWorkLog = false
     }
   }
 }

@@ -1,11 +1,10 @@
 <template>
-  <div class="chip">
-    <div class="fill" :style="fillStyle">
-    </div>
-    <div class="chip-content">
+  <span class="span">
+    <span class="fill" :style="fillStyle"></span>
+    <span class="content">
       <slot></slot>
-    </div>
-  </div>
+    </span>
+  </span>
 </template>
 
 <script>
@@ -54,7 +53,7 @@ export default {
     },
     fillStyle () {
       let style = {
-        backgroundColor: `rgba(${this.red},${this.green},0,.2)`,
+        borderBottom: `2px solid rgba(${this.red},${this.green},0,.85)`,
         width: `${this.percentage * 100}%`
       }
 
@@ -67,24 +66,14 @@ export default {
 <style lang="scss" scoped>
   @import '@/assets/scss/variables.scss';
 
-  .chip {
-    border: 1px solid $accent;
+  .span {
     position: relative;
-    padding: 4px 0;
-    font-size: 12px;
-    color: $dark;
   }
 
   .fill {
     position: absolute;
     bottom: 0;
-    left: 0;
+    right: 0;
     height: 100%;
-  }
-
-  .chip-content {
-    @include col;
-    overflow: hidden;
-    white-space: nowrap;
   }
 </style>

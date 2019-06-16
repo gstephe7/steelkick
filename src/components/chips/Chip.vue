@@ -1,11 +1,21 @@
 <template>
-  <span class="chip">
-    <slot></slot>
+  <span class="chip"
+        :class="{ clickable : clickable }"
+        @click="$emit('click')">
+    <span v-if="$slots.thumbnail" class="thumbnail">
+      <slot name="thumbnail"></slot>
+    </span>
+    <span class="content">
+      <slot name="content"></slot>
+    </span>
   </span>
 </template>
 
 <script>
 export default {
+  props: {
+    clickable: Boolean
+  }
 }
 </script>
 
@@ -15,12 +25,34 @@ export default {
   .chip {
     @include align;
     position: relative;
-    height: 30px;
-    margin: 8px 8px 0 0;
-    padding: 0 8px;
+    height: 32px;
+    margin: 0;
+    padding: 0;
     border-radius: 16px;
-    border: 1px solid $accent;
-    overflow: hidden;
-    font-size: 12px;
+    font-size: 14px;
+    background-color: $accent;
+    transition: 250ms all;
+  }
+
+  .clickable:hover {
+    cursor: pointer;
+    filter: brightness(1.1);
+  }
+
+  .thumbnail {
+    @include col;
+    margin-left: 4px;
+    height: 24px;
+    width: 24px;
+    border-radius: 50%;
+    background-color: #fff;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .content {
+    margin: 0 8px;
   }
 </style>

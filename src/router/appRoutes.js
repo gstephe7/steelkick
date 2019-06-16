@@ -1,6 +1,6 @@
 // APP ROUTES
 import Dashboard from '@/pages/app/dashboard/Dashboard'
-import Working from '@/pages/app/working/Working'
+import WorkingPage from '@/pages/app/working/WorkingPage'
 
 // jobs
 import Jobs from '@/pages/app/jobs/Jobs'
@@ -118,7 +118,7 @@ export default [
   {
     path: '/working',
     name: 'Working',
-    component: Working,
+    component: WorkingPage,
     meta: {
       parent: {
         path: '/dashboard',

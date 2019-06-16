@@ -1,5 +1,5 @@
 <template>
-  <nav end @click="closeMenu">
+  <nav class="end" @click="closeMenu">
     <ul :row="desktop" :class="{ footerNav : footer }">
       <li>
         <router-link :to="'/search'">

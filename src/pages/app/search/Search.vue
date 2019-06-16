@@ -2,8 +2,8 @@
   <form @submit.prevent="search">
 
     <!-- If used in the quick search -->
-    <div center wrap v-if="quick">
-      <div row>
+    <div class="center wrap" v-if="quick">
+      <div class="row">
         <InputSelect v-model="shape" auto>
           <template #label>Shape</template>
           <template #options>
@@ -21,7 +21,7 @@
           </template>
         </InputSelect>
       </div>
-      <div row>
+      <div class="row">
         <InputLength v-model="length" auto></InputLength>
         <InputSelect v-model="state" auto>
           <template #label>State</template>
@@ -35,10 +35,10 @@
     </div>
 
     <!-- If used in the advanced search or inventory search -->
-    <div center wrap v-else>
+    <div class="center wrap" v-else>
 
       <div fieldset>
-        <div row>
+        <div class="row">
           <select v-model="shape" class="autotab">
             <option disabled selected :value="null">
               Shape
@@ -52,7 +52,7 @@
             <option v-for="dimension in dimensions" :value="dimension" :key="dimension">{{ dimension }}</option>
           </select>
         </div>
-        <div row>
+        <div class="row">
           <span length>
             <legend>
               <input length class="autotab" type="number" placeholder="11" maxlength="2" v-model="feet">'
@@ -71,7 +71,7 @@
             <option :value="false">Any</option>
           </select>
         </div>
-        <div row>
+        <div class="row">
           <select v-model="primed" class="autotab">
             <option :value="null">Primed?</option>
             <option :value="false">Not Primed</option>
@@ -86,7 +86,7 @@
       </div>
 
       <div fieldset v-if="!inventory">
-        <div row>
+        <div class="row">
           <select v-model="state" class="autotab" @change="pushCompanies">
             <option :value="null" selected disabled>State</option>
             <option v-for="state in states" :value="state" :key="state">{{ state }}</option>
@@ -99,7 +99,7 @@
             <option v-for="company in companies" :value="company._id" :key="company._id">{{ company.name }}</option>
           </select>
         </div>
-        <div row>
+        <div class="row">
           <select v-model="cut" class="autotab">
             <option disabled selected :value="null">Cut to Length?</option>
             <option :value="true">Offers Cut to Length</option>
@@ -115,7 +115,7 @@
 
     </div>
 
-    <div col center>
+    <div class="col center">
       <Button>
         <span v-if="searching">Search</span>
         <span v-if="buying">Update Search</span>
