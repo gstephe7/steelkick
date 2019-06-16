@@ -26,7 +26,8 @@
         </span>
         <VisualLine :completed="quantityComplete"
                     :total="part.quantity">
-          {{ quantityComplete }}/{{ part.quantity }} {{ targetAction }}
+          {{ quantityComplete }}/{{ part.quantity }}
+          {{ targetAction }}
         </VisualLine>
       </template>
 
@@ -46,12 +47,12 @@
             <span v-for="action in partProgress" class="grow">
               <ChipProgress :completed="action.quantity"
                             :total="part.quantity">
-                <span>
-                  {{ action.quantity }}/{{ part.quantity }}
-                </span>
-                <span>
-                  {{ action.description.substring(0, 3) }}
-                </span>
+                  <span>
+                    {{ action.quantity }}/{{ part.quantity }}
+                  </span>
+                  <span>
+                    {{ action.description.substring(0, 3) }}
+                  </span>
               </ChipProgress>
             </span>
           </div>

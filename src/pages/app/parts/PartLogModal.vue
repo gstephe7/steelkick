@@ -11,7 +11,7 @@
     </template>
 
     <template #content>
-      <Form ref="form" @submitForm="submit">
+      <Form ref="form" @submitForm="submit" viewFirst>
         <template #content>
           <div class="col">
 

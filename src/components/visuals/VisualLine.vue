@@ -16,7 +16,8 @@ export default {
   data () {
     return {
       colorMin: 0,
-      colorMax: 255
+      colorMax: 255,
+      ready: false
     }
   },
   computed: {
@@ -57,8 +58,17 @@ export default {
         width: `${this.percentage * 100}%`
       }
 
-      return style
+      if (this.ready) {
+        return style
+      } else {
+        return null
+      }
     }
+  },
+  mounted () {
+    setTimeout(() => {
+      this.ready = true
+    }, 100)
   }
 }
 </script>
@@ -75,5 +85,7 @@ export default {
     bottom: 0;
     right: 0;
     height: 100%;
+    width: 0%;
+    transition: 500ms all ease-out;
   }
 </style>
