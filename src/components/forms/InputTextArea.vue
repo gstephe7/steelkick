@@ -46,7 +46,7 @@ export default {
   .input-container {
     position: relative;
     height: 96px;
-    width: 290px;
+    width: 288px;
     @include align;
     margin: 0 4px 16px;
   }

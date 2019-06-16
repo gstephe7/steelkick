@@ -63,6 +63,10 @@
           Galvanized
         </InputCheckBox>
 
+        <InputTextArea v-model="part.remarks">
+          Remarks
+        </InputTextArea>
+
         <div class="basis">
           <hr>
           <div class="between align">

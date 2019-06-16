@@ -1,11 +1,11 @@
 <template>
-  <Chip>
+  <div class="chip">
     <div class="fill" :style="fillStyle">
     </div>
     <div class="chip-content">
       <slot></slot>
     </div>
-  </Chip>
+  </div>
 </template>
 
 <script>
@@ -63,6 +63,14 @@ export default {
 <style lang="scss" scoped>
   @import '@/assets/scss/variables.scss';
 
+  .chip {
+    border: 1px solid $accent;
+    position: relative;
+    padding: 4px 0;
+    font-size: 12px;
+    color: $dark;
+  }
+
   .fill {
     position: absolute;
     bottom: 0;
@@ -71,8 +79,8 @@ export default {
   }
 
   .chip-content {
+    @include col;
     overflow: hidden;
     white-space: nowrap;
-    width: 56px;
   }
 </style>

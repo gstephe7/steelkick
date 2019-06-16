@@ -38,14 +38,19 @@
           Remarks:
           <span v-if="part.galvanized">Galvanized </span>
           <span v-if="part.primed">Primed </span>
+          <span v-if="part.remarks">{{ part.remarks }}</span>
         </div>
         <div>
-          Progress: 
-          <div class="wrap">
-            <span v-for="action in partProgress">
+          <div class="space row grow">
+            <span v-for="action in partProgress" class="grow">
               <ChipProgress :completed="action.quantity"
                             :total="part.quantity">
-                {{ action.quantity }}/{{ part.quantity }} {{ action.description.substring(0, 3) }}
+                <span>
+                  {{ action.quantity }}/{{ part.quantity }}
+                </span>
+                <span>
+                  {{ action.description.substring(0, 3) }}
+                </span>
               </ChipProgress>
             </span>
           </div>
