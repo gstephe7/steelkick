@@ -1,5 +1,5 @@
 <template>
-  <div class="main">
+  <div class="article main">
 
     <h1>Schedule</h1>
 

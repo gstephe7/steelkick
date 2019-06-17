@@ -9,8 +9,8 @@ import JobPage from '@/pages/app/jobs/JobPage'
 // parts
 import PartsPage from '@/pages/app/parts/PartsPage'
 
-// purchasing
-import Purchasing from '@/pages/app/purchasing/Purchasing'
+// nesting
+import Nesting from '@/pages/app/nesting/NestingPage'
 
 // schedule
 import Schedule from '@/pages/app/schedule/Schedule'
@@ -83,10 +83,11 @@ export default [
     }
   },
   {
-    path: '/purchasing',
-    name: 'Purchasing',
-    component: Purchasing,
+    path: '/nesting',
+    name: 'Nesting',
+    component: Nesting,
     meta: {
+      job: true,
       parent: {
         path: '/dashboard',
         name: 'Dashboard'
