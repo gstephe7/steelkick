@@ -5,14 +5,19 @@
       <div id="screen">
 
         <div class="screen-header">
-          <Button text @click="$emit('close')">
-            <icon class="icon" icon="times"></icon>
-          </Button>
-          <div class="screen-title">
-            <slot name="title"></slot>
+          <div class="header-base">
+            <Button text @click="$emit('close')">
+              <icon class="icon" icon="times"></icon>
+            </Button>
+            <div class="screen-title">
+              <slot name="title"></slot>
+            </div>
+            <div class="screen-actions">
+              <slot name="actions"></slot>
+            </div>
           </div>
-          <div class="screen-actions">
-            <slot name="actions"></slot>
+          <div v-if="$slots.tabs">
+            <slot name="tabs"></slot>
           </div>
         </div>
 
@@ -64,10 +69,13 @@ export default {
     position: sticky;
     top: 0;
     z-index: 20;
-    height: 56px;
     background-color: #fff;
-    @include align;
     box-shadow: $box-shadow-light;
+  }
+
+  .header-base {
+    @include align;
+    height: 56px;
 
     .icon {
       color: $dark;

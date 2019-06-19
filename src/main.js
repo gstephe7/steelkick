@@ -30,6 +30,7 @@ import Modal from '@/components/dialogs/Modal'
 import Screen from '@/components/dialogs/Screen'
 import SearchHeader from '@/components/forms/SearchHeader'
 import SnackBar from '@/components/dialogs/SnackBar'
+import Tabs from '@/components/navigation/Tabs'
 import VisualLine from '@/components/visuals/VisualLine'
 
 // import icons
@@ -153,6 +154,7 @@ Vue.component('Modal', Modal)
 Vue.component('Screen', Screen)
 Vue.component('SearchHeader', SearchHeader)
 Vue.component('SnackBar', SnackBar)
+Vue.component('Tabs', Tabs)
 Vue.component('VisualLine', VisualLine)
 Vue.component('icon', FontAwesomeIcon)
 

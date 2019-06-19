@@ -1,25 +1,50 @@
 <template>
-  <List>
+  <div>
 
-    <template #fab>
-      <ButtonFab>
-        +
-      </ButtonFab>
-    </template>
+    <List>
 
-    <template #content>
+      <template #fab>
+        <ButtonFab @click="showScreen = true">
+          +
+        </ButtonFab>
+      </template>
 
-      <div>
+      <template #content>
 
-      </div>
+        <div v-if="nests.length > 0">
 
-    </template>
+        </div>
 
-  </List>
+        <div v-else class="col">
+          You haven't nested this job yet
+        </div>
+
+      </template>
+
+    </List>
+
+    <NestingScreen v-if="showScreen"
+                   @close="showScreen = false">
+    </NestingScreen>
+
+  </div>
 </template>
 
 <script>
+import NestingScreen from './NestingScreen'
+
 export default {
+  props: {
+    nests: Array
+  },
+  components: {
+    NestingScreen
+  },
+  data () {
+    return {
+      showScreen: false
+    }
+  }
 }
 </script>
 

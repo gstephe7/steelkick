@@ -26,7 +26,7 @@
       <!-- Nesting/Purchasing -->
       <DashboardCard route="/nesting">
         <template v-slot:thumbnail>
-          <icon class="blue-green" icon="credit-card"></icon>
+          <icon class="blue-green" icon="sitemap"></icon>
         </template>
         <template v-slot:title>
           Nesting

@@ -1,5 +1,35 @@
 export default {
 
+  getLength (length) {
+    let feet = () => {
+      return `${Math.floor(length / 12)}'` || ''
+    }
+
+    let inches = () => {
+      return `${Math.floor(length % 12)}"` || ''
+    }
+
+    let fraction = () => {
+      let decimal = (length % 12) % 1
+      let numerator = decimal * 16
+      let denominator = 16
+
+      for (let i = 0; i < 3; i++) {
+        if (numerator % 2 == 0) {
+          numerator /= 2
+          denominator /= 2
+        } else {
+          break;
+        }
+      }
+
+      if (numerator > 0) return `${numerator}/${denominator}`
+      else return ''
+    }
+
+    return `${feet()} ${inches()} ${fraction()}`
+  },
+
   getFeet (length) {
     return Math.floor(length / 12)
   },
