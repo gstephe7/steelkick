@@ -1,15 +1,18 @@
 <template>
   <List>
     <template #content>
-      <div v-for="nest in finalNest">
-        <NestingItem :nest="nest">
-        </NestingItem>
-      </div>
-      <!-- <div v-for="match in inventoryUse">
-        <NestingItem :nest="match"
+      <div v-for="nest in updatedSecondaryNest">
+        <NestingItem :nest="nest"
+                     inventory
+                     secondary
                      @confirm="useNest">
         </NestingItem>
-      </div> -->
+      </div>
+      <div v-for="nest in updatedFinalNest">
+        <NestingItem :nest="nest"
+                     inventory>
+        </NestingItem>
+      </div>
     </template>
   </List>
 </template>
@@ -22,11 +25,14 @@ export default {
   components: {
     NestingItem
   },
+  props: {
+    parts: Array
+  },
   data () {
     return {
       inventory: [],
-      parts: [],
-      finalNest: []
+      finalNest: [],
+      secondaryNest: []
     }
   },
   computed: {
@@ -67,7 +73,21 @@ export default {
       return multParts.sort((a, b) => {
         return b.length - a.length
       })
+    },
+
+    // updated nest with multiple quantities
+    updatedFinalNest () {
+      let newNest = this.combineNest(this.finalNest)
+
+      return newNest
+    },
+
+    updatedSecondaryNest () {
+      let newNest = this.combineNest(this.secondaryNest)
+
+      return newNest
     }
+
   },
   methods: {
 
@@ -106,63 +126,39 @@ export default {
 
         if (matchingParts.length > 0) {
 
-          let currentCombo = {
-            material: material,
-            parts: [],
-            drop: material.length
+          let newNest = this.nestMaterial(material, matchingParts)
+
+          this.finalNest.push(newNest)
+
+          this.removeItems(material, newNest.parts)
+
+        }
+
+      })
+
+      this.secondNest()
+
+    },
+
+    // if no exact matches are found for the first nest on each inventory item, then this will find parts close in size
+    secondNest () {
+
+      this.expandedInventory.forEach(material => {
+
+        let materialDimension = this.dimension(material)
+
+        let matchingParts = this.expandedParts.filter(part => {
+          let partDimension = this.dimension(part)
+          if (part.shape == material.shape && part.length < material.length && partDimension.dimension == materialDimension.dimension && partDimension.size <= materialDimension.size) {
+            return true
           }
+        })
 
-          matchingParts.forEach((part, index) => {
+        if (matchingParts.length > 0) {
 
-            let newCombo = {
-              material: material,
-              parts: [],
-              drop: material.length
-            }
+          let newNest = this.nestMaterial(material, matchingParts)
 
-            function addPart (start, array) {
-              for (var i = start; i < array.length; i++) {
-                let newDrop = newCombo.drop - array[i].length
-                if (newDrop >= 0) {
-                  newCombo.parts.push(array[i])
-                  newCombo.drop = newDrop
-                  addPart(i + 1, array)
-                } else {
-                  return
-                }
-              }
-            }
-
-            addPart(index, matchingParts)
-
-            if (newCombo.drop < currentCombo.drop) {
-              currentCombo = newCombo
-            }
-
-          })
-
-          this.finalNest.push(currentCombo)
-
-          let materialIndex = this.inventory.findIndex(item => {
-            return item._id == currentCombo.material._id
-          })
-
-          if (this.inventory[materialIndex].quantity > 1) {
-            this.inventory[materialIndex].quantity -= 1
-          } else {
-            this.inventory.splice(materialIndex, 1)
-          }
-
-          currentCombo.parts.forEach(part => {
-            let partIndex = this.parts.findIndex(item => {
-              return item._id == part._id
-            })
-            if (this.parts[partIndex].quantity > 1) {
-              this.parts[partIndex].quantity -= 1
-            } else {
-              this.parts.splice(partIndex, 1)
-            }
-          })
+          this.secondaryNest.push(newNest)
 
         }
 
@@ -171,60 +167,165 @@ export default {
     },
 
 
-    useNest (payload) {
-      let inventoryIndex = this.inventory.findIndex(item => {
-        return item._id == payload.material._id
+    nestMaterial (material, parts) {
+
+      let currentCombo = {
+        material: material,
+        parts: [],
+        drop: material.length
+      }
+
+      parts.forEach((part, index) => {
+
+        let newCombo = {
+          quantity: 1,
+          material: material,
+          parts: [],
+          drop: material.length
+        }
+
+        function addPart (start, array) {
+          for (var i = start; i < array.length; i++) {
+            let newDrop = newCombo.drop - array[i].length
+            if (newDrop >= 0) {
+              newCombo.parts.push({
+                part: array[i],
+                quantity: 1
+              })
+              newCombo.drop = newDrop
+              addPart(i + 1, array)
+            } else {
+              return
+            }
+          }
+        }
+
+        addPart(index, parts)
+
+        if (newCombo.drop < currentCombo.drop) {
+          currentCombo = newCombo
+        }
+
       })
 
-      let newNest = payload
-      newNest.confirmed = true
+      return currentCombo
 
-      this.finalNest.push(newNest)
-      this.inventory.splice(inventoryIndex, 1)
+    },
 
-      payload.parts.forEach(part => {
-        let partIndex = this.parts.findIndex(item => {
-          return item._id == part._id
+
+    removeItems (material, parts) {
+
+      let materialIndex = this.inventory.findIndex(item => {
+        return item._id == material._id
+      })
+
+      if (this.inventory[materialIndex].quantity > 1) {
+        this.inventory[materialIndex].quantity -= 1
+      } else {
+        this.inventory.splice(materialIndex, 1)
+      }
+
+      parts.forEach(item => {
+        let partIndex = this.parts.findIndex(value => {
+          return item.part._id == value._id
         })
-        this.parts.splice(partIndex, 1)
+        if (partIndex != -1) {
+          if (this.parts[partIndex].quantity > 1) {
+            this.parts[partIndex].quantity -= 1
+          } else {
+            this.parts.splice(partIndex, 1)
+          }
+        }
       })
+
+    },
+
+
+    useNest (payload) {
+      this.finalNest.unshift(payload)
+
+      let secondaryIndex = this.secondaryNest.findIndex(item => {
+        if (item.material._id == payload.material._id && item.drop == payload.drop) {
+          return true
+        }
+      })
+
+      this.secondaryNest.splice(secondaryIndex, 1)
+
+      this.removeItems(payload.material, payload.parts)
+
+      this.$store.dispatch('snackbar', 'New nest created!')
+    },
+
+
+    combineNest (nest) {
+
+      let newNest = nest
+
+      function multNests () {
+
+        newNest.forEach((item, index) => {
+
+          if (item.parts.length > 1) {
+
+            function multParts () {
+              for (var i = 1; i < item.parts.length; i++) {
+                if (item.parts[i].part.minorMark == item.parts[i - 1].part.minorMark) {
+                  item.parts[i - 1].quantity += 1
+                  item.parts.splice(i, 1)
+                  multParts()
+                }
+              }
+            }
+
+            multParts()
+
+          }
+
+          if (index > 0 && item.material._id == newNest[index - 1].material._id) {
+
+            let match = true
+
+            item.parts.forEach((part, x) => {
+              if (part.part.minorMark != newNest[index - 1].parts[x].part.minorMark) {
+                match = false
+              }
+            })
+
+            if (match) {
+              newNest[index - 1].quantity += 1
+              newNest.splice(index, 1)
+              multNests()
+            }
+
+          }
+
+        })
+
+      }
+
+      multNests()
+
+      return newNest
+
     }
   },
   created () {
-
     api.request({
       type: 'get',
-      endpoint: '/jobs/parts',
+      endpoint: '/material/search-material',
       load: true,
       data: {
-        jobId: this.$store.getters.currentJob._id
+        company: this.$store.getters.companyId
       },
       res: res => {
-        this.parts = res.data.parts
-
-        api.request({
-          type: 'get',
-          endpoint: '/material/search-material',
-          load: true,
-          data: {
-            company: this.$store.getters.companyId
-          },
-          res: res => {
-            this.inventory = res.data.material
-
-            this.nest()
-          },
-          err: err => {
-            console.log(err)
-          }
-        })
-
+        this.inventory = res.data.material
+        this.nest()
       },
       err: err => {
         console.log(err)
       }
     })
-
   }
 }
 </script>

@@ -12,14 +12,16 @@
 
     <template #content>
 
-      <div v-if="currentTab == 0">
-        <NestingInventoryTab>
-        </NestingInventoryTab>
-      </div>
+      <div v-if="loaded">
 
-      <div v-else>
+        <div v-if="currentTab == 0">
+          <NestingInventoryTab :parts="parts">
+          </NestingInventoryTab>
+        </div>
 
+        <div v-else>
 
+        </div>
 
       </div>
 
@@ -29,6 +31,7 @@
 </template>
 
 <script>
+import api from '@/api/api'
 import NestingInventoryTab from './NestingInventoryTab'
 
 export default {
@@ -37,14 +40,33 @@ export default {
   },
   data () {
     return {
+      parts: [],
       tabs: ['Inventory', 'Purchase'],
-      currentTab: 0
+      currentTab: 0,
+      loaded: false
     }
   },
   methods: {
     changeTab (payload) {
       this.currentTab == payload
     }
+  },
+  created () {
+    api.request({
+      type: 'get',
+      endpoint: '/jobs/parts',
+      load: true,
+      data: {
+        jobId: this.$store.getters.currentJob._id
+      },
+      res: res => {
+        this.parts = res.data.parts
+        this.loaded = true
+      },
+      err: err => {
+        console.log(err)
+      }
+    })
   }
 }
 </script>

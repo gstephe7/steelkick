@@ -4,8 +4,8 @@
     <Item>
 
       <template #title>
-        <div :class="{ confirmed : confirmed }">
-          {{ nest.material.shape }} {{ nest.material.dimension }}
+        <div :class="{ secondary : secondary }">
+          {{ nest.quantity }} {{ nest.material.shape }} {{ nest.material.dimension }}
         </div>
         <div>
           {{ materialLength }}
@@ -15,20 +15,57 @@
       <template #second>
         <div>
           <div v-for="part in parts">
-            {{ part.minorMark }} @ {{ partLength(part) }}
+            ({{ part.quantity }}) {{ part.part.minorMark }} @ {{ partLength(part.part) }} <span v-if="secondary" class="secondary">({{ part.part.shape }} {{ part.part.dimension }})</span>
           </div>
         </div>
       </template>
 
       <template #third>
-        <span></span>
-        <span>Drop: {{ dropLength }}</span>
+        <div>
+          <div v-if="secondary">
+            Requires Confirmation!
+          </div>
+        </div>
+        <div>
+          Drop: {{ dropLength }}
+        </div>
+      </template>
+
+      <template #details>
+        <div class="between">
+          <div>
+            <span v-if="inventory">
+              In Stock
+            </span>
+          </div>
+          <div>
+            Heat:
+            <span v-if="nest.material.heat">
+              {{ nest.material.heat }}
+            </span>
+            <span v-else>
+              N/A
+            </span>
+          </div>
+        </div>
+        <div class="between">
+          <span v-if="nest.material.location">
+            Location: {{ nest.material.location }}
+          </span>
+        </div>
       </template>
 
       <template #actions>
-        <Button text @click="$emit('confirm', nest)">
-          USE NEST
-        </Button>
+        <div v-if="secondary">
+          <Button text @click="$emit('confirm', nest)">
+            CONFIRM NEST
+          </Button>
+        </div>
+        <div>
+          <Button text delete>
+            DELETE NEST
+          </Button>
+        </div>
       </template>
 
     </Item>
@@ -41,7 +78,9 @@ import method from '@/global/methods.js'
 
 export default {
   props: {
-    nest: Object
+    nest: Object,
+    secondary: Boolean,
+    inventory: Boolean
   },
   computed: {
     parts () {
@@ -66,7 +105,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .confirmed {
-    background-color: #eeff00;
+  .secondary {
+    background-color: #ffdd00;
   }
 </style>

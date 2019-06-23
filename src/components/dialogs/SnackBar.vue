@@ -1,6 +1,6 @@
 <template>
   <transition appear name="slide">
-    <div class="snackbar">
+    <div class="snackbar" @click="$store.dispatch('hideSnackbar')">
       <span v-if="$store.getters.snackbarError">
         <icon icon="times-circle" class="icon-error">
         </icon>
@@ -37,7 +37,7 @@ export default {
     @include align;
     @include center;
     transition: 500ms all;
-    z-index: 5;
+    z-index: 21;
   }
 
   .slide-enter, .slide-leave-to {
