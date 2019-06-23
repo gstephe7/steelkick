@@ -13,7 +13,11 @@
       </template>
 
       <template #second>
-        <span>{{ nest.part.minorMark }} @ {{ partLength }}</span>
+        <div>
+          <div v-for="part in parts">
+            {{ part.minorMark }} @ {{ partLength(part) }}
+          </div>
+        </div>
       </template>
 
       <template #third>
@@ -40,17 +44,22 @@ export default {
     nest: Object
   },
   computed: {
+    parts () {
+      return this.nest.parts
+    },
     materialLength () {
       return method.getLength(this.nest.material.length)
-    },
-    partLength () {
-      return method.getLength(this.nest.part.length)
     },
     dropLength () {
       return method.getLength(this.nest.drop)
     },
     confirmed () {
       return this.nest.confirmed
+    }
+  },
+  methods: {
+    partLength (part) {
+      return method.getLength(part.length)
     }
   }
 }
