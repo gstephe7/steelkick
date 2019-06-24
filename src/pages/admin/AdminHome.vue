@@ -1,9 +1,7 @@
 <template>
-  <div main>
+  <div class="main">
 
-    <div col>
-      <h1>Admin Home</h1>
-    </div>
+    <h1>Admin Home</h1>
 
     <hr>
 

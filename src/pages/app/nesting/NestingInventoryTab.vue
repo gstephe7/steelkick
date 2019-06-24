@@ -180,27 +180,32 @@ export default {
         let newCombo = {
           quantity: 1,
           material: material,
-          parts: [],
-          drop: material.length
+          parts: [{
+            quantity: 1,
+            part: part
+          }],
+          drop: material.length - part.length
         }
 
         function addPart (start, array) {
           for (var i = start; i < array.length; i++) {
-            let newDrop = newCombo.drop - array[i].length
-            if (newDrop >= 0) {
-              newCombo.parts.push({
-                part: array[i],
-                quantity: 1
-              })
-              newCombo.drop = newDrop
-              addPart(i + 1, array)
-            } else {
-              return
+            if (i != index) {
+              let newDrop = newCombo.drop - array[i].length
+              if (newDrop >= 0) {
+                newCombo.parts.push({
+                  part: array[i],
+                  quantity: 1
+                })
+                newCombo.drop = newDrop
+                addPart(i + 1, array)
+              } else {
+                return
+              }
             }
           }
         }
 
-        addPart(index, parts)
+        addPart(0, parts)
 
         if (newCombo.drop < currentCombo.drop) {
           currentCombo = newCombo

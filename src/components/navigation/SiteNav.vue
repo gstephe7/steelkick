@@ -1,6 +1,6 @@
 <template>
   <nav class="end" @click="closeMenu">
-    <ul :row="desktop" :class="{ footerNav : footer }">
+    <ul :class="{ row : desktop, footerNav : footer }">
       <li>
         <router-link :to="'/search'">
           Buy Steel

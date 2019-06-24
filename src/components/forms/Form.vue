@@ -114,7 +114,6 @@ export default {
   #form {
     max-width: 600px;
     margin: 0 auto;
-    @include col;
   }
 
   .form-content {
@@ -124,7 +123,8 @@ export default {
   }
 
   .form-title {
-    margin: 0 16px 16px 16px;
+    margin: 0 8px 16px;
+    text-align: center;
   }
 
   .error /deep/ {

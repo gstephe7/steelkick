@@ -30,6 +30,7 @@
 export default {
   props: {
     value: Boolean,
+    tiny: Boolean,
     small: Boolean,
     big: Boolean
   },
@@ -149,5 +150,14 @@ export default {
 
   .target {
     border: 2px solid $secondary;
+  }
+
+  .tiny {
+    width: 64px;
+    label.label {
+      justify-content: center;
+      text-align: center;
+      padding: 0 8px;
+    }
   }
 </style>

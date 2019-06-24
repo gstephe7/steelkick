@@ -127,6 +127,10 @@ export default new Vuex.Store({
         }, 250)
       })
     },
+    adminLogin ({commit}, payload) {
+      $cookies.set('adminToken', payload, '14d')
+      commit('adminLogin', payload)
+    },
     adminLogout ({commit}) {
       $cookies.remove('adminToken')
       commit('adminLogout')

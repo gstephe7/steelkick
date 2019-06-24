@@ -49,9 +49,14 @@
           </div>
         </div>
         <div class="between">
-          <span v-if="nest.material.location">
-            Location: {{ nest.material.location }}
-          </span>
+          <div>
+            <span v-if="nest.material.location">
+              Location: {{ nest.material.location }}
+            </span>
+          </div>
+          <div>
+            {{ weight }} lbs
+          </div>
         </div>
       </template>
 
@@ -94,6 +99,10 @@ export default {
     },
     confirmed () {
       return this.nest.confirmed
+    },
+    weight () {
+      let newWeight = this.nest.material.weightPerFoot * (this.nest.material.length / 12)
+      return Math.floor(newWeight)
     }
   },
   methods: {

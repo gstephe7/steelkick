@@ -14,13 +14,14 @@
 
       <div v-if="loaded">
 
-        <div v-if="currentTab == 0">
+        <div v-show="currentTab == 0">
           <NestingInventoryTab :parts="parts">
           </NestingInventoryTab>
         </div>
 
-        <div v-else>
-
+        <div v-show="currentTab == 1">
+          <NestingPurchasingTab :parts="parts">
+          </NestingPurchasingTab>
         </div>
 
       </div>
@@ -33,10 +34,12 @@
 <script>
 import api from '@/api/api'
 import NestingInventoryTab from './NestingInventoryTab'
+import NestingPurchasingTab from './NestingPurchasingTab'
 
 export default {
   components: {
-    NestingInventoryTab
+    NestingInventoryTab,
+    NestingPurchasingTab
   },
   data () {
     return {
@@ -48,7 +51,7 @@ export default {
   },
   methods: {
     changeTab (payload) {
-      this.currentTab == payload
+      this.currentTab = payload
     }
   },
   created () {

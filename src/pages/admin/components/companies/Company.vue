@@ -1,5 +1,5 @@
 <template>
-  <div main>
+  <div class="main">
 
     <h1>{{ company.name }}</h1>
 
@@ -32,7 +32,28 @@
       </div>
     </div>
 
-    <div col>
+    <div class="section col">
+      <h2>Create Parts</h2>
+      <InputSelect v-model="jobId" big>
+        <template #label>Job</template>
+        <template #options>
+          <option v-for="job in jobs" :value="job._id">
+            {{ job.name }}
+          </option>
+        </template>
+      </InputSelect>
+      <InputText v-model="numberOfParts" big type="number">
+        # of Parts
+      </InputText>
+      <Button create @click="createParts">
+        Create
+      </Button>
+      <div v-if="partsCreated">
+        Success!
+      </div>
+    </div>
+
+    <div class="section">
       <button red @click="showDelete = !showDelete">Delete Company</button>
     </div>
 
@@ -51,6 +72,7 @@
 
 <script>
 import api from '@/api/api'
+import material from '@/assets/data/material.js'
 import ViewCompany from '@/pages/app/marketplace/editProfile/ViewCompany'
 import EditCompany from '@/pages/app/marketplace/editProfile/EditCompany'
 
@@ -63,9 +85,162 @@ export default {
     return {
       company: {},
       material: [],
+      jobId: null,
+      jobs: [],
+      numberOfParts: null,
       companyLoaded: false,
       editing: false,
-      showDelete: false
+      showDelete: false,
+      partsCreated: false
+    }
+  },
+  computed: {
+    shapes () {
+      let allShapes = []
+      material.forEach(item => {
+        allShapes.push(item.shape)
+      })
+      return allShapes
+    },
+    currentJob () {
+      let jobIndex = this.jobs.findIndex(job => {
+        return job._id == this.jobId
+      })
+
+      return this.jobs[jobIndex]
+    }
+  },
+  methods: {
+    deleteCompany () {
+      this.$store.dispatch('loading')
+      api.axios
+        .delete(`${api.baseUrl}/admin/delete-company`, {
+          params: {
+            id: this.company._id
+          }
+        })
+        .then(() => {
+          this.$store.dispatch('complete')
+          this.$router.push({ name: 'AdminHome' })
+        })
+        .catch(() => {
+          this.$store.dispatch('complete')
+        })
+    },
+    createParts () {
+      let parts = []
+      let currentSequences = this.currentJob.sequences
+      let jobId = this.jobId
+
+      function randomPart () {
+        let part = {}
+
+        let randomShape = () => {
+          let num = Math.random()
+          if (num < 0.55) return "W"
+          else if (num < 0.8) return "HSS"
+          else if (num < 0.9) return "L"
+          else if (num < 0.97) return "C"
+          else return "FB"
+        }
+
+        let randomDimension = (shape) => {
+          let dimensions = []
+          material.forEach(item => {
+            if (item.shape == shape) {
+              item.dimensions.forEach(value => {
+                dimensions.push(value.dimension)
+              })
+            }
+          })
+          let num = Math.floor(Math.random() * dimensions.length)
+
+          return dimensions[num]
+        }
+
+        let randomMark = (shape) => {
+          let page = () => {
+            if (shape == 'L' || shape == 'C') return Math.floor((Math.random() * 2) + 1)
+            else return Math.floor((Math.random() * 100) + 3)
+          }
+
+          let member = () => {
+            if (shape == 'W') return 'B'
+            else if (shape == 'HSS') return 'C'
+            else if (shape == 'L') return 'MA'
+            else return 'MC'
+          }
+          let number = Math.floor((Math.random() * 9) + 1)
+          return `${page()}${member()}${number}`
+        }
+
+        let randomLength = (shape) => {
+          let num = Math.random()
+          if (shape == 'W') return Math.floor((num * 500) + 36)
+          else if (shape == 'HSS') return Math.floor((num * 500) + 24)
+          else return Math.floor(num * 240)
+        }
+
+        let randomSequences = (shape, jobSequences) => {
+          let sequences = []
+          let randomQuant = () => {
+            if (shape == 'L') return Math.floor(Math.random() * 250)
+            else return Math.floor(Math.random() * 10)
+          }
+          for (var i = 0; i < jobSequences; i++) {
+            sequences.push({
+              number: i + 1,
+              quantity: randomQuant()
+            })
+          }
+          return sequences
+        }
+
+        let findWeight = (shape, dimension, length) => {
+          let weight = 0
+          let lengthInFeet = parseFloat(length / 12)
+          material.forEach(item => {
+            if (item.shape == shape) {
+              item.dimensions.forEach(value => {
+                if (value.dimension == dimension) {
+                  weight = parseFloat(value.weight)
+                }
+              })
+            }
+          })
+          return weight * lengthInFeet
+        }
+
+        part.shape = randomShape()
+        part.dimension = randomDimension(part.shape)
+        part.minorMark = randomMark(part.shape)
+        part.length = randomLength(part.shape)
+        part.weight = findWeight(part.shape, part.dimension, part.length)
+        part.job = jobId
+
+        return {
+          sequences: randomSequences(part.shape, currentSequences),
+          part: part
+        }
+      }
+
+      for (var i = 0; i < this.numberOfParts; i++) {
+        let newPart = randomPart()
+        parts.push(newPart)
+      }
+
+      api.request({
+        type: 'post',
+        endpoint: '/admin/create-parts',
+        load: true,
+        data: {
+          parts: parts
+        },
+        res: res => {
+          this.partsCreated = true
+        }
+      })
+
     }
   },
   created () {
@@ -94,24 +269,17 @@ export default {
       .then(res => {
         this.material = res.data.material
       })
-  },
-  methods: {
-    deleteCompany () {
-      this.$store.dispatch('loading')
-      api.axios
-        .delete(`${api.baseUrl}/admin/delete-company`, {
-          params: {
-            id: this.company._id
-          }
-        })
-        .then(() => {
-          this.$store.dispatch('complete')
-          this.$router.push({ name: 'AdminHome' })
-        })
-        .catch(() => {
-          this.$store.dispatch('complete')
-        })
-    }
+
+    api.request({
+      type: 'get',
+      endpoint: '/jobs/jobs',
+      data: {
+        companyId: this.$route.query.companyId
+      },
+      res: res => {
+        this.jobs = res.data.jobs
+      }
+    })
   }
 }
 </script>
