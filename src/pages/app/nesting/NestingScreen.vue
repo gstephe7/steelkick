@@ -15,12 +15,15 @@
       <div v-if="loaded">
 
         <div v-show="currentTab == 0">
-          <NestingInventoryTab :parts="parts">
+          <NestingInventoryTab :parts="parts"
+                               @newNest="newNest">
           </NestingInventoryTab>
         </div>
 
         <div v-show="currentTab == 1">
-          <NestingPurchasingTab :parts="parts">
+          <NestingPurchasingTab :parts="parts"
+                                @newNest="newNest"
+                                @close="$emit('close')">
           </NestingPurchasingTab>
         </div>
 
@@ -50,6 +53,11 @@ export default {
     }
   },
   methods: {
+    newNest (payload) {
+      payload.forEach(item => {
+        this.$emit('newNest', item)
+      })
+    },
     changeTab (payload) {
       this.currentTab = payload
     }

@@ -27,6 +27,7 @@
 
 <script>
 import api from '@/api/api'
+import material from '@/assets/data/material'
 
 export default {
   props: {
@@ -51,6 +52,7 @@ export default {
   computed: {
     allShapes () {
       let shapes = []
+
       this.parts.forEach(part => {
         let shapeIndex = shapes.findIndex(value => {
           return value == part.shape
@@ -59,6 +61,7 @@ export default {
           shapes.push(part.shape)
         }
       })
+
       return shapes
     },
     expandedParts () {
@@ -78,124 +81,275 @@ export default {
         return b.length - a.length
       })
     },
-
+    updatedFinalNest () {
+      return this.combineNest(this.finalNest)
+    }
   },
   methods: {
     nest () {
 
-      function getLengths (shape, options) {
-        let selectedLengths = []
-        options.forEach(item => {
-          if (item.used) {
-            selectedLengths.push(item.length)
-          }
-        })
-        if (shape == 'FB' || shape == 'SB' || shape == 'RB' || shape == 'PIPE') return [240]
-        else if (shape == 'C' || shape == 'MC' || shape == 'L') return [240, 480]
-        else return selectedLengths
-      }
-
       this.allShapes.forEach(shape => {
 
-        let lengths = getLengths(shape, this.options)
+        this.nestDimensions(shape)
 
-        this.nestMaterial(shape, lengths)
+      })
+
+      this.$emit('newNest', this.updatedFinalNest)
+
+      this.$emit('close')
+
+      this.$store.dispatch('snackbar', 'Job successfully nested!')
+
+    },
+
+
+    nestDimensions (shape) {
+
+      let allDimensions = this.getDimensions(shape)
+
+      allDimensions.forEach(dimension => {
+
+        this.nestLengths(shape, dimension)
 
       })
 
     },
 
+    nestLengths (shape, dimension) {
 
-    nestMaterial (shape, lengths) {
+      let nest = {
+        drop: 5000
+      }
 
-      function getDimensions (shape, parts) {
-        let dimensions = []
-        parts.forEach(part => {
+      let parts = this.expandedParts.filter(part => {
+        if (part.shape == shape && part.dimension == dimension) {
+          return true
+        }
+      })
+
+      if (parts.length > 0) {
+
+        let allLengths = this.getLengths(shape).reverse()
+
+        allLengths.forEach(length => {
+
+          let newNest = this.nestParts(shape, dimension, length, parts)
+
+          if (newNest.drop < nest.drop) {
+            nest = newNest
+          }
+
+        })
+
+        this.finalNest.push(nest)
+
+        this.removeParts(nest.parts)
+
+        if (parts.length > 0) {
+          this.nestLengths(shape, dimension)
+        }
+
+      }
+
+    },
+
+
+    nestParts (shape, dimension, length, parts) {
+
+      let nest = {
+        job: this.$store.getters.currentJob._id,
+        material: {
+          shape: shape,
+          dimension: dimension,
+          length: length,
+          weightPerFoot: this.getWeight(shape, dimension)
+        },
+        parts: [],
+        quantity: 1,
+        drop: length
+      }
+
+      parts.forEach((part, index) => {
+        if (part.length < length) {
+
+          let newNest = {
+            job: this.$store.getters.currentJob._id,
+            material: {
+              shape: shape,
+              dimension: dimension,
+              length: length,
+              weightPerFoot: this.getWeight(shape, dimension)
+            },
+            parts: [{
+              part: part,
+              quantity: 1
+            }],
+            quantity: 1,
+            drop: length - part.length
+          }
+
+          function addParts (start) {
+            for (var i = start; i < parts.length; i++) {
+              if (i != index) {
+                let newDrop = newNest.drop - parts[i].length
+                if (newDrop >= 0) {
+                  newNest.parts.push({
+                    part: parts[i],
+                    quantity: 1
+                  })
+                  newNest.drop = newDrop
+                  addParts(i + 1)
+                } else {
+                  return
+                }
+              }
+            }
+          }
+
+          addParts(0)
+
+          if (newNest.drop < nest.drop) {
+            nest = newNest
+          }
+
+        }
+
+      })
+
+      return nest
+
+    },
+
+
+    removeParts (parts) {
+
+      parts.forEach(item => {
+        let partIndex = this.parts.findIndex(value => {
+          return value._id == item.part._id
+        })
+        if (partIndex != -1) {
+          if (this.parts[partIndex].quantity > 1) {
+            this.parts[partIndex].quantity -= 1
+          } else {
+            this.parts.splice(partIndex, 1)
+          }
+        }
+      })
+
+    },
+
+
+    getDimensions (shape) {
+      let dimensions = []
+
+      this.parts.forEach(part => {
+        if (part.shape == shape) {
           let index = dimensions.findIndex(value => {
             return value == part.dimension
           })
           if (index == -1) {
             dimensions.push(part.dimension)
           }
-        })
-        return dimensions
-      }
+        }
+      })
 
-      let dimensions = getDimensions(shape, this.parts)
+      return dimensions
+    },
 
-      dimensions.forEach(dimension => {
 
-        let matchingParts = this.expandedParts.filter(part => {
-          if (part.shape == shape && part.dimension == dimension) return true
-        })
+    getParts (shape, dimension) {
+      return this.expandedParts.filter(part => {
+        if (part.shape == shape && part.dimension == dimension) {
+          return true
+        }
+      })
+    },
 
-        function nestParts (parts, lengths) {
 
-          let bestNest = {}
+    getLengths (shape) {
+      let selectedLengths = []
 
-          lengths.forEach(length => {
+      this.options.forEach(item => {
+        if (item.used) {
+          selectedLengths.push(item.length)
+        }
+      })
 
-            let lengthNest = {
-              length: length,
-              drop: length
+      if (shape == 'FB' || shape == 'SB' || shape == 'RB' || shape == 'PIPE') return [240]
+      else if (shape == 'C' || shape == 'MC' || shape == 'L') return [240, 480]
+      else return selectedLengths
+    },
+
+
+    getWeight (shape, dimension) {
+      let weight = 0
+
+      material.forEach(item => {
+        if (item.shape == shape) {
+          item.dimensions.forEach(value => {
+            if (value.dimension == dimension) {
+              weight = value.weight
+            }
+          })
+        }
+      })
+
+      return weight
+    },
+
+
+    combineNest (nest) {
+
+      let newNest = nest
+
+      function multNests () {
+
+        newNest.forEach((item, index) => {
+
+          if (item.parts.length > 1) {
+
+            function multParts () {
+              for (var i = 1; i < item.parts.length; i++) {
+                if (item.parts[i].part.minorMark == item.parts[i - 1].part.minorMark) {
+                  item.parts[i - 1].quantity += 1
+                  item.parts.splice(i, 1)
+                  multParts()
+                }
+              }
             }
 
-            parts.forEach((part, index) => {
-              if (part.length < length) {
+            multParts()
 
-                let partNest = {
-                  length: length,
-                  parts: [{
-                    quantity: 1,
-                    part: part
-                  }],
-                  drop: length - part.length
-                }
+          }
 
-                function addParts (start, array) {
-                  for (var i = start; i < array.length; i++) {
-                    if (i != index) {
-                      let newDrop = partNest - array[i].length
-                      if (newDrop >= 0) {
-                        partNest.push({
-                          part: array[i],
-                          quantity: 1
-                        })
-                        partNest.drop = newDrop
-                        addParts(i + 1, array)
-                      } else {
-                        return
-                      }
-                    }
-                  }
-                }
+          if (index > 0 && item.material._id == newNest[index - 1].material._id) {
 
-                addParts(0, parts)
+            let match = true
 
-                if (partNest.drop < lengthNest.drop) {
-                  lengthNest = partNest
-                }
-
+            item.parts.forEach((part, x) => {
+              if (part.part.minorMark != newNest[index - 1].parts[x].part.minorMark) {
+                match = false
               }
             })
 
-            if (lengthNest.drop < bestNest.drop) {
-              bestNest = lengthNest
+            if (match) {
+              newNest[index - 1].quantity += 1
+              newNest.splice(index, 1)
+              multNests()
             }
 
-          })
-
-          if (matchingParts.length > 0) {
-            nestParts(matchingParts, lengths)
           }
 
-        }
+        })
 
-        nestParts(matchingParts, lengths)
+      }
 
-      })
+      multNests()
+
+      return newNest
 
     }
+
   }
 }
 </script>

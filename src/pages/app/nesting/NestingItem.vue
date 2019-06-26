@@ -101,8 +101,8 @@ export default {
       return this.nest.confirmed
     },
     weight () {
-      let newWeight = this.nest.material.weightPerFoot * (this.nest.material.length / 12)
-      return Math.floor(newWeight)
+      let newWeight = parseFloat(this.nest.material.weightPerFoot) * parseFloat(this.nest.material.length / 12) * parseFloat(this.nest.quantity)
+      return Math.ceil(newWeight)
     }
   },
   methods: {

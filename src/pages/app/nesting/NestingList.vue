@@ -11,9 +11,15 @@
 
       <template #content>
 
-        <div v-if="nests.length > 0">
-
+        <div v-if="newNests.length > 0">
+          <div v-for="nest in newNests">
+            <NestingItem :nest="nest"></NestingItem>
+          </div>
         </div>
+
+        <!-- <div v-if="nests.length > 0">
+
+        </div> -->
 
         <div v-else class="col">
           You haven't nested this job yet
@@ -24,13 +30,15 @@
     </List>
 
     <NestingScreen v-if="showScreen"
-                   @close="showScreen = false">
+                   @close="showScreen = false"
+                   @newNest="newNest">
     </NestingScreen>
 
   </div>
 </template>
 
 <script>
+import NestingItem from './NestingItem'
 import NestingScreen from './NestingScreen'
 
 export default {
@@ -38,11 +46,18 @@ export default {
     nests: Array
   },
   components: {
+    NestingItem,
     NestingScreen
   },
   data () {
     return {
-      showScreen: false
+      showScreen: false,
+      newNests: []
+    }
+  },
+  methods: {
+    newNest (payload) {
+      this.newNests.push(payload)
     }
   }
 }

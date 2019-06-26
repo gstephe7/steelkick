@@ -146,10 +146,16 @@ export default {
 
         let randomDimension = (shape) => {
           let dimensions = []
+          let acceptedDims = ['8x10', '10x12', '12x14', '14x22', '16x26', '18x35', '21x44', '24x55', '3x3x1/4', '4x4x1/4', '5x5x5/16', '6x6x3/8', '4x5.4', '5x6.7', '6x8.2', '1/4x4', '3/8x6']
           material.forEach(item => {
             if (item.shape == shape) {
               item.dimensions.forEach(value => {
-                dimensions.push(value.dimension)
+                let match = acceptedDims.find(dim => {
+                  return dim == value.dimension
+                })
+                if (match) {
+                  dimensions.push(value.dimension)
+                }
               })
             }
           })
@@ -184,14 +190,17 @@ export default {
         let randomSequences = (shape, jobSequences) => {
           let sequences = []
           let randomQuant = () => {
-            if (shape == 'L') return Math.floor(Math.random() * 250)
-            else return Math.floor(Math.random() * 10)
+            if (shape == 'L') return Math.floor(Math.random() * 50)
+            else return Math.floor(Math.random() * 3)
           }
           for (var i = 0; i < jobSequences; i++) {
-            sequences.push({
-              number: i + 1,
-              quantity: randomQuant()
-            })
+            let coinFlip = Math.random()
+            if (coinFlip > 0.5) {
+              sequences.push({
+                number: i + 1,
+                quantity: randomQuant()
+              })
+            }
           }
           return sequences
         }

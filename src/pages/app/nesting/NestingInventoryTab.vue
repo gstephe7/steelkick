@@ -99,10 +99,16 @@ export default {
           dimension: item.dimension.slice(0, x),
           size: parseFloat(item.dimension.slice(x + 1))
         }
-      } else if (item.shape == 'PIPE' || item.shape == 'PL') {
+      } else if (item.shape == 'PIPE' || item.shape == 'PL' || item.shape == 'RB' || item.shape == 'SB') {
         return {
           dimension: item.dimension,
           size: item.dimension
+        }
+      } else if (item.shape == 'FB') {
+        let x = item.dimension.indexOf('x')
+        return {
+          dimension: item.dimension.slice(x + 1),
+          size: parseFloat(item.dimension.slice(0, x))
         }
       } else {
         let x = item.dimension.indexOf('x')
@@ -326,6 +332,7 @@ export default {
       res: res => {
         this.inventory = res.data.material
         this.nest()
+        this.$emit('newNest', this.updatedFinalNest)
       },
       err: err => {
         console.log(err)
