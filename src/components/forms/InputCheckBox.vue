@@ -5,13 +5,12 @@
       <input type="checkbox"
              :id="id"
              class="input"
-             :value="value"
-             :checked="value"
+             :checked="checked"
              @focus="target = true"
              @blur="target = false"
-             @change="toggleCheck"
-             @keyup.right="toggleCheck"
-             @keyup.left="toggleCheck">
+             @change="toggleCheck($event)"
+             @keyup.right="toggleCheck($event)"
+             @keyup.left="toggleCheck($event)">
 
       <label :for="id" class="label">
         <span class="icon">
@@ -28,15 +27,19 @@
 
 <script>
 export default {
+  model: {
+    prop: 'checked',
+    event: 'change'
+  },
   props: {
-    value: Boolean,
+    checked: Boolean,
     tiny: Boolean,
     small: Boolean,
     big: Boolean
   },
   data () {
     return {
-      id: this.$slots.default[0].text,
+      id: this._uid,
       target: false
     }
   },
@@ -57,12 +60,8 @@ export default {
     }
   },
   methods: {
-    toggleCheck () {
-      if (this.selected) {
-        this.$emit('input', false)
-      } else {
-        this.$emit('input', true)
-      }
+    toggleCheck (event) {
+      this.$emit('change', event.target.checked)
     }
   }
 }
@@ -153,7 +152,7 @@ export default {
   }
 
   .tiny {
-    width: 64px;
+    width: 88px;
     label.label {
       justify-content: center;
       text-align: center;

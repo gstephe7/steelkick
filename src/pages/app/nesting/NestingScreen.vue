@@ -47,7 +47,7 @@ export default {
   data () {
     return {
       parts: [],
-      tabs: ['Inventory', 'Purchase'],
+      tabs: ['Inventory', 'Ordering'],
       currentTab: 0,
       loaded: false
     }

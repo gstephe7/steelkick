@@ -7,14 +7,59 @@
 
     <template #content>
       <div class="grow container">
-        <h5>Possible Order Lengths</h5>
-        <div class="space wrap">
-          <span v-for="(length, index) in options">
-            <InputCheckBox v-model="options[index].used" tiny>
-              {{ length.length / 12 }}'
-            </InputCheckBox>
-          </span>
+
+        <div>
+          <h5>Beam Order Lengths</h5>
+          <div class="space wrap">
+            <span v-for="(length, index) in beamOptions">
+              <InputCheckBox v-model="beamOptions[index].used" tiny>
+                {{ +(length.length / 12).toFixed(2) }}'
+              </InputCheckBox>
+            </span>
+          </div>
+          <div class="space">
+            <p class="center">
+              Add Custom Order Length
+            </p>
+            <div class="align center">
+              <InputLength v-model="newBeamLength"
+                           :class="{ error : errors.beamLength }">
+              </InputLength>
+              <Button outline @click="addLength(newBeamLength, beamOptions, 'beamLength')">
+                ADD
+              </Button>
+            </div>
+          </div>
         </div>
+
+        <hr>
+
+        <div class="div">
+          <h5>Tube Order Lengths</h5>
+          <div class="space wrap">
+            <span v-for="(length, index) in tubeOptions">
+              <InputCheckBox v-model="tubeOptions[index].used" tiny>
+                {{ +(length.length / 12).toFixed(2) }}'
+              </InputCheckBox>
+            </span>
+          </div>
+          <div class="space">
+            <p class="center">
+              Add Custom Order Length
+            </p>
+            <div class="align center">
+              <InputLength v-model="newTubeLength"
+                           :class="{ error : errors.tubeLength }">
+              </InputLength>
+              <Button outline @click="addLength(newTubeLength, tubeOptions, 'tubeLength')">
+                ADD
+              </Button>
+            </div>
+          </div>
+        </div>
+
+        <hr>
+
       </div>
     </template>
 
@@ -36,7 +81,7 @@ export default {
   data () {
     return {
       finalNest: [],
-      options: [
+      beamOptions: [
         { length: 240, used: true },
         { length: 300, used: true },
         { length: 360, used: true },
@@ -46,7 +91,22 @@ export default {
         { length: 600, used: true },
         { length: 660, used: true },
         { length: 720, used: true }
-      ]
+      ],
+      newBeamLength: null,
+      tubeOptions: [
+        { length: 240, used: true },
+        { length: 300, used: true },
+        { length: 360, used: true },
+        { length: 420, used: true },
+        { length: 480, used: true },
+        { length: 540, used: true },
+        { length: 600, used: true }
+      ],
+      newTubeLength: null,
+      errors: {
+        beamLength: false,
+        tubeLength: false
+      }
     }
   },
   computed: {
@@ -63,6 +123,20 @@ export default {
       })
 
       return shapes
+    },
+    allSequences () {
+      let sequences = []
+
+      this.parts.forEach(part => {
+        let seqIndex = sequences.findIndex(value => {
+          return value == part.sequence
+        })
+        if (seqIndex == -1) {
+          sequences.push(part.sequence)
+        }
+      })
+
+      return sequences
     },
     expandedParts () {
       let multParts = []
@@ -86,6 +160,27 @@ export default {
     }
   },
   methods: {
+    addLength (length, array, error) {
+      if (length) {
+        this.errors[error] = false
+        let newIndex = array.findIndex(item => {
+          return item.length > length
+        })
+        if (newIndex == -1) {
+          array.push({
+            length: length,
+            used: true
+          })
+        } else {
+          array.splice(newIndex, 0, {
+            length: length,
+            used: true
+          })
+        }
+      } else {
+        this.errors[error] = true
+      }
+    },
     nest () {
 
       this.allShapes.forEach(shape => {
@@ -111,6 +206,21 @@ export default {
 
         this.nestLengths(shape, dimension)
 
+      })
+
+    },
+
+    nestSequences (shape, dimension) {
+
+      let sequences = []
+
+      this.allSequences.forEach(item => {
+        let parts = this.expandedParts.filter(part => {
+          if (part.shape == shape && part.dimension == dimension && part.sequence == item) {
+            return true
+          }
+        })
+        sequences.push(parts)
       })
 
     },
@@ -267,17 +377,27 @@ export default {
 
 
     getLengths (shape) {
-      let selectedLengths = []
-
-      this.options.forEach(item => {
-        if (item.used) {
-          selectedLengths.push(item.length)
-        }
-      })
-
-      if (shape == 'FB' || shape == 'SB' || shape == 'RB' || shape == 'PIPE') return [240]
-      else if (shape == 'C' || shape == 'MC' || shape == 'L') return [240, 480]
-      else return selectedLengths
+      if (shape == 'FB' || shape == 'SB' || shape == 'RB' || shape == 'PIPE') {
+        return [240]
+      } else if (shape == 'C' || shape == 'MC' || shape == 'L') {
+        return [240, 480]
+      } else if (shape == 'HSS') {
+        let tubeLengths = []
+        this.tubeOptions.forEach(item => {
+          if (item.used) {
+            tubeLengths.push(item.length)
+          }
+        })
+        return tubeLengths
+      } else {
+        let beamLengths = []
+        this.beamOptions.forEach(item => {
+          if (item.used) {
+            beamLengths.push(item.length)
+          }
+        })
+        return beamLengths
+      }
     },
 
 
@@ -322,7 +442,7 @@ export default {
 
           }
 
-          if (index > 0 && item.material._id == newNest[index - 1].material._id) {
+          if (index > 0 && item.parts.length == newNest[index - 1].parts.length) {
 
             let match = true
 
