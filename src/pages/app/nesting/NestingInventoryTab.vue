@@ -224,7 +224,7 @@ export default {
     },
 
 
-    removeItems (material, parts) {
+    removeItems (material, newParts) {
 
       let materialIndex = this.inventory.findIndex(item => {
         return item._id == material._id
@@ -236,7 +236,7 @@ export default {
         this.inventory.splice(materialIndex, 1)
       }
 
-      parts.forEach(item => {
+      newParts.forEach(item => {
         let partIndex = this.parts.findIndex(value => {
           return item.part._id == value._id
         })

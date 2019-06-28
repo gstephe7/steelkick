@@ -108,111 +108,16 @@ export default {
           beamLength: false,
           tubeLength: false
         }
-      },
-      nesting: {
-        part: {},
-        nest: {
-          job: this.$store.getters.currentJob._id,
-          quantity: 1,
-          material: {},
-          parts: [],
-          drop: 5000
-        }
       }
     }
   },
   computed: {
-
-
-    lengths () {
-      if (this.nesting.part) {
-
-        function getLengths (array) {
-          let selectedLengths = []
-          array.forEach(item => {
-            if (item.used == true) {
-              selectedLengths.push(item.length)
-            }
-          })
-          return selectedLengths.reverse()
-        }
-
-        switch (this.nesting.part.shape) {
-          case 'FB':
-          case 'SB':
-          case 'RB':
-          case 'PIPE':
-            return [240]
-            break
-          case 'C':
-          case 'MC':
-          case 'L':
-            return [240, 480]
-            break
-          case 'HSS':
-            return getLengths(this.options.tubeLengths)
-            break
-          case 'W':
-          case 'M':
-          case 'S':
-          case 'HP':
-            return getLengths(this.options.beamLengths)
-        }
-      }
-    },
-
 
     sortedParts () {
       let parts = this.parts
       return parts.sort((a, b) => {
         return b.length - a.length
       })
-    },
-
-
-    matchingParts () {
-      if (this.nesting.part) {
-
-        let parts = this.sortedParts.filter(item => {
-          if (item.shape == this.nesting.part.shape && item.dimension == this.nesting.part.dimension) {
-            return true
-          }
-        })
-
-        let expandedParts = []
-
-        parts.forEach(item => {
-          if (item.quantity > 1) {
-            for (var i = 0; i < item.quantity; i++) {
-              expandedParts.push(item)
-            }
-          } else {
-            expandedParts.push(item)
-          }
-        })
-
-        return expandedParts
-
-      }
-    },
-
-
-    partWeight () {
-      if (this.nesting.part) {
-        let weight = 0
-
-        material.forEach(item => {
-          if (item.shape == this.nesting.part.shape) {
-            item.dimensions.forEach(value => {
-              if (value.dimension == this.nesting.part.dimension) {
-                weight = value.weight
-              }
-            })
-          }
-        })
-
-        return weight
-      }
     }
 
 
@@ -259,23 +164,18 @@ export default {
     nestParts () {
       if (this.sortedParts.length > 0) {
 
-        // reset temp nests
-        this.nesting.nest.material = {}
-        this.nesting.nest.parts = []
-        this.nesting.nest.drop = 5000
-
-        // set temp nests
         let part = this.sortedParts[0]
-        this.nesting.part = part
-        this.nesting.nest.material = {
-          shape: part.shape,
-          dimension: part.dimension,
-          weight: this.partWeight
-        }
 
-        this.removeParts([this.nesting])
+        let lengths = this.getLengths(part.shape)
+        let matches = this.matchingParts(part.shape, part.dimension)
 
-        this.nestLengths()
+        let newNest = this.nestLengths(part, matches, lengths)
+
+        this.removeParts(newNest.parts)
+
+        let combinedNest = this.combineNest(newNest)
+
+        this.addNest(combinedNest)
 
         this.nestParts()
 
@@ -287,111 +187,117 @@ export default {
     },
 
 
-    nestLengths () {
-      this.lengths.forEach(item => {
-        if (item >= this.nesting.part.length) {
+    nestLengths (part, matches, lengths) {
+      let currentNest = null
 
-          this.addParts(item, 0)
+      lengths.forEach(item => {
+        if (item >= part.length) {
+
+          let newNest = this.addParts(part, item, matches, null, 1)
+
+          if (currentNest == null || newNest.drop < currentNest.drop) {
+            currentNest = newNest
+          }
 
         }
       })
 
-      let newParts = this.nesting.nest.parts.slice(1)
-
-      this.removeParts(newParts)
-
-      this.combineNest()
-
-      this.addNest()
+      return currentNest
     },
 
 
-    addParts (length, start) {
-      if (start < this.matchingParts.length) {
+    addParts (part, length, matches, nest, start) {
+      if (start <= matches.length) {
 
-        let nest = {
+        let newNest = {
+          job: this.$store.getters.currentJob._id,
+          quantity: 1,
+          material: {
+            shape: part.shape,
+            dimension: part.dimension,
+            length: length,
+            weight: this.getWeight(part)
+          },
           parts: [{
-            part: this.nesting.part,
+            part: part,
             quantity: 1
           }],
-          drop: length - this.nesting.part.length
+          drop: length - part.length
         }
 
-        for (var i = start; i < this.matchingParts.length; i++) {
-          let newDrop = nest.drop - this.matchingParts[i].length
+        for (var i = start; i < matches.length; i++) {
+          let newDrop = newNest.drop - matches[i].length
           if (newDrop >= 0) {
-            nest.parts.push({
-              part: this.matchingParts[i],
+            newNest.parts.push({
+              part: matches[i],
               quantity: 1
             })
-            nest.drop = newDrop
+            newNest.drop = newDrop
           }
         }
 
-        if (nest.drop < this.nesting.nest.drop) {
-          this.nesting.nest.parts = nest.parts
-          this.nesting.nest.drop = nest.drop
-          this.nesting.nest.material.length = length
+        if (nest == null || newNest.drop < nest.drop) {
+          return this.addParts(part, length, matches, newNest, start + 1)
+        } else {
+          return this.addParts(part, length, matches, nest, start + 1)
         }
 
-        this.addParts(length, start + 1)
-
       } else {
-        return
+        return nest
       }
     },
 
 
-    combineNest () {
-      for (var i = 0; i < this.nesting.nest.parts.length; i++) {
-        let item = this.nesting.nest.parts[i]
-        let nextItem = this.nesting.nest.parts[i + 1]
+    combineNest (nest) {
+      let combinedNest = nest
+
+      for (var i = 0; i < combinedNest.parts.length; i++) {
+        let item = combinedNest.parts[i]
+        let nextItem = combinedNest.parts[i + 1]
         if (nextItem) {
           if (item.part.minorMark == nextItem.part.minorMark) {
             nextItem.quantity += item.quantity
-            this.nesting.nest.parts.splice(i, 1)
-            return this.combineNest()
+            combinedNest.parts.splice(i, 1)
+            return this.combineNest(combinedNest)
           }
         }
       }
+
+      return combinedNest
     },
 
 
-    addNest () {
-      let material = this.nesting.nest.material
-      let parts = this.nesting.nest.parts
+    addNest (nest) {
+      if (this.finalNest.length > 0) {
+        let lastNest = this.finalNest[this.finalNest.length - 1]
 
-      let nestIndex = this.finalNest.findIndex(item => {
-        if (item.material.shape == material.shape && item.material.dimension == material.dimension && item.material.length == material.length) {
-          return true
-        }
-      })
+        if (lastNest.parts.length == nest.parts.length) {
+          let partsMatch = true
+          lastNest.parts.forEach((item, index) => {
+            if (item.part.minorMark != nest.parts[index].part.minorMark) {
+              partsMatch = false
+            }
+          })
 
-      if (nestIndex == -1) {
-        this.finalNest.push(this.nesting.nest)
-      } else {
-        let partsMatch = true
-        this.finalNest[nestIndex].parts.forEach((item, index) => {
-          if (item.part.minorMark != parts[index].part.minorMark) {
-            partsMatch = false
+          if (partsMatch) {
+            this.finalNest[this.finalNest.length - 1].quantity += 1
+          } else {
+            this.finalNest.push(nest)
           }
-        })
-        if (partsMatch) {
-          this.finalNest[nestIndex].quantity += 1
         } else {
-          this.finalNest.push(this.nesting.nest)
+          this.finalNest.push(nest)
         }
+      } else {
+        this.finalNest.push(nest)
       }
     },
 
 
-    removeParts (parts) {
-
-      parts.forEach(item => {
+    removeParts (newParts) {
+      newParts.forEach(item => {
         let partIndex = this.parts.findIndex(value => {
           return value._id == item.part._id
         })
-        console.log(parts, partIndex)
         if (partIndex != -1) {
           if (this.parts[partIndex].quantity > 1) {
             this.parts[partIndex].quantity -= 1
@@ -401,8 +307,83 @@ export default {
         }
       })
 
-    }
+    },
 
+
+    matchingParts (shape, dimension) {
+      let parts = this.sortedParts.filter(item => {
+        if (item.shape == shape && item.dimension == dimension) {
+          return true
+        }
+      })
+
+      let expandedParts = []
+
+      parts.forEach(item => {
+        if (item.quantity > 1) {
+          for (var i = 0; i < item.quantity; i++) {
+            expandedParts.push(item)
+          }
+        } else {
+          expandedParts.push(item)
+        }
+      })
+
+      return expandedParts
+    },
+
+
+    getWeight (part) {
+      let weight = 0
+
+      material.forEach(item => {
+        if (item.shape == part.shape) {
+          item.dimensions.forEach(value => {
+            if (value.dimension == part.dimension) {
+              weight = value.weight
+            }
+          })
+        }
+      })
+
+      return weight
+    },
+
+
+    getLengths (shape) {
+
+      function selectedLengths (array) {
+        let lengths = []
+        array.forEach(item => {
+          if (item.used == true) {
+            lengths.push(item.length)
+          }
+        })
+        return lengths.reverse()
+      }
+
+      switch (shape) {
+        case 'FB':
+        case 'SB':
+        case 'RB':
+        case 'PIPE':
+          return [240]
+          break
+        case 'C':
+        case 'MC':
+        case 'L':
+          return [240, 480]
+          break
+        case 'HSS':
+          return selectedLengths(this.options.tubeLengths)
+          break
+        case 'W':
+        case 'M':
+        case 'S':
+        case 'HP':
+          return selectedLengths(this.options.beamLengths)
+      }
+    }
   }
 }
 </script>
