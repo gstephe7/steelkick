@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <List>
+    <List search @searching="searching" :searchString="search">
 
       <template #fab>
         <ButtonFab @click="showScreen = true">
@@ -12,7 +12,7 @@
       <template #content>
 
         <div v-if="newNests.length > 0">
-          <div v-for="nest in newNests">
+          <div v-for="nest in searchedNests">
             <NestingItem :nest="nest"></NestingItem>
           </div>
         </div>
@@ -52,12 +52,36 @@ export default {
   data () {
     return {
       showScreen: false,
-      newNests: []
+      newNests: [],
+      search: ''
+    }
+  },
+  computed: {
+    searchedNests () {
+      if (this.search) {
+        return this.newNests.filter(item => {
+          let searchString = this.search.replace(/ /g, '').trim()
+          let itemMaterial = `${item.material.shape}${item.material.dimension}`
+          let materialMatch = itemMaterial.match(new RegExp(searchString, 'i'))
+          let minorMarkMatch = item.parts.some(value => {
+            return value.part.minorMark.match(new RegExp(searchString, 'i'))
+          })
+
+          if (materialMatch || minorMarkMatch) {
+            return true
+          }
+        })
+      } else {
+        return this.newNests
+      }
     }
   },
   methods: {
     newNest (payload) {
       this.newNests.push(payload)
+    },
+    searching (payload) {
+      this.search = payload
     }
   }
 }

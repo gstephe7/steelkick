@@ -1,73 +1,78 @@
 <template>
-  <Form @submitForm="nest">
+  <div>
+    <Form @submitForm="nest">
 
-    <template #title>
-      Configure Nesting Options
-    </template>
+      <template #title>
+        Configure Nesting Options
+      </template>
 
-    <template #content>
-      <div class="grow container">
+      <template #content>
+        <div class="grow container">
 
-        <div>
-          <h5>Beam Order Lengths</h5>
-          <div class="space wrap">
-            <span v-for="(length, index) in options.beamLengths">
-              <InputCheckBox v-model="options.beamLengths[index].used" tiny>
-                {{ +(length.length / 12).toFixed(2) }}'
-              </InputCheckBox>
-            </span>
-          </div>
-          <div class="space">
-            <p class="center">
-              Add Custom Order Length
-            </p>
-            <div class="align center">
-              <InputLength v-model="options.newBeamLength"
-                           :class="{ error : options.errors.beamLength }">
-              </InputLength>
-              <Button outline @click="addLength(options.newBeamLength, options.beamLengths, 'beamLength')">
-                ADD
-              </Button>
+          <div>
+            <h5>Beam Order Lengths</h5>
+            <div class="space wrap">
+              <span v-for="(length, index) in options.beamLengths">
+                <InputCheckBox v-model="options.beamLengths[index].used" tiny>
+                  {{ +(length.length / 12).toFixed(2) }}'
+                </InputCheckBox>
+              </span>
+            </div>
+            <div class="space">
+              <p class="center">
+                Add Custom Order Length
+              </p>
+              <div class="align center">
+                <InputLength v-model="options.newBeamLength"
+                             :class="{ error : options.errors.beamLength }">
+                </InputLength>
+                <Button outline @click="addLength(options.newBeamLength, options.beamLengths, 'beamLength')">
+                  ADD
+                </Button>
+              </div>
             </div>
           </div>
-        </div>
 
-        <hr>
+          <hr>
 
-        <div class="div">
-          <h5>Tube Order Lengths</h5>
-          <div class="space wrap">
-            <span v-for="(length, index) in options.tubeLengths">
-              <InputCheckBox v-model="options.tubeLengths[index].used" tiny>
-                {{ +(length.length / 12).toFixed(2) }}'
-              </InputCheckBox>
-            </span>
-          </div>
-          <div class="space">
-            <p class="center">
-              Add Custom Order Length
-            </p>
-            <div class="align center">
-              <InputLength v-model="options.newTubeLength"
-                           :class="{ error : options.errors.tubeLength }">
-              </InputLength>
-              <Button outline @click="addLength(options.newTubeLength, options.tubeLengths, 'tubeLength')">
-                ADD
-              </Button>
+          <div class="div">
+            <h5>Tube Order Lengths</h5>
+            <div class="space wrap">
+              <span v-for="(length, index) in options.tubeLengths">
+                <InputCheckBox v-model="options.tubeLengths[index].used" tiny>
+                  {{ +(length.length / 12).toFixed(2) }}'
+                </InputCheckBox>
+              </span>
+            </div>
+            <div class="space">
+              <p class="center">
+                Add Custom Order Length
+              </p>
+              <div class="align center">
+                <InputLength v-model="options.newTubeLength"
+                             :class="{ error : options.errors.tubeLength }">
+                </InputLength>
+                <Button outline @click="addLength(options.newTubeLength, options.tubeLengths, 'tubeLength')">
+                  ADD
+                </Button>
+              </div>
             </div>
           </div>
+
+          <hr>
+
         </div>
+      </template>
 
-        <hr>
+      <template #action>
+        NEST JOB
+      </template>
 
-      </div>
-    </template>
-
-    <template #action>
-      NEST JOB
-    </template>
-
-  </Form>
+    </Form>
+    <div v-if="nesting">
+      <p class="center">Nesting job... please wait...</p>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -80,6 +85,7 @@ export default {
   },
   data () {
     return {
+      nesting: false,
       finalNest: [],
       options: {
         beamLengths: [
@@ -150,13 +156,19 @@ export default {
 
     nest () {
 
-      this.nestParts()
+      this.nesting = true
 
-      this.$emit('newNest', this.finalNest)
+      setTimeout(() => {
 
-      this.$emit('close')
+        this.nestParts()
 
-      this.$store.dispatch('snackbar', 'Job successfully nested!')
+        this.$emit('newNest', this.finalNest)
+
+        this.$emit('close')
+
+        this.$store.dispatch('snackbar', 'Job successfully nested!')
+
+      }, 25)
 
     },
 
@@ -227,7 +239,14 @@ export default {
 
         for (var i = start; i < matches.length; i++) {
           let newDrop = newNest.drop - matches[i].length
-          if (newDrop >= 0) {
+          if (newDrop == 0) {
+            newNest.parts.push({
+              part: matches[i],
+              quantity: 1
+            })
+            newNest.drop = newDrop
+            return newNest
+          } else if (newDrop > 0) {
             newNest.parts.push({
               part: matches[i],
               quantity: 1
