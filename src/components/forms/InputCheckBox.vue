@@ -33,6 +33,7 @@ export default {
   },
   props: {
     checked: Boolean,
+    chip: Boolean,
     tiny: Boolean,
     small: Boolean,
     big: Boolean
@@ -157,6 +158,20 @@ export default {
       justify-content: center;
       text-align: center;
       padding: 0 8px;
+    }
+  }
+
+  .chip {
+    width: 104px;
+    font-size: 14px;
+    height: 32px;
+    margin-bottom: 8px;
+    .input-wrapper {
+      height: 32px;
+    }
+    label.label {
+      justify-content: center;
+      text-align: center;
     }
   }
 </style>

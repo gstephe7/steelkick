@@ -10,6 +10,27 @@
         <div class="grow container">
 
           <div>
+            <h5>Group Job Sequences</h5>
+            <div v-for="(group, index) in options.groups" class="space article">
+              <h6>Group {{ index + 1 }}</h6>
+              <div class="wrap">
+                <span v-for="sequence in group">
+                  <InputCheckBox v-model="sequence.included" chip @change="removeSequence(index, sequence.number)">
+                    Seq. {{ sequence.number }}
+                  </InputCheckBox>
+                </span>
+              </div>
+            </div>
+            <div class="space center">
+              <Button outline @click="addGroup">
+                ADD GROUP
+              </Button>
+            </div>
+          </div>
+
+          <hr>
+
+          <div class="div">
             <h5>Beam Order Lengths</h5>
             <div class="space wrap">
               <span v-for="(length, index) in options.beamLengths">
@@ -69,9 +90,11 @@
       </template>
 
     </Form>
+
     <div v-if="nesting">
       <p class="center">Nesting job... please wait...</p>
     </div>
+
   </div>
 </template>
 
@@ -88,6 +111,7 @@ export default {
       nesting: false,
       finalNest: [],
       options: {
+        groups: [this.getSequences()],
         beamLengths: [
           { length: 240, used: true },
           { length: 300, used: true },
@@ -124,8 +148,30 @@ export default {
       return parts.sort((a, b) => {
         return b.length - a.length
       })
-    }
+    },
 
+    groups () {
+      let phases = []
+
+      this.options.groups.forEach(group => {
+        let sequences = []
+        group.forEach(item => {
+          if (item.included) {
+            sequences.push(item.number)
+          }
+        })
+        let groupParts = this.parts.filter(part => {
+          return sequences.find(sequence => {
+            return sequence == part.sequence
+          })
+        })
+        phases.push(groupParts.sort((a, b) => {
+          return b.length - a.length
+        }))
+      })
+
+      return phases
+    }
 
   },
   methods: {
@@ -160,7 +206,9 @@ export default {
 
       setTimeout(() => {
 
-        this.nestParts()
+        this.groups.forEach((parts, index) => {
+          this.nestParts(index)
+        })
 
         this.$emit('newNest', this.finalNest)
 
@@ -173,13 +221,13 @@ export default {
     },
 
 
-    nestParts () {
-      if (this.sortedParts.length > 0) {
+    nestParts (index) {
+      if (this.groups[index].length > 0) {
 
-        let part = this.sortedParts[0]
+        let part = this.groups[index][0]
 
         let lengths = this.getLengths(part.shape)
-        let matches = this.matchingParts(part.shape, part.dimension)
+        let matches = this.matchingParts(this.groups[index], part.shape, part.dimension)
 
         let newNest = this.nestLengths(part, matches, lengths)
 
@@ -189,7 +237,7 @@ export default {
 
         this.addNest(combinedNest)
 
-        this.nestParts()
+        this.nestParts(index)
 
       }
 
@@ -228,7 +276,7 @@ export default {
             shape: part.shape,
             dimension: part.dimension,
             length: length,
-            weight: this.getWeight(part)
+            weightPerFoot: this.getWeight(part)
           },
           parts: [{
             part: part,
@@ -329,8 +377,8 @@ export default {
     },
 
 
-    matchingParts (shape, dimension) {
-      let parts = this.sortedParts.filter(item => {
+    matchingParts (parts, shape, dimension) {
+      let newParts = parts.filter(item => {
         if (item.shape == shape && item.dimension == dimension) {
           return true
         }
@@ -338,7 +386,7 @@ export default {
 
       let expandedParts = []
 
-      parts.forEach(item => {
+      newParts.forEach(item => {
         if (item.quantity > 1) {
           for (var i = 0; i < item.quantity; i++) {
             expandedParts.push(item)
@@ -387,21 +435,56 @@ export default {
         case 'RB':
         case 'PIPE':
           return [240]
-          break
         case 'C':
         case 'MC':
         case 'L':
           return [240, 480]
-          break
         case 'HSS':
           return selectedLengths(this.options.tubeLengths)
-          break
         case 'W':
         case 'M':
         case 'S':
         case 'HP':
           return selectedLengths(this.options.beamLengths)
       }
+    },
+
+
+    getSequences () {
+      let sequences = []
+
+      for (let i = 0; i < this.$store.getters.currentJob.sequences; i++) {
+        sequences.push({
+          number: i + 1,
+          included: true
+        })
+      }
+
+      return sequences
+    },
+
+
+    addGroup () {
+      let sequences = this.getSequences()
+
+      sequences.forEach(item => {
+        item.included = false
+      })
+
+      this.options.groups.push(sequences)
+    },
+
+
+    removeSequence (placeholder, number) {
+      this.options.groups.forEach((group, index) => {
+        if (index != placeholder) {
+          group.forEach(item => {
+            if (item.number == number) {
+              item.included = false
+            }
+          })
+        }
+      })
     }
   }
 }

@@ -12,21 +12,17 @@
 
     <template #content>
 
-      <div v-if="loaded">
+      <div v-show="currentTab == 0">
+        <NestingInventoryTab :parts="parts"
+                             @newNest="newNest">
+        </NestingInventoryTab>
+      </div>
 
-        <div v-show="currentTab == 0">
-          <NestingInventoryTab :parts="parts"
-                               @newNest="newNest">
-          </NestingInventoryTab>
-        </div>
-
-        <div v-show="currentTab == 1">
-          <NestingPurchasingTab :parts="parts"
-                                @newNest="newNest"
-                                @close="$emit('close')">
-          </NestingPurchasingTab>
-        </div>
-
+      <div v-show="currentTab == 1">
+        <NestingPurchasingTab :parts="parts"
+                              @newNest="newNest"
+                              @close="$emit('close')">
+        </NestingPurchasingTab>
       </div>
 
     </template>
@@ -48,8 +44,7 @@ export default {
     return {
       parts: [],
       tabs: ['Inventory', 'Ordering'],
-      currentTab: 0,
-      loaded: false
+      currentTab: 0
     }
   },
   methods: {
@@ -61,23 +56,6 @@ export default {
     changeTab (payload) {
       this.currentTab = payload
     }
-  },
-  created () {
-    api.request({
-      type: 'get',
-      endpoint: '/jobs/parts',
-      load: true,
-      data: {
-        jobId: this.$store.getters.currentJob._id
-      },
-      res: res => {
-        this.parts = res.data.parts
-        this.loaded = true
-      },
-      err: err => {
-        console.log(err)
-      }
-    })
   }
 }
 </script>
