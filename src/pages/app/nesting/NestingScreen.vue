@@ -13,15 +13,12 @@
     <template #content>
 
       <div v-show="currentTab == 0">
-        <NestingInventoryTab :parts="parts"
-                             @newNest="newNest">
+        <NestingInventoryTab>
         </NestingInventoryTab>
       </div>
 
       <div v-show="currentTab == 1">
-        <NestingPurchasingTab :parts="parts"
-                              @newNest="newNest"
-                              @close="$emit('close')">
+        <NestingPurchasingTab @close="$emit('close')">
         </NestingPurchasingTab>
       </div>
 
@@ -31,7 +28,6 @@
 </template>
 
 <script>
-import api from '@/api/api'
 import NestingInventoryTab from './NestingInventoryTab'
 import NestingPurchasingTab from './NestingPurchasingTab'
 
@@ -42,17 +38,11 @@ export default {
   },
   data () {
     return {
-      parts: [],
       tabs: ['Inventory', 'Ordering'],
       currentTab: 0
     }
   },
   methods: {
-    newNest (payload) {
-      payload.forEach(item => {
-        this.$emit('newNest', item)
-      })
-    },
     changeTab (payload) {
       this.currentTab = payload
     }
