@@ -149,7 +149,9 @@ export default {
       this.showPartCreate = false
     },
     deletePart (payload) {
-      let partIndex = this.parts.indexOf({ _id: payload })
+      let partIndex = this.parts.findIndex(value => {
+        return value._id == payload
+      })
 
       this.parts.splice(partIndex, 1)
     }

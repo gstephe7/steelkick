@@ -11,15 +11,13 @@
 
       <template #content>
 
-        <div v-if="newNests.length > 0">
-          <div v-for="nest in searchedNests">
-            <NestingItem :nest="nest"></NestingItem>
+        <div v-if="nests.length > 0">
+          <div v-for="nest in searchedNests" :key="nest._id">
+            <NestingItem :nest="nest"
+                         @remove="removeNest(nest._id)">
+            </NestingItem>
           </div>
         </div>
-
-        <!-- <div v-if="nests.length > 0">
-
-        </div> -->
 
         <div v-else class="col">
           You haven't nested this job yet
@@ -52,14 +50,13 @@ export default {
   data () {
     return {
       showScreen: false,
-      newNests: [],
       search: ''
     }
   },
   computed: {
     searchedNests () {
       if (this.search) {
-        return this.newNests.filter(item => {
+        return this.nests.filter(item => {
           let searchString = this.search.replace(/ /g, '').trim()
           let itemMaterial = `${item.material.shape}${item.material.dimension}`
           let materialMatch = itemMaterial.match(new RegExp(searchString, 'i'))
@@ -72,16 +69,22 @@ export default {
           }
         })
       } else {
-        return this.newNests
+        return this.nests
       }
     }
   },
   methods: {
     newNest (payload) {
-      this.newNests.push(payload)
+      this.nests.push(payload)
     },
     searching (payload) {
       this.search = payload
+    },
+    removeNest (id) {
+      let nestIndex = this.nests.findIndex(value => {
+        return value._id == id
+      })
+      this.nests.splice(nestIndex, 1)
     }
   }
 }

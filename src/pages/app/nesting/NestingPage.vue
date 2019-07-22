@@ -7,6 +7,7 @@
 </template>
 
 <script>
+import api from '@/api/api'
 import NestingList from './NestingList'
 
 export default {
@@ -17,6 +18,19 @@ export default {
     return {
       nests: []
     }
+  },
+  created () {
+    api.request({
+      type: 'get',
+      endpoint: '/nest/',
+      load: true,
+      data: {
+        jobId: this.$store.getters.currentJob._id
+      },
+      res: res => {
+        this.nests = res.data.nests
+      }
+    })
   }
 }
 </script>

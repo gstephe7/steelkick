@@ -15,16 +15,16 @@
       <template #second>
         <div>
           <div v-for="part in parts">
-            ({{ part.quantity }}) {{ part.part.minorMark }} @ {{ partLength(part.part) }} <span v-if="secondary" class="secondary">({{ part.part.shape }} {{ part.part.dimension }})</span>
+            ({{ part.quantity }}) {{ part.part.minorMark }} @ {{ partLength(part.part) }}
           </div>
         </div>
       </template>
 
       <template #third>
         <div>
-          <div v-if="secondary">
-            Requires Confirmation!
-          </div>
+          <span v-if="inventory">
+            In Stock
+          </span>
         </div>
         <div>
           Drop: {{ dropLength }}
@@ -34,40 +34,56 @@
       <template #details>
         <div class="between">
           <div>
-            <span v-if="inventory">
-              In Stock
+            <span v-if="nest.material.inventory">
+              <span v-if="nest.material.domestic">
+                Domestic
+              </span>
+              <span v-else>
+                Unknown/Foreign
+              </span>
             </span>
           </div>
           <div>
-            Heat:
-            <span v-if="nest.material.heat">
-              {{ nest.material.heat }}
-            </span>
-            <span v-else>
-              N/A
-            </span>
+            Heat: {{ nest.material.heat || 'N/A' }}
           </div>
         </div>
         <div class="between">
           <div>
-            <span v-if="nest.material.location">
-              Location: {{ nest.material.location }}
+            <span v-if="nest.material.inventory">
+              Location: {{ nest.material.location || 'N/A' }}
             </span>
           </div>
           <div>
             {{ weight }} lbs
           </div>
         </div>
+        <div class="between">
+          <div v-if="nest.material.inventory">
+            Remarks:
+            <span v-if="nest.material.galvanized">
+              Galv.
+            </span>
+            <span v-else-if="nest.material.primed">
+              Primed
+            </span>
+            <span v-else-if="nest.material.condition">
+              {{ nest.material.condition }} condition
+            </span>
+            <span v-if="nest.material.remarks">
+              {{ nest.material.remarks }}
+            </span>
+          </div>
+        </div>
       </template>
 
       <template #actions>
-        <div v-if="secondary">
-          <Button text @click="$emit('confirm', nest)">
+        <div v-if="inventory">
+          <Button text @click="$emit('confirm')">
             CONFIRM NEST
           </Button>
         </div>
         <div>
-          <Button text delete>
+          <Button text delete @click="removeNest">
             DELETE NEST
           </Button>
         </div>
@@ -79,6 +95,7 @@
 </template>
 
 <script>
+import api from '@/api/api'
 import method from '@/global/methods.js'
 
 export default {
@@ -108,13 +125,19 @@ export default {
   methods: {
     partLength (part) {
       return method.getLength(part.length)
+    },
+    removeNest () {
+      api.request({
+        type: 'delete',
+        endpoint: `/nest/${this.nest._id}`,
+        res: res => {}
+      })
+      this.$emit('remove')
+      this.$store.dispatch('snackbar', 'Nest successfully removed!')
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-  .secondary {
-    background-color: #ffdd00;
-  }
 </style>

@@ -69,6 +69,9 @@
           <Button text @click="showPartLog = true">
             PART LOG
           </Button>
+          <Button text @click="showPartNest = true">
+            VIEW NEST
+          </Button>
           <Button text @click="showPartEdit = true">
             EDIT PART
           </Button>
@@ -96,6 +99,11 @@
                   @close="updatePart">
     </PartLogModal>
 
+    <PartNestScreen v-if="showPartNest"
+                    :part="part"
+                    @close="showPartNest = false">
+    </PartNestScreen>
+
   </div>
 </template>
 
@@ -104,6 +112,7 @@ import method from '@/global/methods.js'
 import PartLogScreen from './PartLogScreen'
 import PartEditScreen from './PartEditScreen'
 import PartLogModal from './PartLogModal'
+import PartNestScreen from './PartNestScreen'
 
 export default {
   props: {
@@ -114,13 +123,15 @@ export default {
   components: {
     PartLogScreen,
     PartEditScreen,
-    PartLogModal
+    PartLogModal,
+    PartNestScreen
   },
   data () {
     return {
       showPartLog: false,
       showPartEdit: false,
-      showWorkLog: false
+      showWorkLog: false,
+      showPartNest: false
     }
   },
   computed: {

@@ -18,8 +18,13 @@
       </div>
 
       <div v-show="currentTab == 1">
-        <NestingPurchasingTab @close="$emit('close')">
-        </NestingPurchasingTab>
+        <NestingOrderingTab @newNest="newNest">
+        </NestingOrderingTab>
+      </div>
+
+      <div v-show="currentTab == 2">
+        <NestingOptionsTab>
+        </NestingOptionsTab>
       </div>
 
     </template>
@@ -29,22 +34,28 @@
 
 <script>
 import NestingInventoryTab from './NestingInventoryTab'
-import NestingPurchasingTab from './NestingPurchasingTab'
+import NestingOrderingTab from './NestingOrderingTab'
+import NestingOptionsTab from './NestingOptionsTab'
+
 
 export default {
   components: {
     NestingInventoryTab,
-    NestingPurchasingTab
+    NestingOrderingTab,
+    NestingOptionsTab
   },
   data () {
     return {
-      tabs: ['Inventory', 'Ordering'],
+      tabs: ['Inventory', 'Ordering', 'Options'],
       currentTab: 0
     }
   },
   methods: {
     changeTab (payload) {
       this.currentTab = payload
+    },
+    newNest (payload) {
+      this.$emit('newNest', payload)
     }
   }
 }

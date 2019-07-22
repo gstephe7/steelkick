@@ -215,17 +215,25 @@ export default {
 
       api.request({
         type: 'post',
-        endpoint: '/jobs/create-nest-order',
+        endpoint: '/nest/',
         load: true,
         data: {
           jobId: this.$store.getters.currentJob._id,
-          groups: this.groups,
-          beamLengths: this.options.beamLengths,
-          tubeLengths: this.options.tubeLengths
+          options: {
+            groups: this.groups,
+            beamLengths: this.options.beamLengths,
+            tubeLengths: this.options.tubeLengths
+          }
         },
         res: res => {
-          console.log(res)
-          this.$emit('close')
+          this.$router.push('job-details')
+          setTimeout(() => {
+            this.$router.push('nesting')
+          }, 10)
+          this.$store.dispatch('snackbar', 'Successfully nested parts!')
+        },
+        err: err => {
+          console.log(err)
         }
       })
 
