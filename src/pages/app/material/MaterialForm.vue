@@ -318,7 +318,7 @@ export default {
   beforeMount () {
     api.axios.get(`${api.baseUrl}/material/get-prices`, {
       params: {
-        id: this.$store.getters.companyId
+        companyId: this.$store.getters.companyId
       }
     })
     .then(res => {

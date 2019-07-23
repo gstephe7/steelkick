@@ -35,14 +35,19 @@
           <span v-if="material.grade">
             {{ material.grade }}
           </span>
+          <span>
+            {{ Math.ceil(weight) }} lbs
+          </span>
+        </div>
+        <div class="between">
+          <div v-if="material.location">
+            <div class="half">
+              Location: {{ material.location }}
+            </div>
+          </div>
           <span v-if="material.heat">
             Heat #: {{ material.heat }}
           </span>
-        </div>
-        <div v-if="material.location" class="row">
-          <div class="half">
-            Location: {{ material.location }}
-          </div>
         </div>
         <div v-if="material.remarks" class="row">
           <div class="half">
@@ -150,6 +155,10 @@ export default {
       } else {
         return {}
       }
+    },
+    weight () {
+      const lengthInFeet = this.material.length / 12
+      return lengthInFeet * this.material.weightPerFoot
     }
   },
   methods: {

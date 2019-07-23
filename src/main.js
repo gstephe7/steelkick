@@ -18,6 +18,7 @@ import ChipProgress from '@/components/chips/ChipProgress'
 import Chip from '@/components/chips/Chip'
 import Form from '@/components/forms/Form'
 import InputCheckBox from '@/components/forms/InputCheckBox'
+import InputCurrency from '@/components/forms/InputCurrency'
 import InputLength from '@/components/forms/InputLength'
 import InputNumber from '@/components/forms/InputNumber'
 import InputSearch from '@/components/forms/InputSearch'
@@ -26,6 +27,7 @@ import InputText from '@/components/forms/InputText'
 import InputTextArea from '@/components/forms/InputTextArea'
 import Item from '@/components/lists/Item'
 import List from '@/components/lists/List'
+import Menu from '@/components/menu/Menu'
 import Modal from '@/components/dialogs/Modal'
 import Screen from '@/components/dialogs/Screen'
 import SearchHeader from '@/components/forms/SearchHeader'
@@ -39,6 +41,7 @@ import {
   faTimes,
   faTimesCircle,
   faEdit,
+  faEllipsisV,
   faTrashAlt,
   faDollarSign,
   faShippingFast,
@@ -91,6 +94,7 @@ library.add({
   faTimes,
   faTimesCircle,
   faEdit,
+  faEllipsisV,
   faTrashAlt,
   faDollarSign,
   faShippingFast,
@@ -142,6 +146,7 @@ Vue.component('ChipProgress', ChipProgress)
 Vue.component('DashboardCard', DashboardCard)
 Vue.component('Form', Form)
 Vue.component('InputCheckBox', InputCheckBox)
+Vue.component('InputCurrency', InputCurrency)
 Vue.component('InputLength', InputLength)
 Vue.component('InputNumber', InputNumber)
 Vue.component('InputSearch', InputSearch)
@@ -150,6 +155,7 @@ Vue.component('InputText', InputText)
 Vue.component('InputTextArea', InputTextArea)
 Vue.component('Item', Item)
 Vue.component('List', List)
+Vue.component('Menu', Menu)
 Vue.component('Modal', Modal)
 Vue.component('Screen', Screen)
 Vue.component('SearchHeader', SearchHeader)

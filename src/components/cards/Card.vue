@@ -25,16 +25,16 @@ export default {
   @import '@/assets/scss/variables.scss';
 
   .card {
-    width: 280px;
-    border-radius: 5px;
-    margin: 5px;
-    box-shadow: 0px 2px 2px 1px rgba(0,0,0,.2);
+    max-width: 480px;
+    border-radius: 4px;
+    margin: 16px auto;
+    box-shadow: 0px 1px 2px 1px rgba(0,0,0,.2);
     transition: 250ms all;
   }
 
   .card-title {
     font-size: 24px;
-    padding: 24px 16px 8px 16px;
+    padding: 16px;
   }
 
   .card-content {

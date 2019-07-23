@@ -9,7 +9,7 @@ export default {
       Pragma: 'no-cache'
     }
   }),
-  baseUrl: 'http://localhost:8080',
+  baseUrl: 'https://steelkick-backend.appspot.com',
 
 
 

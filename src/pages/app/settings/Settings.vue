@@ -27,6 +27,18 @@
         </template>
       </DashboardCard>
 
+      <DashboardCard @click="showEditPrices = true">
+        <template v-slot:thumbnail>
+          <icon class="blue-green" icon="dollar-sign"></icon>
+        </template>
+        <template v-slot:title>
+          Set Prices
+        </template>
+        <template v-slot:content>
+          Set prices for your inventory
+        </template>
+      </DashboardCard>
+
     </div>
 
     <EditProfileScreen v-if="showEditProfile"
@@ -37,22 +49,29 @@
                        @close="showEditWorkflow = false">
     </EditWorkflowScreen>
 
+    <EditPricesScreen v-if="showEditPrices"
+                      @close="showEditPrices = false">
+    </EditPricesScreen>
+
   </div>
 </template>
 
 <script>
 import EditProfileScreen from './profile/EditProfileScreen'
 import EditWorkflowScreen from './workflow/EditWorkflowScreen'
+import EditPricesScreen from './prices/EditPricesScreen'
 
 export default {
   components: {
     EditProfileScreen,
-    EditWorkflowScreen
+    EditWorkflowScreen,
+    EditPricesScreen
   },
   data () {
     return {
       showEditProfile: false,
-      showEditWorkflow: false
+      showEditWorkflow: false,
+      showEditPrices: false
     }
   }
 }

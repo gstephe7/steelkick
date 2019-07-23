@@ -9,6 +9,12 @@
         </ButtonFab>
       </template>
 
+      <template #menu>
+        <Menu :options="menuOptions"
+              @select="menuAction">
+        </Menu>
+      </template>
+
       <template #content>
         <div v-if="searched.length > 0">
           <div v-for="material in searched"
@@ -42,6 +48,13 @@
       <MaterialCreateScreen @close="updateMaterial">
       </MaterialCreateScreen>
     </div>
+
+    <div v-if="showInventoryReport">
+      <InventoryReportScreen @close="showInventoryReport = false"
+                             :inventory="material">
+      </InventoryReportScreen>
+    </div>
+
   </div>
 
 </template>
@@ -50,19 +63,28 @@
 import MaterialItem from './MaterialItem'
 import MaterialFilter from './MaterialFilter'
 import MaterialCreateScreen from './MaterialCreateScreen'
+import InventoryReportScreen from './InventoryReportScreen'
 
 export default {
   components: {
     MaterialItem,
     MaterialFilter,
-    MaterialCreateScreen
+    MaterialCreateScreen,
+    InventoryReportScreen
   },
   props: ['material'],
   data () {
     return {
       filter: {},
       search: '',
-      showMaterialCreateScreen: false
+      showMaterialCreateScreen: false,
+      showInventoryReport: false,
+      menuOptions: [
+        {
+          name: 'Breakdown',
+          action: 'showInventoryReport'
+        }
+      ]
     }
   },
   computed: {
@@ -113,6 +135,9 @@ export default {
         this.material.push(payload)
       }
       this.showMaterialCreateScreen = false
+    },
+    menuAction (payload) {
+      this[payload] = true
     }
   }
 }
