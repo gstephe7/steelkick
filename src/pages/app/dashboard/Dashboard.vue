@@ -15,7 +15,7 @@
             Begin working on a job
           </template>
         </DashboardCard>
-        <DashboardCard route="/jobs">
+        <DashboardCard route="/jobs" v-if="$store.getters.isAdmin">
           <template v-slot:thumbnail>
             <icon class="green" icon="briefcase"></icon>
           </template>
@@ -28,7 +28,7 @@
         </DashboardCard>
       </div>
 
-      <div class="around wrap" v-if="$store.getters.isAdmin">
+      <div class="around wrap">
         <DashboardCard route="/schedule">
           <template v-slot:thumbnail>
             <icon class="orange" :icon="{ prefix: 'far', iconName: 'calendar-alt' }"></icon>
@@ -57,7 +57,7 @@
 
     <div class="center wrap">
 
-      <div class="around wrap" v-if="$store.getters.isAdmin">
+      <div class="around wrap">
         <DashboardCard route="/inventory">
           <template v-slot:thumbnail>
             <icon class="gold" icon="boxes"></icon>
@@ -69,7 +69,7 @@
             Manage/Add to Inventory
           </template>
         </DashboardCard>
-        <DashboardCard route="/users">
+        <DashboardCard route="/users" v-if="$store.getters.isAdmin">
           <template v-slot:thumbnail>
             <icon class="purple" icon="users"></icon>
           </template>
@@ -83,7 +83,7 @@
       </div>
 
       <div class="around wrap">
-        <DashboardCard route="/marketplace">
+        <DashboardCard route="/marketplace" v-if="$store.getters.isAdmin">
           <template v-slot:thumbnail>
             <icon class="blue-green" icon="dollar-sign"></icon>
           </template>

@@ -39,6 +39,9 @@ import EditCompany from '@/pages/app/marketplace/editProfile/EditProfile'
 // company settings
 import Settings from '@/pages/app/settings/Settings'
 
+// unauthorized
+import Unauthorized from '@/pages/app/unauthorized/Unauthorized'
+
 
 
 export default [
@@ -52,6 +55,7 @@ export default [
     name: 'All Jobs',
     component: Jobs,
     meta: {
+      adminOnly: true,
       parent: {
         path: '/dashboard',
         name: 'Dashboard'
@@ -63,6 +67,7 @@ export default [
     name: 'Job',
     component: JobPage,
     meta: {
+      adminOnly: true,
       job: true,
       parent: {
         path: '/jobs',
@@ -75,6 +80,7 @@ export default [
     name: 'Parts',
     component: PartsPage,
     meta: {
+      adminOnly: true,
       job: true,
       parent: {
         path: '/job-details',
@@ -87,6 +93,7 @@ export default [
     name: 'Nesting',
     component: Nesting,
     meta: {
+      adminOnly: true,
       job: true,
       parent: {
         path: '/dashboard',
@@ -132,6 +139,7 @@ export default [
     name: 'Users',
     component: Users,
     meta: {
+      adminOnly: true,
       parent: {
         path: '/dashboard',
         name: 'Dashboard'
@@ -154,6 +162,7 @@ export default [
     name: 'Marketplace',
     component: Marketplace,
     meta: {
+      adminOnly: true,
       parent: {
         path: '/dashboard',
         name: 'Dashboard'
@@ -215,5 +224,10 @@ export default [
         name: 'Dashboard'
       }
     }
+  },
+  {
+    path: '/unauthorized',
+    name: 'Unauthorized',
+    component: Unauthorized
   }
 ]

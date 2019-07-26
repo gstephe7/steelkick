@@ -7,7 +7,7 @@
       <li>
         <router-link to="/working">Start Working</router-link>
       </li>
-      <li>
+      <li v-if="$store.getters.isAdmin">
         <router-link to="/jobs">Jobs</router-link>
       </li>
       <li>
@@ -19,10 +19,10 @@
       <li>
         <router-link to="/inventory">Inventory</router-link>
       </li>
-      <li>
+      <li v-if="$store.getters.isAdmin">
         <router-link to="/users">Users</router-link>
       </li>
-      <li>
+      <li v-if="$store.getters.isAdmin">
         <router-link to="/marketplace">Marketplace</router-link>
       </li>
       <li>

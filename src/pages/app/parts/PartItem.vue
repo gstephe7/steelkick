@@ -42,6 +42,12 @@
           <span v-if="part.primed">Primed </span>
           <span v-if="part.remarks">{{ part.remarks }}</span>
         </div>
+        <div v-if="part.minorMembers.length > 0">
+          Minor Members:
+          <span v-for="member in part.minorMembers">
+            ({{ member.quantity }}) {{ member.minorMark }}&nbsp;
+          </span>
+        </div>
         <div>
           <div class="space row grow">
             <span v-for="action in partProgress" class="grow">

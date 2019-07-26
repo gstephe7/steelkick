@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
+// import store
+import store from '../store'
+
 // import modules
 import appRoutes from './appRoutes.js'
 import websiteRoutes from './websiteRoutes.js'
@@ -59,6 +62,7 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
+
   if (to.matched.some(record => record.meta.requiresAuth)) {
     const token = $cookies.get('sk-user')
     if (token) {
@@ -71,7 +75,9 @@ router.beforeEach((to, from, next) => {
         }
       })
     }
-  } else if (to.matched.some(record => record.meta.requiresAdmin)) {
+  }
+
+  else if (to.matched.some(record => record.meta.requiresAdmin)) {
     const adminToken = $cookies.get('adminToken')
     if (adminToken) {
       next()
@@ -83,9 +89,12 @@ router.beforeEach((to, from, next) => {
         }
       })
     }
-  } else {
+  }
+
+  else {
     next()
   }
+
 })
 
 export default router

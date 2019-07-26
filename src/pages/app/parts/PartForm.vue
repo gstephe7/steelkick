@@ -11,12 +11,12 @@
 
       <template v-slot:content>
 
-        <InputText v-model="part.pieceMark" required>
-          Piece Mark
+        <InputText v-model="part.minorMark" required>
+          Minor Mark
         </InputText>
 
-        <InputText v-model="part.minorMark">
-          Minor Mark
+        <InputText v-model="part.pieceMark">
+          Main Mark
         </InputText>
 
         <InputSelect v-model="part.shape"
