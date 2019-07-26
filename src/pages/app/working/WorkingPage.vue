@@ -27,6 +27,8 @@
       </Chip>
     </div>
 
+    <hr class="desktop">
+
     <div v-if="ready">
       <PartList :working="true"
         :job="$store.getters.currentJob._id"
