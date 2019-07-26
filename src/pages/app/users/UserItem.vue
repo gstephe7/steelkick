@@ -21,6 +21,9 @@
         <Button text @click="showUserEdit = true">
           EDIT USER
         </Button>
+        <Button text @click="showUserLog = true">
+          USER LOG
+        </Button>
       </template>
 
     </Item>
@@ -30,22 +33,30 @@
                     :user="user">
     </UserEditScreen>
 
+    <UserLogScreen v-if="showUserLog"
+                    @close="showUserLog = false"
+                    :user="user">
+    </UserLogScreen>
+
   </div>
 </template>
 
 <script>
 import UserEditScreen from './UserEditScreen'
+import UserLogScreen from './UserLogScreen'
 
 export default {
   components: {
-    UserEditScreen
+    UserEditScreen,
+    UserLogScreen
   },
   props: {
     user: Object
   },
   data () {
     return {
-      showUserEdit: false
+      showUserEdit: false,
+      showUserLog: false
     }
   },
   computed: {

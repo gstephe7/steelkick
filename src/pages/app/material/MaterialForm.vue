@@ -254,6 +254,7 @@ export default {
           this.$store.dispatch('complete')
           this.$store.dispatch('action', {
             material: this.material._id,
+            materialDescription: `${res.data.material.shape}${res.data.material.dimension} ${res.data.material.length}"`,
             action: 'edited',
             description: 'in the inventory',
             quantity: this.material.quantity
@@ -274,6 +275,7 @@ export default {
           this.$store.dispatch('complete')
           this.$store.dispatch('action', {
             material: res.data.material._id,
+            materialDescription: `${res.data.material.shape}${res.data.material.dimension} ${res.data.material.length}"`,
             action: 'added',
             description: 'to the inventory',
             quantity: res.data.material.quantity

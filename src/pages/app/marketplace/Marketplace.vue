@@ -1,5 +1,5 @@
 <template>
-  <div class="main">
+  <div class="main article">
 
     <h1>Marketplace Dashboard</h1>
 
