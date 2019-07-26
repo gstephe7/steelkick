@@ -1,14 +1,44 @@
 <template>
   <div class="main">
 
-    <div>
+    <div class="between article">
+      <Chip clickable @click="showRoles = true">
+        <template #thumbnail>
+          <img v-if="currentRole" :src="require(`@/assets/img/actions/${$store.getters.currentRole.description}.png`)" />
+        </template>
+        <template #content>
+          <span v-if="currentRole">
+            {{ $store.getters.currentRole.action }}
+          </span>
+          <span v-else>
+            Select Role
+          </span>
+        </template>
+      </Chip>
+      <Chip clickable @click="showJobs = true">
+        <template #content>
+          <span v-if="currentJob">
+            {{ $store.getters.currentJob.number }} - {{ $store.getters.currentJob.name.substring(0, 12) }}
+          </span>
+          <span v-else>
+            Select Job
+          </span>
+        </template>
+      </Chip>
+    </div>
+
+    <div v-if="ready">
       <PartList :working="true"
         :job="$store.getters.currentJob._id"
         :key="key"
-        @updatePart="displayUpdate($event)"
-        @selectRole="showRoles = true"
-        @selectJob="showJobs = true">
+        @updatePart="displayUpdate($event)">
       </PartList>
+    </div>
+
+    <div v-if="alertMessage" class="section col">
+      <h4>
+        {{ alertMessage }}
+      </h4>
     </div>
 
     <Modal v-if="showRoles" @close="showRoles = false">
@@ -65,6 +95,32 @@ export default {
       showRoles: false,
       showJobs: false,
       key: 0
+    }
+  },
+  computed: {
+    currentJob () {
+      return this.$store.getters.currentJob || null
+    },
+    currentRole () {
+      return this.$store.getters.currentRole || null
+    },
+    ready () {
+      if (this.currentJob && this.currentRole) {
+        return true
+      } else {
+        return false
+      }
+    },
+    alertMessage () {
+      if (!this.currentJob && !this.currentRole) {
+        return 'Please select the role/task you are performing and the job you will be working on'
+      } else if (!this.currentJob && this.currentRole) {
+        return 'Please select the job you will be working on'
+      } else if (!this.currentRole && this.currentJob) {
+        return 'Please select the role/task you will be performing'
+      } else {
+        return false
+      }
     }
   },
   methods: {

@@ -3,24 +3,6 @@
 
     <List search @searching="searching" :searchString="search">
 
-      <template #title v-if="working">
-        <div class="between">
-          <Chip clickable @click="$emit('selectRole')">
-            <template #thumbnail>
-              <img :src="require(`@/assets/img/actions/${$store.getters.currentRole.description}.png`)" />
-            </template>
-            <template #content>
-              {{ $store.getters.currentRole.action }}
-            </template>
-          </Chip>
-          <Chip clickable @click="$emit('selectJob')">
-            <template #content>
-              {{ $store.getters.currentJob.number }} - {{ $store.getters.currentJob.name.substring(0, 12) }}
-            </template>
-          </Chip>
-        </div>
-      </template>
-
       <template #fab>
         <ButtonFab v-if="!working"
                    @click="showPartCreate = true">
