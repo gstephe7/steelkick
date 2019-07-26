@@ -284,30 +284,6 @@ export default {
           this.$store.dispatch('complete')
         })
       }
-    },
-    deletePopup () {
-      this.showDeletePopup = !this.showDeletePopup
-    },
-    deleteItem () {
-      this.$store.dispatch('loading')
-      api.axios.delete(`${api.baseUrl}/material/delete-material`, {
-        params: {
-          _id: this.material._id
-        }
-      })
-      .then(() => {
-        this.$store.dispatch('complete')
-        this.$store.dispatch('action', {
-          materialDescription: `${this.material.shape} ${this.material.dimension} ${this.material.length}"`,
-          action: 'deleted',
-          description: 'from the inventory',
-          quantity: this.material.quantity
-        })
-        this.$router.push('inventory')
-      })
-      .catch(() => {
-        this.$store.dispatch('complete')
-      })
     }
   },
   created () {

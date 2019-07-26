@@ -9,7 +9,7 @@ export default {
       Pragma: 'no-cache'
     }
   }),
-  baseUrl: 'https://steelkick-backend.appspot.com',
+  baseUrl: 'http://localhost:8080',
 
 
 
@@ -64,17 +64,25 @@ export default {
 
 
 
-  delete (endpoint, data, callback) {
+  delete (endpoint, callback, load) {
 
-    this.axios.delete(`${this.baseUrl}${endpoint}`, {
-      params: data
-    })
-    .then(res => {
-      callback(res)
-    })
-    .catch(err => {
-      callback(err)
-    })
+    if (load) {
+      store.dispatch('loading')
+    }
+
+    this.axios.delete(`${this.baseUrl}${endpoint}`)
+      .then(res => {
+        if (load) {
+          store.dispatch('complete')
+        }
+        callback(res)
+      })
+      .catch(err => {
+        if (load) {
+          store.dispatch('complete')
+        }
+        callback(err)
+      })
 
   },
 
