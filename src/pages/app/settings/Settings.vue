@@ -39,6 +39,18 @@
         </template>
       </DashboardCard>
 
+      <DashboardCard @click="showSignOut = true">
+        <template v-slot:thumbnail>
+          <icon class="red" icon="sign-out-alt"></icon>
+        </template>
+        <template v-slot:title>
+          Sign Out
+        </template>
+        <template v-slot:content>
+          Log out of your account
+        </template>
+      </DashboardCard>
+
     </div>
 
     <EditProfileScreen v-if="showEditProfile"
@@ -52,6 +64,21 @@
     <EditPricesScreen v-if="showEditPrices"
                       @close="showEditPrices = false">
     </EditPricesScreen>
+
+    <Modal v-if="showSignOut" @close="showSignOut = false">
+      <template #title>Sign Out</template>
+      <template #content>
+        Are you sure you want to sign out?
+      </template>
+      <template #actions>
+        <Button text @click="showSignOut = false">
+          CANCEL
+        </Button>
+        <Button text @click="signOut">
+          SIGN OUT
+        </Button>
+      </template>
+    </Modal>
 
   </div>
 </template>
@@ -71,7 +98,15 @@ export default {
     return {
       showEditProfile: false,
       showEditWorkflow: false,
-      showEditPrices: false
+      showEditPrices: false,
+      showSignOut: false
+    }
+  },
+  methods: {
+    signOut () {
+      this.$store.dispatch('logout')
+      this.$store.dispatch('snackbar', 'Successfully logged out')
+      this.$router.push('/')
     }
   }
 }

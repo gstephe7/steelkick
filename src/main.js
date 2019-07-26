@@ -77,7 +77,8 @@ import {
   faArrowLeft,
   faEye,
   faEyeSlash,
-  faFilter
+  faFilter,
+  faSignOutAlt
 } from '@fortawesome/free-solid-svg-icons'
 
 import {
@@ -133,7 +134,8 @@ library.add({
   faArrowLeft,
   faEye,
   faEyeSlash,
-  faFilter
+  faFilter,
+  faSignOutAlt
 })
 
 // register components
