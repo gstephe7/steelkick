@@ -8,7 +8,9 @@
       </template>
 
       <template #second>
-        {{ user.email }}
+        <div class="ellipsis">
+          {{ user.email }}
+        </div>
       </template>
 
       <template #metadata>

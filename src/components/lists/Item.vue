@@ -131,13 +131,14 @@ export default {
 
   .content {
     @include grow;
+    width: 150px;
   }
 
   .row {
     @include between;
     font-size: 16px;
     color: $dark;
-    overflow-x: hidden;
+    overflow: hidden;
     line-height: 1.25;
   }
 
