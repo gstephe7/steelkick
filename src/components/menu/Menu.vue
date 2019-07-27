@@ -1,7 +1,14 @@
 <template>
   <span class="menu-container">
-    <Button text @click="showMenu = !showMenu">
-      <icon icon="ellipsis-v" class="menu-button"></icon>
+    <Button text
+            @click="showMenu = !showMenu"
+            :class="{ horizontal : horizontal }">
+      <span v-if="horizontal">
+        <icon icon="ellipsis-h" class="menu-button horizontal"></icon>
+      </span>
+      <span v-else>
+        <icon icon="ellipsis-v" class="menu-button"></icon>
+      </span>
     </Button>
 
     <transition appear name="expand">
@@ -21,12 +28,20 @@
 <script>
 export default {
   props: {
-    options: Array
+    options: Array,
+    horizontal: Boolean
   },
   data () {
     return {
       showMenu: false
     }
+  },
+  mounted () {
+    // document.addEventListener('click', () => {
+    //   if (this.showMenu === true) {
+    //     this.showMenu = false
+    //   }
+    // })
   }
 }
 </script>
@@ -44,6 +59,13 @@ export default {
     width: 16px;
   }
 
+  .horizontal {
+    color: $dark;
+    width: auto;
+    margin: 0;
+    font-size: 18px;
+  }
+
   .menu {
     width: 176px;
     background-color: #fff;
@@ -53,6 +75,7 @@ export default {
     right: -8px;
     box-shadow: 0px 6px 4px 2px rgba(0,0,0,.2);
     transition: 250ms all;
+    z-index: 10;
   }
 
   .menu-item {

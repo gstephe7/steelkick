@@ -9,6 +9,15 @@
         </span>
       </template>
 
+      <template #menu>
+        <div v-if="$route.name != 'Working'">
+          <Menu :options="menuOptions"
+                @select="menuAction"
+                horizontal>
+          </Menu>
+        </div>
+      </template>
+
       <template #second>
          <span>
            {{ part.shape }} {{ part.dimension }}
@@ -42,12 +51,6 @@
           <span v-if="part.primed">Primed </span>
           <span v-if="part.remarks">{{ part.remarks }}</span>
         </div>
-        <div v-if="part.minorMembers.length > 0">
-          Minor Members:
-          <span v-for="member in part.minorMembers">
-            ({{ member.quantity }}) {{ member.minorMark }}&nbsp;
-          </span>
-        </div>
         <div>
           <div class="space row grow">
             <span v-for="action in partProgress" class="grow">
@@ -69,17 +72,6 @@
         <div v-if="$route.name == 'Working'" class="col">
           <Button text @click="showWorkLog = true">
             MARK {{ $store.getters.currentRole.description }}
-          </Button>
-        </div>
-        <div v-else>
-          <Button text @click="showPartLog = true">
-            PART LOG
-          </Button>
-          <Button text @click="showPartNest = true">
-            VIEW NEST
-          </Button>
-          <Button text @click="showPartEdit = true">
-            EDIT PART
           </Button>
         </div>
       </template>
@@ -137,7 +129,21 @@ export default {
       showPartLog: false,
       showPartEdit: false,
       showWorkLog: false,
-      showPartNest: false
+      showPartNest: false,
+      menuOptions: [
+        {
+          name: 'Part Log',
+          action: 'showPartLog'
+        },
+        {
+          name: 'View Nest',
+          action: 'showPartNest'
+        },
+        {
+          name: 'Edit Part',
+          action: 'showPartEdit'
+        }
+      ]
     }
   },
   computed: {
@@ -200,6 +206,9 @@ export default {
     }
   },
   methods: {
+    menuAction (payload) {
+      this[payload] = true
+    },
     deletePart (payload) {
       this.$emit('delete', payload)
     },

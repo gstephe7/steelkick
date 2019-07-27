@@ -38,6 +38,10 @@
         <slot name="metadata"></slot>
       </div>
 
+      <div v-if="$slots.menu" class="item-menu" @click.stop>
+        <slot name="menu"></slot>
+      </div>
+
     </div>
 
     <transition appear name="expand">
@@ -147,6 +151,12 @@ export default {
     font-weight: bold;
     font-size: 20px;
     margin-bottom: 4px;
+  }
+
+  .item-menu {
+    position: absolute;
+    right: 0;
+    top: 0;
   }
 
   .metadata {
