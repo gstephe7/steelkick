@@ -104,6 +104,7 @@ export default {
     viewPart (id) {
       this.$emit('close')
       const element = document.getElementById(id)
+      this.$router.push('/parts')
       element.scrollIntoView()
       window.scrollBy(0, -56)
       element.click()
