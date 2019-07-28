@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <Item>
+    <Item :id="part._id">
 
       <template #title>
         <span :class="{ highlight : complete }">
@@ -102,6 +102,11 @@
                     @close="showPartNest = false">
     </PartNestScreen>
 
+    <PartMembersScreen v-if="showMembers"
+                      :part="part"
+                      @close="showMembers = false">
+    </PartMembersScreen>
+
   </div>
 </template>
 
@@ -111,6 +116,7 @@ import PartLogScreen from './PartLogScreen'
 import PartEditScreen from './PartEditScreen'
 import PartLogModal from './PartLogModal'
 import PartNestScreen from './PartNestScreen'
+import PartMembersScreen from './PartMembersScreen'
 
 export default {
   props: {
@@ -122,7 +128,8 @@ export default {
     PartLogScreen,
     PartEditScreen,
     PartLogModal,
-    PartNestScreen
+    PartNestScreen,
+    PartMembersScreen
   },
   data () {
     return {
@@ -130,6 +137,7 @@ export default {
       showPartEdit: false,
       showWorkLog: false,
       showPartNest: false,
+      showMembers: false,
       menuOptions: [
         {
           name: 'Part Log',
@@ -138,6 +146,10 @@ export default {
         {
           name: 'View Nest',
           action: 'showPartNest'
+        },
+        {
+          name: 'View Members',
+          action: 'showMembers'
         },
         {
           name: 'Edit Part',

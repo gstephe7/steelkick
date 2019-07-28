@@ -9,6 +9,13 @@
         </span>
       </template>
 
+      <template #menu>
+        <Menu :options="menuOptions"
+              @select="menuAction"
+              horizontal>
+        </Menu>
+      </template>
+
       <template #second>
          <span>
            {{ feet }}'
@@ -56,20 +63,6 @@
         </div>
       </template>
 
-      <template #actions>
-        <div class="col start">
-          <Button text @click="showUseModal = true">
-            USE MATERIAL
-          </Button>
-          <Button text @click="showEditScreen = true">
-            EDIT MATERIAL
-          </Button>
-          <Button text @click="showHistoryScreen = true">
-            MATERIAL LOG
-          </Button>
-        </div>
-      </template>
-
     </Item>
 
     <MaterialUseModal v-if="showUseModal"
@@ -108,7 +101,21 @@ export default {
     return {
       showUseModal: false,
       showEditScreen: false,
-      showHistoryScreen: false
+      showHistoryScreen: false,
+      menuOptions: [
+        {
+          name: 'Use Material',
+          action: 'showUseModal'
+        },
+        {
+          name: 'Edit Material',
+          action: 'showEditScreen'
+        },
+        {
+          name: 'Material Log',
+          action: 'showHistoryScreen'
+        }
+      ]
     }
   },
   computed: {
@@ -162,6 +169,9 @@ export default {
     }
   },
   methods: {
+    menuAction (payload) {
+      this[payload] = true
+    },
     deleteMaterial () {
       api.delete('/material/delete-material', {
         materialId: this.material._id

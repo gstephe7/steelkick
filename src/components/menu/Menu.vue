@@ -1,5 +1,5 @@
 <template>
-  <span class="menu-container">
+  <div class="menu-container" @click.stop>
     <Button text
             @click="showMenu = !showMenu"
             :class="{ horizontal : horizontal }">
@@ -12,7 +12,7 @@
     </Button>
 
     <transition appear name="expand">
-      <div v-if="showMenu" class="menu">
+      <div v-if="showMenu" class="menu" @click="showMenu = false">
 
         <div v-for="item in options"
              class="menu-item"
@@ -22,7 +22,7 @@
 
       </div>
     </transition>
-  </span>
+  </div>
 </template>
 
 <script>
@@ -37,11 +37,11 @@ export default {
     }
   },
   mounted () {
-    // document.addEventListener('click', () => {
-    //   if (this.showMenu === true) {
-    //     this.showMenu = false
-    //   }
-    // })
+    document.addEventListener('click', () => {
+      if (this.showMenu === true) {
+        this.showMenu = false
+      }
+    })
   }
 }
 </script>
@@ -68,13 +68,16 @@ export default {
 
   .menu {
     width: 176px;
+    height: auto;
     background-color: #fff;
     border-radius: 4px;
     position: absolute;
-    top: -8px;
-    right: -8px;
-    box-shadow: 0px 6px 4px 2px rgba(0,0,0,.2);
+    top: 44px;
+    right: 16px;
+    box-shadow: 0px 4px 8px 0px rgba(0,0,0,.2);
     transition: 250ms all;
+    transform: scale(1);
+    transform-origin: top right;
     z-index: 10;
   }
 
@@ -90,8 +93,8 @@ export default {
   }
 
   .expand-enter, .expand-leave-to {
-    width: 0;
-    top: -20px;
+    transform: scale(0);
+    transform-origin: top right;
     opacity: 0;
     transition: 250ms all;
   }

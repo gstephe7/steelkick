@@ -169,7 +169,7 @@ export default {
   }
 
   .item-expanded {
-    height: 280px;
+    height: 200px;
     opacity: 1;
     transition: all 250ms ease;
   }
