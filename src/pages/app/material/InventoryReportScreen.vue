@@ -2,7 +2,7 @@
   <Screen @close="$emit('close')">
 
     <template #title>
-      Inventory Breakdown
+      Inventory Summary
     </template>
 
     <template #content>

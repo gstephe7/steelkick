@@ -156,7 +156,7 @@ export default {
   .item-menu {
     position: absolute;
     right: 0;
-    top: 0;
+    top: 8px;
   }
 
   .metadata {

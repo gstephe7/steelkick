@@ -28,6 +28,7 @@ import InputTextArea from '@/components/forms/InputTextArea'
 import Item from '@/components/lists/Item'
 import List from '@/components/lists/List'
 import Menu from '@/components/menu/Menu'
+import MenuItem from '@/components/menu/MenuItem'
 import Modal from '@/components/dialogs/Modal'
 import Screen from '@/components/dialogs/Screen'
 import SearchHeader from '@/components/forms/SearchHeader'
@@ -160,6 +161,7 @@ Vue.component('InputTextArea', InputTextArea)
 Vue.component('Item', Item)
 Vue.component('List', List)
 Vue.component('Menu', Menu)
+Vue.component('MenuItem', MenuItem)
 Vue.component('Modal', Modal)
 Vue.component('Screen', Screen)
 Vue.component('SearchHeader', SearchHeader)

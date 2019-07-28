@@ -2,23 +2,26 @@
   <div class="menu-container" @click.stop>
     <Button text
             @click="showMenu = !showMenu"
+            class="menu-button"
             :class="{ horizontal : horizontal }">
       <span v-if="horizontal">
-        <icon icon="ellipsis-h" class="menu-button horizontal"></icon>
+        <icon icon="ellipsis-h"></icon>
       </span>
       <span v-else>
-        <icon icon="ellipsis-v" class="menu-button"></icon>
+        <icon icon="ellipsis-v"></icon>
       </span>
     </Button>
 
     <transition appear name="expand">
       <div v-if="showMenu" class="menu" @click="showMenu = false">
 
-        <div v-for="item in options"
+        <slot></slot>
+
+        <!-- <div v-for="item in options"
              class="menu-item"
              @click="$emit('select', item.action)">
           {{ item.name }}
-        </div>
+        </div> -->
 
       </div>
     </transition>
@@ -54,16 +57,16 @@ export default {
   }
 
   .menu-button {
-    font-size: 16px;
+    font-size: 18px;
+    margin: 0;
+    padding: 0;
+    width: 40px;
     color: $accent;
-    width: 16px;
   }
 
   .horizontal {
     color: $dark;
-    width: auto;
-    margin: 0;
-    font-size: 18px;
+    height: 32px;
   }
 
   .menu {
@@ -79,17 +82,6 @@ export default {
     transform: scale(1);
     transform-origin: top right;
     z-index: 10;
-  }
-
-  .menu-item {
-    padding: 16px;
-    border-radius: 4px;
-    transition: 250ms all;
-  }
-
-  .menu-item:hover {
-    cursor: pointer;
-    background-color: $light;
   }
 
   .expand-enter, .expand-leave-to {

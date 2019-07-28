@@ -10,8 +10,10 @@
       </template>
 
       <template #menu>
-        <Menu :options="menuOptions"
-              @select="menuAction">
+        <Menu>
+          <MenuItem @click="showInventoryReport = true">
+            Summary
+          </MenuItem>
         </Menu>
       </template>
 
@@ -78,13 +80,7 @@ export default {
       filter: {},
       search: '',
       showMaterialCreateScreen: false,
-      showInventoryReport: false,
-      menuOptions: [
-        {
-          name: 'Breakdown',
-          action: 'showInventoryReport'
-        }
-      ]
+      showInventoryReport: false
     }
   },
   computed: {
@@ -135,9 +131,6 @@ export default {
         this.material.push(payload)
       }
       this.showMaterialCreateScreen = false
-    },
-    menuAction (payload) {
-      this[payload] = true
     }
   }
 }

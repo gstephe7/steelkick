@@ -14,13 +14,13 @@
     <!-- List Actions -->
     <span class="list-actions">
       <span v-if="search">
-        <Button text @click="showSearch = true">
-          <icon icon="search" class="action"></icon>
+        <Button text @click="showSearch = true" class="action">
+          <icon icon="search"></icon>
         </Button>
       </span>
       <span v-if="$slots.asideContent" class="mobile">
-        <Button text @click="showSheet = !showSheet">
-          <icon icon="filter" class="action"></icon>
+        <Button text @click="showSheet = !showSheet" class="action">
+          <icon icon="filter"></icon>
         </Button>
       </span>
       <span v-if="$slots.menu">
@@ -114,7 +114,7 @@ export default {
     height: 56px;
     position: fixed;
     top: 0;
-    right: 0;
+    right: 8px;
     z-index: 12;
     @include align;
     @media screen and (min-width: 1000px) {
@@ -125,7 +125,9 @@ export default {
   .action {
     color: $accent;
     font-size: 18px;
-    width: 16px;
+    margin: 0;
+    padding: 0;
+    width: 40px;
   }
 
   .list-main {

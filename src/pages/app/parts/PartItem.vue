@@ -11,9 +11,19 @@
 
       <template #menu>
         <div v-if="$route.name != 'Working'">
-          <Menu :options="menuOptions"
-                @select="menuAction"
-                horizontal>
+          <Menu horizontal>
+            <MenuItem @click="showPartLog = true">
+              Part Log
+            </MenuItem>
+            <MenuItem @click="showPartNest = true">
+              View Nest
+            </MenuItem>
+            <MenuItem @click="showMembers = true">
+              View Members
+            </MenuItem>
+            <MenuItem @click="showPartEdit = true">
+              Edit Part
+            </MenuItem>
           </Menu>
         </div>
       </template>
@@ -137,25 +147,7 @@ export default {
       showPartEdit: false,
       showWorkLog: false,
       showPartNest: false,
-      showMembers: false,
-      menuOptions: [
-        {
-          name: 'Part Log',
-          action: 'showPartLog'
-        },
-        {
-          name: 'View Nest',
-          action: 'showPartNest'
-        },
-        {
-          name: 'View Members',
-          action: 'showMembers'
-        },
-        {
-          name: 'Edit Part',
-          action: 'showPartEdit'
-        }
-      ]
+      showMembers: false
     }
   },
   computed: {
@@ -218,9 +210,6 @@ export default {
     }
   },
   methods: {
-    menuAction (payload) {
-      this[payload] = true
-    },
     deletePart (payload) {
       this.$emit('delete', payload)
     },

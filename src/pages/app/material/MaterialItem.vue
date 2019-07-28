@@ -10,9 +10,16 @@
       </template>
 
       <template #menu>
-        <Menu :options="menuOptions"
-              @select="menuAction"
-              horizontal>
+        <Menu horizontal>
+          <MenuItem @click="showUseModal = true">
+            Use Material
+          </MenuItem>
+          <MenuItem @click="showHistoryScreen = true">
+            Material Log
+          </MenuItem>
+          <MenuItem @click="showEditScreen = true">
+            Edit Material
+          </MenuItem>
         </Menu>
       </template>
 
@@ -101,21 +108,7 @@ export default {
     return {
       showUseModal: false,
       showEditScreen: false,
-      showHistoryScreen: false,
-      menuOptions: [
-        {
-          name: 'Use Material',
-          action: 'showUseModal'
-        },
-        {
-          name: 'Edit Material',
-          action: 'showEditScreen'
-        },
-        {
-          name: 'Material Log',
-          action: 'showHistoryScreen'
-        }
-      ]
+      showHistoryScreen: false
     }
   },
   computed: {
@@ -169,9 +162,6 @@ export default {
     }
   },
   methods: {
-    menuAction (payload) {
-      this[payload] = true
-    },
     deleteMaterial () {
       api.delete('/material/delete-material', {
         materialId: this.material._id
