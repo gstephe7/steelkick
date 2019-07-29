@@ -3,7 +3,8 @@
   <div class="item"
        :class="{
          border : multiLine,
-         clickable : isClickable
+         clickable : isClickable,
+         small : small
         }"
        @click="expand = !expand">
 
@@ -64,7 +65,8 @@
 <script>
 export default {
   props: {
-    clickable: Boolean
+    clickable: Boolean,
+    small: Boolean
   },
   data () {
     return {
@@ -117,6 +119,12 @@ export default {
 
   .clickable:hover {
     cursor: pointer;
+  }
+
+  .small {
+    .item-title {
+      font-size: 18px;
+    }
   }
 
   .thumbnail {

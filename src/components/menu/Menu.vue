@@ -17,12 +17,6 @@
 
         <slot></slot>
 
-        <!-- <div v-for="item in options"
-             class="menu-item"
-             @click="$emit('select', item.action)">
-          {{ item.name }}
-        </div> -->
-
       </div>
     </transition>
   </div>
@@ -31,7 +25,6 @@
 <script>
 export default {
   props: {
-    options: Array,
     horizontal: Boolean
   },
   data () {
@@ -67,6 +60,7 @@ export default {
   .horizontal {
     color: $dark;
     height: 32px;
+    width: 32px;
   }
 
   .menu {

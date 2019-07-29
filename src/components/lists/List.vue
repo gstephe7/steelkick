@@ -12,7 +12,7 @@
     </div>
 
     <!-- List Actions -->
-    <span class="list-actions">
+    <span class="list-actions" :class="{ onScreen : onScreen }">
       <span v-if="search">
         <Button text @click="showSearch = true" class="action">
           <icon icon="search"></icon>
@@ -86,7 +86,8 @@
 export default {
   props: {
     search: Boolean,
-    searchString: String
+    searchString: String,
+    onScreen: Boolean
   },
   data () {
     return {
@@ -119,6 +120,13 @@ export default {
     @include align;
     @media screen and (min-width: 1000px) {
       padding-right: 16px;
+    }
+  }
+
+  .onScreen {
+    z-index: 20;
+    .action {
+      color: $dark;
     }
   }
 

@@ -4,6 +4,7 @@
     <header id="header">
 
       <div class="left">
+
         <!-- show if mobile screen -->
         <div class="mobile">
           <button @click="showMenu = !showMenu">
@@ -20,6 +21,7 @@
             </Logo>
           </router-link>
         </div>
+
       </div>
 
       <!-- Breadcrumbs -->

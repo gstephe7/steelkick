@@ -10,6 +10,14 @@
         </ButtonFab>
       </template>
 
+      <template #menu>
+        <Menu>
+          <MenuItem @click="showMaterialList = true">
+            Material List
+          </MenuItem>
+        </Menu>
+      </template>
+
       <template #content>
         <div v-if="loaded">
           <div v-if="searchedParts.length > 0">
@@ -47,6 +55,11 @@
                       @close="updateParts">
     </PartCreateScreen>
 
+    <MaterialListScreen v-if="showMaterialList"
+                        :parts="parts"
+                        @close="showMaterialList = false">
+    </MaterialListScreen>
+
   </div>
 </template>
 
@@ -55,13 +68,15 @@ import api from '@/api/api'
 import PartItem from './PartItem'
 import PartFilter from './PartFilter'
 import PartCreateScreen from './PartCreateScreen'
+import MaterialListScreen from './MaterialListScreen'
 
 export default {
   props: ['working'],
   components: {
     PartItem,
     PartFilter,
-    PartCreateScreen
+    PartCreateScreen,
+    MaterialListScreen
   },
   data () {
     return {
@@ -70,7 +85,8 @@ export default {
       workflow: [],
       loaded: false,
       search: '',
-      showPartCreate: false
+      showPartCreate: false,
+      showMaterialList: false
     }
   },
   computed: {
