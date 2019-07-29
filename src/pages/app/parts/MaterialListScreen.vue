@@ -94,7 +94,15 @@ export default {
         return newArray
       }, [])
 
-      return material
+      const sortedMaterial = material.sort((a, b) => {
+        if (b.shape < a.shape) {
+          return -1
+        } else {
+          return 1
+        }
+      })
+
+      return sortedMaterial
     }
   },
   methods: {
