@@ -25,6 +25,19 @@
 
       </template>
 
+      <template #asideTitle>
+        Filter
+      </template>
+
+      <template #asideContent>
+        <PartFilter v-model="filter">
+        </PartFilter>
+      </template>
+
+      <template #asideAction>
+        Filter
+      </template>
+
     </List>
 
     <NestingScreen v-if="showScreen"
@@ -38,6 +51,7 @@
 <script>
 import NestingItem from './NestingItem'
 import NestingScreen from './NestingScreen'
+import PartFilter from '@/pages/app/parts/PartFilter'
 
 export default {
   props: {
@@ -45,18 +59,23 @@ export default {
   },
   components: {
     NestingItem,
-    NestingScreen
+    NestingScreen,
+    PartFilter
   },
   data () {
     return {
       showScreen: false,
-      search: ''
+      search: '',
+      filter: {}
     }
   },
   computed: {
+    filteredNests () {
+      return this.nests.filter(this.filterNests)
+    },
     searchedNests () {
       if (this.search) {
-        return this.nests.filter(item => {
+        return this.filteredNests.filter(item => {
           let searchString = this.search.replace(/ /g, '').trim()
           let itemMaterial = `${item.material.shape}${item.material.dimension}`
           let materialMatch = itemMaterial.match(new RegExp(searchString, 'i'))
@@ -69,7 +88,7 @@ export default {
           }
         })
       } else {
-        return this.nests
+        return this.filteredNests
       }
     }
   },
@@ -79,6 +98,25 @@ export default {
     },
     searching (payload) {
       this.search = payload
+    },
+    filterNests (nest) {
+      let _ = this.filter
+      if (_.shape && _.shape != nest.material.shape) {
+        return false
+      }
+      if (_.dimension && _.dimension != nest.material.dimension) {
+        return false
+      }
+      if (_.sequence) {
+        const match = nest.parts.find(item => {
+          return item.part.sequence === _.sequence
+        })
+        return match
+      }
+      if (_.galvanized && nest.material.galvanized === false) {
+        return false
+      }
+      return true
     },
     removeNest (id) {
       let nestIndex = this.nests.findIndex(value => {

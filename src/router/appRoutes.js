@@ -55,11 +55,7 @@ export default [
     name: 'All Jobs',
     component: Jobs,
     meta: {
-      adminOnly: true,
-      parent: {
-        path: '/dashboard',
-        name: 'Dashboard'
-      }
+      adminOnly: true
     }
   },
   {
@@ -68,11 +64,7 @@ export default [
     component: JobPage,
     meta: {
       adminOnly: true,
-      job: true,
-      parent: {
-        path: '/jobs',
-        name: 'All Jobs'
-      }
+      job: true
     }
   },
   {
@@ -96,8 +88,8 @@ export default [
       adminOnly: true,
       job: true,
       parent: {
-        path: '/dashboard',
-        name: 'Dashboard'
+        path: '/job-details',
+        name: 'Job Details'
       }
     }
   },
@@ -106,10 +98,6 @@ export default [
     name: 'Schedule',
     component: Schedule,
     meta: {
-      parent: {
-        path: '/dashboard',
-        name: 'Dashboard'
-      }
     }
   },
   {
@@ -117,10 +105,6 @@ export default [
     name: 'Tasks',
     component: Tasks,
     meta: {
-      parent: {
-        path: '/dashboard',
-        name: 'Dashboard'
-      }
     }
   },
   {
@@ -128,10 +112,6 @@ export default [
     name: 'Working',
     component: WorkingPage,
     meta: {
-      parent: {
-        path: '/dashboard',
-        name: 'Dashboard'
-      }
     }
   },
   {
@@ -139,11 +119,7 @@ export default [
     name: 'Users',
     component: Users,
     meta: {
-      adminOnly: true,
-      parent: {
-        path: '/dashboard',
-        name: 'Dashboard'
-      }
+      adminOnly: true
     }
   },
   {
@@ -151,10 +127,6 @@ export default [
     name: 'Inventory',
     component: Inventory,
     meta: {
-      parent: {
-        path: '/dashboard',
-        name: 'Dashboard'
-      }
     }
   },
   {
@@ -162,11 +134,7 @@ export default [
     name: 'Marketplace',
     component: Marketplace,
     meta: {
-      adminOnly: true,
-      parent: {
-        path: '/dashboard',
-        name: 'Dashboard'
-      }
+      adminOnly: true
     }
   },
   {
@@ -219,10 +187,6 @@ export default [
     name: 'Settings',
     component: Settings,
     meta: {
-      parent: {
-        path: '/dashboard',
-        name: 'Dashboard'
-      }
     }
   },
   {

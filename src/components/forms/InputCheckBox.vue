@@ -142,6 +142,10 @@ export default {
 
   .small {
     width: 120px;
+    .label {
+      @include center;
+      padding: 0;
+    }
   }
 
   .big {

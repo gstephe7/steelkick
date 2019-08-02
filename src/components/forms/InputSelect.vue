@@ -7,7 +7,7 @@
       <slot name="label"></slot>
     </label>
 
-    <select class="input"
+    <select class="select"
             :value="value"
             @change="$emit('input', $event.target.value)"
             @focus="target = true"
@@ -93,7 +93,7 @@ export default {
     padding: 4px;
   }
 
-  .input {
+  .select {
     margin: 0;
     padding: 16px;
     transition: 250ms all;
@@ -106,7 +106,7 @@ export default {
     border: 1px solid $accent;
   }
 
-  .input:focus {
+  .select:focus {
     border: 2px solid $secondary;
     outline: none;
   }

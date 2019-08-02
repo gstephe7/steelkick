@@ -73,7 +73,7 @@ export default {
       Array.prototype.forEach.call(inputs, (item, index) => {
 
         if (index == 0 && !this.viewFirst) {
-          if (item.tagName == 'INPUT') {
+          if (item.tagName === 'INPUT') {
             item.focus()
             item.select()
           } else {
@@ -82,10 +82,10 @@ export default {
           }
         }
 
-        if (item.tagName == 'INPUT' || item.tagName == 'TEXTAREA') {
+        if (item.tagName === 'INPUT' || item.tagName === 'TEXTAREA') {
           item.addEventListener('input', () => {
             let maxLength = item.getAttribute('maxlength')
-            if (item.value.length == maxLength) {
+            if (item.value.length === maxLength) {
               let next = index + 1
               inputs[next].focus()
               inputs[next].click()
@@ -93,7 +93,7 @@ export default {
           })
         }
 
-        else if (item.tagName == 'SELECT') {
+        else if (item.tagName === 'SELECT') {
           item.addEventListener('change', () => {
             let next = index + 1
             inputs[next].focus()

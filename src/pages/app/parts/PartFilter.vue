@@ -36,17 +36,25 @@
         </template>
       </InputSelect>
 
-      <InputSelect v-model="filter.complete" small @input="updateFilter">
-        <template #label>Completed?</template>
-        <template #options>
-          <option :value="true">
-            Completed
-          </option>
-          <option :value="false">
-            Not Completed
-          </option>
-        </template>
-      </InputSelect>
+      <span v-if="$route.name === 'Nesting'">
+        <InputCheckBox v-model="filter.galvanized" small @change="updateFilter">
+          Galvanized
+        </InputCheckBox>
+      </span>
+
+      <span v-else>
+        <InputSelect v-model="filter.complete" small @input="updateFilter">
+          <template #label>Completed?</template>
+          <template #options>
+            <option :value="true">
+              Completed
+            </option>
+            <option :value="false">
+              Not Completed
+            </option>
+          </template>
+        </InputSelect>
+      </span>
 
     </div>
 

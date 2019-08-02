@@ -7,15 +7,22 @@
 
         <!-- show if mobile screen -->
         <div class="mobile">
-          <button @click="showMenu = !showMenu">
-            <icon v-if="showMenu" icon="times"></icon>
-            <icon v-else icon="bars"></icon>
-          </button>
+          <span v-if="$route.meta.parent">
+            <button @click="$router.push($route.meta.parent.path)">
+              <icon icon="arrow-left"></icon>
+            </button>
+          </span>
+          <span v-else>
+            <button @click="showMenu = !showMenu">
+              <icon v-if="showMenu" icon="times"></icon>
+              <icon v-else icon="bars"></icon>
+            </button>
+          </span>
         </div>
 
         <div @click="showMenu = false">
           <router-link :to="{ name: 'Home' }">
-            <Logo v-if="!$route.meta.parent" class="mobile small-logo" :small="true">
+            <Logo v-if="$route.name === 'Dashboard'" class="mobile small-logo" :small="true">
             </Logo>
             <Logo class="desktop logo">
             </Logo>
