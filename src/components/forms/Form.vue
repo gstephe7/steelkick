@@ -85,7 +85,7 @@ export default {
         if (item.tagName === 'INPUT' || item.tagName === 'TEXTAREA') {
           item.addEventListener('input', () => {
             let maxLength = item.getAttribute('maxlength')
-            if (item.value.length === maxLength) {
+            if (item.value.length == maxLength) {
               let next = index + 1
               inputs[next].focus()
               inputs[next].click()
