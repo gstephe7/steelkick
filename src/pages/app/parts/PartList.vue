@@ -64,7 +64,8 @@
     </MaterialListScreen>
 
     <PartImportModal v-if="showPartImport"
-                     @close="showPartImport = false">
+                     @close="showPartImport = false"
+                     @newParts="updateParts">
     </PartImportModal>
 
   </div>

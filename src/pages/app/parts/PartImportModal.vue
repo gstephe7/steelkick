@@ -9,8 +9,8 @@
       <div>
         Upload your DXF file to import parts automatically
       </div>
-      <div class="space center">
-        <input type="file" @change="processFile($event)"/>
+      <div class="space col">
+        <input type="file" accept=".dxf" @change="processFile($event)"/>
       </div>
     </template>
 
@@ -40,10 +40,10 @@ export default {
       this.file = event.target.files[0]
     },
     submit () {
+      this.$store.dispatch('loading')
       let formData = new FormData()
       formData.append('file', this.file)
-
-      this.$emit('close')
+      formData.append('jobId', this.$store.getters.currentJob._id)
 
       api.axios.post(`${api.baseUrl}/jobs/import-parts`,
         formData,
@@ -53,7 +53,18 @@ export default {
           }
         }
       ).then(res => {
-        console.log(res)
+        this.$store.dispatch('complete')
+        if (res.data.parts.length > 0) {
+          this.$store.dispatch('snackbar', 'Successfully imported parts from file!')
+        } else {
+          this.$store.dispatch('snackbarError', 'Failed to import parts from file')
+        }
+        this.$emit('newParts', res.data.parts)
+        this.$emit('close')
+      }).catch(err => {
+        this.$store.dispatch('complete')
+        this.$store.dispatch('snackbarError', 'Failed to import parts from file')
+        this.$emit('close')
       })
     }
   }
