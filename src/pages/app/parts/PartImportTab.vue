@@ -1,29 +1,19 @@
 <template>
-  <Modal @close="$emit('close')">
+  <Form ref="import">
 
     <template #title>
       Import DXF File
     </template>
 
     <template #content>
-      <div>
-        Upload your DXF file to import parts automatically
-      </div>
       <div class="space col">
-        <input type="file" accept=".dxf" @change="processFile($event)"/>
+        <InputFile :accept="['.dxf']"
+                   @change="updateFile">
+        </InputFile>
       </div>
     </template>
 
-    <template #actions>
-      <Button text @click="$emit('close')">
-        CANCEL
-      </Button>
-      <Button text @click="submit">
-        UPLOAD
-      </Button>
-    </template>
-
-  </Modal>
+  </Form>
 </template>
 
 <script>
@@ -36,8 +26,8 @@ export default {
     }
   },
   methods: {
-    processFile (event) {
-      this.file = event.target.files[0]
+    updateFile (payload) {
+      this.file = payload
     },
     submit () {
       this.$store.dispatch('loading')
@@ -59,8 +49,7 @@ export default {
         } else {
           this.$store.dispatch('snackbarError', 'Failed to import parts from file')
         }
-        this.$emit('newParts', res.data.parts)
-        this.$emit('close')
+        this.$emit('close', res.data.parts)
       }).catch(err => {
         this.$store.dispatch('complete')
         this.$store.dispatch('snackbarError', 'Failed to import parts from file')

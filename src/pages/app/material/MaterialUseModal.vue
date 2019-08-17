@@ -55,9 +55,10 @@ export default {
         }
         this.$store.dispatch('snackbar', `Successfully removed ${this.materialUsed} ${pieces}!`)
         this.$emit('close')
+        this.$router.push('dashboard')
         setTimeout(() => {
-          location.reload(true)
-        }, 3000)
+          this.$router.push('inventory')
+        }, 50)
       })
     }
   }

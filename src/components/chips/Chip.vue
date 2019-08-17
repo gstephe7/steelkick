@@ -1,6 +1,6 @@
 <template>
   <span class="chip"
-        :class="{ clickable : clickable }"
+        :class="{ clickable : clickable, menu : menu }"
         @click="$emit('click')">
     <span v-if="$slots.thumbnail" class="thumbnail">
       <slot name="thumbnail"></slot>
@@ -14,7 +14,8 @@
 <script>
 export default {
   props: {
-    clickable: Boolean
+    clickable: Boolean,
+    menu: Boolean
   }
 }
 </script>
@@ -37,6 +38,14 @@ export default {
   .clickable:hover {
     cursor: pointer;
     filter: brightness(1.1);
+  }
+
+  .menu {
+    margin-top: 16px;
+    &:hover {
+      cursor: pointer;
+      filter: brightness(1.1);      
+    }
   }
 
   .thumbnail {

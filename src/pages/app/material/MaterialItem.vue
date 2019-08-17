@@ -39,7 +39,7 @@
         <div class="between">
           <span>
             <span v-if="material.domestic">Domestic</span>
-            <span v-else>Foreign</span>
+            <span v-else>Foreign/Unknown</span>
           </span>
           <span :style="`backgroundColor: ${condition.background}`">
             {{ condition.condition }}

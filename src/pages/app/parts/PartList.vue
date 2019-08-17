@@ -12,9 +12,6 @@
 
       <template #menu>
         <Menu>
-          <MenuItem @click="showPartImport = true">
-            Import Parts
-          </MenuItem>
           <MenuItem @click="showMaterialList = true">
             Material List
           </MenuItem>
@@ -63,11 +60,6 @@
                         @close="showMaterialList = false">
     </MaterialListScreen>
 
-    <PartImportModal v-if="showPartImport"
-                     @close="showPartImport = false"
-                     @newParts="updateParts">
-    </PartImportModal>
-
   </div>
 </template>
 
@@ -77,7 +69,6 @@ import PartItem from './PartItem'
 import PartFilter from './PartFilter'
 import PartCreateScreen from './PartCreateScreen'
 import MaterialListScreen from './MaterialListScreen'
-import PartImportModal from './PartImportModal'
 
 export default {
   props: ['working'],
@@ -85,8 +76,7 @@ export default {
     PartItem,
     PartFilter,
     PartCreateScreen,
-    MaterialListScreen,
-    PartImportModal
+    MaterialListScreen
   },
   data () {
     return {
@@ -96,8 +86,7 @@ export default {
       loaded: false,
       search: '',
       showPartCreate: false,
-      showMaterialList: false,
-      showPartImport: false
+      showMaterialList: false
     }
   },
   computed: {
@@ -194,5 +183,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '@/assets/scss/variables.scss';
 </style>

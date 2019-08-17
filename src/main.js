@@ -19,6 +19,7 @@ import Chip from '@/components/chips/Chip'
 import Form from '@/components/forms/Form'
 import InputCheckBox from '@/components/forms/InputCheckBox'
 import InputCurrency from '@/components/forms/InputCurrency'
+import InputFile from '@/components/forms/InputFile'
 import InputLength from '@/components/forms/InputLength'
 import InputNumber from '@/components/forms/InputNumber'
 import InputSearch from '@/components/forms/InputSearch'
@@ -44,6 +45,7 @@ import {
   faEdit,
   faEllipsisH,
   faEllipsisV,
+  faFileImport,
   faTrashAlt,
   faDollarSign,
   faShippingFast,
@@ -99,6 +101,7 @@ library.add({
   faEdit,
   faEllipsisH,
   faEllipsisV,
+  faFileImport,
   faTrashAlt,
   faDollarSign,
   faShippingFast,
@@ -152,6 +155,7 @@ Vue.component('DashboardCard', DashboardCard)
 Vue.component('Form', Form)
 Vue.component('InputCheckBox', InputCheckBox)
 Vue.component('InputCurrency', InputCurrency)
+Vue.component('InputFile', InputFile)
 Vue.component('InputLength', InputLength)
 Vue.component('InputNumber', InputNumber)
 Vue.component('InputSearch', InputSearch)
