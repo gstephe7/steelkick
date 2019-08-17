@@ -181,7 +181,7 @@ export default {
 
       this.part.progress.forEach(item => {
         if (item.description == this.targetAction) {
-          quantity += item.quantity
+          quantity = item.quantity
         }
       })
 
@@ -201,7 +201,7 @@ export default {
       this.part.progress.forEach(item => {
         progress.forEach(value => {
           if (item.description == value.description) {
-            value.quantity = item.quantity
+            value.quantity += item.quantity
           }
         })
       })

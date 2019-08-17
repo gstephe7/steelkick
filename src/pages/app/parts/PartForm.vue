@@ -297,7 +297,7 @@ export default {
     } else {
       this.sequences.push({
         number: this.sequenceList[0],
-        quantity: null
+        quantity: 1
       })
     }
   }

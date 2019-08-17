@@ -71,7 +71,9 @@ import PartCreateScreen from './PartCreateScreen'
 import MaterialListScreen from './MaterialListScreen'
 
 export default {
-  props: ['working'],
+  props: {
+    working: Boolean
+  },
   components: {
     PartItem,
     PartFilter,

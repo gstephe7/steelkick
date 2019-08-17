@@ -30,10 +30,10 @@
     <hr class="desktop">
 
     <div v-if="ready">
-      <PartList :working="true"
-        :job="$store.getters.currentJob._id"
-        :key="key"
-        @updatePart="displayUpdate($event)">
+      <PartList working
+                :job="$store.getters.currentJob._id"
+                :key="key"
+                @updatePart="displayUpdate($event)">
       </PartList>
     </div>
 

@@ -11,38 +11,34 @@
     </template>
 
     <template #content>
-      <Form ref="form" @submitForm="submit" viewFirst>
-        <template #content>
-          <div class="col">
+      <div class="col">
 
-            <div v-if="working">
-              <p>
-                Mark ({{ quantity }}) {{ part.minorMark }} {{ $store.getters.currentRole.description }}
-              </p>
-            </div>
-            <div v-else>
-              <InputSelect v-model="actionIndex" required>
-                <template #options>
-                  <option v-for="(item, index) in workflow" :value="index" :key="index">
-                    {{ item.description }}
-                  </option>
-                </template>
-              </InputSelect>
-            </div>
+        <div v-if="working">
+          <p>
+            Mark ({{ quantity }}) {{ part.minorMark }} {{ $store.getters.currentRole.description }}
+          </p>
+        </div>
+        <div v-else>
+          <InputSelect v-model="actionIndex">
+            <template #options>
+              <option v-for="(item, index) in workflow" :value="index" :key="index">
+                {{ item.description }}
+              </option>
+            </template>
+          </InputSelect>
+        </div>
 
-            <InputNumber v-model.number="quantity" required>
-            </InputNumber>
+        <InputNumber v-model.number="quantity">
+        </InputNumber>
 
-          </div>
-        </template>
-      </Form>
+      </div>
     </template>
 
     <template #actions>
       <Button text @click="$emit('close')">
         CANCEL
       </Button>
-      <Button text @click="submitForm">
+      <Button text @click="submit">
         <span v-if="working">
           MARK
         </span>
@@ -75,12 +71,16 @@ export default {
       } else {
         return this.workflow[this.actionIndex]
       }
+    },
+    finalQuantity () {
+      if (typeof this.quantity === 'number') {
+        return this.quantity
+      } else {
+        return 1
+      }
     }
   },
   methods: {
-    submitForm () {
-      this.$refs.form.submit()
-    },
     submit () {
       this.$store.dispatch('action', {
         job: this.part.job,
@@ -88,7 +88,7 @@ export default {
         part: this.part._id,
         action: this.selectedAction.action,
         description: this.selectedAction.description,
-        quantity: this.quantity
+        quantity: this.finalQuantity
       })
       .then(res => {
         this.$store.dispatch('snackbar', `Marked (${res.quantity}) ${this.part.minorMark} ${res.description}`)
