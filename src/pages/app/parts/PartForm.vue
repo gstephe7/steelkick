@@ -43,7 +43,17 @@
           </template>
         </InputSelect>
 
-        <InputLength v-model="part.length" :edit="edit" required>
+        <span v-if="part.shape === 'PL'">
+          <InputLength v-model="part.width"
+                       :edit="edit"
+                       width
+                       required>
+          </InputLength>
+        </span>
+
+        <InputLength v-model="part.length"
+                     :edit="edit"
+                     required>
         </InputLength>
 
         <InputSelect v-model="part.grade">
@@ -136,11 +146,13 @@
 import api from '@/api/api'
 import material from '@/assets/data/material.js'
 import method from '@/global/methods.js'
+import lengthMixin from '@/mixins/lengthMixin.js'
 
 export default {
   props: {
     edit: Object
   },
+  mixins: [lengthMixin],
   data () {
     return {
       part: {
@@ -215,6 +227,11 @@ export default {
     removeMinorMember (index) {
       this.part.minorMembers.splice(index, 1)
     },
+    getPlateDimension () {
+      const length = this.getLength(this.part.width)
+
+      return `${this.part.dimension}x${length}`
+    },
     autoCompleteForm () {
       if (this.edit) {
         if (this.sequences[0].quantity) {
@@ -222,6 +239,11 @@ export default {
         } else {
           this.part.quantity = 1
         }
+      }
+
+      if (this.part.shape === 'PL') {
+        const newDimension = this.getPlateDimension()
+        this.part.dimension = newDimension
       }
 
       if (!this.part.minorMark) {

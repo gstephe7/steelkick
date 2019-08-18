@@ -48,11 +48,16 @@ export default {
               item.$el.classList.add('error')
             }
           })
-          this.errors.push(index)
+          this.errors.push(item)
         } else {
           item.$el.classList.remove('error')
         }
       })
+
+      if (this.errors.length > 0) {
+        const el = this.errors[0].$el
+        el.scrollIntoView(false)
+      }
     },
     submit () {
       this.handleErrors()

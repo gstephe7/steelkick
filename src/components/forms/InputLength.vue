@@ -4,7 +4,12 @@
     <label class="label"
            :class="{ move : targeted }"
            @click="initFocus">
-      Length
+      <span v-if="width">
+        Width
+      </span>
+      <span v-else>
+        Length
+      </span>
     </label>
 
     <span class="length-span">
@@ -53,7 +58,8 @@ import method from '@/global/methods'
 export default {
   props: {
     edit: Object,
-    required: Boolean
+    required: Boolean,
+    width: Boolean
   },
   data () {
     return {
@@ -81,7 +87,7 @@ export default {
       let fraction = (this.numerator / this.denominator) || 0
 
       this.value = feetToInches + inches + fraction
-      
+
       this.$emit('input', this.value)
     },
     initFocus () {
@@ -114,10 +120,6 @@ export default {
     height: 56px;
     width: 140px;
     @include align;
-  }
-
-  .small {
-    width: 120px;
   }
 
   .label {

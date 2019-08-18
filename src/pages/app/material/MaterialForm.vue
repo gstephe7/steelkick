@@ -34,12 +34,20 @@
           </InputSelect>
         </div>
 
-        <div class="center">
+        <div class="center wrap">
+          <!-- Width for plate -->
+          <span v-if="material.shape === 'PL'">
+            <InputLength v-model="material.width"
+                         :edit="edit"
+                         width
+                         required>
+            </InputLength>
+          </span>
+
           <!-- Length -->
           <InputLength v-model="material.length"
                        :edit="edit"
                        required>
-            Length
           </InputLength>
 
           <!-- Quantity -->
@@ -140,11 +148,13 @@
 <script>
 import api from '@/api/api'
 import material from '@/assets/data/material.js'
+import lengthMixin from '@/mixins/lengthMixin.js'
 
 export default {
   props: {
     edit: Object
   },
+  mixins: [lengthMixin],
   data () {
     return {
       material: {},
@@ -196,7 +206,18 @@ export default {
     }
   },
   methods: {
+    getPlateDimension () {
+      const length = this.getLength(this.material.width)
+
+      return `${this.material.dimension}x${length}`
+    },
     checkForm () {
+      // if plate, update the dimension
+      if (this.material.shape === 'PL') {
+        const newDimension = this.getPlateDimension()
+        this.material.dimension = newDimension
+      }
+
       // set the company for the material
       this.material.company = this.$store.getters.companyId
       this.material.weightPerFoot = this.weightPerFoot
