@@ -11,7 +11,7 @@
       </template>
 
       <template #menu>
-        <Menu>
+        <Menu v-if="!working">
           <MenuItem @click="showMaterialList = true">
             Material List
           </MenuItem>

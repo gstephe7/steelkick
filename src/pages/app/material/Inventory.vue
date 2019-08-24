@@ -38,9 +38,7 @@ export default {
     })
     .then(res => {
       this.$store.dispatch('complete')
-      res.data.material.forEach(item => {
-        this.material.push(item)
-      })
+      this.material = res.data.material
       this.loaded = true
     })
     .catch(err => {

@@ -30,7 +30,16 @@
            {{ fraction }}
          </span>
          <span>
-           {{ material.quantity }} available
+           {{ material.quantity }}
+           <span v-if="material.galvanized">
+             galvanized
+           </span>
+           <span v-else-if="material.primed">
+             primed
+           </span>
+           <span v-else>
+             available
+           </span>
          </span>
       </template>
 
@@ -50,7 +59,7 @@
             {{ material.grade }}
           </span>
           <span>
-            {{ Math.ceil(weight) }} lbs
+            {{ Math.ceil(material.weight) }} lbs
           </span>
         </div>
         <div class="between">
@@ -122,43 +131,28 @@ export default {
       return method.getFraction(this.material.length)
     },
     condition () {
-      if (this.material.galvanized) {
-        return {
-          condition: 'Galvanized',
-          background: 'rgba(215, 219, 226, .3)'
-        }
-      } else if (this.material.primed) {
-        return {
-          condition: 'Primed',
-          background: 'rgba(129, 129, 145, .3)'
-        }
-      } else if (this.material.condition == 'Excellent') {
-        return {
-          condition: 'Excellent',
-          background: 'rgba(64, 191, 128, .2)'
-        }
-      } else if (this.material.condition == 'Good') {
-        return {
-          condition: 'Good',
-          background: 'rgba(171, 191, 64, .25)'
-        }
-      } else if (this.material.condition == 'Fair') {
-        return {
-          condition: 'Fair',
-          background: 'rgba(247, 183, 51, .25)'
-        }
-      } else if (this.material.condition == 'Poor') {
-        return {
-          condition: 'Poor',
-          background: 'rgba(255, 82, 82, .25)'
-        }
-      } else {
-        return {}
+      switch (this.material.condition) {
+        case 'Excellent':
+          return {
+            condition: 'Excellent',
+            background: 'rgba(64, 191, 128, .2)'
+          }
+        case 'Good':
+          return {
+            condition: 'Good',
+            background: 'rgba(171, 191, 64, .25)'
+          }
+        case 'Poor':
+          return {
+            condition: 'Poor',
+            background: 'rgba(255, 82, 82, .25)'
+          }
+        default:
+          return {
+            condition: 'Fair',
+            background: 'rgba(247, 183, 51, .25)'
+          }
       }
-    },
-    weight () {
-      const lengthInFeet = this.material.length / 12
-      return lengthInFeet * this.material.weightPerFoot
     }
   },
   methods: {
